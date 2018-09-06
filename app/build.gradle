@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+  signingConfigs {
+    tstuConfig {
+      storeFile file('/windows/Users/didim/Sources/Android/TSTU/tstuKeystore.jks')
+      storePassword 's3d6yBKvK6ART9dJrKDfDF6ygrGjJbwkraTe7UqgRC5vPeXk'
+      keyAlias 'tstuDefault'
+      keyPassword 'jzLVCQqUsJ4b6k3zVcTxguRGqc6awKEP'
+    }
+  }
   compileSdkVersion 27
   defaultConfig {
     applicationId "ru.didim99.tstu"
@@ -19,6 +27,13 @@ android {
     release {
       minifyEnabled false
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+      debuggable false
+      jniDebuggable false
+      signingConfig signingConfigs.tstuConfig
+      renderscriptDebuggable false
+    }
+    debug {
+      signingConfig signingConfigs.tstuConfig
     }
   }
   externalNativeBuild {

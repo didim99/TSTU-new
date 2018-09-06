@@ -1,3 +1,4 @@
 <resources>
   <string name="app_name">TSTU</string>
+  <string name="startTranslator">Транслятор</string>
 </resources>
