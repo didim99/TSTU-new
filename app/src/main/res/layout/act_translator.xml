@@ -1,7 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/pathLayoutHMargin"
+    android:layout_marginStart="@dimen/pathLayoutHMargin"
+    android:layout_marginTop="@dimen/pathLayoutHMargin"
+    android:text="@string/pathLayout_pickFile"
+    android:textSize="@dimen/textSize_main"/>
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginLeft="@dimen/pathLayoutHMargin"
+    android:layout_marginRight="@dimen/pathLayoutHMargin"
+    android:layout_marginTop="@dimen/pathLayoutVMargin">
+
+    <EditText
+      android:id="@+id/etInputPath"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_weight="5"
+      android:inputType="textUri|textNoSuggestions"
+      android:layout_marginRight="5dp"
+      android:layout_marginEnd="5dp"/>
+
+    <Button
+      android:id="@+id/btnOpenFileExp"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:text="@string/pathLayout_openExplorer"
+      tools:ignore="ButtonStyle"/>
+  </LinearLayout>
+
+  <Button
+    android:id="@+id/btnStart"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/pathLayoutHMargin"
+    android:layout_marginRight="@dimen/pathLayoutHMargin"
+    android:text="@string/startAnalysis"/>
+
+  <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="5dp">
+
+    <ScrollView
+      android:id="@+id/dataLayout"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:visibility="visible">
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false">
+
+        <LinearLayout
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:orientation="vertical">
+
+          <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@string/inputData"
+            android:textSize="@dimen/textSize_main"/>
+
+          <TextView
+            android:id="@+id/tvSrc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textSize_main"/>
+        </LinearLayout>
+
+        <LinearLayout
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:orientation="vertical">
+
+          <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@string/outputData"
+            android:textSize="@dimen/textSize_main"/>
+
+          <TextView
+            android:id="@+id/tvOut"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textSize_main"/>
+        </LinearLayout>
+
+      </LinearLayout>
+    </ScrollView>
+
+    <ProgressBar
+      android:id="@+id/pbMain"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerInParent="true"
+      style="?android:attr/progressBarStyleLarge"
+      android:visibility="invisible"/>
+  </RelativeLayout>
 
 </LinearLayout>
