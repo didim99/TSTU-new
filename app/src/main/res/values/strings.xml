@@ -5,7 +5,6 @@
   <!-- Generic -->
   <string name="pathLayout_pickFile">Путь до исходного файла</string>
   <string name="pathLayout_openExplorer">…</string>
-  <string name="startAnalysis">Анализировать</string>
   <string name="inputData">Исходные данные</string>
   <string name="outputData">Выходные данные</string>
   <!-- FilePicker -->
@@ -16,6 +15,10 @@
   <string name="filePicker_fileNotReadable">Файл недоступен для чтения</string>
   <string name="filePicker_fileNotWritable">Файл недоступен для записи</string>
   <string name="filePicker_error">Ошибка: %s</string>
+  <!-- Translator -->
+  <string name="startLexical">Лексический анализ</string>
+  <string name="startSyntax">Синтаксический анализ</string>
+  <string name="startSymbol">Таблица символов</string>
   <!-- Errors -->
   <string name="errGeneric_inputFileNotReadable">Невозможно прочитать исходный файл</string>
   <string name="errLexical_invalidStatement">Ошибка лексического анализа: Неизвестный символ</string>

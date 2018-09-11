@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.io.File;
@@ -173,13 +172,13 @@ public class TranslatorActivity extends AppCompatActivity
       tvSrc.setText(null);
       tvOut.setText(null);
       MyLog.d(LOG_TAG, "UI cleared");
-      dataLayout.setVisibility(ProgressBar.INVISIBLE);
-      pbMain.setVisibility(ProgressBar.VISIBLE);
+      dataLayout.setVisibility(View.INVISIBLE);
+      pbMain.setVisibility(View.VISIBLE);
       MyLog.d(LOG_TAG, "UI locked");
     }
     else {
-      dataLayout.setVisibility(ProgressBar.INVISIBLE);
-      pbMain.setVisibility(ProgressBar.INVISIBLE);
+      dataLayout.setVisibility(View.VISIBLE);
+      pbMain.setVisibility(View.INVISIBLE);
       MyLog.d(LOG_TAG, "UI unlocked");
       uiSet();
     }

@@ -46,7 +46,7 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/pathLayoutHMargin"
     android:layout_marginRight="@dimen/pathLayoutHMargin"
-    android:text="@string/startAnalysis"/>
+    android:text="@string/startLexical"/>
 
   <RelativeLayout
     android:layout_width="match_parent"
