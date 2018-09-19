@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+  <dimen name="layoutPadding">5dp</dimen>
   <dimen name="actStart_btnPadding">20dp</dimen>
   <dimen name="textSize_main">16sp</dimen>
+  <dimen name="textSize_large">18sp</dimen>
   <dimen name="pathLayoutHMargin">15dp</dimen>
   <dimen name="pathLayoutVMargin">5dp</dimen>
 </resources>

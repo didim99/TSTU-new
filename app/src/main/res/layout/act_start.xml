@@ -12,11 +12,17 @@
 
    <Button
      android:id="@+id/startTranslator"
-     android:layout_width="wrap_content"
+     android:layout_width="match_parent"
      android:layout_height="wrap_content"
      android:padding="@dimen/actStart_btnPadding"
      android:text="@string/startTranslator"/>
 
+   <Button
+     android:id="@+id/startNumeric"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:padding="@dimen/actStart_btnPadding"
+     android:text="@string/startNumeric"/>
  </LinearLayout>
 
 </RelativeLayout>

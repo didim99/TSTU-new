@@ -1,6 +1,7 @@
 package ru.didim99.tstu.core.translator;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -9,27 +10,21 @@ import ru.didim99.tstu.utils.MyLog;
 /**
  * Created by didim99 on 06.09.18.
  */
-public class LexicalAnalyzer {
+class LexicalAnalyzer {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_LA";
 
+  private static ArrayList<LangStruct.DictEntry> sortedSymbolSet;
   private static Map<String, Integer> symbolMap;
   private static boolean initCompleted = false;
 
-  private boolean forTesting = false;
   private ArrayList<String> symbolTable;
 
   LexicalAnalyzer() {
-    if (!initCompleted)
-      initStatic();
+    if (!initCompleted) initStatic();
     symbolTable = new ArrayList<>();
   }
 
-  LexicalAnalyzer(boolean forTesting) {
-    super();
-    this.forTesting = forTesting;
-  }
-
-  ArrayList<String> analyze(ArrayList<String> srcList)
+  ArrayList<String> analyze(ArrayList<String> srcList, boolean forTesting)
     throws ProcessException {
     ArrayList<String> outList = new ArrayList<>(srcList.size());
     ArrayList<Integer> lexemLine = new ArrayList<>();
@@ -146,7 +141,20 @@ public class LexicalAnalyzer {
     symbolMap.put(LangStruct.MNEMONIC.DIVIDER.BEG_CALL, LangStruct.DIVIDER.BEG_CALL);
     symbolMap.put(LangStruct.MNEMONIC.DIVIDER.END_CALL, LangStruct.DIVIDER.END_CALL);
     symbolMap.put(LangStruct.MNEMONIC.DIVIDER.END_PROG, LangStruct.DIVIDER.END_PROG);
+
+    sortedSymbolSet = new ArrayList<>(symbolMap.size());
+    for (Map.Entry<String, Integer> symbol : symbolMap.entrySet())
+      sortedSymbolSet.add(new LangStruct.DictEntry(symbol.getKey(), symbol.getValue()));
+    sortedSymbolSet.add(new LangStruct.DictEntry("ID", LangStruct.CUSTOM.ID));
+    sortedSymbolSet.add(new LangStruct.DictEntry("LITERAL", LangStruct.CUSTOM.LITERAL));
+    Collections.sort(sortedSymbolSet, (s1, s2) ->
+      Integer.compare(s1.getKey(), s2.getKey()));
+
     initCompleted = true;
+  }
+
+  ArrayList<LangStruct.DictEntry> getSortedSymbolSet() {
+    return sortedSymbolSet;
   }
 
   static class ProcessException extends Exception {

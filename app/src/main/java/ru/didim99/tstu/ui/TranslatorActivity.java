@@ -3,8 +3,10 @@ package ru.didim99.tstu.ui;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,13 +14,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.io.File;
 import ru.didim99.tstu.R;
+import ru.didim99.tstu.core.CallbackTask;
 import ru.didim99.tstu.core.translator.Translator;
 import ru.didim99.tstu.core.translator.TranslatorTask;
 import ru.didim99.tstu.utils.MyLog;
 import ru.didim99.tstu.utils.Utils;
 
-public class TranslatorActivity extends AppCompatActivity
-  implements TranslatorTask.EventListener {
+public class TranslatorActivity extends BaseActivity
+  implements TranslatorTask.EventListener<Translator.Result> {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_TransAct";
   private static final int REQUEST_GET_FILE = 1;
 
@@ -29,7 +32,6 @@ public class TranslatorActivity extends AppCompatActivity
   private EditText etStartPath;
   private Toast toastMsg;
   //main workflow
-  private boolean uiLocked;
   private TranslatorTask task;
   private Translator.Result taskResult;
 
@@ -45,7 +47,7 @@ public class TranslatorActivity extends AppCompatActivity
     dataLayout = findViewById(R.id.dataLayout);
     etStartPath = findViewById(R.id.etInputPath);
     btnPickFile = findViewById(R.id.btnOpenFileExp);
-    btnStart = findViewById(R.id.btnStart);
+    btnStart = findViewById(R.id.btnLexical);
     tvSrc = findViewById(R.id.tvSrc);
     tvOut = findViewById(R.id.tvOut);
     pbMain = findViewById(R.id.pbMain);
@@ -110,18 +112,29 @@ public class TranslatorActivity extends AppCompatActivity
   }
 
   @Override
-  public void onBackPressed() {
-    if (!uiLocked)
-      super.onBackPressed();
+  public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.menu_translator, menu);
+    return true;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case R.id.act_symbolSet:
+        symbolSetDialog();
+        return true;
+      default:
+        return super.onOptionsItemSelected(item);
+    }
   }
 
   @Override
   public void onTaskEvent(int event, Translator.Result result) {
     switch (event) {
-      case TranslatorTask.Event.START:
+      case CallbackTask.Event.START:
         uiLock(true);
         break;
-      case TranslatorTask.Event.FINISH:
+      case CallbackTask.Event.FINISH:
         this.taskResult = result;
         uiLock(false);
         break;
@@ -131,10 +144,9 @@ public class TranslatorActivity extends AppCompatActivity
   private void startTask() {
     String path = etStartPath.getText().toString();
     if (checkPath(path)) {
-      task = new TranslatorTask(getApplicationContext(),
-        new Translator.Config(Translator.Mode.LEXICAL, path));
+      task = new TranslatorTask(getApplicationContext());
       task.registerEventListener(this);
-      task.execute();
+      task.execute(new Translator.Config(Translator.Mode.LEXICAL, path, true));
     }
   }
 
@@ -175,8 +187,7 @@ public class TranslatorActivity extends AppCompatActivity
       dataLayout.setVisibility(View.INVISIBLE);
       pbMain.setVisibility(View.VISIBLE);
       MyLog.d(LOG_TAG, "UI locked");
-    }
-    else {
+    } else {
       dataLayout.setVisibility(View.VISIBLE);
       pbMain.setVisibility(View.INVISIBLE);
       MyLog.d(LOG_TAG, "UI unlocked");
@@ -191,6 +202,27 @@ public class TranslatorActivity extends AppCompatActivity
     tvOut.setText(taskResult.hasOutputCode() ?
       taskResult.getOutputCode() : taskResult.getProcessErr());
     MyLog.d(LOG_TAG, "UI setup completed");
+  }
+
+  private void symbolSetDialog() {
+    if (taskResult == null) {
+      toastMsg.setText(R.string.translator_nothingLoaded);
+      toastMsg.show();
+      return;
+    }
+
+    View dialogView = getLayoutInflater().inflate(
+      R.layout.dia_symbol_set, null);
+    ((TextView) dialogView.findViewById(R.id.tvSymbolSet))
+      .setText(Utils.joinStr("\n", taskResult.getSymbolSet()));
+
+    MyLog.d(LOG_TAG, "SymbolSet dialog called");
+    AlertDialog.Builder adb = new AlertDialog.Builder(this);
+    adb.setTitle(R.string.translator_symbolSet);
+    adb.setView(dialogView);
+    adb.setPositiveButton(R.string.dialogButtonOk, null);
+    MyLog.d(LOG_TAG, "SymbolSet dialog created");
+    adb.create().show();
   }
 
   private boolean checkPath(String path) {
@@ -225,11 +257,6 @@ public class TranslatorActivity extends AppCompatActivity
     return flag;
   }
 
-  private void setupActionBar() {
-    ActionBar bar = getSupportActionBar();
-    if (bar != null) {
-      bar.setDisplayShowHomeEnabled(true);
-      bar.setDisplayHomeAsUpEnabled(true);
-    }
-  }
+  @Override
+  protected void onSetupActionBar(ActionBar bar) {}
 }

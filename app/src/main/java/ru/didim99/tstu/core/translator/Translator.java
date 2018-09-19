@@ -3,6 +3,7 @@ package ru.didim99.tstu.core.translator;
 import android.content.Context;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.utils.MyLog;
 import ru.didim99.tstu.utils.Utils;
@@ -22,14 +23,26 @@ public class Translator {
 
   private Context context;
   private Config config;
+  private Result result;
+  private LexicalAnalyzer la;
 
   Translator(Context context, Config config) {
     this.context = context;
     this.config = config;
+    this.result = new Result();
+    this.la = new LexicalAnalyzer();
+
+    if (config.forTesting) {
+      result.symbolSet = new ArrayList<>();
+      for (LangStruct.DictEntry entry : la.getSortedSymbolSet()) {
+        result.symbolSet.add(String.format(Locale.US, "%8s  %-4d  0x%04x",
+          entry.getMnemonic(), entry.getKey(), entry.getKey()));
+      }
+    }
   }
 
   Result translate() {
-    Result result = new Result();
+    result.clearContents();
     ArrayList<String> srcList, tmpList;
 
     try {
@@ -42,9 +55,8 @@ public class Translator {
     }
 
     if (config.mode >= Mode.LEXICAL) {
-      LexicalAnalyzer la = new LexicalAnalyzer();
       try {
-        tmpList = la.analyze(srcList);
+        tmpList = la.analyze(srcList, config.forTesting);
         result.outputCode = Utils.joinStr("\n", tmpList);
       } catch (LexicalAnalyzer.ProcessException e) {
         MyLog.e(LOG_TAG, "Lexical analysis error\n  " + e.toString());
@@ -57,10 +69,16 @@ public class Translator {
   }
 
   public static class Config {
+    private boolean forTesting;
     private String inputFilename;
     private int mode;
 
     public Config(int mode, String inputFilename) {
+      this(mode, inputFilename, false);
+    }
+
+    public Config(int mode, String inputFilename, boolean forTesting) {
+      this.forTesting = forTesting;
       this.inputFilename = inputFilename;
       this.mode = mode;
     }
@@ -69,20 +87,26 @@ public class Translator {
   public static class Result {
     private String inputCode, outputCode;
     private String inputErr, processErr;
-
-    Result() {}
+    private ArrayList<String> symbolSet;
 
     public String getInputCode() { return inputCode; }
     public String getOutputCode() { return outputCode; }
     public String getInputErr() { return inputErr; }
     public String getProcessErr() { return processErr; }
+    public ArrayList<String> getSymbolSet() { return symbolSet; }
 
     public boolean hasInputCode() {
       return inputCode != null;
     }
-
     public boolean hasOutputCode() {
       return outputCode != null;
+    }
+
+    void clearContents() {
+      inputCode = null;
+      outputCode = null;
+      inputErr = null;
+      processErr = null;
     }
   }
 }

@@ -102,4 +102,17 @@ final class LangStruct {
     MNEMONIC.OPERATOR.MINUS, MNEMONIC.OPERATOR.PRODUCT, MNEMONIC.OPERATOR.DIV,
     MNEMONIC.OPERATOR.EQUAL, MNEMONIC.OPERATOR.LT, MNEMONIC.OPERATOR.GT,
   };
+
+  static final class DictEntry {
+    private String mnemonic;
+    private int key;
+
+    DictEntry(String mnemonic, int key) {
+      this.mnemonic = mnemonic;
+      this.key = key;
+    }
+
+    public String getMnemonic() { return mnemonic; }
+    public int getKey() { return key; }
+  }
 }

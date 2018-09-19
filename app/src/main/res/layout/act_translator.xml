@@ -3,6 +3,7 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:padding="@dimen/layoutPadding"
               android:orientation="vertical">
 
   <TextView
@@ -40,18 +41,38 @@
       tools:ignore="ButtonStyle"/>
   </LinearLayout>
 
-  <Button
-    android:id="@+id/btnStart"
+  <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/pathLayoutHMargin"
-    android:layout_marginRight="@dimen/pathLayoutHMargin"
-    android:text="@string/startLexical"/>
+    android:layout_marginRight="@dimen/pathLayoutHMargin">
+
+    <Button
+      android:id="@+id/btnLexical"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="1"
+      android:text="@string/startLexical"/>
+
+    <Button
+      android:id="@+id/btnSyntax"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="1"
+      android:text="@string/startSyntax"/>
+
+    <Button
+      android:id="@+id/btnSymbol"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="1"
+      android:text="@string/startSymbol"/>
+  </LinearLayout>
 
   <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="5dp">
+    android:layout_marginTop="@dimen/layoutPadding">
 
     <ScrollView
       android:id="@+id/dataLayout"
@@ -82,7 +103,8 @@
             android:id="@+id/tvSrc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/textSize_main"/>
+            android:textSize="@dimen/textSize_main"
+            android:typeface = "monospace"/>
         </LinearLayout>
 
         <LinearLayout
@@ -103,7 +125,8 @@
             android:id="@+id/tvOut"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/textSize_main"/>
+            android:textSize="@dimen/textSize_main"
+            android:typeface = "monospace"/>
         </LinearLayout>
 
       </LinearLayout>

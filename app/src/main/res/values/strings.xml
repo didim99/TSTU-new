@@ -2,7 +2,10 @@
   <!-- Application level -->
   <string name="app_name">САПР проекты</string>
   <string name="startTranslator">Транслятор</string>
+  <string name="startNumeric">Численные методы</string>
   <!-- Generic -->
+  <string name="dialogButtonOk">OK</string>
+  <string name="buttonStart">Старт</string>
   <string name="pathLayout_pickFile">Путь до исходного файла</string>
   <string name="pathLayout_openExplorer">…</string>
   <string name="inputData">Исходные данные</string>
@@ -19,6 +22,15 @@
   <string name="startLexical">Лексический анализ</string>
   <string name="startSyntax">Синтаксический анализ</string>
   <string name="startSymbol">Таблица символов</string>
+  <string name="translator_symbolSet">Алфавит</string>
+  <string name="translator_nothingLoaded">Ничего не загружено</string>
+  <!-- Numeric -->
+  <string name="numeric_selectType">Выберите задачу</string>
+  <string name="numeric_transcendentSolver">Трансцендентные уравнения</string>
+  <string-array name="numeric_taskTypes">
+    <item>@string/numeric_transcendentSolver</item>
+  </string-array>
+  <string name="numeric_inputEquation">Исходное уравнение: tg^2(x) - tx</string>
   <!-- Errors -->
   <string name="errGeneric_inputFileNotReadable">Невозможно прочитать исходный файл</string>
   <string name="errLexical_invalidStatement">Ошибка лексического анализа: Неизвестный символ</string>

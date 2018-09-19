@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <item
+    android:id="@+id/act_symbolSet"
+    android:icon="@drawable/ic_symbols_24dp"
+    android:title="@string/translator_symbolSet"
+    app:showAsAction="always"/>
+
+</menu>
