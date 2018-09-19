@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.TSTU;
@@ -21,10 +22,13 @@ public class NumericActivity extends BaseActivity
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_NumericAct";
 
   //view-elements
+  private CheckBox cbTConst;
+  private TextView tvOut;
   private Button btnStart;
   private View pbMain;
   //main workflow
   private int type;
+  private boolean tConst;
   private NumericTask task;
   private Result taskResult;
 
@@ -36,6 +40,26 @@ public class NumericActivity extends BaseActivity
     setContentView(R.layout.act_numeric);
     setupActionBar();
 
+    MyLog.d(LOG_TAG, "View components init...");
+    TextView title = findViewById(R.id.tvTitle);
+    cbTConst = findViewById(R.id.cbTConst);
+    tvOut = findViewById(R.id.tvOut);
+    pbMain = findViewById(R.id.pbMain);
+    btnStart = findViewById(R.id.btnStart);
+    btnStart.setOnClickListener(v -> startTask());
+    cbTConst.setOnCheckedChangeListener(
+      (buttonView, isChecked) -> tConst = isChecked);
+
+    switch (type) {
+      case TaskType.TRANSCENDENT:
+        title.setText(R.string.numeric_inputEquation);
+        break;
+    }
+
+    MyLog.d(LOG_TAG, "View components init completed");
+
+    tConst = cbTConst.isChecked();
+
     MyLog.d(LOG_TAG, "Trying to connect with background task...");
     task = (NumericTask) getLastCustomNonConfigurationInstance();
     if (task == null) {
@@ -45,20 +69,6 @@ public class NumericActivity extends BaseActivity
       MyLog.d(LOG_TAG, "Connecting to background task completed "
         + "(" + task.hashCode() + ")");
     }
-
-    MyLog.d(LOG_TAG, "View components init...");
-    TextView title = findViewById(R.id.tvTitle);
-    pbMain = findViewById(R.id.pbMain);
-    btnStart = findViewById(R.id.btnStart);
-    btnStart.setOnClickListener(v -> startTask());
-
-    switch (type) {
-      case TaskType.TRANSCENDENT:
-        title.setText(R.string.numeric_inputEquation);
-        break;
-    }
-
-    MyLog.d(LOG_TAG, "View components init completed");
   }
 
   @Override
@@ -93,7 +103,7 @@ public class NumericActivity extends BaseActivity
   }
 
   private void startTask() {
-    Config config = new Config.Builder().taskType(type)
+    Config config = new Config.Builder().taskType(type).tConst(tConst)
       .solveMethod(TranscendentSolver.Method.BINARY).build();
     task = new NumericTask(getApplicationContext());
     task.registerEventListener(this);
@@ -105,11 +115,13 @@ public class NumericActivity extends BaseActivity
     else MyLog.d(LOG_TAG, "Unlocking UI...");
 
     uiLocked = state;
+    cbTConst.setEnabled(!state);
     btnStart.setEnabled(!state);
 
     if (state) {
-      /*MyLog.d(LOG_TAG, "Clearing UI...");
-      MyLog.d(LOG_TAG, "UI cleared");*/
+      MyLog.d(LOG_TAG, "Clearing UI...");
+      tvOut.setText(null);
+      MyLog.d(LOG_TAG, "UI cleared");
       pbMain.setVisibility(View.VISIBLE);
       MyLog.d(LOG_TAG, "UI locked");
     } else {
@@ -120,8 +132,14 @@ public class NumericActivity extends BaseActivity
   }
 
   private void uiSet() {
-    /*MyLog.d(LOG_TAG, "Setting up UI");
+    MyLog.d(LOG_TAG, "Setting up UI");
 
-    MyLog.d(LOG_TAG, "UI setup completed");*/
+    switch (type) {
+      case TaskType.TRANSCENDENT:
+        tvOut.setText(TranscendentSolver.getTextResult(this, taskResult));
+        break;
+    }
+
+    MyLog.d(LOG_TAG, "UI setup completed");
   }
 }

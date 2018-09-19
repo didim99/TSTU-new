@@ -6,8 +6,17 @@ import java.util.ArrayList;
  * Created by didim99 on 16.09.18.
  */
 public class Result {
+  private Config config;
   private double solution;
   private ArrayList<Double> solutionSeries;
+
+  Result(Config config) {
+    this.config = config;
+  }
+
+  public Config getConfig() {
+    return config;
+  }
 
   public double getSolution() {
     return solution;
@@ -17,11 +26,22 @@ public class Result {
     return solutionSeries;
   }
 
-  public void setSolution(double solution) {
+  void setSolution(double solution) {
     this.solution = solution;
   }
 
-  public void setSolutionSeries(ArrayList<Double> solutionSeries) {
+  void setSolutionSeries(ArrayList<Double> solutionSeries) {
     this.solutionSeries = solutionSeries;
+  }
+
+  //Transcendent solver specific
+  private ArrayList<TranscendentSolver.StepEntry> solutionSteps;
+
+  ArrayList<TranscendentSolver.StepEntry> getSolutionSteps() {
+    return solutionSteps;
+  }
+
+  void setSolutionSteps(ArrayList<TranscendentSolver.StepEntry> solutionSteps) {
+    this.solutionSteps = solutionSteps;
   }
 }

@@ -30,7 +30,13 @@
   <string-array name="numeric_taskTypes">
     <item>@string/numeric_transcendentSolver</item>
   </string-array>
-  <string name="numeric_inputEquation">Исходное уравнение: tg^2(x) - tx</string>
+  <string name="numeric_setTConst">t = const</string>
+  <string name="numeric_inputEquation">Исходное уравнение: tg^2(x) - tx = 0</string>
+  <string name="numeric_transcendentSolver_typeBinary">Метод деления отрезка пополам</string>
+  <string name="numeric_tIfConst">Значение t: %6.4f</string>
+  <string name="numeric_solution">Решение: %9.4f</string>
+  <string name="numeric_solutionSeries">Серия решений:</string>
+  <string name="numeric_solutionSteps">Итерации решения</string>
   <!-- Errors -->
   <string name="errGeneric_inputFileNotReadable">Невозможно прочитать исходный файл</string>
   <string name="errLexical_invalidStatement">Ошибка лексического анализа: Неизвестный символ</string>

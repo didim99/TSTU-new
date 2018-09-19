@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:padding="@dimen/layoutPadding">
 
   <LinearLayout
     android:layout_width="match_parent"
@@ -16,6 +18,14 @@
       android:textSize="@dimen/textSize_large"
       android:textAlignment="center"/>
 
+    <CheckBox
+      android:id="@+id/cbTConst"
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent"
+      android:layout_marginRight="5dp"
+      android:layout_marginEnd="5dp"
+      android:text="@string/numeric_setTConst"/>
+
     <Button
       android:id="@+id/btnStart"
       android:layout_width="0dp"
@@ -24,6 +34,32 @@
       android:text="@string/buttonStart"/>
   </LinearLayout>
 
+  <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/layoutPadding">
 
+    <ScrollView
+      android:id="@+id/dataLayout"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:visibility="visible">
+
+      <TextView
+        android:id="@+id/tvOut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/textSize_main"
+        android:typeface = "monospace"/>
+    </ScrollView>
+
+    <ProgressBar
+      android:id="@+id/pbMain"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerInParent="true"
+      style="?android:attr/progressBarStyleLarge"
+      android:visibility="invisible"/>
+  </RelativeLayout>
 
 </LinearLayout>
