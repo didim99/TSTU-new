@@ -36,7 +36,7 @@ public class Translator {
       result.symbolSet = new ArrayList<>();
       for (LangStruct.DictEntry entry : la.getSortedSymbolSet()) {
         result.symbolSet.add(String.format(Locale.US, "%8s  %-4d  0x%04x",
-          entry.getMnemonic(), entry.getKey(), entry.getKey()));
+          entry.getMnemonic(), entry.getValue(), entry.getValue()));
       }
     }
   }

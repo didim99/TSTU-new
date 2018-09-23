@@ -91,28 +91,20 @@ final class LangStruct {
     }
   }
 
-  static final String[] SYMBOL_SEARCH_ORDER = {
-    MNEMONIC.KEYWORD.PROGRAM, MNEMONIC.KEYWORD.VAR, MNEMONIC.KEYWORD.INTEGER,
-    MNEMONIC.KEYWORD.REAL, MNEMONIC.KEYWORD.BEGIN, MNEMONIC.KEYWORD.END,
-    MNEMONIC.KEYWORD.FOR, MNEMONIC.KEYWORD.DOWNTO, MNEMONIC.KEYWORD.DO,
-    MNEMONIC.KEYWORD.TO, MNEMONIC.KEYWORD.READ, MNEMONIC.KEYWORD.WRITELN,
-    MNEMONIC.KEYWORD.WRITE, MNEMONIC.OPERATOR.ASSIGN, MNEMONIC.DIVIDER.END_VL,
-    MNEMONIC.DIVIDER.END_OP, MNEMONIC.DIVIDER.END_PROG, MNEMONIC.DIVIDER.SEP_VL,
-    MNEMONIC.DIVIDER.BEG_CALL, MNEMONIC.DIVIDER.END_CALL, MNEMONIC.OPERATOR.PLUS,
-    MNEMONIC.OPERATOR.MINUS, MNEMONIC.OPERATOR.PRODUCT, MNEMONIC.OPERATOR.DIV,
-    MNEMONIC.OPERATOR.EQUAL, MNEMONIC.OPERATOR.LT, MNEMONIC.OPERATOR.GT,
-  };
-
   static final class DictEntry {
     private String mnemonic;
-    private int key;
+    private int value;
 
-    DictEntry(String mnemonic, int key) {
+    DictEntry(String mnemonic, int value) {
       this.mnemonic = mnemonic;
-      this.key = key;
+      this.value = value;
+    }
+
+    DictEntry(DictEntry other) {
+      this(other.mnemonic, other.value);
     }
 
     public String getMnemonic() { return mnemonic; }
-    public int getKey() { return key; }
+    public int getValue() { return value; }
   }
 }

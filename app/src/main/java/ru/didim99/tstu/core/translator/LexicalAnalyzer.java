@@ -2,10 +2,10 @@ package ru.didim99.tstu.core.translator;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 import ru.didim99.tstu.utils.MyLog;
+
+import static ru.didim99.tstu.core.translator.LangStruct.DictEntry;
 
 /**
  * Created by didim99 on 06.09.18.
@@ -13,8 +13,8 @@ import ru.didim99.tstu.utils.MyLog;
 class LexicalAnalyzer {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_LA";
 
+  private static ArrayList<LangStruct.DictEntry> symbolSet;
   private static ArrayList<LangStruct.DictEntry> sortedSymbolSet;
-  private static Map<String, Integer> symbolMap;
   private static boolean initCompleted = false;
 
   private ArrayList<String> symbolTable;
@@ -59,16 +59,17 @@ class LexicalAnalyzer {
 
   private String nextStatement(String line, ArrayList<Integer> lexemLine)
     throws ProcessException {
-    for (String symbol : LangStruct.SYMBOL_SEARCH_ORDER) {
-      if (line.equals(symbol)) {
-        lexemLine.add(symbolMap.get(symbol));
+    for (DictEntry symbol : symbolSet) {
+      String mnemonic = symbol.getMnemonic();
+      if (line.equals(mnemonic)) {
+        lexemLine.add(symbol.getValue());
         return null;
-      } else if (line.startsWith(symbol)) {
-        if (!isValidId(line.substring(0, symbol.length() + 1))) {
-          lexemLine.add(symbolMap.get(symbol));
-          return line.substring(symbol.length());
+      } else if (line.startsWith(mnemonic)) {
+        if (!isValidId(line.substring(0, mnemonic.length() + 1))) {
+          lexemLine.add(symbol.getValue());
+          return line.substring(mnemonic.length());
         } else {
-          return findId(line, symbol.length(), lexemLine);
+          return findId(line, mnemonic.length(), lexemLine);
         }
       }
     }
@@ -113,42 +114,69 @@ class LexicalAnalyzer {
   }
 
   private void initStatic() {
-    symbolMap = new HashMap<>(LangStruct.SYMBOL_SEARCH_ORDER.length);
-    symbolMap.put(LangStruct.MNEMONIC.KEYWORD.PROGRAM, LangStruct.KEYWORD.PROGRAM);
-    symbolMap.put(LangStruct.MNEMONIC.KEYWORD.VAR, LangStruct.KEYWORD.VAR);
-    symbolMap.put(LangStruct.MNEMONIC.KEYWORD.INTEGER, LangStruct.KEYWORD.INTEGER);
-    symbolMap.put(LangStruct.MNEMONIC.KEYWORD.REAL, LangStruct.KEYWORD.REAL);
-    symbolMap.put(LangStruct.MNEMONIC.KEYWORD.BEGIN, LangStruct.KEYWORD.BEGIN);
-    symbolMap.put(LangStruct.MNEMONIC.KEYWORD.END, LangStruct.KEYWORD.END);
-    symbolMap.put(LangStruct.MNEMONIC.KEYWORD.FOR, LangStruct.KEYWORD.FOR);
-    symbolMap.put(LangStruct.MNEMONIC.KEYWORD.TO, LangStruct.KEYWORD.TO);
-    symbolMap.put(LangStruct.MNEMONIC.KEYWORD.DOWNTO, LangStruct.KEYWORD.DOWNTO);
-    symbolMap.put(LangStruct.MNEMONIC.KEYWORD.DO, LangStruct.KEYWORD.DO);
-    symbolMap.put(LangStruct.MNEMONIC.KEYWORD.READ, LangStruct.KEYWORD.READ);
-    symbolMap.put(LangStruct.MNEMONIC.KEYWORD.WRITE, LangStruct.KEYWORD.WRITE);
-    symbolMap.put(LangStruct.MNEMONIC.KEYWORD.WRITELN, LangStruct.KEYWORD.WRITELN);
-    symbolMap.put(LangStruct.MNEMONIC.OPERATOR.ASSIGN, LangStruct.OPERATOR.ASSIGN);
-    symbolMap.put(LangStruct.MNEMONIC.OPERATOR.PLUS, LangStruct.OPERATOR.PLUS);
-    symbolMap.put(LangStruct.MNEMONIC.OPERATOR.MINUS, LangStruct.OPERATOR.MINUS);
-    symbolMap.put(LangStruct.MNEMONIC.OPERATOR.PRODUCT, LangStruct.OPERATOR.PRODUCT);
-    symbolMap.put(LangStruct.MNEMONIC.OPERATOR.DIV, LangStruct.OPERATOR.DIV);
-    symbolMap.put(LangStruct.MNEMONIC.OPERATOR.EQUAL, LangStruct.OPERATOR.EQUAL);
-    symbolMap.put(LangStruct.MNEMONIC.OPERATOR.LT, LangStruct.OPERATOR.LT);
-    symbolMap.put(LangStruct.MNEMONIC.OPERATOR.GT, LangStruct.OPERATOR.GT);
-    symbolMap.put(LangStruct.MNEMONIC.DIVIDER.END_OP, LangStruct.DIVIDER.END_OP);
-    symbolMap.put(LangStruct.MNEMONIC.DIVIDER.SEP_VL, LangStruct.DIVIDER.SEP_VL);
-    symbolMap.put(LangStruct.MNEMONIC.DIVIDER.END_VL, LangStruct.DIVIDER.END_VL);
-    symbolMap.put(LangStruct.MNEMONIC.DIVIDER.BEG_CALL, LangStruct.DIVIDER.BEG_CALL);
-    symbolMap.put(LangStruct.MNEMONIC.DIVIDER.END_CALL, LangStruct.DIVIDER.END_CALL);
-    symbolMap.put(LangStruct.MNEMONIC.DIVIDER.END_PROG, LangStruct.DIVIDER.END_PROG);
+    symbolSet = new ArrayList<>();
+    symbolSet.add(new DictEntry(
+      LangStruct.MNEMONIC.KEYWORD.PROGRAM, LangStruct.KEYWORD.PROGRAM));
+    symbolSet.add(new DictEntry(
+      LangStruct.MNEMONIC.KEYWORD.VAR, LangStruct.KEYWORD.VAR));
+    symbolSet.add(new DictEntry(
+      LangStruct.MNEMONIC.KEYWORD.INTEGER, LangStruct.KEYWORD.INTEGER));
+    symbolSet.add(new DictEntry(
+      LangStruct.MNEMONIC.KEYWORD.REAL, LangStruct.KEYWORD.REAL));
+    symbolSet.add(new DictEntry(
+      LangStruct.MNEMONIC.KEYWORD.BEGIN, LangStruct.KEYWORD.BEGIN));
+    symbolSet.add(new DictEntry(
+      LangStruct.MNEMONIC.KEYWORD.END, LangStruct.KEYWORD.END));
+    symbolSet.add(new DictEntry(
+      LangStruct.MNEMONIC.KEYWORD.FOR, LangStruct.KEYWORD.FOR));
+    symbolSet.add(new DictEntry(
+      LangStruct.MNEMONIC.KEYWORD.DOWNTO, LangStruct.KEYWORD.DOWNTO));
+    symbolSet.add(new DictEntry(
+      LangStruct.MNEMONIC.KEYWORD.DO, LangStruct.KEYWORD.DO));
+    symbolSet.add(new DictEntry(
+      LangStruct.MNEMONIC.KEYWORD.TO, LangStruct.KEYWORD.TO));
+    symbolSet.add(new DictEntry(
+      LangStruct.MNEMONIC.KEYWORD.READ, LangStruct.KEYWORD.READ));
+    symbolSet.add(new DictEntry(
+      LangStruct.MNEMONIC.KEYWORD.WRITELN, LangStruct.KEYWORD.WRITELN));
+    symbolSet.add(new DictEntry(
+      LangStruct.MNEMONIC.KEYWORD.WRITE, LangStruct.KEYWORD.WRITE));
+    symbolSet.add(new DictEntry(
+      LangStruct.MNEMONIC.OPERATOR.ASSIGN, LangStruct.OPERATOR.ASSIGN));
+    symbolSet.add(new DictEntry(
+      LangStruct.MNEMONIC.OPERATOR.PLUS, LangStruct.OPERATOR.PLUS));
+    symbolSet.add(new DictEntry(
+      LangStruct.MNEMONIC.OPERATOR.MINUS, LangStruct.OPERATOR.MINUS));
+    symbolSet.add(new DictEntry(
+      LangStruct.MNEMONIC.OPERATOR.PRODUCT, LangStruct.OPERATOR.PRODUCT));
+    symbolSet.add(new DictEntry(
+      LangStruct.MNEMONIC.OPERATOR.DIV, LangStruct.OPERATOR.DIV));
+    symbolSet.add(new DictEntry(
+      LangStruct.MNEMONIC.OPERATOR.EQUAL, LangStruct.OPERATOR.EQUAL));
+    symbolSet.add(new DictEntry(
+      LangStruct.MNEMONIC.OPERATOR.LT, LangStruct.OPERATOR.LT));
+    symbolSet.add(new DictEntry(
+      LangStruct.MNEMONIC.OPERATOR.GT, LangStruct.OPERATOR.GT));
+    symbolSet.add(new DictEntry(
+      LangStruct.MNEMONIC.DIVIDER.END_OP, LangStruct.DIVIDER.END_OP));
+    symbolSet.add(new DictEntry(
+      LangStruct.MNEMONIC.DIVIDER.SEP_VL, LangStruct.DIVIDER.SEP_VL));
+    symbolSet.add(new DictEntry(
+      LangStruct.MNEMONIC.DIVIDER.END_VL, LangStruct.DIVIDER.END_VL));
+    symbolSet.add(new DictEntry(
+      LangStruct.MNEMONIC.DIVIDER.BEG_CALL, LangStruct.DIVIDER.BEG_CALL));
+    symbolSet.add(new DictEntry(
+      LangStruct.MNEMONIC.DIVIDER.END_CALL, LangStruct.DIVIDER.END_CALL));
+    symbolSet.add(new DictEntry(
+      LangStruct.MNEMONIC.DIVIDER.END_PROG, LangStruct.DIVIDER.END_PROG));
 
-    sortedSymbolSet = new ArrayList<>(symbolMap.size());
-    for (Map.Entry<String, Integer> symbol : symbolMap.entrySet())
-      sortedSymbolSet.add(new LangStruct.DictEntry(symbol.getKey(), symbol.getValue()));
-    sortedSymbolSet.add(new LangStruct.DictEntry("ID", LangStruct.CUSTOM.ID));
-    sortedSymbolSet.add(new LangStruct.DictEntry("LITERAL", LangStruct.CUSTOM.LITERAL));
+    sortedSymbolSet = new ArrayList<>(symbolSet.size());
+    for (DictEntry symbol : symbolSet)
+      sortedSymbolSet.add(new DictEntry(symbol));
+    sortedSymbolSet.add(new DictEntry("ID", LangStruct.CUSTOM.ID));
+    sortedSymbolSet.add(new DictEntry("LITERAL", LangStruct.CUSTOM.LITERAL));
     Collections.sort(sortedSymbolSet, (s1, s2) ->
-      Integer.compare(s1.getKey(), s2.getKey()));
+      Integer.compare(s1.getValue(), s2.getValue()));
 
     initCompleted = true;
   }
