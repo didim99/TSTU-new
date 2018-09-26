@@ -5,13 +5,17 @@ package ru.didim99.tstu.core.translator;
  * Created by didim99 on 11.09.18.
  */
 final class LangStruct {
-  static final int NEWLINE = 0x00000000;
-
   static final class MASK {
     static final int KEYWORD  = 0x0000000f;
     static final int OPERATOR = 0x000000f0;
     static final int DIVIDER  = 0x00000f00;
     static final int CUSTOM   = 0x0000f000;
+    static final int INTERNAL = 0xf0000000;
+  }
+
+  static final class INTERNAL {
+    static final int NEWLINE = 0x10000000;
+    static final int UNKNOWN = 0xf0000000;
   }
 
   static final class KEYWORD {

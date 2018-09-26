@@ -40,4 +40,5 @@
   <!-- Errors -->
   <string name="errGeneric_inputFileNotReadable">Невозможно прочитать исходный файл</string>
   <string name="errLexical_invalidStatement">Ошибка лексического анализа: Неизвестный символ</string>
+  <string name="errSyntax">Ошибка синтаксического анализа в строке %d: %s</string>
 </resources>

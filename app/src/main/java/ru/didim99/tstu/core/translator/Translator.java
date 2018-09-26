@@ -43,7 +43,8 @@ public class Translator {
 
   Result translate() {
     result.clearContents();
-    ArrayList<String> srcList, tmpList;
+    ArrayList<String> srcList;
+    LexicalAnalyzer.Result laResult = null;
 
     try {
       srcList = Utils.readFile(config.inputFilename);
@@ -56,11 +57,26 @@ public class Translator {
 
     if (config.mode >= Mode.LEXICAL) {
       try {
-        tmpList = la.analyze(srcList, config.forTesting);
-        result.outputCode = Utils.joinStr("\n", tmpList);
+        laResult = la.analyze(srcList, config.forTesting);
+        if (config.forTesting)
+          result.outputCode = Utils.joinStr("\n", laResult.getLines());
       } catch (LexicalAnalyzer.ProcessException e) {
         MyLog.e(LOG_TAG, "Lexical analysis error\n  " + e.toString());
         result.processErr = context.getString(R.string.errLexical_invalidStatement);
+        return result;
+      }
+    }
+
+    if (config.mode >= Mode.SYNTAX) {
+      try {
+        result.outputCode = null;
+        new SyntaxAnalyzer(laResult.getLexicalStream()).analyze();
+      } catch (SyntaxAnalyzer.ProcessException e) {
+        e.printStackTrace();
+        MyLog.e(LOG_TAG, "Syntax analysis error" +
+          "(" + e.getLineNum() +  "}: " + e.toString());
+        result.processErr = context.getString(
+          R.string.errSyntax, e.getLineNum(), e.getMessage());
         return result;
       }
     }

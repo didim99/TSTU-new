@@ -24,10 +24,13 @@ class LexicalAnalyzer {
     symbolTable = new ArrayList<>();
   }
 
-  ArrayList<String> analyze(ArrayList<String> srcList, boolean forTesting)
+  Result analyze(ArrayList<String> srcList, boolean forTesting)
     throws ProcessException {
-    ArrayList<String> outList = new ArrayList<>(srcList.size());
+    Result result = new Result();
+    result.lexicalStream = new ArrayList<>();
     ArrayList<Integer> lexemLine = new ArrayList<>();
+    if (forTesting)
+      result.lines = new ArrayList<>(srcList.size());
 
     for (String line : srcList) {
       line = line.toLowerCase();
@@ -40,21 +43,27 @@ class LexicalAnalyzer {
         }
       }
 
-      //TESTING ONLY
-      StringBuilder sb = new StringBuilder();
-      for (Integer lexem : lexemLine)
-        sb.append(lexem).append(" ");
-      outList.add(sb.toString().trim());
+      if(forTesting) {
+        StringBuilder sb = new StringBuilder();
+        for (Integer lexem : lexemLine)
+          sb.append(lexem).append(" ");
+        result.lines.add(sb.toString().trim());
+      }
+
+      result.lexicalStream.addAll(lexemLine);
+      result.lexicalStream.add(LangStruct.INTERNAL.NEWLINE);
       lexemLine.clear();
     }
 
     if (forTesting) {
-      outList.add("\nVAR TABLE:");
-      for (int i = 0; i < symbolTable.size(); i++)
-        outList.add(String.format(Locale.US, "\t%2d: %s", i, symbolTable.get(i)));
+      result.lines.add("\nVAR TABLE:");
+      for (int i = 0; i < symbolTable.size(); i++) {
+        result.lines.add(String.format(Locale.US,
+          "\t%2d: %s", i, symbolTable.get(i)));
+      }
     }
 
-    return outList;
+    return result;
   }
 
   private String nextStatement(String line, ArrayList<Integer> lexemLine)
@@ -187,5 +196,18 @@ class LexicalAnalyzer {
 
   static class ProcessException extends Exception {
     ProcessException(String msg) { super(msg); }
+  }
+
+  class Result {
+    private ArrayList<String> lines;
+    private ArrayList<Integer> lexicalStream;
+
+    public ArrayList<String> getLines() {
+      return lines;
+    }
+
+    public ArrayList<Integer> getLexicalStream() {
+      return lexicalStream;
+    }
   }
 }

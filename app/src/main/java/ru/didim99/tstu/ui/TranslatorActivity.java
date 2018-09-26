@@ -27,7 +27,8 @@ public class TranslatorActivity extends BaseActivity
 
   //view-elements
   private View dataLayout, pbMain;
-  private Button btnPickFile, btnStart;
+  private Button btnPickFile,
+    btnLexical, btnSyntax, btnSymbol;
   private TextView tvSrc, tvOut;
   private EditText etStartPath;
   private Toast toastMsg;
@@ -47,7 +48,9 @@ public class TranslatorActivity extends BaseActivity
     dataLayout = findViewById(R.id.dataLayout);
     etStartPath = findViewById(R.id.etInputPath);
     btnPickFile = findViewById(R.id.btnOpenFileExp);
-    btnStart = findViewById(R.id.btnLexical);
+    btnLexical = findViewById(R.id.btnLexical);
+    btnSyntax = findViewById(R.id.btnSyntax);
+    btnSymbol = findViewById(R.id.btnSymbol);
     tvSrc = findViewById(R.id.tvSrc);
     tvOut = findViewById(R.id.tvOut);
     pbMain = findViewById(R.id.pbMain);
@@ -64,7 +67,9 @@ public class TranslatorActivity extends BaseActivity
     }
 
     btnPickFile.setOnClickListener(v -> openFileExp());
-    btnStart.setOnClickListener(v -> startTask());
+    btnLexical.setOnClickListener(v -> startTask(Translator.Mode.LEXICAL));
+    btnSyntax.setOnClickListener(v -> startTask(Translator.Mode.SYNTAX));
+    btnSymbol.setOnClickListener(v -> startTask(Translator.Mode.SYMBOLS));
     MyLog.d(LOG_TAG, "TranslatorActivity started");
   }
 
@@ -141,12 +146,12 @@ public class TranslatorActivity extends BaseActivity
     }
   }
 
-  private void startTask() {
+  private void startTask(int mode) {
     String path = etStartPath.getText().toString();
     if (checkPath(path)) {
       task = new TranslatorTask(getApplicationContext());
       task.registerEventListener(this);
-      task.execute(new Translator.Config(Translator.Mode.LEXICAL, path, true));
+      task.execute(new Translator.Config(mode, path, true));
     }
   }
 
@@ -176,7 +181,9 @@ public class TranslatorActivity extends BaseActivity
 
     uiLocked = state;
     btnPickFile.setEnabled(!state);
-    btnStart.setEnabled(!state);
+    btnLexical.setEnabled(!state);
+    btnSyntax.setEnabled(!state);
+    btnSymbol.setEnabled(!state);
     etStartPath.setEnabled(!state);
 
     if (state) {
