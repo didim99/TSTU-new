@@ -42,7 +42,6 @@ public class Translator {
   }
 
   Result translate() {
-    result.clearContents();
     ArrayList<String> srcList;
     LexicalAnalyzer.Result laResult = null;
 
@@ -61,8 +60,10 @@ public class Translator {
         if (config.forTesting)
           result.outputCode = Utils.joinStr("\n", laResult.getLines());
       } catch (LexicalAnalyzer.ProcessException e) {
-        MyLog.e(LOG_TAG, "Lexical analysis error\n  " + e.toString());
-        result.processErr = context.getString(R.string.errLexical_invalidStatement);
+        MyLog.e(LOG_TAG, "Lexical analysis error" +
+          "(" + e.getLineNum() +  "}: " + e.toString());
+        result.processErr = context.getString(
+          R.string.errLexical_invalidStatement, e.getLineNum());
         return result;
       }
     }
@@ -71,6 +72,7 @@ public class Translator {
       try {
         result.outputCode = null;
         new SyntaxAnalyzer(laResult.getLexicalStream()).analyze();
+        result.outputCode = "Синтаксический анализ успешно выполнен";
       } catch (SyntaxAnalyzer.ProcessException e) {
         e.printStackTrace();
         MyLog.e(LOG_TAG, "Syntax analysis error" +
@@ -88,10 +90,6 @@ public class Translator {
     private boolean forTesting;
     private String inputFilename;
     private int mode;
-
-    public Config(int mode, String inputFilename) {
-      this(mode, inputFilename, false);
-    }
 
     public Config(int mode, String inputFilename, boolean forTesting) {
       this.forTesting = forTesting;
@@ -111,18 +109,7 @@ public class Translator {
     public String getProcessErr() { return processErr; }
     public ArrayList<String> getSymbolSet() { return symbolSet; }
 
-    public boolean hasInputCode() {
-      return inputCode != null;
-    }
-    public boolean hasOutputCode() {
-      return outputCode != null;
-    }
-
-    void clearContents() {
-      inputCode = null;
-      outputCode = null;
-      inputErr = null;
-      processErr = null;
-    }
+    public boolean hasInputCode() { return inputCode != null; }
+    public boolean hasOutputCode() { return outputCode != null; }
   }
 }

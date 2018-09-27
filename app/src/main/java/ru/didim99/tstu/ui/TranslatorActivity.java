@@ -17,6 +17,7 @@ import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.CallbackTask;
 import ru.didim99.tstu.core.translator.Translator;
 import ru.didim99.tstu.core.translator.TranslatorTask;
+import ru.didim99.tstu.ui.dirpicker.DirPickerActivity;
 import ru.didim99.tstu.utils.MyLog;
 import ru.didim99.tstu.utils.Utils;
 
@@ -24,11 +25,12 @@ public class TranslatorActivity extends BaseActivity
   implements TranslatorTask.EventListener<Translator.Result> {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_TransAct";
   private static final int REQUEST_GET_FILE = 1;
+  private static final boolean isUseInternalExplorer = true;
 
   //view-elements
   private View dataLayout, pbMain;
-  private Button btnPickFile,
-    btnLexical, btnSyntax, btnSymbol;
+  private Button btnPickFile, btnLexical,
+    btnSyntax, btnSymbol, btnTranslate;
   private TextView tvSrc, tvOut;
   private EditText etStartPath;
   private Toast toastMsg;
@@ -51,6 +53,7 @@ public class TranslatorActivity extends BaseActivity
     btnLexical = findViewById(R.id.btnLexical);
     btnSyntax = findViewById(R.id.btnSyntax);
     btnSymbol = findViewById(R.id.btnSymbol);
+    btnTranslate = findViewById(R.id.btnTranslate);
     tvSrc = findViewById(R.id.tvSrc);
     tvOut = findViewById(R.id.tvOut);
     pbMain = findViewById(R.id.pbMain);
@@ -70,6 +73,7 @@ public class TranslatorActivity extends BaseActivity
     btnLexical.setOnClickListener(v -> startTask(Translator.Mode.LEXICAL));
     btnSyntax.setOnClickListener(v -> startTask(Translator.Mode.SYNTAX));
     btnSymbol.setOnClickListener(v -> startTask(Translator.Mode.SYMBOLS));
+    btnTranslate.setOnClickListener(v -> startTask(Translator.Mode.FULL));
     MyLog.d(LOG_TAG, "TranslatorActivity started");
   }
 
@@ -90,9 +94,11 @@ public class TranslatorActivity extends BaseActivity
         if (data != null) {
           String scheme = data.getScheme();
           String extPath = data.getPath();
-          /*if (!scheme.equals("file") && !(new File(extPath).exists())) {
+          if (!scheme.equals("file") && !(new File(extPath).exists())) {
             MyLog.e(LOG_TAG, "Can't load file/dir. Unsupported scheme: " + scheme);
-            if (++loadCount < MAX_LOAD_COUNT) {
+            toastMsg.setText(R.string.unsupportedScheme);
+            toastMsg.show();
+            /*if (++loadCount < MAX_LOAD_COUNT) {
               toastMsg.setText(R.string.unsupportedScheme);
               toastMsg.show();
               return;
@@ -100,8 +106,8 @@ public class TranslatorActivity extends BaseActivity
               internalExplorerDialog();
               loadCount = 0;
               return;
-            }
-          }*/
+            }*/
+          }
 
           etStartPath.setText(extPath);
           etStartPath.setSelection(extPath.length());
@@ -156,12 +162,12 @@ public class TranslatorActivity extends BaseActivity
   }
 
   private void openFileExp() {
-    /*if (Settings.ResConverter.isUseInternalExplorer()) {
+    if (isUseInternalExplorer) {
       MyLog.d(LOG_TAG, "Choose file from DirPicker...");
       Intent intent = new Intent(this, DirPickerActivity.class);
-      intent.putExtra(DirPickerActivity.KEY_MODE, DirPickerActivity.MODE_FILE);
-      startActivityForResult(intent, REQUEST_CHOOSE_DIR);
-    } else {*/
+      intent.putExtra(DirPickerActivity.KEY_MODE, DirPickerActivity.Mode.FILE);
+      startActivityForResult(intent, REQUEST_GET_FILE);
+    } else {
       MyLog.d(LOG_TAG, "Choose file from external file manager");
       Intent getFileIntent = new Intent();
       getFileIntent.setAction(Intent.ACTION_GET_CONTENT);
@@ -172,7 +178,7 @@ public class TranslatorActivity extends BaseActivity
         startActivityForResult(getFileIntent, REQUEST_GET_FILE);
       } else
         MyLog.e(LOG_TAG, "No any external file manager found");
-    /*}*/
+    }
   }
 
   private void uiLock(boolean state) {
@@ -184,6 +190,7 @@ public class TranslatorActivity extends BaseActivity
     btnLexical.setEnabled(!state);
     btnSyntax.setEnabled(!state);
     btnSymbol.setEnabled(!state);
+    btnTranslate.setEnabled(!state);
     etStartPath.setEnabled(!state);
 
     if (state) {

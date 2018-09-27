@@ -18,14 +18,15 @@ class LexicalAnalyzer {
   private static boolean initCompleted = false;
 
   private ArrayList<String> symbolTable;
+  private int lineNum;
 
   LexicalAnalyzer() {
     if (!initCompleted) initStatic();
     symbolTable = new ArrayList<>();
+    lineNum = 1;
   }
 
-  Result analyze(ArrayList<String> srcList, boolean forTesting)
-    throws ProcessException {
+  Result analyze(ArrayList<String> srcList, boolean forTesting) {
     Result result = new Result();
     result.lexicalStream = new ArrayList<>();
     ArrayList<Integer> lexemLine = new ArrayList<>();
@@ -53,6 +54,7 @@ class LexicalAnalyzer {
       result.lexicalStream.addAll(lexemLine);
       result.lexicalStream.add(LangStruct.INTERNAL.NEWLINE);
       lexemLine.clear();
+      lineNum++;
     }
 
     if (forTesting) {
@@ -66,8 +68,7 @@ class LexicalAnalyzer {
     return result;
   }
 
-  private String nextStatement(String line, ArrayList<Integer> lexemLine)
-    throws ProcessException {
+  private String nextStatement(String line, ArrayList<Integer> lexemLine) {
     for (DictEntry symbol : symbolSet) {
       String mnemonic = symbol.getMnemonic();
       if (line.equals(mnemonic)) {
@@ -88,7 +89,7 @@ class LexicalAnalyzer {
       int pos = 0;
       while (++pos < line.length()) {
         if (Character.isLetter(line.charAt(pos)))
-          throw new ProcessException("Unexpected character: " + first);
+          throw new ProcessException("Unexpected character: " + first, lineNum);
         if (!Character.isDigit(line.charAt(pos)))
           break;
       }
@@ -101,7 +102,7 @@ class LexicalAnalyzer {
     if (isValidId(String.valueOf(first)))
       return findId(line, 1, lexemLine);
 
-    throw new ProcessException("Unexpected character: " + first);
+    throw new ProcessException("Unexpected character: " + first, lineNum);
   }
 
   private String findId(String line, int length, ArrayList<Integer> lexemLine) {
@@ -194,20 +195,22 @@ class LexicalAnalyzer {
     return sortedSymbolSet;
   }
 
-  static class ProcessException extends Exception {
-    ProcessException(String msg) { super(msg); }
-  }
-
-  class Result {
+  static class Result {
     private ArrayList<String> lines;
     private ArrayList<Integer> lexicalStream;
 
-    public ArrayList<String> getLines() {
-      return lines;
+    ArrayList<String> getLines() { return lines; }
+    ArrayList<Integer> getLexicalStream() { return lexicalStream; }
+  }
+
+  static class ProcessException extends IllegalStateException {
+    private int lineNum;
+
+    ProcessException(String msg, int lineNum) {
+      super(msg);
+      this.lineNum = lineNum;
     }
 
-    public ArrayList<Integer> getLexicalStream() {
-      return lexicalStream;
-    }
+    int getLineNum() { return lineNum; }
   }
 }

@@ -22,6 +22,7 @@
   <string name="startLexical">Лексический анализ</string>
   <string name="startSyntax">Синтаксический анализ</string>
   <string name="startSymbol">Таблица символов</string>
+  <string name="startFullTranslation">Транслировать</string>
   <string name="translator_symbolSet">Алфавит</string>
   <string name="translator_nothingLoaded">Ничего не загружено</string>
   <!-- Numeric -->
@@ -38,7 +39,16 @@
   <string name="numeric_solutionSeries">Серия решений:</string>
   <string name="numeric_solutionSteps">Итерации решения</string>
   <!-- Errors -->
+  <string name="unsupportedScheme">Не удалось загрузить файл.\nПопробуйте использовать другой файловый менеджер</string>
   <string name="errGeneric_inputFileNotReadable">Невозможно прочитать исходный файл</string>
-  <string name="errLexical_invalidStatement">Ошибка лексического анализа: Неизвестный символ</string>
+  <string name="errLexical_invalidStatement">Ошибка лексического анализа в строке %d: Неизвестный символ</string>
   <string name="errSyntax">Ошибка синтаксического анализа в строке %d: %s</string>
+  <!-- Содержимое текстовых полей и подписей кнопок (Layout: act_dir_picker) -->
+  <string name="actLabel_filePicker">Выбор файла</string>
+  <string name="actLabel_dirPicker">Выбор каталога</string>
+  <string name="dirPicker_dirUnreadable">Нет доступа в текущий каталог</string>
+  <string name="dirPicker_fsRootUnreadable">Не удалось открыть корневой каталог, открываю sdcard</string>
+  <string name="tvText_dirPicker_empty">Пусто</string>
+  <string name="btnText_dirPicker_back">Назад</string>
+  <string name="btnText_dirPicker_go">Выбрать</string>
 </resources>

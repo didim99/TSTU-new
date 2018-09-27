@@ -38,10 +38,17 @@ class SyntaxAnalyzer {
 
   private void checkSectionVar() {
     stream.validateNext(LangStruct.KEYWORD.VAR);
+    checkVarDeclaration();
+  }
+
+  private void checkVarDeclaration() {
     checkVarList();
     stream.validateNext(LangStruct.DIVIDER.END_VL);
     checkType();
     stream.validateNext(LangStruct.DIVIDER.END_OP);
+    if (stream.pickNext() == LangStruct.CUSTOM.ID) {
+      checkVarDeclaration();
+    }
   }
 
   private void checkVarList() {
@@ -73,6 +80,7 @@ class SyntaxAnalyzer {
   private void checkOperator() {
     switch (stream.pickNext()) {
       case LangStruct.KEYWORD.READ:   checkInput(); break;
+      case LangStruct.KEYWORD.WRITELN:
       case LangStruct.KEYWORD.WRITE:  checkOutput(); break;
       case LangStruct.KEYWORD.FOR:    checkCycle(); break;
       case LangStruct.CUSTOM.ID:      checkAssign(); break;
@@ -88,7 +96,7 @@ class SyntaxAnalyzer {
   }
 
   private void checkOutput() {
-    stream.validateNext(LangStruct.KEYWORD.WRITE);
+    stream.validateNext(LangStruct.KEYWORD.WRITE, LangStruct.KEYWORD.WRITELN);
     stream.validateNext(LangStruct.DIVIDER.BEG_CALL);
     checkVarList();
     stream.validateNext(LangStruct.DIVIDER.END_CALL);
@@ -217,8 +225,6 @@ class SyntaxAnalyzer {
       this.lineNum = lineNum;
     }
 
-    int getLineNum() {
-      return lineNum;
-    }
+    int getLineNum() { return lineNum; }
   }
 }

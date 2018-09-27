@@ -10,4 +10,10 @@
     <item name="android:actionModeCloseDrawable">@drawable/ic_cross_24dp</item>
   </style>
 
+  <style name="AppThemeDialog" parent="Theme.AppCompat.Dialog">
+    <item name="colorPrimary">@color/colorPrimary</item>
+    <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+    <item name="colorAccent">@color/colorAccent</item>
+  </style>
+
 </resources>

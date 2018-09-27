@@ -52,21 +52,32 @@
       android:layout_width="0dp"
       android:layout_height="match_parent"
       android:layout_weight="1"
-      android:text="@string/startLexical"/>
+      android:text="@string/startLexical"
+      tools:ignore="ButtonStyle"/>
 
     <Button
       android:id="@+id/btnSyntax"
       android:layout_width="0dp"
       android:layout_height="match_parent"
       android:layout_weight="1"
-      android:text="@string/startSyntax"/>
+      android:text="@string/startSyntax"
+      tools:ignore="ButtonStyle"/>
 
     <Button
       android:id="@+id/btnSymbol"
       android:layout_width="0dp"
       android:layout_height="match_parent"
       android:layout_weight="1"
-      android:text="@string/startSymbol"/>
+      android:text="@string/startSymbol"
+      tools:ignore="ButtonStyle"/>
+
+    <Button
+      android:id="@+id/btnTranslate"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="1"
+      android:text="@string/startFullTranslation"
+      tools:ignore="ButtonStyle"/>
   </LinearLayout>
 
   <RelativeLayout

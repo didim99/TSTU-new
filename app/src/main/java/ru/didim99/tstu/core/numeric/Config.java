@@ -15,17 +15,17 @@ public class Config {
   private boolean tConst;
   private Double xStart, xEnd;
 
-  public boolean isRangeDefined() {
+  int getTaskType() { return taskType; }
+  int getSolveMethod() { return solveMethod; }
+  boolean isTConst() { return tConst; }
+  Double getXStart() { return xStart; }
+  Double getXEnd() { return xEnd; }
+
+  boolean isRangeDefined() {
     return xStart != null && xEnd != null;
   }
 
-  public int getTaskType() { return taskType; }
-  public int getSolveMethod() { return solveMethod; }
-  public boolean isTConst() { return tConst; }
-  public Double getXStart() { return xStart; }
-  public Double getXEnd() { return xEnd; }
-
-  public void setRange(double xStart, double xEnd) {
+  void setRange(double xStart, double xEnd) {
     this.xStart = xStart;
     this.xEnd = xEnd;
   }

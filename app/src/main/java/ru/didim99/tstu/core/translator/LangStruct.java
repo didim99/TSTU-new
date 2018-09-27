@@ -110,7 +110,7 @@ final class LangStruct {
       this(other.mnemonic, other.value);
     }
 
-    public String getMnemonic() { return mnemonic; }
-    public int getValue() { return value; }
+    String getMnemonic() { return mnemonic; }
+    int getValue() { return value; }
   }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
           package="ru.didim99.tstu">
 
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
@@ -10,7 +11,8 @@
     android:name=".TSTU"
     android:label="@string/app_name"
     android:supportsRtl="true"
-    android:theme="@style/AppTheme">
+    android:theme="@style/AppTheme"
+    tools:ignore="GoogleAppIndexingWarning">
 
     <activity android:name=".ui.StartActivity">
       <intent-filter>
@@ -27,6 +29,12 @@
     <activity
       android:name=".ui.NumericActivity"
       android:label="@string/startNumeric"/>
+
+    <activity
+      android:name=".ui.dirpicker.DirPickerActivity"
+      android:label="@string/actLabel_dirPicker"
+      android:launchMode="singleTop"
+      android:theme="@style/AppThemeDialog"/>
   </application>
 
 </manifest>
