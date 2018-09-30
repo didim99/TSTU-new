@@ -140,12 +140,12 @@ public class TranslatorActivity extends BaseActivity
   }
 
   @Override
-  public void onTaskEvent(int event, Translator.Result result) {
+  public void onTaskEvent(CallbackTask.Event event, Translator.Result result) {
     switch (event) {
-      case CallbackTask.Event.START:
+      case START:
         uiLock(true);
         break;
-      case CallbackTask.Event.FINISH:
+      case FINISH:
         this.taskResult = result;
         uiLock(false);
         break;

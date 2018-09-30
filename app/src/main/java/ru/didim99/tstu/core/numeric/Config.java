@@ -4,7 +4,6 @@ package ru.didim99.tstu.core.numeric;
  * Created by didim99 on 16.09.18.
  */
 public class Config {
-
   public static final class TaskType {
     public static final int UNDEFINED = 0;
     public static final int TRANSCENDENT = 1;
@@ -35,6 +34,15 @@ public class Config {
 
     public Builder() {
       config = new Config();
+    }
+
+    public Builder(Config other) {
+      config = new Config();
+      config.taskType = other.taskType;
+      config.solveMethod = other.solveMethod;
+      config.tConst = other.tConst;
+      config.xStart = other.xStart;
+      config.xEnd = other.xEnd;
     }
 
     public Builder taskType(int taskType) {

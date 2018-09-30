@@ -65,6 +65,7 @@ class LexicalAnalyzer {
       }
     }
 
+    result.symbolTable = symbolTable;
     return result;
   }
 
@@ -198,9 +199,11 @@ class LexicalAnalyzer {
   static class Result {
     private ArrayList<String> lines;
     private ArrayList<Integer> lexicalStream;
+    private ArrayList<String> symbolTable;
 
     ArrayList<String> getLines() { return lines; }
     ArrayList<Integer> getLexicalStream() { return lexicalStream; }
+    ArrayList<String> getSymbolTable() { return symbolTable; }
   }
 
   static class ProcessException extends IllegalStateException {

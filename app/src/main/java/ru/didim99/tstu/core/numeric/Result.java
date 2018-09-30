@@ -9,6 +9,7 @@ public class Result {
   private Config config;
   private double solution;
   private ArrayList<Double> solutionSeries;
+  private long solveTime;
 
   Result(Config config) {
     this.config = config;
@@ -26,12 +27,20 @@ public class Result {
     return solutionSeries;
   }
 
+  public long getSolveTime() {
+    return solveTime;
+  }
+
   void setSolution(double solution) {
     this.solution = solution;
   }
 
   void setSolutionSeries(ArrayList<Double> solutionSeries) {
     this.solutionSeries = solutionSeries;
+  }
+
+  void setSolveTime(long millis) {
+    this.solveTime = millis;
   }
 
   //Transcendent solver specific

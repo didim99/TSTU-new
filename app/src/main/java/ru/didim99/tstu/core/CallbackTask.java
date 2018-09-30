@@ -12,10 +12,7 @@ import ru.didim99.tstu.utils.MyLog;
 public abstract class CallbackTask<Config, Result> extends AsyncTask<Config, Void, Void> {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_CallbackTask";
 
-  public static final class Event {
-    public static final int START = 1;
-    public static final int FINISH = 2;
-  }
+  public enum Event { START, FINISH }
 
   protected WeakReference<Context> appContext;
   private EventListener<Result> listener;
@@ -71,6 +68,6 @@ public abstract class CallbackTask<Config, Result> extends AsyncTask<Config, Voi
   protected abstract Result doInBackgroundInternal(Config config);
 
   public interface EventListener<I> {
-    void onTaskEvent(int event, I data);
+    void onTaskEvent(Event event, I data);
   }
 }

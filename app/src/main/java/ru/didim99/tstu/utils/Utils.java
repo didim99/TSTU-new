@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +46,19 @@ public class Utils {
       if (!line.isEmpty()) data.add(line);
     MyLog.d(LOG_TAG, "Reading completed");
     return data;
+  }
+
+  public static void writeFile(String fileName, ArrayList<String> data)
+    throws IOException {
+    MyLog.d(LOG_TAG, "Writing:\n  " + fileName);
+    File file = new File(fileName);
+    BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+    for (String line : data) {
+      writer.append(line);
+      writer.newLine();
+    }
+    writer.close();
+    MyLog.d(LOG_TAG, "Writing completed (" + file.length() + ")");
   }
 
   /* ======== ANDROID UTILS ======== */

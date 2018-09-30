@@ -6,10 +6,13 @@
   <!-- Generic -->
   <string name="dialogButtonOk">OK</string>
   <string name="buttonStart">Старт</string>
+  <string name="buttonSave">Сохранить</string>
   <string name="pathLayout_pickFile">Путь до исходного файла</string>
   <string name="pathLayout_openExplorer">…</string>
   <string name="inputData">Исходные данные</string>
   <string name="outputData">Выходные данные</string>
+  <string name="savedToFile">Сохранено в:\n%s</string>
+  <string name="cantWriteFile">Не удалось записать файл:\n%s</string>
   <!-- FilePicker -->
   <string name="filePicker_emptyPath">Не указаны путь и имя файла</string>
   <string name="filePicker_fileNotExist">Такого файла не существует</string>
@@ -26,6 +29,7 @@
   <string name="translator_symbolSet">Алфавит</string>
   <string name="translator_nothingLoaded">Ничего не загружено</string>
   <!-- Numeric -->
+  <string name="numeric_nothingToSave">Сохранять нечего</string>
   <string name="numeric_selectType">Выберите задачу</string>
   <string name="numeric_transcendentSolver">Трансцендентные уравнения</string>
   <string-array name="numeric_taskTypes">
@@ -33,9 +37,12 @@
   </string-array>
   <string name="numeric_setTConst">t = const</string>
   <string name="numeric_inputEquation">Исходное уравнение: tg^2(x) - tx = 0</string>
-  <string name="numeric_transcendentSolver_typeBinary">Метод деления отрезка пополам</string>
+  <string name="numeric_transcendentSolver_typeBinary">Метод половинного деления</string>
+  <string name="numeric_transcendentSolver_typeFalsePos">Метод ложного положения</string>
+  <string name="numeric_transcendentSolver_typeTangent">Метод Ньютона (касательных)</string>
   <string name="numeric_tIfConst">Значение t: %6.4f</string>
   <string name="numeric_solution">Решение: %9.4f</string>
+  <string name="numeric_solveTime">Время решения: %d мкс</string>
   <string name="numeric_solutionSeries">Серия решений:</string>
   <string name="numeric_solutionSteps">Итерации решения</string>
   <!-- Errors -->

@@ -14,7 +14,7 @@
       android:id="@+id/tvTitle"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
-      android:layout_weight="8"
+      android:layout_weight="6"
       android:textSize="@dimen/textSize_large"
       android:textAlignment="center"/>
 
@@ -32,6 +32,13 @@
       android:layout_height="wrap_content"
       android:layout_weight="2"
       android:text="@string/buttonStart"/>
+
+    <Button
+      android:id="@+id/btnSave"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="2"
+      android:text="@string/buttonSave"/>
   </LinearLayout>
 
   <RelativeLayout
@@ -40,17 +47,14 @@
     android:layout_marginTop="@dimen/layoutPadding">
 
     <ScrollView
-      android:id="@+id/dataLayout"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:visibility="visible">
 
-      <TextView
-        android:id="@+id/tvOut"
+      <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvOut"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/textSize_main"
-        android:typeface = "monospace"/>
+        android:layout_height="wrap_content"/>
     </ScrollView>
 
     <ProgressBar

@@ -1,11 +1,21 @@
 package ru.didim99.tstu.ui;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.IOException;
+import java.util.ArrayList;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.TSTU;
 import ru.didim99.tstu.core.CallbackTask;
@@ -14,23 +24,24 @@ import ru.didim99.tstu.core.numeric.Result;
 import ru.didim99.tstu.core.numeric.NumericTask;
 import ru.didim99.tstu.core.numeric.TranscendentSolver;
 import ru.didim99.tstu.utils.MyLog;
+import ru.didim99.tstu.utils.Utils;
 
 import static ru.didim99.tstu.core.numeric.Config.TaskType;
 
 public class NumericActivity extends BaseActivity
-  implements NumericTask.EventListener<Result> {
+  implements NumericTask.EventListener<ArrayList<Result>> {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_NumericAct";
 
   //view-elements
+  private OutListAdapter adapter;
+  private Button btnStart, btnSave;
   private CheckBox cbTConst;
-  private TextView tvOut;
-  private Button btnStart;
   private View pbMain;
   //main workflow
   private int type;
   private boolean tConst;
   private NumericTask task;
-  private Result taskResult;
+  private ArrayList<Result> taskResult;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +54,19 @@ public class NumericActivity extends BaseActivity
     MyLog.d(LOG_TAG, "View components init...");
     TextView title = findViewById(R.id.tvTitle);
     cbTConst = findViewById(R.id.cbTConst);
-    tvOut = findViewById(R.id.tvOut);
     pbMain = findViewById(R.id.pbMain);
     btnStart = findViewById(R.id.btnStart);
+    btnSave = findViewById(R.id.btnSave);
     btnStart.setOnClickListener(v -> startTask());
+    btnSave.setOnClickListener(v -> saveToFile());
     cbTConst.setOnCheckedChangeListener(
       (buttonView, isChecked) -> tConst = isChecked);
+
+    adapter = new OutListAdapter(this);
+    RecyclerView rvOut = findViewById(R.id.rvOut);
+    rvOut.setLayoutManager(new LinearLayoutManager(
+      this, RecyclerView.HORIZONTAL, false));
+    rvOut.setAdapter(adapter);
 
     switch (type) {
       case TaskType.TRANSCENDENT:
@@ -71,6 +89,37 @@ public class NumericActivity extends BaseActivity
     }
   }
 
+  private void saveToFile() {
+    if (taskResult == null) {
+      Toast.makeText(this, R.string.numeric_nothingToSave, Toast.LENGTH_LONG).show();
+      return;
+    }
+
+    MyLog.d(LOG_TAG, "Saving result to file");
+    ArrayList<String> data = new ArrayList<>();
+    String fileName = "";
+
+    try {
+      switch (type) {
+        case TaskType.TRANSCENDENT:
+          for (Result result : taskResult)
+            data.add(TranscendentSolver.getTextResult(this, result));
+          fileName = "/transcendent.txt";
+          break;
+      }
+
+      String path = getExternalCacheDir().getAbsolutePath() + fileName;
+      Utils.writeFile(path, data);
+      MyLog.d(LOG_TAG, "Saved to: " + path);
+      Toast.makeText(this, getString(R.string.savedToFile, path),
+        Toast.LENGTH_LONG).show();
+    } catch (IOException e) {
+      MyLog.w(LOG_TAG, "Unable to write output file: " + e.toString());
+      Toast.makeText(this, getString(R.string.cantWriteFile, e.toString()),
+        Toast.LENGTH_LONG).show();
+    }
+  }
+
   @Override
   public NumericTask onRetainCustomNonConfigurationInstance() {
     if (task != null) {
@@ -81,12 +130,12 @@ public class NumericActivity extends BaseActivity
   }
 
   @Override
-  public void onTaskEvent(int event, Result result) {
+  public void onTaskEvent(CallbackTask.Event event, ArrayList<Result> result) {
     switch (event) {
-      case CallbackTask.Event.START:
+      case START:
         uiLock(true);
         break;
-      case CallbackTask.Event.FINISH:
+      case FINISH:
         this.taskResult = result;
         uiLock(false);
         break;
@@ -103,8 +152,7 @@ public class NumericActivity extends BaseActivity
   }
 
   private void startTask() {
-    Config config = new Config.Builder().taskType(type).tConst(tConst)
-      .solveMethod(TranscendentSolver.Method.BINARY).build();
+    Config config = new Config.Builder().taskType(type).tConst(tConst).build();
     task = new NumericTask(getApplicationContext());
     task.registerEventListener(this);
     task.execute(config);
@@ -117,10 +165,11 @@ public class NumericActivity extends BaseActivity
     uiLocked = state;
     cbTConst.setEnabled(!state);
     btnStart.setEnabled(!state);
+    btnSave.setEnabled(!state);
 
     if (state) {
       MyLog.d(LOG_TAG, "Clearing UI...");
-      tvOut.setText(null);
+      adapter.refreshData(null);
       MyLog.d(LOG_TAG, "UI cleared");
       pbMain.setVisibility(View.VISIBLE);
       MyLog.d(LOG_TAG, "UI locked");
@@ -136,10 +185,52 @@ public class NumericActivity extends BaseActivity
 
     switch (type) {
       case TaskType.TRANSCENDENT:
-        tvOut.setText(TranscendentSolver.getTextResult(this, taskResult));
+        ArrayList<String> data = new ArrayList<>();
+        for (Result result : taskResult)
+          data.add(TranscendentSolver.getTextResult(this, result));
+        adapter.refreshData(data);
         break;
     }
 
     MyLog.d(LOG_TAG, "UI setup completed");
+  }
+
+  static class OutListAdapter extends RecyclerView.Adapter<OutListAdapter.ViewHolder> {
+    private ArrayList<String> data;
+    private LayoutInflater inflater;
+
+    OutListAdapter(Context context) {
+      this.inflater = LayoutInflater.from(context);
+    }
+
+    @NonNull
+    @Override
+    public OutListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+      return new ViewHolder(inflater.inflate(R.layout.item_out_data, parent, false));
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull OutListAdapter.ViewHolder holder, int position) {
+      holder.tvOut.setText(data.get(position));
+    }
+
+    @Override
+    public int getItemCount() {
+      return data == null ? 0 : data.size();
+    }
+
+    void refreshData(ArrayList<String> data) {
+      this.data = data;
+      notifyDataSetChanged();
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder {
+      final TextView tvOut;
+
+      ViewHolder(View itemView) {
+        super(itemView);
+        this.tvOut = itemView.findViewById(R.id.tvOut);
+      }
+    }
   }
 }

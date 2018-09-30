@@ -6,10 +6,10 @@ import java.util.ArrayList;
  * Created by didim99 on 24.09.18.
  */
 class SyntaxAnalyzer {
-  private SyntaxStream stream;
+  private SyntaxStream inputStream;
 
   SyntaxAnalyzer(ArrayList<Integer> input) {
-    this.stream = new SyntaxStream(input);
+    this.inputStream = new SyntaxStream(input);
   }
 
   void analyze() {
@@ -20,140 +20,139 @@ class SyntaxAnalyzer {
 
   private void checkProgram() {
     checkHeader();
-    stream.validateNext(LangStruct.DIVIDER.END_OP);
+    inputStream.validateNext(LangStruct.DIVIDER.END_OP);
     checkSectionVar();
     checkSectionOp();
-    stream.validateNext(LangStruct.DIVIDER.END_PROG);
+    inputStream.validateNext(LangStruct.DIVIDER.END_PROG);
   }
 
   private void checkHeader() {
-    stream.validateNext(LangStruct.KEYWORD.PROGRAM);
+    inputStream.validateNext(LangStruct.KEYWORD.PROGRAM);
     checkVarName();
   }
 
   private void checkVarName() {
-    stream.validateNext(LangStruct.CUSTOM.ID);
-    stream.next();
+    inputStream.validateNext(LangStruct.CUSTOM.ID);
+    inputStream.next();
   }
 
   private void checkSectionVar() {
-    stream.validateNext(LangStruct.KEYWORD.VAR);
+    inputStream.validateNext(LangStruct.KEYWORD.VAR);
     checkVarDeclaration();
   }
 
   private void checkVarDeclaration() {
     checkVarList();
-    stream.validateNext(LangStruct.DIVIDER.END_VL);
+    inputStream.validateNext(LangStruct.DIVIDER.END_VL);
     checkType();
-    stream.validateNext(LangStruct.DIVIDER.END_OP);
-    if (stream.pickNext() == LangStruct.CUSTOM.ID) {
+    inputStream.validateNext(LangStruct.DIVIDER.END_OP);
+    if (inputStream.pickNext() == LangStruct.CUSTOM.ID) {
       checkVarDeclaration();
     }
   }
 
   private void checkVarList() {
     checkVarName();
-    if (stream.pickNext() == LangStruct.DIVIDER.SEP_VL) {
-      stream.next();
+    if (inputStream.pickNext() == LangStruct.DIVIDER.SEP_VL) {
+      inputStream.next();
       checkVarList();
     }
   }
 
   private void checkType() {
-    stream.validateNext(LangStruct.KEYWORD.INTEGER, LangStruct.KEYWORD.REAL);
+    inputStream.validateNext(LangStruct.KEYWORD.INTEGER, LangStruct.KEYWORD.REAL);
   }
 
   private void checkSectionOp() {
-    stream.validateNext(LangStruct.KEYWORD.BEGIN);
+    inputStream.validateNext(LangStruct.KEYWORD.BEGIN);
     checkOpList();
-    stream.validateNext(LangStruct.KEYWORD.END);
+    inputStream.validateNext(LangStruct.KEYWORD.END);
   }
 
   private void checkOpList() {
     checkOperator();
-    if (stream.pickNext() == LangStruct.DIVIDER.END_OP) {
-      stream.next();
+    if (inputStream.pickNext() == LangStruct.DIVIDER.END_OP) {
+      inputStream.next();
       checkOpList();
     }
   }
 
   private void checkOperator() {
-    switch (stream.pickNext()) {
+    switch (inputStream.pickNext()) {
       case LangStruct.KEYWORD.READ:   checkInput(); break;
       case LangStruct.KEYWORD.WRITELN:
       case LangStruct.KEYWORD.WRITE:  checkOutput(); break;
       case LangStruct.KEYWORD.FOR:    checkCycle(); break;
       case LangStruct.CUSTOM.ID:      checkAssign(); break;
-      default: stream.validateNext(LangStruct.INTERNAL.UNKNOWN);
+      default: inputStream.validateNext(LangStruct.INTERNAL.UNKNOWN);
     }
   }
 
   private void checkInput() {
-    stream.validateNext(LangStruct.KEYWORD.READ);
-    stream.validateNext(LangStruct.DIVIDER.BEG_CALL);
+    inputStream.validateNext(LangStruct.KEYWORD.READ);
+    inputStream.validateNext(LangStruct.DIVIDER.BEG_CALL);
     checkVarList();
-    stream.validateNext(LangStruct.DIVIDER.END_CALL);
+    inputStream.validateNext(LangStruct.DIVIDER.END_CALL);
   }
 
   private void checkOutput() {
-    stream.validateNext(LangStruct.KEYWORD.WRITE, LangStruct.KEYWORD.WRITELN);
-    stream.validateNext(LangStruct.DIVIDER.BEG_CALL);
+    inputStream.validateNext(LangStruct.KEYWORD.WRITE, LangStruct.KEYWORD.WRITELN);
+    inputStream.validateNext(LangStruct.DIVIDER.BEG_CALL);
     checkVarList();
-    stream.validateNext(LangStruct.DIVIDER.END_CALL);
+    inputStream.validateNext(LangStruct.DIVIDER.END_CALL);
   }
 
   private void checkAssign() {
     checkVarName();
-    stream.validateNext(LangStruct.OPERATOR.ASSIGN);
+    inputStream.validateNext(LangStruct.OPERATOR.ASSIGN);
     checkExpression();
   }
 
   private void checkExpression() {
     checkSummand();
-    if ((stream.pickNext()
+    if ((inputStream.pickNext()
       & (LangStruct.OPERATOR.PLUS
       | LangStruct.OPERATOR.MINUS)) > 0) {
-      stream.next();
+      inputStream.next();
       checkExpression();
     }
   }
 
   private void checkSummand() {
     checkMultiplier();
-    if ((stream.pickNext()
+    if ((inputStream.pickNext()
       & (LangStruct.OPERATOR.PRODUCT
       | LangStruct.OPERATOR.DIV)) > 0) {
-      stream.next();
+      inputStream.next();
       checkSummand();
     }
   }
 
   private void checkMultiplier() {
-    switch (stream.pickNext()) {
+    switch (inputStream.pickNext()) {
       case LangStruct.DIVIDER.BEG_CALL:
-        stream.next();
+        inputStream.next();
         checkExpression();
-        stream.validateNext(LangStruct.DIVIDER.END_CALL);
+        inputStream.validateNext(LangStruct.DIVIDER.END_CALL);
         break;
       case LangStruct.CUSTOM.ID:
-        stream.next();
-        stream.next();
+        checkVarName();
         break;
       case LangStruct.CUSTOM.LITERAL:
-        stream.next();
-        stream.next();
+        inputStream.next();
+        inputStream.next();
         break;
-      default: stream.validateNext(LangStruct.INTERNAL.UNKNOWN);
+      default: inputStream.validateNext(LangStruct.INTERNAL.UNKNOWN);
     }
   }
 
   private void checkCycle() {
-    stream.validateNext(LangStruct.KEYWORD.FOR);
+    inputStream.validateNext(LangStruct.KEYWORD.FOR);
     checkAssign();
-    stream.validateNext(LangStruct.KEYWORD.TO, LangStruct.KEYWORD.DOWNTO);
+    inputStream.validateNext(LangStruct.KEYWORD.TO, LangStruct.KEYWORD.DOWNTO);
     checkExpression();
-    stream.validateNext(LangStruct.KEYWORD.DO);
-    if (stream.pickNext() == LangStruct.KEYWORD.BEGIN)
+    inputStream.validateNext(LangStruct.KEYWORD.DO);
+    if (inputStream.pickNext() == LangStruct.KEYWORD.BEGIN)
       checkOpList();
     else
       checkOperator();
