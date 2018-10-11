@@ -1,9 +1,7 @@
 package ru.didim99.tstu.core.numeric;
 
 import android.content.Context;
-
 import java.util.ArrayList;
-
 import ru.didim99.tstu.core.CallbackTask;
 
 /**
@@ -24,6 +22,9 @@ public class NumericTask extends CallbackTask<Config, ArrayList<Result>> {
           Config newConfig = new Config.Builder(config).solveMethod(method).build();
           results.add(new TranscendentSolver(newConfig).solve());
         }
+        return results;
+      case Config.TaskType.LINEAR_SYSTEM:
+        results.add(new LinearSystemSolver(config).solve());
         return results;
       default:
         return null;

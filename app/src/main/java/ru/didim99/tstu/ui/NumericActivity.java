@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,13 +14,14 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.TSTU;
 import ru.didim99.tstu.core.CallbackTask;
 import ru.didim99.tstu.core.numeric.Config;
+import ru.didim99.tstu.core.numeric.LinearSystemSolver;
+import ru.didim99.tstu.core.numeric.Matrix;
 import ru.didim99.tstu.core.numeric.Result;
 import ru.didim99.tstu.core.numeric.NumericTask;
 import ru.didim99.tstu.core.numeric.TranscendentSolver;
@@ -64,13 +66,18 @@ public class NumericActivity extends BaseActivity
 
     adapter = new OutListAdapter(this);
     RecyclerView rvOut = findViewById(R.id.rvOut);
-    rvOut.setLayoutManager(new LinearLayoutManager(
-      this, RecyclerView.HORIZONTAL, false));
     rvOut.setAdapter(adapter);
 
     switch (type) {
       case TaskType.TRANSCENDENT:
         title.setText(R.string.numeric_inputEquation);
+        rvOut.setLayoutManager(new LinearLayoutManager(
+          this, RecyclerView.HORIZONTAL, false));
+        break;
+      case TaskType.LINEAR_SYSTEM:
+        title.setText(R.string.numeric_linearSolver_typeLU);
+        cbTConst.setText(R.string.numeric_setRandom);
+        rvOut.setLayoutManager(new GridLayoutManager(this, 2));
         break;
     }
 
@@ -91,7 +98,7 @@ public class NumericActivity extends BaseActivity
 
   private void saveToFile() {
     if (taskResult == null) {
-      Toast.makeText(this, R.string.numeric_nothingToSave, Toast.LENGTH_LONG).show();
+      Toast.makeText(this, R.string.errNumeric_nothingToSave, Toast.LENGTH_LONG).show();
       return;
     }
 
@@ -105,6 +112,18 @@ public class NumericActivity extends BaseActivity
           for (Result result : taskResult)
             data.add(TranscendentSolver.getTextResult(this, result));
           fileName = "/transcendent.txt";
+          break;
+        case TaskType.LINEAR_SYSTEM:
+          Result result = taskResult.get(0);
+          data.add("Input system:");
+          data.add(LinearSystemSolver.buildSystem(result));
+          data.add("Input system matrix:");
+          data.add(LinearSystemSolver.buildSystemMatrix(result));
+          for (Matrix matrix : result.getMatrixSeries()) {
+            data.add(matrix.toString());
+            data.add("");
+          }
+          fileName = "/linearSystem.txt";
           break;
       }
 
@@ -148,14 +167,26 @@ public class NumericActivity extends BaseActivity
       case TaskType.TRANSCENDENT:
         bar.setTitle(R.string.numeric_transcendentSolver);
         break;
+      case TaskType.LINEAR_SYSTEM:
+        bar.setTitle(R.string.numeric_linearSystemSolver);
+        break;
     }
   }
 
   private void startTask() {
-    Config config = new Config.Builder().taskType(type).tConst(tConst).build();
+    Config.Builder builder = new Config.Builder();
+    builder.taskType(type).tConst(tConst);
+
+    switch (type) {
+      case TaskType.LINEAR_SYSTEM:
+        builder.fileName(getExternalCacheDir().getAbsolutePath()
+          + "/linearSystemInput.txt");
+        break;
+    }
+
     task = new NumericTask(getApplicationContext());
     task.registerEventListener(this);
-    task.execute(config);
+    task.execute(builder.build());
   }
 
   private void uiLock(boolean state) {
@@ -182,16 +213,20 @@ public class NumericActivity extends BaseActivity
 
   private void uiSet() {
     MyLog.d(LOG_TAG, "Setting up UI");
+    ArrayList<String> data = new ArrayList<>();
 
     switch (type) {
       case TaskType.TRANSCENDENT:
-        ArrayList<String> data = new ArrayList<>();
         for (Result result : taskResult)
           data.add(TranscendentSolver.getTextResult(this, result));
-        adapter.refreshData(data);
+        break;
+      case TaskType.LINEAR_SYSTEM:
+        for (Matrix matrix : taskResult.get(0).getMatrixSeries())
+          data.add(matrix.toString());
         break;
     }
 
+    adapter.refreshData(data);
     MyLog.d(LOG_TAG, "UI setup completed");
   }
 

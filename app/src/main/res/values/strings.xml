@@ -29,12 +29,14 @@
   <string name="translator_symbolSet">Алфавит</string>
   <string name="translator_nothingLoaded">Ничего не загружено</string>
   <!-- Numeric -->
-  <string name="numeric_nothingToSave">Сохранять нечего</string>
-  <string name="numeric_selectType">Выберите задачу</string>
   <string name="numeric_transcendentSolver">Трансцендентные уравнения</string>
+  <string name="numeric_linearSystemSolver">Система линейных уравнений</string>
+  <string name="numeric_selectType">Выберите задачу</string>
   <string-array name="numeric_taskTypes">
     <item>@string/numeric_transcendentSolver</item>
+    <item>@string/numeric_linearSystemSolver</item>
   </string-array>
+  <string name="numeric_setRandom">Random</string>
   <string name="numeric_setTConst">t = const</string>
   <string name="numeric_inputEquation">Исходное уравнение: tg^2(x) - tx = 0</string>
   <string name="numeric_transcendentSolver_typeBinary">Метод половинного деления</string>
@@ -45,7 +47,9 @@
   <string name="numeric_solveTime">Время решения: %d мкс</string>
   <string name="numeric_solutionSeries">Серия решений:</string>
   <string name="numeric_solutionSteps">Итерации решения</string>
+  <string name="numeric_linearSolver_typeLU">Решение методом LU-разложения</string>
   <!-- Errors -->
+  <string name="errNumeric_nothingToSave">Сохранять нечего</string>
   <string name="unsupportedScheme">Не удалось загрузить файл.\nПопробуйте использовать другой файловый менеджер</string>
   <string name="errGeneric_inputFileNotReadable">Невозможно прочитать исходный файл</string>
   <string name="errLexical_invalidStatement">Ошибка лексического анализа в строке %d: Неизвестный символ</string>

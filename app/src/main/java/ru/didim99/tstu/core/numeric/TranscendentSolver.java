@@ -95,7 +95,7 @@ public class TranscendentSolver {
     double yTest = f(xTest, t);
 
     if (solutionSteps != null)
-      solutionSteps.add(new StepEntry(x, xNext, yTest));
+      solutionSteps.add(new StepEntry(xNext, xTest, yTest));
 
     if (Math.abs(yTest) < EPSILON)
       return xTest;
@@ -106,7 +106,13 @@ public class TranscendentSolver {
   }
 
   private double solveTangent(double t, double start, double end) {
-    double x = start, xNext, y;
+    double x, xNext, y;
+
+    double d2f = (df(start + EPSILON, t) - df(start - EPSILON, t)) / (2 * EPSILON);
+    if (f(start, t) * d2f > 0)
+      x = start;
+    else
+      x = end;
 
     do {
       xNext = x - f(x, t) / df(x, t);
@@ -140,7 +146,7 @@ public class TranscendentSolver {
         break;
       case Method.FALSE_POS:
         sb.append(context.getString(R.string.numeric_transcendentSolver_typeFalsePos));
-        iterHeader = "x        x_next   y";
+        iterHeader = "x_next   x_test   y";
         break;
       case Method.TANGENT:
         sb.append(context.getString(R.string.numeric_transcendentSolver_typeTangent));
@@ -178,11 +184,6 @@ public class TranscendentSolver {
     private StepEntry(double xStart, double xEnd, double y) {
       this.xStart = xStart;
       this.xEnd = xEnd;
-      this.y = y;
-    }
-
-    private StepEntry(double xStart, double y) {
-      this.xStart = xStart;
       this.y = y;
     }
   }

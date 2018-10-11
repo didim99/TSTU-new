@@ -4,21 +4,27 @@ package ru.didim99.tstu.core.numeric;
  * Created by didim99 on 16.09.18.
  */
 public class Config {
+
   public static final class TaskType {
-    public static final int UNDEFINED = 0;
-    public static final int TRANSCENDENT = 1;
+    public static final int UNDEFINED     = 0;
+    public static final int TRANSCENDENT  = 1;
+    public static final int LINEAR_SYSTEM = 2;
   }
 
   private int taskType;
   private int solveMethod;
   private boolean tConst;
   private Double xStart, xEnd;
+  private String fileName;
+  private int size;
 
   int getTaskType() { return taskType; }
   int getSolveMethod() { return solveMethod; }
   boolean isTConst() { return tConst; }
   Double getXStart() { return xStart; }
   Double getXEnd() { return xEnd; }
+  String getFileName() { return fileName; }
+  int getSize() { return size; }
 
   boolean isRangeDefined() {
     return xStart != null && xEnd != null;
@@ -27,6 +33,10 @@ public class Config {
   void setRange(double xStart, double xEnd) {
     this.xStart = xStart;
     this.xEnd = xEnd;
+  }
+
+  void setSize(int size) {
+    this.size = size;
   }
 
   public static class Builder {
@@ -43,6 +53,8 @@ public class Config {
       config.tConst = other.tConst;
       config.xStart = other.xStart;
       config.xEnd = other.xEnd;
+      config.fileName = other.fileName;
+      config.size = other.size;
     }
 
     public Builder taskType(int taskType) {
@@ -63,6 +75,11 @@ public class Config {
     public Builder range(double xStart, double xEnd) {
       config.xStart = xStart;
       config.xEnd = xEnd;
+      return this;
+    }
+
+    public Builder fileName(String fileName) {
+      config.fileName = fileName;
       return this;
     }
 

@@ -53,4 +53,15 @@ public class Result {
   void setSolutionSteps(ArrayList<TranscendentSolver.StepEntry> solutionSteps) {
     this.solutionSteps = solutionSteps;
   }
+
+  //Linear system solver specific
+  private ArrayList<Matrix> matrixSeries;
+
+  public ArrayList<Matrix> getMatrixSeries() {
+    return matrixSeries;
+  }
+
+  void setMatrixSeries(ArrayList<Matrix> matrixSeries) {
+    this.matrixSeries = matrixSeries;
+  }
 }

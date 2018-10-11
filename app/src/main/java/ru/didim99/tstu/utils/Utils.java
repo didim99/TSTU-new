@@ -50,7 +50,7 @@ public class Utils {
 
   public static void writeFile(String fileName, ArrayList<String> data)
     throws IOException {
-    MyLog.d(LOG_TAG, "Writing:\n  " + fileName);
+    MyLog.d(LOG_TAG, "Writing: " + fileName);
     File file = new File(fileName);
     BufferedWriter writer = new BufferedWriter(new FileWriter(file));
     for (String line : data) {
