@@ -13,8 +13,8 @@ import static ru.didim99.tstu.core.translator.LangStruct.DictEntry;
 class LexicalAnalyzer {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_LA";
 
-  private static ArrayList<LangStruct.DictEntry> symbolSet;
-  private static ArrayList<LangStruct.DictEntry> sortedSymbolSet;
+  private static ArrayList<DictEntry> symbolSet;
+  private static ArrayList<DictEntry> sortedSymbolSet;
   private static boolean initCompleted = false;
 
   private ArrayList<String> symbolTable;
@@ -192,7 +192,7 @@ class LexicalAnalyzer {
     initCompleted = true;
   }
 
-  ArrayList<LangStruct.DictEntry> getSortedSymbolSet() {
+  ArrayList<DictEntry> getSortedSymbolSet() {
     return sortedSymbolSet;
   }
 

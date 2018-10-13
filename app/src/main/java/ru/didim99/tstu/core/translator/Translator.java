@@ -44,6 +44,7 @@ public class Translator {
   Result translate() {
     ArrayList<String> srcList;
     LexicalAnalyzer.Result laResult = null;
+    SyntaxAnalyzer.Result saResult = null;
 
     try {
       srcList = Utils.readFile(config.inputFilename);
@@ -71,7 +72,7 @@ public class Translator {
     if (config.mode >= Mode.SYNTAX) {
       try {
         result.outputCode = null;
-        new SyntaxAnalyzer(laResult.getLexicalStream()).analyze();
+        saResult = new SyntaxAnalyzer(laResult).analyze();
         result.outputCode = "Синтаксический анализ успешно выполнен";
       } catch (SyntaxAnalyzer.ProcessException e) {
         e.printStackTrace();
