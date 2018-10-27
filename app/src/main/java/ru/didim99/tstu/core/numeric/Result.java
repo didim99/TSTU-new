@@ -1,5 +1,9 @@
 package ru.didim99.tstu.core.numeric;
 
+import android.graphics.PointF;
+
+import com.jjoe64.graphview.series.DataPoint;
+
 import java.util.ArrayList;
 
 /**
@@ -63,5 +67,16 @@ public class Result {
 
   void setMatrixSeries(ArrayList<Matrix> matrixSeries) {
     this.matrixSeries = matrixSeries;
+  }
+
+  //Integrator specific
+  private ArrayList<DataPoint> graphData;
+
+  public ArrayList<DataPoint> getGraphData() {
+    return graphData;
+  }
+
+  void setGraphData(ArrayList<DataPoint> graphData) {
+    this.graphData = graphData;
   }
 }

@@ -3,7 +3,7 @@
   <color name="colorPrimary">#3F51B5</color>
   <color name="colorPrimaryDark">#303F9F</color>
   <color name="colorAccent">#6aa4f5</color>
-  <color name="colorAccentBg">#806aa4f5</color>
+  <color name="colorAccentBg">#406aa4f5</color>
   <color name="textSelectionBg">@color/colorAccentBg</color>
   <!-- DirPickerActivity -->
   <color name="dirPicker_divider">#606060</color>

@@ -26,6 +26,12 @@ public class NumericTask extends CallbackTask<Config, ArrayList<Result>> {
       case Config.TaskType.LINEAR_SYSTEM:
         results.add(new LinearSystemSolver(config).solve());
         return results;
+      case Config.TaskType.INTERPOLATION:
+        results.add(new Interpolator(config).interpolate());
+        return results;
+      case Config.TaskType.INTEGRATION:
+        results.add(new Integrator(config).solve());
+        return results;
       default:
         return null;
     }

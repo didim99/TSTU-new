@@ -32,6 +32,21 @@ public class Utils {
     return builder.toString();
   }
 
+  /* ======== ARRAY UTILS =========== */
+
+  public static double[] stringArrayToDoubleArray(String... args) {
+    if (args == null || args.length == 0)
+      return null;
+    try {
+      double[] result = new double[args.length];
+      for (int i = 0; i < args.length; i++)
+        result[i] = Double.parseDouble(args[i]);
+      return result;
+    } catch (NumberFormatException ignored) {
+      return null;
+    }
+  }
+
   /* ======== FILE UTILS =========== */
 
   public static ArrayList<String> readFile(String fileName)

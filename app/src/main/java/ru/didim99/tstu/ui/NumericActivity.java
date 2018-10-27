@@ -14,12 +14,15 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.LegendRenderer;
 import java.io.IOException;
 import java.util.ArrayList;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.TSTU;
 import ru.didim99.tstu.core.CallbackTask;
 import ru.didim99.tstu.core.numeric.Config;
+import ru.didim99.tstu.core.numeric.Integrator;
 import ru.didim99.tstu.core.numeric.LinearSystemSolver;
 import ru.didim99.tstu.core.numeric.Matrix;
 import ru.didim99.tstu.core.numeric.Result;
@@ -39,6 +42,8 @@ public class NumericActivity extends BaseActivity
   private Button btnStart, btnSave;
   private CheckBox cbTConst;
   private View pbMain;
+  private TextView tvOut;
+  private GraphView graphView;
   //main workflow
   private int type;
   private boolean tConst;
@@ -50,23 +55,41 @@ public class NumericActivity extends BaseActivity
     MyLog.d(LOG_TAG, "NumericActivity starting...");
     type = getIntent().getIntExtra(TSTU.EXTRA_TYPE, TaskType.UNDEFINED);
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.act_numeric);
-    setupActionBar();
+    switch (type) {
+      case TaskType.INTEGRATION:
+        setContentView(R.layout.act_numeric_graph);
+        break;
+      default:
+        setContentView(R.layout.act_numeric);
+        break;
+    }
 
+    setupActionBar();
     MyLog.d(LOG_TAG, "View components init...");
     TextView title = findViewById(R.id.tvTitle);
     cbTConst = findViewById(R.id.cbTConst);
     pbMain = findViewById(R.id.pbMain);
     btnStart = findViewById(R.id.btnStart);
     btnSave = findViewById(R.id.btnSave);
+    tvOut = findViewById(R.id.tvOut);
+    graphView = findViewById(R.id.graph);
     btnStart.setOnClickListener(v -> startTask());
-    btnSave.setOnClickListener(v -> saveToFile());
-    cbTConst.setOnCheckedChangeListener(
-      (buttonView, isChecked) -> tConst = isChecked);
+    if (btnSave != null)
+      btnSave.setOnClickListener(v -> saveToFile());
+    if (cbTConst != null) {
+      cbTConst.setOnCheckedChangeListener(
+        (buttonView, isChecked) -> tConst = isChecked);
+    }
+    if (graphView != null) {
+      LegendRenderer legend = graphView.getLegendRenderer();
+      legend.setAlign(LegendRenderer.LegendAlign.TOP);
+    }
 
-    adapter = new OutListAdapter(this);
     RecyclerView rvOut = findViewById(R.id.rvOut);
-    rvOut.setAdapter(adapter);
+    if (rvOut != null) {
+      adapter = new OutListAdapter(this);
+      rvOut.setAdapter(adapter);
+    }
 
     switch (type) {
       case TaskType.TRANSCENDENT:
@@ -79,11 +102,19 @@ public class NumericActivity extends BaseActivity
         cbTConst.setText(R.string.numeric_setRandom);
         rvOut.setLayoutManager(new GridLayoutManager(this, 2));
         break;
+      case TaskType.INTERPOLATION:
+        title.setText(R.string.numeric_interpolation_newton);
+        cbTConst.setVisibility(View.GONE);
+        break;
+      case TaskType.INTEGRATION:
+        title.setText(R.string.numeric_integration_trapezium);
+        break;
     }
 
     MyLog.d(LOG_TAG, "View components init completed");
 
-    tConst = cbTConst.isChecked();
+    if (cbTConst != null)
+      tConst = cbTConst.isChecked();
 
     MyLog.d(LOG_TAG, "Trying to connect with background task...");
     task = (NumericTask) getLastCustomNonConfigurationInstance();
@@ -170,17 +201,26 @@ public class NumericActivity extends BaseActivity
       case TaskType.LINEAR_SYSTEM:
         bar.setTitle(R.string.numeric_linearSystemSolver);
         break;
+      case TaskType.INTERPOLATION:
+        bar.setTitle(R.string.numeric_interpolator);
+        break;
+      case TaskType.INTEGRATION:
+        bar.setTitle(R.string.numeric_integrator);
+        break;
     }
   }
 
   private void startTask() {
+    String rootDir = getExternalCacheDir().getAbsolutePath();
     Config.Builder builder = new Config.Builder();
     builder.taskType(type).tConst(tConst);
 
     switch (type) {
       case TaskType.LINEAR_SYSTEM:
-        builder.fileName(getExternalCacheDir().getAbsolutePath()
-          + "/linearSystemInput.txt");
+        builder.fileName(rootDir + "/linearSystemInput.txt");
+        break;
+      case TaskType.INTERPOLATION:
+        builder.fileName(rootDir + "/InterpolationInput.txt");
         break;
     }
 
@@ -194,13 +234,20 @@ public class NumericActivity extends BaseActivity
     else MyLog.d(LOG_TAG, "Unlocking UI...");
 
     uiLocked = state;
-    cbTConst.setEnabled(!state);
     btnStart.setEnabled(!state);
-    btnSave.setEnabled(!state);
+    if (cbTConst != null)
+      cbTConst.setEnabled(!state);
+    if (btnSave != null)
+      btnSave.setEnabled(!state);
 
     if (state) {
       MyLog.d(LOG_TAG, "Clearing UI...");
-      adapter.refreshData(null);
+      if (adapter != null)
+        adapter.refreshData(null);
+      if (tvOut != null)
+        tvOut.setText(null);
+      if (graphView != null)
+        graphView.removeAllSeries();
       MyLog.d(LOG_TAG, "UI cleared");
       pbMain.setVisibility(View.VISIBLE);
       MyLog.d(LOG_TAG, "UI locked");
@@ -224,9 +271,15 @@ public class NumericActivity extends BaseActivity
         for (Matrix matrix : taskResult.get(0).getMatrixSeries())
           data.add(matrix.toString());
         break;
+      case TaskType.INTEGRATION:
+        Result result = taskResult.get(0);
+        tvOut.setText(Integrator.getTextResult(result));
+        Integrator.drawGraph(this, result, graphView);
+        break;
     }
 
-    adapter.refreshData(data);
+    if (adapter != null)
+      adapter.refreshData(data);
     MyLog.d(LOG_TAG, "UI setup completed");
   }
 

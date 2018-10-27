@@ -31,10 +31,14 @@
   <!-- Numeric -->
   <string name="numeric_transcendentSolver">Трансцендентные уравнения</string>
   <string name="numeric_linearSystemSolver">Система линейных уравнений</string>
+  <string name="numeric_interpolator">Интерполирование функций</string>
+  <string name="numeric_integrator">Определенный интеграл</string>
   <string name="numeric_selectType">Выберите задачу</string>
   <string-array name="numeric_taskTypes">
     <item>@string/numeric_transcendentSolver</item>
     <item>@string/numeric_linearSystemSolver</item>
+    <item>@string/numeric_interpolator</item>
+    <item>@string/numeric_integrator</item>
   </string-array>
   <string name="numeric_setRandom">Random</string>
   <string name="numeric_setTConst">t = const</string>
@@ -48,6 +52,8 @@
   <string name="numeric_solutionSeries">Серия решений:</string>
   <string name="numeric_solutionSteps">Итерации решения</string>
   <string name="numeric_linearSolver_typeLU">Решение методом LU-разложения</string>
+  <string name="numeric_interpolation_newton">Первая формула Ньютона</string>
+  <string name="numeric_integration_trapezium">Метод трапеций</string>
   <!-- Errors -->
   <string name="errNumeric_nothingToSave">Сохранять нечего</string>
   <string name="unsupportedScheme">Не удалось загрузить файл.\nПопробуйте использовать другой файловый менеджер</string>

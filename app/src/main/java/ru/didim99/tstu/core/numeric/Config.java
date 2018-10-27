@@ -4,11 +4,12 @@ package ru.didim99.tstu.core.numeric;
  * Created by didim99 on 16.09.18.
  */
 public class Config {
-
   public static final class TaskType {
     public static final int UNDEFINED     = 0;
     public static final int TRANSCENDENT  = 1;
     public static final int LINEAR_SYSTEM = 2;
+    public static final int INTERPOLATION = 3;
+    public static final int INTEGRATION   = 4;
   }
 
   private int taskType;
