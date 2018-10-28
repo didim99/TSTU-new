@@ -36,15 +36,21 @@
       android:layout_height="match_parent"
       android:orientation="horizontal">
 
-      <TextView
-        android:id="@+id/tvOut"
+      <ScrollView
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="2"
         android:layout_marginRight="20dp"
         android:layout_marginEnd="20dp"
-        android:textSize="15sp"
-        android:typeface="monospace"/>
+        android:scrollbars="vertical">
+
+        <TextView
+          android:id="@+id/tvOut"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:textSize="15sp"
+          android:typeface="monospace"/>
+      </ScrollView>
 
       <com.jjoe64.graphview.GraphView
         android:id="@+id/graph"

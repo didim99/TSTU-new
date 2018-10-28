@@ -10,6 +10,7 @@ public class Config {
     public static final int LINEAR_SYSTEM = 2;
     public static final int INTERPOLATION = 3;
     public static final int INTEGRATION   = 4;
+    public static final int DIFF_EQUATION = 5;
   }
 
   private int taskType;

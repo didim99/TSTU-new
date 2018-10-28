@@ -1,9 +1,6 @@
 package ru.didim99.tstu.core.numeric;
 
-import android.graphics.PointF;
-
 import com.jjoe64.graphview.series.DataPoint;
-
 import java.util.ArrayList;
 
 /**
@@ -13,6 +10,7 @@ public class Result {
   private Config config;
   private double solution;
   private ArrayList<Double> solutionSeries;
+  private ArrayList<DataPoint> graphData;
   private long solveTime;
 
   Result(Config config) {
@@ -35,6 +33,10 @@ public class Result {
     return solveTime;
   }
 
+  public ArrayList<DataPoint> getGraphData() {
+    return graphData;
+  }
+
   void setSolution(double solution) {
     this.solution = solution;
   }
@@ -45,6 +47,10 @@ public class Result {
 
   void setSolveTime(long millis) {
     this.solveTime = millis;
+  }
+
+  void setGraphData(ArrayList<DataPoint> graphData) {
+    this.graphData = graphData;
   }
 
   //Transcendent solver specific
@@ -67,16 +73,5 @@ public class Result {
 
   void setMatrixSeries(ArrayList<Matrix> matrixSeries) {
     this.matrixSeries = matrixSeries;
-  }
-
-  //Integrator specific
-  private ArrayList<DataPoint> graphData;
-
-  public ArrayList<DataPoint> getGraphData() {
-    return graphData;
-  }
-
-  void setGraphData(ArrayList<DataPoint> graphData) {
-    this.graphData = graphData;
   }
 }

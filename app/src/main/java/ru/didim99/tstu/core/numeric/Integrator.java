@@ -20,9 +20,9 @@ public class Integrator {
   private static final double A2    = 0.0;
   private static final double B2    = 1.0;
   private static final double MU    = -0.05;
-  private static final double C     = 0.5;
-  private static final double D     = 1.5;
-  private static final int    M     = 10;
+  private static final double C     = 1.0;
+  private static final double D     = 2.0;
+  private static final int    M     = 20;
   private static final int    N     = 1000;
   private static final double STEP  = (D - C) / M;
 
@@ -126,8 +126,8 @@ public class Integrator {
     series.setTitle("f(x)");
     view.addSeries(series);
     view.getLegendRenderer().setVisible(true);
-    view.getViewport().setScalable(true);
     view.getViewport().setYAxisBoundsManual(true);
+    view.getViewport().setScalable(true);
     view.getViewport().setMinY(0.0);
   }
 

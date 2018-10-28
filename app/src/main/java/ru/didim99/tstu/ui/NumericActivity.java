@@ -22,6 +22,7 @@ import ru.didim99.tstu.R;
 import ru.didim99.tstu.TSTU;
 import ru.didim99.tstu.core.CallbackTask;
 import ru.didim99.tstu.core.numeric.Config;
+import ru.didim99.tstu.core.numeric.DiffSolver;
 import ru.didim99.tstu.core.numeric.Integrator;
 import ru.didim99.tstu.core.numeric.LinearSystemSolver;
 import ru.didim99.tstu.core.numeric.Matrix;
@@ -57,6 +58,7 @@ public class NumericActivity extends BaseActivity
     super.onCreate(savedInstanceState);
     switch (type) {
       case TaskType.INTEGRATION:
+      case TaskType.DIFF_EQUATION:
         setContentView(R.layout.act_numeric_graph);
         break;
       default:
@@ -108,6 +110,9 @@ public class NumericActivity extends BaseActivity
         break;
       case TaskType.INTEGRATION:
         title.setText(R.string.numeric_integration_trapezium);
+        break;
+      case TaskType.DIFF_EQUATION:
+        title.setText(R.string.numeric_diffSolver_euler);
         break;
     }
 
@@ -207,6 +212,9 @@ public class NumericActivity extends BaseActivity
       case TaskType.INTEGRATION:
         bar.setTitle(R.string.numeric_integrator);
         break;
+      case TaskType.DIFF_EQUATION:
+        bar.setTitle(R.string.numeric_diffSolver);
+        break;
     }
   }
 
@@ -246,12 +254,17 @@ public class NumericActivity extends BaseActivity
         adapter.refreshData(null);
       if (tvOut != null)
         tvOut.setText(null);
-      if (graphView != null)
+      if (graphView != null) {
         graphView.removeAllSeries();
+        graphView.setVisibility(View.INVISIBLE);
+      }
+
       MyLog.d(LOG_TAG, "UI cleared");
       pbMain.setVisibility(View.VISIBLE);
       MyLog.d(LOG_TAG, "UI locked");
     } else {
+      if (graphView != null)
+        graphView.setVisibility(View.VISIBLE);
       pbMain.setVisibility(View.INVISIBLE);
       MyLog.d(LOG_TAG, "UI unlocked");
       uiSet();
@@ -261,20 +274,26 @@ public class NumericActivity extends BaseActivity
   private void uiSet() {
     MyLog.d(LOG_TAG, "Setting up UI");
     ArrayList<String> data = new ArrayList<>();
+    Result result;
 
     switch (type) {
       case TaskType.TRANSCENDENT:
-        for (Result result : taskResult)
-          data.add(TranscendentSolver.getTextResult(this, result));
+        for (Result res : taskResult)
+          data.add(TranscendentSolver.getTextResult(this, res));
         break;
       case TaskType.LINEAR_SYSTEM:
         for (Matrix matrix : taskResult.get(0).getMatrixSeries())
           data.add(matrix.toString());
         break;
       case TaskType.INTEGRATION:
-        Result result = taskResult.get(0);
+        result = taskResult.get(0);
         tvOut.setText(Integrator.getTextResult(result));
         Integrator.drawGraph(this, result, graphView);
+        break;
+      case TaskType.DIFF_EQUATION:
+        result = taskResult.get(0);
+        tvOut.setText(DiffSolver.getTextResult(result));
+        DiffSolver.drawGraph(this, result, graphView);
         break;
     }
 

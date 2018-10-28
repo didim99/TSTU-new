@@ -32,6 +32,9 @@ public class NumericTask extends CallbackTask<Config, ArrayList<Result>> {
       case Config.TaskType.INTEGRATION:
         results.add(new Integrator(config).solve());
         return results;
+      case Config.TaskType.DIFF_EQUATION:
+        results.add(new DiffSolver(config).solve());
+        return results;
       default:
         return null;
     }
