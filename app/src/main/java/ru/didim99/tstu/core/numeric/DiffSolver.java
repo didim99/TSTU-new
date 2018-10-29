@@ -26,7 +26,6 @@ public class DiffSolver {
   private static final double B         = 2.0 * Math.PI - 1.0;
 
   private Result result;
-  private double h;
 
   DiffSolver(Config config) {
     this.result = new Result(config);
@@ -151,8 +150,6 @@ public class DiffSolver {
       }
     }
 
-    series.setBackgroundColor(ctx.getResources()
-      .getColor(R.color.colorAccentBg));
     series.setColor(ctx.getResources()
       .getColor(R.color.colorAccent));
     series.setTitle("y(x)");

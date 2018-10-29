@@ -74,4 +74,15 @@ public class Result {
   void setMatrixSeries(ArrayList<Matrix> matrixSeries) {
     this.matrixSeries = matrixSeries;
   }
+
+  //Interpolator specific
+  private ArrayList<ArrayList<DataPoint>> graphDataSeries;
+
+  public ArrayList<ArrayList<DataPoint>> getGraphDataSeries() {
+    return graphDataSeries;
+  }
+
+  public void setGraphDataSeries(ArrayList<ArrayList<DataPoint>> graphDataSeries) {
+    this.graphDataSeries = graphDataSeries;
+  }
 }

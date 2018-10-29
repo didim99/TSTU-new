@@ -5,6 +5,8 @@
   <color name="colorAccent">#6aa4f5</color>
   <color name="colorAccentBg">#406aa4f5</color>
   <color name="textSelectionBg">@color/colorAccentBg</color>
+  <color name="graph1">#3dff57</color>
+  <color name="graph2">#ffdf3d</color>
   <!-- DirPickerActivity -->
   <color name="dirPicker_divider">#606060</color>
   <color name="dirPicker_textActive">#ffffff</color>

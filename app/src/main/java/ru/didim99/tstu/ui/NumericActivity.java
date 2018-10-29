@@ -24,6 +24,7 @@ import ru.didim99.tstu.core.CallbackTask;
 import ru.didim99.tstu.core.numeric.Config;
 import ru.didim99.tstu.core.numeric.DiffSolver;
 import ru.didim99.tstu.core.numeric.Integrator;
+import ru.didim99.tstu.core.numeric.Interpolator;
 import ru.didim99.tstu.core.numeric.LinearSystemSolver;
 import ru.didim99.tstu.core.numeric.Matrix;
 import ru.didim99.tstu.core.numeric.Result;
@@ -57,6 +58,7 @@ public class NumericActivity extends BaseActivity
     type = getIntent().getIntExtra(TSTU.EXTRA_TYPE, TaskType.UNDEFINED);
     super.onCreate(savedInstanceState);
     switch (type) {
+      case TaskType.INTERPOLATION:
       case TaskType.INTEGRATION:
       case TaskType.DIFF_EQUATION:
         setContentView(R.layout.act_numeric_graph);
@@ -106,7 +108,6 @@ public class NumericActivity extends BaseActivity
         break;
       case TaskType.INTERPOLATION:
         title.setText(R.string.numeric_interpolation_newton);
-        cbTConst.setVisibility(View.GONE);
         break;
       case TaskType.INTEGRATION:
         title.setText(R.string.numeric_integration_trapezium);
@@ -284,6 +285,11 @@ public class NumericActivity extends BaseActivity
       case TaskType.LINEAR_SYSTEM:
         for (Matrix matrix : taskResult.get(0).getMatrixSeries())
           data.add(matrix.toString());
+        break;
+      case TaskType.INTERPOLATION:
+        result = taskResult.get(0);
+        tvOut.setText(Interpolator.getTextResult(result));
+        Interpolator.drawGraph(this, result, graphView);
         break;
       case TaskType.INTEGRATION:
         result = taskResult.get(0);

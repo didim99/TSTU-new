@@ -54,7 +54,7 @@
   <string name="numeric_solutionSeries">Серия решений:</string>
   <string name="numeric_solutionSteps">Итерации решения</string>
   <string name="numeric_linearSolver_typeLU">Метод LU-разложения</string>
-  <string name="numeric_interpolation_newton">Первая формула Ньютона</string>
+  <string name="numeric_interpolation_newton">Формула Ньютона для неравномерного распределения</string>
   <string name="numeric_integration_trapezium">Метод трапеций</string>
   <string name="numeric_diffSolver_euler">Вторая модификация метода Эйлера</string>
   <!-- Errors -->
