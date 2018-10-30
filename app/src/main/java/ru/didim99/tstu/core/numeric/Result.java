@@ -77,6 +77,7 @@ public class Result {
 
   //Interpolator specific
   private ArrayList<ArrayList<DataPoint>> graphDataSeries;
+  private String polynom;
 
   public ArrayList<ArrayList<DataPoint>> getGraphDataSeries() {
     return graphDataSeries;
@@ -84,5 +85,13 @@ public class Result {
 
   public void setGraphDataSeries(ArrayList<ArrayList<DataPoint>> graphDataSeries) {
     this.graphDataSeries = graphDataSeries;
+  }
+
+  public String getPolynom() {
+    return polynom;
+  }
+
+  public void setPolynom(String polynom) {
+    this.polynom = polynom;
   }
 }

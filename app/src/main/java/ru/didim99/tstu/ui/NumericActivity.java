@@ -133,49 +133,6 @@ public class NumericActivity extends BaseActivity
     }
   }
 
-  private void saveToFile() {
-    if (taskResult == null) {
-      Toast.makeText(this, R.string.errNumeric_nothingToSave, Toast.LENGTH_LONG).show();
-      return;
-    }
-
-    MyLog.d(LOG_TAG, "Saving result to file");
-    ArrayList<String> data = new ArrayList<>();
-    String fileName = "";
-
-    try {
-      switch (type) {
-        case TaskType.TRANSCENDENT:
-          for (Result result : taskResult)
-            data.add(TranscendentSolver.getTextResult(this, result));
-          fileName = "/transcendent.txt";
-          break;
-        case TaskType.LINEAR_SYSTEM:
-          Result result = taskResult.get(0);
-          data.add("Input system:");
-          data.add(LinearSystemSolver.buildSystem(result));
-          data.add("Input system matrix:");
-          data.add(LinearSystemSolver.buildSystemMatrix(result));
-          for (Matrix matrix : result.getMatrixSeries()) {
-            data.add(matrix.toString());
-            data.add("");
-          }
-          fileName = "/linearSystem.txt";
-          break;
-      }
-
-      String path = getExternalCacheDir().getAbsolutePath() + fileName;
-      Utils.writeFile(path, data);
-      MyLog.d(LOG_TAG, "Saved to: " + path);
-      Toast.makeText(this, getString(R.string.savedToFile, path),
-        Toast.LENGTH_LONG).show();
-    } catch (IOException e) {
-      MyLog.w(LOG_TAG, "Unable to write output file: " + e.toString());
-      Toast.makeText(this, getString(R.string.cantWriteFile, e.toString()),
-        Toast.LENGTH_LONG).show();
-    }
-  }
-
   @Override
   public NumericTask onRetainCustomNonConfigurationInstance() {
     if (task != null) {
@@ -288,7 +245,7 @@ public class NumericActivity extends BaseActivity
         break;
       case TaskType.INTERPOLATION:
         result = taskResult.get(0);
-        tvOut.setText(Interpolator.getTextResult(result));
+        tvOut.setText(Interpolator.getTextResult(result, false));
         Interpolator.drawGraph(this, result, graphView);
         break;
       case TaskType.INTEGRATION:
@@ -306,6 +263,61 @@ public class NumericActivity extends BaseActivity
     if (adapter != null)
       adapter.refreshData(data);
     MyLog.d(LOG_TAG, "UI setup completed");
+  }
+
+  private void saveToFile() {
+    if (taskResult == null) {
+      Toast.makeText(this, R.string.errNumeric_nothingToSave, Toast.LENGTH_LONG).show();
+      return;
+    }
+
+    MyLog.d(LOG_TAG, "Saving result to file");
+    ArrayList<String> data = new ArrayList<>();
+    String fileName = "";
+
+    try {
+      switch (type) {
+        case TaskType.TRANSCENDENT:
+          for (Result result : taskResult)
+            data.add(TranscendentSolver.getTextResult(this, result));
+          fileName = "/transcendent.txt";
+          break;
+        case TaskType.LINEAR_SYSTEM:
+          Result result = taskResult.get(0);
+          data.add("Input system:");
+          data.add(LinearSystemSolver.buildSystem(result));
+          data.add("Input system matrix:");
+          data.add(LinearSystemSolver.buildSystemMatrix(result));
+          for (Matrix matrix : result.getMatrixSeries()) {
+            data.add(matrix.toString());
+            data.add("");
+          }
+          fileName = "/linearSystem.txt";
+          break;
+        case TaskType.INTERPOLATION:
+          data.add(Interpolator.getTextResult(taskResult.get(0), true));
+          fileName = "/interpolator.txt";
+          break;
+        case TaskType.INTEGRATION:
+          data.add(Integrator.getTextResult(taskResult.get(0)));
+          fileName = "/integrator.txt";
+          break;
+        case TaskType.DIFF_EQUATION:
+          data.add(DiffSolver.getTextResult(taskResult.get(0)));
+          fileName = "/diffSolver.txt";
+          break;
+      }
+
+      String path = getExternalCacheDir().getAbsolutePath() + fileName;
+      Utils.writeFile(path, data);
+      MyLog.d(LOG_TAG, "Saved to: " + path);
+      Toast.makeText(this, getString(R.string.savedToFile, path),
+        Toast.LENGTH_LONG).show();
+    } catch (IOException e) {
+      MyLog.w(LOG_TAG, "Unable to write output file: " + e.toString());
+      Toast.makeText(this, getString(R.string.cantWriteFile, e.toString()),
+        Toast.LENGTH_LONG).show();
+    }
   }
 
   static class OutListAdapter extends RecyclerView.Adapter<OutListAdapter.ViewHolder> {

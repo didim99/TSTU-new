@@ -19,7 +19,7 @@ import ru.didim99.tstu.utils.Utils;
 public class Interpolator {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_interpolator";
   private static final String DELIMITER = "\\s+";
-  private static final double GRAPH_OFFSET = 1.0;
+  private static final double GRAPH_OFFSET = 2.0;
   private static final int GRAPH_STEPS = 500;
 
   private Config config;
@@ -50,6 +50,9 @@ public class Interpolator {
 
     ArrayList<ArrayList<DataPoint>> series = new ArrayList<>();
     ArrayList<DataPoint> res = new ArrayList<>();
+    ArrayList<Matrix> matrices = new ArrayList<>();
+    matrices.add(delta);
+
     for (int i = 0; i < xSrc.length; i++)
       res.add(new DataPoint(xSrc[i], ySrc[i]));
     series.add(res);
@@ -64,6 +67,8 @@ public class Interpolator {
     res = getGraph(xSrc[0], xSrc[xSrc.length - 1]);
     series.add(res);
 
+    result.setPolynom(getPolynom());
+    result.setMatrixSeries(matrices);
     result.setGraphDataSeries(series);
     return result;
   }
@@ -120,11 +125,38 @@ public class Interpolator {
     if (xSrc == null || ySrc == null || xRes == null)
       throw new IOException("Incorrect input file format");
     yRes = new double[xRes.length];
-    dSize = xRes.length - 1;
+    dSize = xSrc.length - 1;
   }
 
-  public static String getTextResult(Result result) {
+  private String getPolynom() {
     StringBuilder sb = new StringBuilder();
+    sb.append(fd(ySrc[0]));
+
+    double tmp;
+    for (int i = 0; i < dSize; i++) {
+      tmp = delta.get(0, i);
+      sb.append(tmp < 0 ? " - " : " + ");
+      sb.append(fd(Math.abs(tmp))).append(" * ");
+      for (int j = 0; j <= i; j++)
+        sb.append(String.format(
+          Locale.US, "(x - %.2f)", xSrc[j]));
+    }
+
+    return sb.toString();
+  }
+
+  private String fd(double d) {
+    return String.format(Locale.US, "%.4f", d);
+  }
+
+  public static String getTextResult(Result result, boolean verbose) {
+    StringBuilder sb = new StringBuilder();
+
+    if (verbose) {
+      sb.append("Polynom:\n").append(result.getPolynom());
+      sb.append("\n\n").append(result.getMatrixSeries().get(0));
+      sb.append("\n\n");
+    }
 
     ArrayList<DataPoint> points = result.getGraphDataSeries().get(0);
     sb.append("f(x_i) values:\n").append("  x_i      f     \n");
