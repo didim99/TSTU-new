@@ -15,10 +15,15 @@ public class Translator {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_Translator";
 
   public static final class Mode {
-    public static final int LEXICAL = 1;
-    public static final int SYNTAX = 2;
-    public static final int SYMBOLS = 3;
-    public static final int FULL = 4;
+    public static final int LEXICAL   = 1;
+    public static final int SYMBOLS   = 2;
+    public static final int SYNTAX    = 3;
+    public static final int FULL      = 4;
+  }
+
+  public static final class SAType {
+    public static final int DESCENT     = 1;
+    public static final int PRECEDENCE  = 2;
   }
 
   private Context context;
@@ -45,6 +50,7 @@ public class Translator {
     ArrayList<String> srcList;
     LexicalAnalyzer.Result laResult = null;
     SyntaxAnalyzer.Result saResult = null;
+    SyntaxAnalyzer sa;
 
     try {
       srcList = Utils.readFile(config.inputFilename);
@@ -72,7 +78,28 @@ public class Translator {
     if (config.mode >= Mode.SYNTAX) {
       try {
         result.outputCode = null;
-        saResult = new SyntaxAnalyzer(laResult).analyze();
+
+        switch (config.saType) {
+          case SAType.DESCENT:
+            sa = new DescentAnalyzer(laResult);
+            break;
+          case SAType.PRECEDENCE:
+            try {
+              String tableFile = context.getExternalCacheDir()
+                .getAbsolutePath() + "/translator/precedence.txt";
+              sa = new PrecedenceAnalyzer(laResult, tableFile);
+            } catch (IOException e) {
+              result.processErr = e.getMessage();
+              return result;
+            }
+            break;
+          default:
+            MyLog.e(LOG_TAG, "Unknown syntax analysis type");
+            result.processErr = context.getString(R.string.errSyntaxType);
+            return result;
+        }
+
+        saResult = sa.analyze();
         result.outputCode = "Синтаксический анализ успешно выполнен";
       } catch (SyntaxAnalyzer.ProcessException e) {
         e.printStackTrace();
@@ -90,12 +117,13 @@ public class Translator {
   public static class Config {
     private boolean forTesting;
     private String inputFilename;
-    private int mode;
+    private int mode, saType;
 
-    public Config(int mode, String inputFilename, boolean forTesting) {
-      this.forTesting = forTesting;
-      this.inputFilename = inputFilename;
+    public Config(int mode, int saType, String inputFilename, boolean forTesting) {
       this.mode = mode;
+      this.saType = saType;
+      this.inputFilename = inputFilename;
+      this.forTesting = forTesting;
     }
   }
 

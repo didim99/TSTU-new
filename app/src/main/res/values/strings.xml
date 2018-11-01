@@ -28,6 +28,11 @@
   <string name="startFullTranslation">Транслировать</string>
   <string name="translator_symbolSet">Алфавит</string>
   <string name="translator_nothingLoaded">Ничего не загружено</string>
+  <string name="translator_saType">Метод синтаксического анализа</string>
+  <string-array name="translator_saTypes">
+    <item>Рекурсивного спуска</item>
+    <item>Операторного предшествования</item>
+  </string-array>
   <!-- Numeric -->
   <string name="numeric_transcendentSolver">Трансцендентные уравнения</string>
   <string name="numeric_linearSystemSolver">Система линейных уравнений</string>
@@ -63,6 +68,7 @@
   <string name="errGeneric_inputFileNotReadable">Невозможно прочитать исходный файл</string>
   <string name="errLexical_invalidStatement">Ошибка лексического анализа в строке %d: Неизвестный символ</string>
   <string name="errSyntax">Ошибка синтаксического анализа в строке %d: %s</string>
+  <string name="errSyntaxType">Неизвестный тип синтаксического анализа</string>
   <!-- Содержимое текстовых полей и подписей кнопок (Layout: act_dir_picker) -->
   <string name="actLabel_filePicker">Выбор файла</string>
   <string name="actLabel_dirPicker">Выбор каталога</string>

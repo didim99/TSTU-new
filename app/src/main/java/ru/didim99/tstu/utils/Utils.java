@@ -17,7 +17,7 @@ import java.util.List;
  * Created by didim99 on 10.09.18.
  */
 public class Utils {
-  private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_Utilsr";
+  private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_Utils";
 
   /* ======== STRING UTILS ========== */
 

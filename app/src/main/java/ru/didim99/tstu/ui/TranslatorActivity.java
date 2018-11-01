@@ -71,7 +71,7 @@ public class TranslatorActivity extends BaseActivity
 
     btnPickFile.setOnClickListener(v -> openFileExp());
     btnLexical.setOnClickListener(v -> startTask(Translator.Mode.LEXICAL));
-    btnSyntax.setOnClickListener(v -> startTask(Translator.Mode.SYNTAX));
+    btnSyntax.setOnClickListener(v -> saTypeDialog());
     btnSymbol.setOnClickListener(v -> startTask(Translator.Mode.SYMBOLS));
     btnTranslate.setOnClickListener(v -> startTask(Translator.Mode.FULL));
     MyLog.d(LOG_TAG, "TranslatorActivity started");
@@ -153,12 +153,26 @@ public class TranslatorActivity extends BaseActivity
   }
 
   private void startTask(int mode) {
+    startTask(mode, Translator.SAType.DESCENT);
+  }
+
+  private void startTask(int mode, int saType) {
     String path = etStartPath.getText().toString();
     if (checkPath(path)) {
       task = new TranslatorTask(getApplicationContext());
       task.registerEventListener(this);
-      task.execute(new Translator.Config(mode, path, true));
+      task.execute(new Translator.Config(mode, saType, path, true));
     }
+  }
+
+  private void saTypeDialog() {
+    MyLog.d(LOG_TAG, "SA type dialog called");
+    AlertDialog.Builder adb = new AlertDialog.Builder(this);
+    adb.setTitle(R.string.translator_saType);
+    adb.setItems(R.array.translator_saTypes, (dialog, pos) ->
+      startTask(Translator.Mode.SYNTAX, pos + 1));
+    MyLog.d(LOG_TAG, "SA type dialog created");
+    adb.create().show();
   }
 
   private void openFileExp() {

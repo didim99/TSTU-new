@@ -46,12 +46,12 @@ final class LangStruct {
   }
 
   static final class DIVIDER {
-    static final int END_OP   = 0x00000100; // ;
-    static final int SEP_VL   = 0x00000200; // ,
-    static final int END_VL   = 0x00000300; // :
-    static final int BEG_CALL = 0x00000400; // (
-    static final int END_CALL = 0x00000500; // )
-    static final int END_PROG = 0x00000600; // .
+    static final int END_PROG = 0x00000100; // .
+    static final int END_OP   = 0x00000200; // ;
+    static final int SEP_VL   = 0x00000300; // ,
+    static final int END_VL   = 0x00000400; // :
+    static final int BEG_CALL = 0x00000500; // (
+    static final int END_CALL = 0x00000600; // )
   }
 
   static final class CUSTOM {
@@ -95,7 +95,14 @@ final class LangStruct {
       static final String BEG_CALL = "(";
       static final String END_CALL = ")";
     }
+
+    static final class CUSTOM {
+      static final String ID       = "ID";
+      static final String LITERAL  = "LITERAL";
+    }
   }
+
+
 
   static final class DictEntry {
     private String mnemonic;

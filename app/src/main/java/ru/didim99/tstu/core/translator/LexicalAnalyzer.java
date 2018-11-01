@@ -184,8 +184,10 @@ class LexicalAnalyzer {
     sortedSymbolSet = new ArrayList<>(symbolSet.size());
     for (DictEntry symbol : symbolSet)
       sortedSymbolSet.add(new DictEntry(symbol));
-    sortedSymbolSet.add(new DictEntry("ID", LangStruct.CUSTOM.ID));
-    sortedSymbolSet.add(new DictEntry("LITERAL", LangStruct.CUSTOM.LITERAL));
+    sortedSymbolSet.add(new DictEntry(
+      LangStruct.MNEMONIC.CUSTOM.ID, LangStruct.CUSTOM.ID));
+    sortedSymbolSet.add(new DictEntry(
+      LangStruct.MNEMONIC.CUSTOM.LITERAL, LangStruct.CUSTOM.LITERAL));
     Collections.sort(sortedSymbolSet, (s1, s2) ->
       Integer.compare(s1.getValue(), s2.getValue()));
 

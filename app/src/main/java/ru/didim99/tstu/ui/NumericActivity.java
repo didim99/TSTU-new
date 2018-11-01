@@ -38,6 +38,7 @@ import static ru.didim99.tstu.core.numeric.Config.TaskType;
 public class NumericActivity extends BaseActivity
   implements NumericTask.EventListener<ArrayList<Result>> {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_NumericAct";
+  private static final String DIRNAME = "/numeric";
 
   //view-elements
   private OutListAdapter adapter;
@@ -177,7 +178,7 @@ public class NumericActivity extends BaseActivity
   }
 
   private void startTask() {
-    String rootDir = getExternalCacheDir().getAbsolutePath();
+    String rootDir = getExternalCacheDir().getAbsolutePath().concat(DIRNAME);
     Config.Builder builder = new Config.Builder();
     builder.taskType(type).tConst(tConst);
 
@@ -308,7 +309,8 @@ public class NumericActivity extends BaseActivity
           break;
       }
 
-      String path = getExternalCacheDir().getAbsolutePath() + fileName;
+      String path = getExternalCacheDir()
+        .getAbsolutePath().concat(DIRNAME).concat(fileName);
       Utils.writeFile(path, data);
       MyLog.d(LOG_TAG, "Saved to: " + path);
       Toast.makeText(this, getString(R.string.savedToFile, path),

@@ -6,7 +6,6 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import java.util.ArrayList;
 import java.util.Locale;
-
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.utils.MyLog;
 
@@ -32,14 +31,14 @@ public class DiffSolver {
   }
 
   Result solve() {
-    ArrayList<DataPoint> autoPoints = solveAutoStep(H0);
+    ArrayList<DataPoint> autoPoints = solveAutoStep(H0, true);
     double h = calcStepSize(autoPoints.size());
     ArrayList<DataPoint> fixedPoints = solveFixedStep(h);
     result.setGraphData(fixedPoints);
     return result;
   }
 
-  private ArrayList<DataPoint> solveAutoStep(double initH) {
+  private ArrayList<DataPoint> solveAutoStep(double initH, boolean keepEps) {
     MyLog.d(LOG_TAG, "Solving with auto step: " + initH);
     ArrayList<DataPoint> points = new ArrayList<>();
     DataPoint testPoint, point = new DataPoint(X0, Y0);
@@ -65,7 +64,7 @@ public class DiffSolver {
           firstStep = false;
       } else if (delta < MIN_EPS) {
         h *= 2;
-      } else if (delta > MAX_EPS) {
+      } else if (keepEps && delta > MAX_EPS) {
         h /= 2;
       }
 
