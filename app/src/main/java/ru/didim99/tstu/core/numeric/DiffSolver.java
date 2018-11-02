@@ -16,6 +16,7 @@ public class DiffSolver {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_diffSolver";
 
   private static final int    RANK      = 2;
+  private static final double EPS_X     = 10E-3;
   private static final double MAX_EPS   = 10E-3;
   private static final double MIN_EPS   = MAX_EPS / Math.pow(2, RANK + 1);
   private static final double E_FACTOR  = Math.pow(2, RANK) + 1;
@@ -24,17 +25,43 @@ public class DiffSolver {
   private static final double Y0        = 8.0;
   private static final double B         = 2.0 * Math.PI - 1.0;
 
+  private boolean calcDelta;
   private Result result;
 
   DiffSolver(Config config) {
     this.result = new Result(config);
+    calcDelta = config.isTConst();
   }
 
   Result solve() {
     ArrayList<DataPoint> autoPoints = solveAutoStep(H0, true);
     double h = calcStepSize(autoPoints.size());
     ArrayList<DataPoint> fixedPoints = solveFixedStep(h);
-    result.setGraphData(fixedPoints);
+
+    if (calcDelta) {
+      autoPoints = solveAutoStep(H0, false);
+      h = calcStepSize(autoPoints.size());
+      ArrayList<DataPoint> fixedPointsE = solveFixedStep(h);
+      ArrayList<DataPoint> delta = new ArrayList<>();
+      DataPoint other;
+      int start = 0;
+
+      for (DataPoint point : fixedPointsE) {
+        for (int i = start; i < fixedPoints.size(); i++) {
+          other = fixedPoints.get(i);
+          if (doubleEquals(point.getX(), other.getX())) {
+            delta.add(new DataPoint(point.getX(), point.getY() - other.getY()));
+            start = i;
+            break;
+          }
+        }
+      }
+
+      result.setGraphData(delta);
+    } else {
+      result.setGraphData(fixedPoints);
+    }
+
     return result;
   }
 
@@ -118,6 +145,10 @@ public class DiffSolver {
     return 0.01;
   }
 
+  private static boolean doubleEquals(double x1, double x2) {
+    return Math.abs(x1 - x2) < EPS_X;
+  }
+
   public static String getTextResult(Result result) {
     ArrayList<DataPoint> points = result.getGraphData();
     StringBuilder sb = new StringBuilder();
@@ -125,7 +156,10 @@ public class DiffSolver {
       "steps:     %d\n", points.size() - 1));
     sb.append(String.format(Locale.US,
       "step size: %.5f\n",calcStepSize(points.size())));
-    sb.append("\ny(x) values:\n").append("  x        y     \n");
+    if (result.getConfig().isTConst())
+      sb.append("\ndelta(x) values:\n").append("  x        delta \n");
+    else
+      sb.append("\ny(x) values:\n").append("  x        y     \n");
 
     for (DataPoint point : points) {
       sb.append(String.format(Locale.US,
@@ -151,7 +185,10 @@ public class DiffSolver {
 
     series.setColor(ctx.getResources()
       .getColor(R.color.colorAccent));
-    series.setTitle("y(x)");
+    if (result.getConfig().isTConst())
+      series.setTitle("delta(x)");
+    else
+      series.setTitle("y(x)");
     view.getLegendRenderer().setVisible(true);
     view.addSeries(series);
   }

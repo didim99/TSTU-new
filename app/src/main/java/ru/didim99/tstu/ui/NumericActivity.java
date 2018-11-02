@@ -79,12 +79,9 @@ public class NumericActivity extends BaseActivity
     tvOut = findViewById(R.id.tvOut);
     graphView = findViewById(R.id.graph);
     btnStart.setOnClickListener(v -> startTask());
-    if (btnSave != null)
-      btnSave.setOnClickListener(v -> saveToFile());
-    if (cbTConst != null) {
-      cbTConst.setOnCheckedChangeListener(
-        (buttonView, isChecked) -> tConst = isChecked);
-    }
+    btnSave.setOnClickListener(v -> saveToFile());
+    cbTConst.setOnCheckedChangeListener(
+      (buttonView, isChecked) -> tConst = isChecked);
     if (graphView != null) {
       LegendRenderer legend = graphView.getLegendRenderer();
       legend.setAlign(LegendRenderer.LegendAlign.TOP);
@@ -108,20 +105,22 @@ public class NumericActivity extends BaseActivity
         rvOut.setLayoutManager(new GridLayoutManager(this, 2));
         break;
       case TaskType.INTERPOLATION:
+        cbTConst.setVisibility(View.GONE);
         title.setText(R.string.numeric_interpolation_newton);
         break;
       case TaskType.INTEGRATION:
+        cbTConst.setVisibility(View.GONE);
         title.setText(R.string.numeric_integration_trapezium);
         break;
       case TaskType.DIFF_EQUATION:
+        cbTConst.setText(R.string.numeric_calcDelta);
         title.setText(R.string.numeric_diffSolver_euler);
         break;
     }
 
     MyLog.d(LOG_TAG, "View components init completed");
 
-    if (cbTConst != null)
-      tConst = cbTConst.isChecked();
+    tConst = cbTConst.isChecked();
 
     MyLog.d(LOG_TAG, "Trying to connect with background task...");
     task = (NumericTask) getLastCustomNonConfigurationInstance();
@@ -202,10 +201,8 @@ public class NumericActivity extends BaseActivity
 
     uiLocked = state;
     btnStart.setEnabled(!state);
-    if (cbTConst != null)
-      cbTConst.setEnabled(!state);
-    if (btnSave != null)
-      btnSave.setEnabled(!state);
+    cbTConst.setEnabled(!state);
+    btnSave.setEnabled(!state);
 
     if (state) {
       MyLog.d(LOG_TAG, "Clearing UI...");

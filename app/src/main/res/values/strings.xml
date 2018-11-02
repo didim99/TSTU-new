@@ -47,6 +47,7 @@
     <item>@string/numeric_integrator</item>
     <item>@string/numeric_diffSolver</item>
   </string-array>
+  <string name="numeric_calcDelta">Delta</string>
   <string name="numeric_setRandom">Random</string>
   <string name="numeric_setTConst">t = const</string>
   <string name="numeric_inputEquation">Исходное уравнение: tg^2(x) - tx = 0</string>
