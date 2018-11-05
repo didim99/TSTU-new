@@ -16,8 +16,8 @@ public class Translator {
 
   public static final class Mode {
     public static final int LEXICAL   = 1;
-    public static final int SYMBOLS   = 2;
-    public static final int SYNTAX    = 3;
+    public static final int SYNTAX    = 2;
+    public static final int SYMBOLS   = 3;
     public static final int FULL      = 4;
   }
 
@@ -109,6 +109,11 @@ public class Translator {
           R.string.errSyntax, e.getLineNum(), e.getMessage());
         return result;
       }
+    }
+
+    if (config.mode >= Mode.SYMBOLS) {
+      result.outputCode = saResult.getSymbolTable().toString();
+      return result;
     }
 
     return result;

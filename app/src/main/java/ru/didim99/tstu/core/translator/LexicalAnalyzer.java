@@ -2,7 +2,7 @@ package ru.didim99.tstu.core.translator;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Locale;
+import ru.didim99.tstu.core.translator.utils.SymbolTable;
 import ru.didim99.tstu.utils.MyLog;
 
 import static ru.didim99.tstu.core.translator.LangStruct.DictEntry;
@@ -17,12 +17,12 @@ class LexicalAnalyzer {
   private static ArrayList<DictEntry> sortedSymbolSet;
   private static boolean initCompleted = false;
 
-  private ArrayList<String> symbolTable;
+  private SymbolTable symbolTable;
   private int lineNum;
 
   LexicalAnalyzer() {
     if (!initCompleted) initStatic();
-    symbolTable = new ArrayList<>();
+    symbolTable = new SymbolTable();
     lineNum = 1;
   }
 
@@ -59,10 +59,7 @@ class LexicalAnalyzer {
 
     if (forTesting) {
       result.lines.add("\nVAR TABLE:");
-      for (int i = 0; i < symbolTable.size(); i++) {
-        result.lines.add(String.format(Locale.US,
-          "\t%2d: %s", i, symbolTable.get(i)));
-      }
+      result.lines.add(symbolTable.symbolList());
     }
 
     result.symbolTable = symbolTable;
@@ -113,10 +110,8 @@ class LexicalAnalyzer {
       if (!isValidId(line.substring(0, ++length))) break;
     String varName = line.substring(0, --length);
     //MyLog.e(LOG_TAG, "\'" + line + "\' \'" + varName + "\'");
-    if (!symbolTable.contains(varName))
-      symbolTable.add(varName);
     lexemLine.add(LangStruct.CUSTOM.ID);
-    lexemLine.add(symbolTable.indexOf(varName));
+    lexemLine.add(symbolTable.add(varName));
     return line.substring(length);
   }
 
@@ -201,11 +196,11 @@ class LexicalAnalyzer {
   static class Result {
     private ArrayList<String> lines;
     private ArrayList<Integer> lexicalStream;
-    private ArrayList<String> symbolTable;
+    private SymbolTable symbolTable;
 
     ArrayList<String> getLines() { return lines; }
     ArrayList<Integer> getLexicalStream() { return lexicalStream; }
-    ArrayList<String> getSymbolTable() { return symbolTable; }
+    SymbolTable getSymbolTable() { return symbolTable; }
   }
 
   static class ProcessException extends IllegalStateException {

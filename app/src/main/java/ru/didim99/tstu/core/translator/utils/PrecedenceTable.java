@@ -1,4 +1,4 @@
-package ru.didim99.tstu.core.translator;
+package ru.didim99.tstu.core.translator.utils;
 
 import android.util.SparseArray;
 import java.io.IOException;
@@ -6,41 +6,43 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
+import ru.didim99.tstu.core.translator.LangStruct;
 import ru.didim99.tstu.utils.MyLog;
 import ru.didim99.tstu.utils.Utils;
 
 /**
  * Created by didim99 on 01.11.18.
  */
-class PrecedenceTable {
+public class PrecedenceTable {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_PT";
   private static final String DELIMITER = "\\s+";
 
   private static PrecedenceTable instance = new PrecedenceTable();
-  static PrecedenceTable getInstance() { return instance; }
+  public static PrecedenceTable getInstance() { return instance; }
   private PrecedenceTable() {}
 
-  static final class RT {
-    static final byte NONE   = 0;
-    static final byte LOWER  = 1;
-    static final byte EQUALS = 2;
-    static final byte HIGHER = 3;
+  public static final class RT {
+    public static final byte NONE   = 0;
+    public static final byte LOWER  = 1;
+    public static final byte EQUALS = 2;
+    public static final byte HIGHER = 3;
   }
 
   private Map<String, Byte> valueMap;
   private Map<String, Integer> symbolMap;
   private SparseArray<SparseArray<Byte>> table;
 
-  byte get(int first, int second) {
+  public byte get(int first, int second) {
     Byte rel = table.get(first).get(second);
     return rel == null ? RT.NONE : rel;
   }
 
-  boolean isInitCompleted() {
+  public boolean isInitCompleted() {
     return table != null;
   }
 
-  void initStatic(String fileName) throws IOException {
+  public void initStatic(String fileName) throws IOException {
     MyLog.d(LOG_TAG, "Static init started");
     ArrayList<String> src = Utils.readFile(fileName);
     initMaps();

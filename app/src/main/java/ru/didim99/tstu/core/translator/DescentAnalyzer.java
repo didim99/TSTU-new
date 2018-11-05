@@ -1,6 +1,7 @@
 package ru.didim99.tstu.core.translator;
 
 import java.util.ArrayList;
+import ru.didim99.tstu.core.translator.utils.SyntaxStream;
 import ru.didim99.tstu.utils.MyLog;
 
 /**
@@ -61,8 +62,7 @@ class DescentAnalyzer extends SyntaxAnalyzer {
     int type = checkType();
 
     for (AST.Identifier var : vars)
-      result.getSymbolTable().append(var.getIndex(), new Symbol(
-        rawSymbolTable.get(var.getIndex()), type));
+      result.getSymbolTable().get(var.getIndex()).setType(type);
     varDefs.add(new AST.VarDef(vars, type));
 
     inputStream.validateNext(LangStruct.DIVIDER.END_OP);
@@ -238,63 +238,5 @@ class DescentAnalyzer extends SyntaxAnalyzer {
 
     MyLog.v(LOG_TAG, "parsed element: FOR");
     return new AST.For(start, end, opList);
-  }
-
-  private static class SyntaxStream {
-    private final ArrayList<Integer> inputStream;
-    private int pos, size, lineNum;
-
-    SyntaxStream(ArrayList<Integer> input) {
-      this.inputStream = input;
-      this.size = input.size();
-      this.lineNum = 1;
-      this.pos = 0;
-    }
-
-    Integer pickNext() {
-      if (!hasNext())
-        throw new ProcessException("Unexpected end of file", lineNum);
-      Integer next = inputStream.get(pos);
-      if (next == LangStruct.INTERNAL.NEWLINE)
-        next = inputStream.get(pos + 1);
-      return next;
-    }
-
-    Integer next() {
-      if (!hasNext())
-        throw new ProcessException("Unexpected end of file", lineNum);
-      Integer next = inputStream.get(pos++);
-      if (next == LangStruct.INTERNAL.NEWLINE) {
-        next = inputStream.get(pos++);
-        lineNum++;
-      }
-
-      return next;
-    }
-
-    int validateNext(Integer... expected) {
-      Integer nextSymbol = next();
-      for (Integer possible : expected) {
-        if (nextSymbol.equals(possible))
-          return possible;
-      }
-
-      String type = "";
-      if ((nextSymbol & LangStruct.MASK.KEYWORD) > 0)
-        type = "T_KEYWORD";
-      else if ((nextSymbol & LangStruct.MASK.OPERATOR) > 0)
-        type = "T_OPERATOR";
-      else if ((nextSymbol & LangStruct.MASK.DIVIDER) > 0)
-        type = "T_DIVIDER";
-      else if (nextSymbol.equals(LangStruct.CUSTOM.ID))
-        type = "T_VARIABLE";
-      else if (nextSymbol.equals(LangStruct.CUSTOM.LITERAL))
-        type = "T_CONST";
-      throw new ProcessException(String.format("Unexpected %s", type), lineNum);
-    }
-
-    private boolean hasNext() {
-      return pos < size;
-    }
   }
 }

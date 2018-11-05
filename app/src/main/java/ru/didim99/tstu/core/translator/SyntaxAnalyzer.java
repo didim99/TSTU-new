@@ -1,32 +1,28 @@
 package ru.didim99.tstu.core.translator;
 
-import android.util.SparseArray;
-import java.util.ArrayList;
+import ru.didim99.tstu.core.translator.utils.SymbolTable;
 
 /**
  * Created by didim99 on 24.09.18.
  */
-abstract class SyntaxAnalyzer {
-
-  ArrayList<String> rawSymbolTable;
+public abstract class SyntaxAnalyzer {
   Result result;
 
   SyntaxAnalyzer(LexicalAnalyzer.Result input) {
-    this.rawSymbolTable = input.getSymbolTable();
-    this.result = new Result();
+    this.result = new Result(input.getSymbolTable());
   }
 
   abstract Result analyze();
 
   static class Result {
-    private SparseArray<Symbol> symbolTable;
+    private SymbolTable symbolTable;
     private AST.Program program;
 
-    Result() {
-      this.symbolTable = new SparseArray<>();
+    public Result(SymbolTable symbolTable) {
+      this.symbolTable = symbolTable;
     }
 
-    SparseArray<Symbol> getSymbolTable() {
+    SymbolTable getSymbolTable() {
       return symbolTable;
     }
 
@@ -35,28 +31,10 @@ abstract class SyntaxAnalyzer {
     }
   }
 
-  static class Symbol {
-    private String name;
-    private int type;
-
-    Symbol(String name, int type) {
-      this.name = name;
-      this.type = type;
-    }
-
-    public String getName() {
-      return name;
-    }
-
-    public int getType() {
-      return type;
-    }
-  }
-
-  static class ProcessException extends IllegalStateException {
+  public static class ProcessException extends IllegalStateException {
     private int lineNum;
 
-    ProcessException(String msg, int lineNum) {
+    public ProcessException(String msg, int lineNum) {
       super(msg);
       this.lineNum = lineNum;
     }
