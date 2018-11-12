@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:layout_margin="@dimen/layoutPadding">
+
+  <TextView
+    android:id="@+id/tvTitle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/mathStat_inputData"
+    android:textSize="@dimen/textSize_main"
+    android:textAlignment="center"/>
+
+  <TextView
+    android:id="@+id/tvInputX"
+    android:layout_width="20dp"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/tvTitle"
+    android:layout_alignBaseline="@id/etInputX"
+    android:text="@string/mathStat_inputX"
+    android:textSize="@dimen/textSize_main"
+    android:textAlignment="textEnd"
+    android:gravity="end"/>
+
+  <EditText
+    android:id="@+id/etInputX"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/tvTitle"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"
+    android:layout_toRightOf="@id/tvInputX"
+    android:layout_toEndOf="@id/tvInputX"
+    android:inputType="numberDecimal|numberSigned|phone"/>
+
+  <TextView
+    android:id="@+id/tvInputF"
+    android:layout_width="20dp"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/etInputX"
+    android:layout_alignBaseline="@id/etInputF"
+    android:text="@string/mathStat_inputF"
+    android:textSize="@dimen/textSize_main"
+    android:textAlignment="textEnd"
+    android:gravity="end"/>
+
+  <EditText
+    android:id="@+id/etInputF"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/etInputX"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"
+    android:layout_toRightOf="@id/tvInputF"
+    android:layout_toEndOf="@id/tvInputF"
+    android:inputType="numberDecimal|numberSigned|phone"/>
+
+  <Button
+    android:id="@+id/btnGo"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/etInputF"
+    android:text="@string/mathStat_go"/>
+
+</RelativeLayout>

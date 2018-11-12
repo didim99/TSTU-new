@@ -23,6 +23,13 @@
      android:layout_height="wrap_content"
      android:padding="@dimen/actStart_btnPadding"
      android:text="@string/startNumeric"/>
+
+   <Button
+     android:id="@+id/startMathStat"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:padding="@dimen/actStart_btnPadding"
+     android:text="@string/startMathStat"/>
  </LinearLayout>
 
 </RelativeLayout>

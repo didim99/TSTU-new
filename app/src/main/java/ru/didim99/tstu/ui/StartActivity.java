@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import ru.didim99.tstu.BuildConfig;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.TSTU;
 import ru.didim99.tstu.utils.MyLog;
@@ -18,6 +20,8 @@ public class StartActivity extends AppCompatActivity {
 
     findViewById(R.id.startTranslator).setOnClickListener(v ->
       startActivity(new Intent(this, TranslatorActivity.class)));
+    findViewById(R.id.startMathStat).setOnClickListener(v ->
+      startActivity(new Intent(this, MathStatActivity.class)));
     findViewById(R.id.startNumeric).setOnClickListener(v -> selectTypeDialog());
   }
 

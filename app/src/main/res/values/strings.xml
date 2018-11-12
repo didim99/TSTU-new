@@ -3,6 +3,7 @@
   <string name="app_name">САПР проекты</string>
   <string name="startTranslator">Транслятор</string>
   <string name="startNumeric">Численные методы</string>
+  <string name="startMathStat">Матстатистика</string>
   <!-- Generic -->
   <string name="dialogButtonOk">OK</string>
   <string name="buttonStart">Старт</string>
@@ -70,6 +71,20 @@
   <string name="errLexical_invalidStatement">Ошибка лексического анализа в строке %d: Неизвестный символ</string>
   <string name="errSyntax">Ошибка синтаксического анализа в строке %d: %s</string>
   <string name="errSyntaxType">Неизвестный тип синтаксического анализа</string>
+  <string name="errMathStat_emptyX">Не заданы значения X</string>
+  <string name="errMathStat_emptyF">Не заданы значения M</string>
+  <string name="errMathStat_emptyGroup">Группа %d не содержит элементов</string>
+  <string name="errMathStat_groupsNotEquals">Количество групп X и M отличается</string>
+  <string name="errMathStat_elementsNotEquals">Количество элементов X и M отличается (группа %d)</string>
+  <string name="errMathStat_incorrectFmtX">Некорректный формат X (группа %d, значение %d)</string>
+  <string name="errMathStat_incorrectFmtF">Некорректный формат M (группа %d, значение %d)</string>
+  <string name="errMathStat_negativeF">M должно быть положительным (группа %d, значение %d)</string>
+  <!-- MathStat -->
+  <string name="mathStat_inputData">Вариационный ряд</string>
+  <string name="mathStat_inputX">X:</string>
+  <string name="mathStat_inputF">M:</string>
+  <string name="mathStat_inputW">W:</string>
+  <string name="mathStat_go">Рассчитать</string>
   <!-- Содержимое текстовых полей и подписей кнопок (Layout: act_dir_picker) -->
   <string name="actLabel_filePicker">Выбор файла</string>
   <string name="actLabel_dirPicker">Выбор каталога</string>
