@@ -64,11 +64,25 @@
     android:layout_below="@id/etInputF"
     android:text="@string/mathStat_go"/>
 
-  <com.jjoe64.graphview.GraphView
-    android:id="@+id/graph"
+  <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    android:layout_below="@id/btnGo"/>
+    android:layout_below="@id/btnGo"
+    android:layout_alignParentBottom="true">
+
+    <TextView
+      android:id="@+id/tvOut"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="1"
+      android:textSize="@dimen/textSize_main"
+      android:typeface="monospace"/>
+
+    <com.jjoe64.graphview.GraphView
+      android:id="@+id/graph"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"/>
+  </LinearLayout>
 
 </RelativeLayout>

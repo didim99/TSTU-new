@@ -23,7 +23,6 @@ public class Symbol {
 
   @Override
   public int hashCode() {
-    // TODO: 05.11.18 Implement custom (?)
     return name.hashCode();
   }
 
