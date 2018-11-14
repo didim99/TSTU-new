@@ -20,12 +20,13 @@ import ru.didim99.tstu.utils.MyLog;
  */
 public class MathStat {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_MathStat";
+
   private static final String G_DELIMITER = "/";
   private static final String I_DELIMITER = "..";
   private static final String V_DELIMITER = "\\s+";
   private static final String I_REGEX = "\\.\\.";
   private static final String G_REGEX = "\\s*" + G_DELIMITER + "\\s*";
-
+  // view-specific
   private static final float RADIUS = 10f;
   private static final double GRAPH_OFFSET = 0.1;
   private static final int BG = R.color.graph0;
@@ -45,19 +46,26 @@ public class MathStat {
     public static final int NEGATIVE_F = 8;
   }
 
-  public static final class GraphType {
-    public static final int POLYGON_F = 1;
-    public static final int POLYGON_W = 2;
-    public static final int HYSTOGRAM = 3;
+  static final class GraphType {
+    static final int POLYGON_F = 1;
+    static final int POLYGON_W = 2;
+    static final int HISTOGRAM = 3;
   }
 
+  // state
+  private int graphType;
+  private int errorCode;
+  private int brokenGroup, brokenValue;
+  // workflow
   private boolean useGroups;
   private boolean useIntervals;
   private int groupCount, n;
   private double xAvg, delta, sigma;
   private ArrayList<Group> groups;
-  private int brokenGroup, brokenValue;
-  private int errorCode;
+
+  public MathStat() {
+    graphType = GraphType.POLYGON_F;
+  }
 
   public void compute(String xStr, String fStr) throws ProcessException {
     MyLog.d(LOG_TAG, "Initializing...");
@@ -87,7 +95,7 @@ public class MathStat {
 
     for (Group g : groups) {
       for (Value x : g.xList)
-        x.w = (double) x.f / g.n;
+        x.w = (double) x.f / (useGroups ? n : g.n);
 
       for (Value x : g.xList)
         g.xAvg += x.point * x.f;
@@ -103,12 +111,17 @@ public class MathStat {
       for (Group g : groups)
         xAvg += g.xAvg * g.n / n;
 
+      for (Group g : groups) {
+        for (Value x : g.xList)
+          delta += Math.pow(x.point - xAvg, 2) * x.f / n;
+      }
 
-
+      sigma = Math.sqrt(delta);
     } else {
-      xAvg = groups.get(0).xAvg;
-      delta = groups.get(0).delta;
-      sigma = groups.get(0).sigma;
+      Group g = groups.get(0);
+      xAvg = g.xAvg;
+      delta = g.delta;
+      sigma = g.sigma;
     }
 
     MyLog.d(LOG_TAG, "Computing completed");
@@ -189,6 +202,21 @@ public class MathStat {
     throw new ProcessException();
   }
 
+  public void switchGraphType() {
+    switch (graphType) {
+      case GraphType.POLYGON_F:
+        graphType = GraphType.POLYGON_W;
+        break;
+      case GraphType.POLYGON_W:
+        graphType = GraphType.POLYGON_F;
+        break;
+    }
+  }
+
+  public boolean hasResult() {
+    return groups != null && !groups.isEmpty();
+  }
+
   public int getErrorCode() {
     return errorCode;
   }
@@ -205,32 +233,47 @@ public class MathStat {
     StringBuilder sb = new StringBuilder();
 
     if (useGroups) {
-      int gNum = 0;
-      sb.append(String.format(Locale.US, "Groups: %d\n", groupCount));
+      int gNum = 1;
+      sb.append(ctx.getString(R.string.mathStat_res_groupCount,  groupCount));
       for (Group g : groups) {
-        sb.append(String.format(Locale.US, "\nGroup %d\n", gNum));
-        sb.append(String.format(Locale.US, "  N%d = %d\n", gNum, g.n));
-        sb.append(String.format(Locale.US, "  X%d = %.3f\n", gNum, g.xAvg));
-        sb.append(String.format(Locale.US, "  D%d = %.3f\n", gNum, g.delta));
-        sb.append(String.format(Locale.US, "  S%d = %.3f\n", gNum++, g.sigma));
+        sb.append(ctx.getString(R.string.mathStat_res_group, gNum));
+        sb.append(String.format(Locale.US, "  N%-2d = %d\n", gNum, g.n));
+        sb.append(String.format(Locale.US, "  X%-2d = %.3f\n", gNum, g.xAvg));
+        sb.append(String.format(Locale.US, "  D%-2d = %.3f\n", gNum, g.delta));
+        sb.append(String.format(Locale.US, "  S%-2d = %.3f\n", gNum++, g.sigma));
       }
       sb.append("\n");
     }
 
-    sb.append("General\n");
-    sb.append(String.format(Locale.US, "  N = %d\n", n));
-    sb.append(String.format(Locale.US, "  X = %.3f\n", xAvg));
-    sb.append(String.format(Locale.US, "  D = %.3f\n", delta));
-    sb.append(String.format(Locale.US, "  S = %.3f\n", sigma));
+    sb.append(ctx.getString(R.string.mathStat_res_general));
+    sb.append(String.format(Locale.US, "  N   = %d\n", n));
+    sb.append(String.format(Locale.US, "  X   = %.3f\n", xAvg));
+    sb.append(String.format(Locale.US, "  D   = %.3f\n", delta));
+    sb.append(String.format(Locale.US, "  S   = %.3f\n", sigma));
 
     return sb.toString();
   }
 
-  public void drawGraph(GraphView view, int type) {
+  public void drawGraph(GraphView view) {
+    MyLog.d(LOG_TAG, "Drawing graph (" + graphType + ")...");
     ArrayList<DataPoint> mainP = new ArrayList<>();
     Resources res = view.getResources();
+    int titleId = 0;
 
-    switch (type) {
+    switch (graphType) {
+      case GraphType.POLYGON_F:
+        titleId = R.string.mathStat_gType_polygonF;
+        break;
+      case GraphType.POLYGON_W:
+        titleId = R.string.mathStat_gType_polygonW;
+        break;
+      case GraphType.HISTOGRAM:
+        titleId = R.string.mathStat_gType_histogram;
+        break;
+    }
+
+    view.setTitle(res.getString(titleId));
+    switch (graphType) {
       case GraphType.POLYGON_F:
       case GraphType.POLYGON_W:
         LineGraphSeries<DataPoint> main = new LineGraphSeries<>();
@@ -245,12 +288,12 @@ public class MathStat {
           Collections.sort(g.xList);
 
           for (Value x : g.xList) {
-            f = type == GraphType.POLYGON_F ? x.f : x.w;
+            f = graphType == GraphType.POLYGON_F ? x.f : x.w;
             if (f > yMax) yMax = f;
             if (f < yMin) yMin = f;
 
             DataPoint p = new DataPoint(x.point, f);
-            series.appendData(p, false, g.size());
+            series.appendData(p, false, g.n);
             mainP.add(p);
           }
 
@@ -276,18 +319,16 @@ public class MathStat {
         viewport.setMinY(yMin - yOffset);
         viewport.setMaxY(yMax + yOffset);
         break;
-      case GraphType.HYSTOGRAM:
+      case GraphType.HISTOGRAM:
         if (!useIntervals) return;
         BarGraphSeries<DataPoint> barGraph;
 
         double l;
         for (int i = 0; i < groupCount; i++) {
           Group g = groups.get(i);
-          for (int j = 0; j < g.size(); j++) {
-            barGraph = new BarGraphSeries<>();
-            Value x = g.xList.get(j);
-
+          for (Value x : g.xList) {
             l = x.end - x.start;
+            barGraph = new BarGraphSeries<>();
             DataPoint p = new DataPoint(x.point, x.f / l);
             barGraph.appendData(p, false, 10);
 
@@ -298,6 +339,8 @@ public class MathStat {
         }
         break;
     }
+
+    MyLog.d(LOG_TAG, "Graph drawn");
   }
 
   private static class Value implements Comparable<Value> {
@@ -329,10 +372,6 @@ public class MathStat {
       xList = new ArrayList<>();
       xAvg = delta = sigma = 0;
       n = 0;
-    }
-
-    int size() {
-      return xList.size();
     }
   }
 

@@ -33,7 +33,8 @@
     android:layout_alignParentEnd="true"
     android:layout_toRightOf="@id/tvInputX"
     android:layout_toEndOf="@id/tvInputX"
-    android:inputType="numberDecimal|numberSigned|phone"/>
+    android:inputType="numberDecimal|numberSigned|phone"
+    android:hint="@string/mathStat_xValues"/>
 
   <TextView
     android:id="@+id/tvInputF"
@@ -55,7 +56,8 @@
     android:layout_alignParentEnd="true"
     android:layout_toRightOf="@id/tvInputF"
     android:layout_toEndOf="@id/tvInputF"
-    android:inputType="numberDecimal|numberSigned|phone"/>
+    android:inputType="numberDecimal|numberSigned|phone"
+    android:hint="@string/mathStat_xValues"/>
 
   <Button
     android:id="@+id/btnGo"
@@ -70,13 +72,18 @@
     android:layout_below="@id/btnGo"
     android:layout_alignParentBottom="true">
 
-    <TextView
-      android:id="@+id/tvOut"
+    <ScrollView
       android:layout_width="0dp"
       android:layout_height="match_parent"
-      android:layout_weight="1"
-      android:textSize="@dimen/textSize_main"
-      android:typeface="monospace"/>
+      android:layout_weight="1">
+
+      <TextView
+        android:id="@+id/tvOut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/textSize_main"
+        android:typeface="monospace"/>
+    </ScrollView>
 
     <com.jjoe64.graphview.GraphView
       android:id="@+id/graph"

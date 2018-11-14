@@ -239,12 +239,12 @@ public class TranslatorActivity extends BaseActivity
       return;
     }
 
+    MyLog.d(LOG_TAG, "SymbolSet dialog called");
     View dialogView = getLayoutInflater().inflate(
       R.layout.dia_symbol_set, null);
     ((TextView) dialogView.findViewById(R.id.tvSymbolSet))
       .setText(Utils.joinStr("\n", taskResult.getSymbolSet()));
 
-    MyLog.d(LOG_TAG, "SymbolSet dialog called");
     AlertDialog.Builder adb = new AlertDialog.Builder(this);
     adb.setTitle(R.string.translator_symbolSet);
     adb.setView(dialogView);

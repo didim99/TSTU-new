@@ -2,6 +2,10 @@ package ru.didim99.tstu.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
+import android.text.Html;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,11 +19,14 @@ import ru.didim99.tstu.utils.MyLog;
 public class MathStatActivity extends BaseActivity {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_StatAct";
 
+  // view-elements
   private EditText etX, etF;
   private GraphView graph;
   private TextView tvOut;
   private Button btnGo;
   private Toast toast;
+  // workflow
+  private MathStat stat;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -35,25 +42,41 @@ public class MathStatActivity extends BaseActivity {
     tvOut = findViewById(R.id.tvOut);
     btnGo = findViewById(R.id.btnGo);
     btnGo.setOnClickListener(v -> compute());
+    graph.setOnLongClickListener(v -> switchGraphType());
     toast = Toast.makeText(this, "", Toast.LENGTH_LONG);
     MyLog.d(LOG_TAG, "View components init completed");
 
     MyLog.d(LOG_TAG, "MathStatActivity started");
   }
 
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.menu_mathstat, menu);
+    return true;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case R.id.act_help:
+        helpDialog();
+        return true;
+      default:
+        return super.onOptionsItemSelected(item);
+    }
+  }
+
   private void compute() {
     MyLog.d(LOG_TAG, "Reading values...");
     String xStr = etX.getText().toString();
     String fStr = etF.getText().toString();
-    MathStat stat = new MathStat();
+    stat = new MathStat();
 
     try {
       uiLock(true);
       stat.compute(xStr, fStr);
       uiLock(false);
-      stat.drawGraph(graph, MathStat.GraphType.POLYGON_F);
-      //stat.drawGraph(graph, MathStat.GraphType.POLYGON_W);
-      //stat.drawGraph(graph, MathStat.GraphType.HYSTOGRAM);
+      stat.drawGraph(graph);
       tvOut.setText(stat.getTextResult(this));
     } catch (MathStat.ProcessException e) {
       uiLock(false);
@@ -99,6 +122,15 @@ public class MathStatActivity extends BaseActivity {
     }
   }
 
+  private boolean switchGraphType() {
+    if (stat != null && stat.hasResult()) {
+      stat.switchGraphType();
+      stat.drawGraph(graph);
+    }
+
+    return true;
+  }
+
   private void uiLock(boolean state) {
     if (state) MyLog.d(LOG_TAG, "Locking UI...");
     else MyLog.d(LOG_TAG, "Unlocking UI...");
@@ -107,10 +139,12 @@ public class MathStatActivity extends BaseActivity {
     btnGo.setEnabled(!state);
     etX.setEnabled(!state);
     etF.setEnabled(!state);
+    graph.setClickable(!state);
 
     if (state) {
       MyLog.d(LOG_TAG, "Clearing UI...");
       tvOut.setText(null);
+      graph.setTitle(null);
       graph.removeAllSeries();
       MyLog.d(LOG_TAG, "UI cleared");
       graph.setVisibility(View.INVISIBLE);
@@ -119,6 +153,16 @@ public class MathStatActivity extends BaseActivity {
       graph.setVisibility(View.VISIBLE);
       MyLog.d(LOG_TAG, "UI unlocked");
     }
+  }
+
+  private void helpDialog() {
+    MyLog.d(LOG_TAG, "Help dialog called");
+    AlertDialog.Builder adb = new AlertDialog.Builder(this);
+    adb.setTitle(R.string.help);
+    adb.setPositiveButton(R.string.dialogButtonOk, null);
+    adb.setMessage(Html.fromHtml(getString(R.string.mathStat_help)));
+    MyLog.d(LOG_TAG, "Help dialog created");
+    adb.create().show();
   }
 
   @Override

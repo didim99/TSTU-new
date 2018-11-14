@@ -5,6 +5,7 @@
   <string name="startNumeric">Численные методы</string>
   <string name="startMathStat">Матстатистика</string>
   <!-- Generic -->
+  <string name="help">Справка</string>
   <string name="dialogButtonOk">OK</string>
   <string name="buttonStart">Старт</string>
   <string name="buttonSave">Сохранить</string>
@@ -81,10 +82,32 @@
   <string name="errMathStat_negativeF">M должно быть положительным (группа %d, значение %d)</string>
   <!-- MathStat -->
   <string name="mathStat_inputData">Вариационный ряд</string>
+  <string name="mathStat_xValues">Значения X</string>
+  <string name="mathStat_fValues">Значения M</string>
   <string name="mathStat_inputX">X:</string>
   <string name="mathStat_inputF">M:</string>
-  <string name="mathStat_inputW">W:</string>
   <string name="mathStat_go">Рассчитать</string>
+  <string name="mathStat_gType_polygonF">Полигон частот</string>
+  <string name="mathStat_gType_polygonW">Полигон отн. частот</string>
+  <string name="mathStat_gType_histogram">Гистограмма</string>
+  <string name="mathStat_res_groupCount">Число групп: %d\n</string>
+  <string name="mathStat_res_group">\nГруппа %d\n</string>
+  <string name="mathStat_res_general">Общее:\n</string>
+  <string name="mathStat_help" formatted="false">
+    <![CDATA[
+    Отдельные значения разделяются друг от друга <b>пробелами</b>. Группы разделяются символом \"<b>/</b>\". Интервальные значения x задаются через \"<b>..</b>\".<br/><br/>
+
+    Например:<br/><tt>
+    X: 10..20 20..25.2 25.2..38 / 38..42 42..50<br/>
+    N: 5 7 11 / 6 8</tt><br/><br/>
+
+    Обозначения:<br/>
+    <b>N</b> - Объем выборки/группы<br/>
+    <b>X</b> - Выборочная средняя<br/>
+    <b>D</b> - Выборочная дисперсия<br/>
+    <b>S</b> - Стандартное отклонение
+    ]]>
+  </string>
   <!-- Содержимое текстовых полей и подписей кнопок (Layout: act_dir_picker) -->
   <string name="actLabel_filePicker">Выбор файла</string>
   <string name="actLabel_dirPicker">Выбор каталога</string>
