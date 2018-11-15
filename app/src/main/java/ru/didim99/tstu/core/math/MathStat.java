@@ -11,7 +11,9 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import com.jjoe64.graphview.series.PointsGraphSeries;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.utils.MyLog;
 
@@ -53,18 +55,21 @@ public class MathStat {
   }
 
   // state
-  private int graphType;
   private int errorCode;
   private int brokenGroup, brokenValue;
   // workflow
   private boolean useGroups;
   private boolean useIntervals;
   private int groupCount, n;
-  private double xAvg, delta, sigma;
+  private double xAvg, delta, sigma, vf;
   private ArrayList<Group> groups;
+  // view
+  private int graphType;
+  private boolean splitGroups;
 
   public MathStat() {
     graphType = GraphType.POLYGON_F;
+    splitGroups = false;
   }
 
   public void compute(String xStr, String fStr) throws ProcessException {
@@ -75,11 +80,12 @@ public class MathStat {
       setError(ErrorCode.EMPTY_F);
 
     n = 0;
-    xAvg = delta = sigma = 0;
+    xAvg = delta = sigma = vf = 0;
     groups = new ArrayList<>();
     useGroups = xStr.contains(G_DELIMITER);
     useIntervals = xStr.contains(I_DELIMITER);
     parseValues(xStr, fStr);
+    checkXRepeats();
 
     MyLog.d(LOG_TAG, "Computing statistics...");
     for (Group g : groups) {
@@ -105,6 +111,7 @@ public class MathStat {
         g.delta += Math.pow(x.point - g.xAvg, 2) * x.f;
       g.delta /= g.n;
       g.sigma = Math.sqrt(g.delta);
+      g.vf = g.sigma / g.xAvg;
     }
 
     if (useGroups) {
@@ -117,11 +124,13 @@ public class MathStat {
       }
 
       sigma = Math.sqrt(delta);
+      vf = sigma / xAvg;
     } else {
       Group g = groups.get(0);
       xAvg = g.xAvg;
       delta = g.delta;
       sigma = g.sigma;
+      vf = g.vf;
     }
 
     MyLog.d(LOG_TAG, "Computing completed");
@@ -179,6 +188,20 @@ public class MathStat {
       }
 
       groups.add(g);
+    }
+  }
+
+  private void checkXRepeats() {
+    if (!useGroups) return;
+    Set<Double> values = new HashSet<>();
+    for (Group g : groups) {
+      for (Value v : g.xList) {
+        if (values.contains(v.point)) {
+          splitGroups = true;
+          return;
+        } else
+          values.add(v.point);
+      }
     }
   }
 
@@ -241,6 +264,8 @@ public class MathStat {
         sb.append(String.format(Locale.US, "  X%-2d = %.3f\n", gNum, g.xAvg));
         sb.append(String.format(Locale.US, "  D%-2d = %.3f\n", gNum, g.delta));
         sb.append(String.format(Locale.US, "  S%-2d = %.3f\n", gNum++, g.sigma));
+        sb.append(String.format(Locale.US, "  V%-2d = %.3f (%.2f%%)\n",
+          gNum++, g.vf, g.vf * 100));
       }
       sb.append("\n");
     }
@@ -250,97 +275,122 @@ public class MathStat {
     sb.append(String.format(Locale.US, "  X   = %.3f\n", xAvg));
     sb.append(String.format(Locale.US, "  D   = %.3f\n", delta));
     sb.append(String.format(Locale.US, "  S   = %.3f\n", sigma));
+    sb.append(String.format(Locale.US, "  V   = %.3f (%.2f%%)\n",
+      vf, vf * 100));
 
     return sb.toString();
   }
 
+  public void splitGroups(GraphView view) {
+    if (!useGroups) return;
+    splitGroups = !splitGroups;
+    view.removeAllSeries();
+    drawGraph(view);
+  }
+
   public void drawGraph(GraphView view) {
     MyLog.d(LOG_TAG, "Drawing graph (" + graphType + ")...");
-    ArrayList<DataPoint> mainP = new ArrayList<>();
     Resources res = view.getResources();
-    int titleId = 0;
 
     switch (graphType) {
       case GraphType.POLYGON_F:
-        titleId = R.string.mathStat_gType_polygonF;
-        break;
       case GraphType.POLYGON_W:
-        titleId = R.string.mathStat_gType_polygonW;
+        drawPolygon(view, res);
         break;
       case GraphType.HISTOGRAM:
-        titleId = R.string.mathStat_gType_histogram;
-        break;
-    }
-
-    view.setTitle(res.getString(titleId));
-    switch (graphType) {
-      case GraphType.POLYGON_F:
-      case GraphType.POLYGON_W:
-        LineGraphSeries<DataPoint> main = new LineGraphSeries<>();
-        main.setColor(res.getColor(BG));
-        view.addSeries(main);
-
-        double f, yMax = -Double.MAX_VALUE, yMin = Double.MAX_VALUE;
-        PointsGraphSeries<DataPoint> series;
-        for (int i = 0; i < groupCount; i++) {
-          series = new PointsGraphSeries<>();
-          Group g = groups.get(i);
-          Collections.sort(g.xList);
-
-          for (Value x : g.xList) {
-            f = graphType == GraphType.POLYGON_F ? x.f : x.w;
-            if (f > yMax) yMax = f;
-            if (f < yMin) yMin = f;
-
-            DataPoint p = new DataPoint(x.point, f);
-            series.appendData(p, false, g.n);
-            mainP.add(p);
-          }
-
-          series.setColor(res.getColor(COLORS[i % COLORS.length]));
-          series.setSize(RADIUS);
-          view.addSeries(series);
-        }
-
-        Collections.sort(mainP, (p1, p2) ->
-          Double.compare(p1.getX(), p2.getX()));
-        for (DataPoint p : mainP)
-          main.appendData(p, true, n);
-
-        double xMin = mainP.get(0).getX();
-        double xMax = mainP.get(mainP.size() - 1).getX();
-        double xOffset = (xMax - xMin) * GRAPH_OFFSET;
-        double yOffset = (yMax - yMin) * GRAPH_OFFSET;
-        Viewport viewport = view.getViewport();
-        viewport.setXAxisBoundsManual(true);
-        viewport.setMinX(xMin - xOffset);
-        viewport.setMaxX(xMax + xOffset);
-        viewport.setYAxisBoundsManual(true);
-        viewport.setMinY(yMin - yOffset);
-        viewport.setMaxY(yMax + yOffset);
-        break;
-      case GraphType.HISTOGRAM:
-        if (!useIntervals) return;
-        BarGraphSeries<DataPoint> barGraph;
-
-        double l;
-        for (int i = 0; i < groupCount; i++) {
-          Group g = groups.get(i);
-          for (Value x : g.xList) {
-            l = x.end - x.start;
-            barGraph = new BarGraphSeries<>();
-            DataPoint p = new DataPoint(x.point, x.f / l);
-            barGraph.appendData(p, false, 10);
-
-            barGraph.setDataWidth(l);
-            barGraph.setColor(res.getColor(COLORS[i % COLORS.length]));
-            view.addSeries(barGraph);
-          }
-        }
+        drawHistogram(view, res);
         break;
     }
 
     MyLog.d(LOG_TAG, "Graph drawn");
+  }
+
+  private void drawPolygon(GraphView view, Resources res) {
+    boolean isRelative = graphType == GraphType.POLYGON_W;
+    LineGraphSeries<DataPoint> main = new LineGraphSeries<>();
+    ArrayList<DataPoint> mainP = new ArrayList<>();
+
+    view.setTitle(res.getString(isRelative ?
+      R.string.mathStat_gType_polygonW : R.string.mathStat_gType_polygonF));
+
+    double f, yMax = -Double.MAX_VALUE, yMin = Double.MAX_VALUE;
+    double xMax = -Double.MAX_VALUE, xMin = Double.MAX_VALUE;
+    PointsGraphSeries<DataPoint> series;
+
+    if (!splitGroups) {
+      main.setColor(res.getColor(BG));
+      view.addSeries(main);
+    }
+
+    for (int i = 0; i < groupCount; i++) {
+      int gColor = res.getColor(COLORS[i % COLORS.length]);
+      series = new PointsGraphSeries<>();
+      Group g = groups.get(i);
+      Collections.sort(g.xList);
+      if (splitGroups) {
+        main = new LineGraphSeries<>();
+        main.setColor(gColor);
+        view.addSeries(main);
+      }
+
+      for (Value x : g.xList) {
+        f = isRelative ? x.w : x.f;
+        if (x.point > xMax) xMax = x.point;
+        if (x.point < xMin) xMin = x.point;
+        if (f > yMax) yMax = f;
+        if (f < yMin) yMin = f;
+
+        DataPoint p = new DataPoint(x.point, f);
+        series.appendData(p, false, g.n);
+        if (splitGroups)
+          main.appendData(p, true, g.n);
+        else
+          mainP.add(p);
+      }
+
+      series.setColor(gColor);
+      series.setSize(RADIUS);
+      view.addSeries(series);
+    }
+
+    if (!splitGroups) {
+      Collections.sort(mainP, (p1, p2) ->
+        Double.compare(p1.getX(), p2.getX()));
+      for (DataPoint p : mainP)
+        main.appendData(p, true, n);
+    }
+
+    double xOffset = (xMax - xMin) * GRAPH_OFFSET;
+    double yOffset = (yMax - yMin) * GRAPH_OFFSET;
+    Viewport viewport = view.getViewport();
+    viewport.setXAxisBoundsManual(true);
+    viewport.setMinX(xMin - xOffset);
+    viewport.setMaxX(xMax + xOffset);
+    viewport.setYAxisBoundsManual(true);
+    viewport.setMinY(yMin - yOffset);
+    viewport.setMaxY(yMax + yOffset);
+  }
+
+  private void drawHistogram(GraphView view, Resources res) {
+    if (!useIntervals) return;
+    BarGraphSeries<DataPoint> barGraph;
+    view.setTitle(res.getString(
+      R.string.mathStat_gType_histogram));
+
+    double l;
+    for (int i = 0; i < groupCount; i++) {
+      Group g = groups.get(i);
+      for (Value x : g.xList) {
+        l = x.end - x.start;
+        barGraph = new BarGraphSeries<>();
+        DataPoint p = new DataPoint(x.point, x.f / l);
+        barGraph.appendData(p, false, 10);
+
+        barGraph.setDataWidth(l);
+        barGraph.setColor(res.getColor(COLORS[i % COLORS.length]));
+        view.addSeries(barGraph);
+      }
+    }
   }
 
   private static class Value implements Comparable<Value> {
@@ -365,12 +415,12 @@ public class MathStat {
 
   private static class Group {
     private ArrayList<Value> xList;
-    private double xAvg, delta, sigma;
+    private double xAvg, delta, sigma, vf;
     private int n;
 
     Group() {
       xList = new ArrayList<>();
-      xAvg = delta = sigma = 0;
+      xAvg = delta = sigma = vf = 0;
       n = 0;
     }
   }

@@ -18,6 +18,7 @@ import ru.didim99.tstu.utils.MyLog;
 
 public class MathStatActivity extends BaseActivity {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_StatAct";
+  private static final int TAP_MAX = 2;
 
   // view-elements
   private EditText etX, etF;
@@ -43,6 +44,8 @@ public class MathStatActivity extends BaseActivity {
     btnGo = findViewById(R.id.btnGo);
     btnGo.setOnClickListener(v -> compute());
     graph.setOnLongClickListener(v -> switchGraphType());
+    MultiTapCatcher mtc = new MultiTapCatcher();
+    mtc.attachToView(graph, TAP_MAX, v -> splitGroups());
     toast = Toast.makeText(this, "", Toast.LENGTH_LONG);
     MyLog.d(LOG_TAG, "View components init completed");
 
@@ -129,6 +132,11 @@ public class MathStatActivity extends BaseActivity {
     }
 
     return true;
+  }
+
+  private void splitGroups() {
+    if (stat != null && stat.hasResult())
+      stat.splitGroups(graph);
   }
 
   private void uiLock(boolean state) {
