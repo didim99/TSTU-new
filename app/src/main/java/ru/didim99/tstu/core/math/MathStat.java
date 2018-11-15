@@ -62,6 +62,7 @@ public class MathStat {
   private boolean useIntervals;
   private int groupCount, n;
   private double xAvg, delta, sigma, vf;
+  private double deltaG, sigmaG;
   private ArrayList<Group> groups;
   // view
   private int graphType;
@@ -117,6 +118,11 @@ public class MathStat {
     if (useGroups) {
       for (Group g : groups)
         xAvg += g.xAvg * g.n / n;
+
+      for (Group g : groups) {
+        deltaG += Math.pow(g.xAvg - xAvg, 2) * g.n / n;
+        sigmaG += g.delta * g.n / n;
+      }
 
       for (Group g : groups) {
         for (Value x : g.xList)
@@ -263,9 +269,10 @@ public class MathStat {
         sb.append(String.format(Locale.US, "  N%-2d = %d\n", gNum, g.n));
         sb.append(String.format(Locale.US, "  X%-2d = %.3f\n", gNum, g.xAvg));
         sb.append(String.format(Locale.US, "  D%-2d = %.3f\n", gNum, g.delta));
-        sb.append(String.format(Locale.US, "  S%-2d = %.3f\n", gNum++, g.sigma));
+        sb.append(String.format(Locale.US, "  S%-2d = %.3f\n", gNum, g.sigma));
         sb.append(String.format(Locale.US, "  V%-2d = %.3f (%.2f%%)\n",
-          gNum++, g.vf, g.vf * 100));
+          gNum, g.vf, g.vf * 100));
+        gNum++;
       }
       sb.append("\n");
     }
@@ -277,6 +284,10 @@ public class MathStat {
     sb.append(String.format(Locale.US, "  S   = %.3f\n", sigma));
     sb.append(String.format(Locale.US, "  V   = %.3f (%.2f%%)\n",
       vf, vf * 100));
+    if (useGroups) {
+      sb.append(String.format(Locale.US, "  d   = %.3f\n", deltaG));
+      sb.append(String.format(Locale.US, "  s   = %.3f\n", sigmaG));
+    }
 
     return sb.toString();
   }
