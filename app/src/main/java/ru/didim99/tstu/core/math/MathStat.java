@@ -23,11 +23,12 @@ import ru.didim99.tstu.utils.MyLog;
 public class MathStat {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_MathStat";
 
-  private static final String G_DELIMITER = "/";
+  private static final String G_DELIMITER_1 = "/";
+  private static final String G_DELIMITER_2 = "#";
   private static final String I_DELIMITER = "..";
-  private static final String V_DELIMITER = "\\s+";
+  private static final String V_REGEX = "\\s+";
   private static final String I_REGEX = "\\.\\.";
-  private static final String G_REGEX = "\\s*" + G_DELIMITER + "\\s*";
+  private static final String G_REGEX = "\\s*[/#]\\s*";
   // view-specific
   private static final float RADIUS = 10f;
   private static final double GRAPH_OFFSET = 0.1;
@@ -58,8 +59,8 @@ public class MathStat {
   private int errorCode;
   private int brokenGroup, brokenValue;
   // workflow
-  private boolean useGroups;
-  private boolean useIntervals;
+  private Config config;
+  private boolean useGroups, useIntervals;
   private int groupCount, n;
   private double xAvg, delta, sigma, vf;
   private double deltaG, sigmaG;
@@ -69,26 +70,16 @@ public class MathStat {
   private boolean splitGroups;
 
   public MathStat() {
+    config = new Config();
     graphType = GraphType.POLYGON_F;
     splitGroups = false;
   }
 
-  public void compute(String xStr, String fStr) throws ProcessException {
-    MyLog.d(LOG_TAG, "Initializing...");
-    if (xStr.isEmpty())
-      setError(ErrorCode.EMPTY_X);
-    if (fStr.isEmpty())
-      setError(ErrorCode.EMPTY_F);
-
-    n = 0;
-    xAvg = delta = sigma = vf = 0;
-    groups = new ArrayList<>();
-    useGroups = xStr.contains(G_DELIMITER);
-    useIntervals = xStr.contains(I_DELIMITER);
-    parseValues(xStr, fStr);
-    checkXRepeats();
-
+  public void compute(String xStr, String fStr)
+    throws ProcessException {
+    initValues(xStr, fStr);
     MyLog.d(LOG_TAG, "Computing statistics...");
+
     for (Group g : groups) {
       for (Value x : g.xList)
         g.n += x.f;
@@ -110,7 +101,7 @@ public class MathStat {
 
       for (Value x : g.xList)
         g.delta += Math.pow(x.point - g.xAvg, 2) * x.f;
-      g.delta /= g.n;
+      g.delta /= config.deltaCorrection ? g.n - 1 : g.n;
       g.sigma = Math.sqrt(g.delta);
       g.vf = g.sigma / g.xAvg;
     }
@@ -125,8 +116,10 @@ public class MathStat {
       }
 
       for (Group g : groups) {
-        for (Value x : g.xList)
-          delta += Math.pow(x.point - xAvg, 2) * x.f / n;
+        for (Value x : g.xList) {
+          delta += Math.pow(x.point - xAvg, 2) * x.f
+            / (config.deltaCorrection ? n - 1 : n);
+        }
       }
 
       sigma = Math.sqrt(delta);
@@ -140,6 +133,25 @@ public class MathStat {
     }
 
     MyLog.d(LOG_TAG, "Computing completed");
+  }
+
+  private void initValues(String xStr, String fStr)
+    throws ProcessException {
+    MyLog.d(LOG_TAG, "Initializing...");
+    if (xStr.isEmpty())
+      setError(ErrorCode.EMPTY_X);
+    if (fStr.isEmpty())
+      setError(ErrorCode.EMPTY_F);
+
+    n = 0;
+    xAvg = delta = sigma = vf = 0;
+    groups = new ArrayList<>();
+    useGroups = xStr.contains(G_DELIMITER_1)
+      || xStr.contains(G_DELIMITER_2);
+    useIntervals = xStr.contains(I_DELIMITER);
+
+    parseValues(xStr, fStr);
+    checkXRepeats();
   }
 
   private void parseValues(String xStr, String fStr)
@@ -156,8 +168,8 @@ public class MathStat {
     String[] xVals, iVals, fVals;
     for (int group = 0; group < groupCount; group++) {
       Group g = new Group();
-      xVals = xGroups[group].trim().split(V_DELIMITER);
-      fVals = fGroups[group].trim().split(V_DELIMITER);
+      xVals = xGroups[group].trim().split(V_REGEX);
+      fVals = fGroups[group].trim().split(V_REGEX);
 
       if (xVals.length == 0)
         setError(ErrorCode.EMPTY_GROUP, group);
@@ -246,6 +258,10 @@ public class MathStat {
     return groups != null && !groups.isEmpty();
   }
 
+  public Config getConfig() {
+    return config;
+  }
+
   public int getErrorCode() {
     return errorCode;
   }
@@ -295,13 +311,13 @@ public class MathStat {
   public void splitGroups(GraphView view) {
     if (!useGroups) return;
     splitGroups = !splitGroups;
-    view.removeAllSeries();
     drawGraph(view);
   }
 
   public void drawGraph(GraphView view) {
     MyLog.d(LOG_TAG, "Drawing graph (" + graphType + ")...");
     Resources res = view.getResources();
+    view.removeAllSeries();
 
     switch (graphType) {
       case GraphType.POLYGON_F:
@@ -401,6 +417,26 @@ public class MathStat {
         barGraph.setColor(res.getColor(COLORS[i % COLORS.length]));
         view.addSeries(barGraph);
       }
+    }
+  }
+
+  public static class Config {
+    private boolean deltaCorrection;
+
+    private Config() {
+      this.deltaCorrection = false;
+    }
+
+    public Config(boolean deltaCorrection) {
+      this.deltaCorrection = deltaCorrection;
+    }
+
+    public boolean isDeltaCorrection() {
+      return deltaCorrection;
+    }
+
+    public void setDeltaCorrection(boolean deltaCorrection) {
+      this.deltaCorrection = deltaCorrection;
     }
   }
 

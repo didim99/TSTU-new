@@ -6,7 +6,9 @@
   <string name="startMathStat">Матстатистика</string>
   <!-- Generic -->
   <string name="help">Справка</string>
+  <string name="config">Настройки</string>
   <string name="dialogButtonOk">OK</string>
+  <string name="dialogButtonCancel">Отмена</string>
   <string name="buttonStart">Старт</string>
   <string name="buttonSave">Сохранить</string>
   <string name="pathLayout_pickFile">Путь до исходного файла</string>
@@ -95,7 +97,7 @@
   <string name="mathStat_res_general">Общее:\n</string>
   <string name="mathStat_help" formatted="false">
     <![CDATA[
-    Отдельные значения разделяются друг от друга <b>пробелами</b>. Группы разделяются символом \"<b>/</b>\". Интервальные значения x задаются через \"<b>..</b>\".<br/><br/>
+    Отдельные значения разделяются друг от друга <b>пробелами</b>. Группы разделяются символом \"<b>/</b>\" или \"<b>#</b>\". Интервальные значения x задаются через \"<b>..</b>\".<br/><br/>
 
     Например:<br/><tt>
     X: 10..20 20..25.2 25.2..38 / 38..42 42..50<br/>
@@ -108,9 +110,10 @@
     <b>S</b> - Стандартное отклонение<br/>
     <b>V</b> - Коэффициент вариации<br/>
     <b>d</b> - Межгрупповая дисперсия<br/>
-    <b>s</b> - Средняя группоывх дисперсий
+    <b>s</b> - Средняя групповых дисперсий
     ]]>
   </string>
+  <string name="mathStat_correctDelta">Несмещенная дисперсия</string>
   <!-- Содержимое текстовых полей и подписей кнопок (Layout: act_dir_picker) -->
   <string name="actLabel_filePicker">Выбор файла</string>
   <string name="actLabel_dirPicker">Выбор каталога</string>

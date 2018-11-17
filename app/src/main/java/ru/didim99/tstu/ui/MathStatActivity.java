@@ -1,5 +1,6 @@
 package ru.didim99.tstu.ui;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -8,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +23,7 @@ public class MathStatActivity extends BaseActivity {
   private static final int TAP_MAX = 2;
 
   // view-elements
+  private MenuItem actionConfig;
   private EditText etX, etF;
   private GraphView graph;
   private TextView tvOut;
@@ -34,6 +37,7 @@ public class MathStatActivity extends BaseActivity {
     super.onCreate(savedInstanceState);
     MyLog.d(LOG_TAG, "MathStatActivity starting...");
     setContentView(R.layout.act_mathstat);
+    stat = new MathStat();
 
     setupActionBar();
     MyLog.d(LOG_TAG, "View components init...");
@@ -54,7 +58,14 @@ public class MathStatActivity extends BaseActivity {
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
+    MyLog.d(LOG_TAG, "Creating menu");
     getMenuInflater().inflate(R.menu.menu_mathstat, menu);
+    actionConfig = menu.findItem(R.id.act_config);
+
+    if (uiLocked)
+      actionConfig.setVisible(false);
+
+    MyLog.d(LOG_TAG, "Menu created");
     return true;
   }
 
@@ -63,6 +74,9 @@ public class MathStatActivity extends BaseActivity {
     switch (item.getItemId()) {
       case R.id.act_help:
         helpDialog();
+        return true;
+      case R.id.act_config:
+        configDialog();
         return true;
       default:
         return super.onOptionsItemSelected(item);
@@ -73,7 +87,6 @@ public class MathStatActivity extends BaseActivity {
     MyLog.d(LOG_TAG, "Reading values...");
     String xStr = etX.getText().toString();
     String fStr = etF.getText().toString();
-    stat = new MathStat();
 
     try {
       uiLock(true);
@@ -139,17 +152,19 @@ public class MathStatActivity extends BaseActivity {
       stat.splitGroups(graph);
   }
 
-  private void uiLock(boolean state) {
-    if (state) MyLog.d(LOG_TAG, "Locking UI...");
+  private void uiLock(boolean lock) {
+    if (lock) MyLog.d(LOG_TAG, "Locking UI...");
     else MyLog.d(LOG_TAG, "Unlocking UI...");
 
-    uiLocked = state;
-    btnGo.setEnabled(!state);
-    etX.setEnabled(!state);
-    etF.setEnabled(!state);
-    graph.setClickable(!state);
+    uiLocked = lock;
+    btnGo.setEnabled(!lock);
+    etX.setEnabled(!lock);
+    etF.setEnabled(!lock);
+    graph.setClickable(!lock);
+    if (actionConfig != null)
+      actionConfig.setVisible(!lock);
 
-    if (state) {
+    if (lock) {
       MyLog.d(LOG_TAG, "Clearing UI...");
       tvOut.setText(null);
       graph.setTitle(null);
@@ -169,9 +184,37 @@ public class MathStatActivity extends BaseActivity {
     adb.setTitle(R.string.help);
     adb.setPositiveButton(R.string.dialogButtonOk, null);
     adb.setMessage(Html.fromHtml(getString(R.string.mathStat_help)));
-    MyLog.d(LOG_TAG, "Help dialog created");
+    MyLog.d(LOG_TAG, "Dialog created");
     adb.create().show();
   }
+
+  private void configDialog() {
+    if (stat == null) return;
+    MyLog.d(LOG_TAG, "Config dialog called");
+    AlertDialog.Builder adb = new AlertDialog.Builder(this);
+    adb.setTitle(R.string.config);
+    adb.setPositiveButton(R.string.dialogButtonOk, null);
+    adb.setNegativeButton(R.string.dialogButtonCancel, null);
+    adb.setView(R.layout.mathstat_config);
+    AlertDialog dialog = adb.create();
+    dialog.setOnShowListener(configListener);
+    MyLog.d(LOG_TAG, "Dialog created");
+    dialog.show();
+  }
+
+  private DialogInterface.OnShowListener configListener = dialogInterface -> {
+    MyLog.d(LOG_TAG, "Config dialog shown");
+    MathStat.Config config = stat.getConfig();
+    AlertDialog dialog = (AlertDialog) dialogInterface;
+    CheckBox cbCorrectDelta = dialog.findViewById(R.id.cbCorrectDelta);
+
+    cbCorrectDelta.setChecked(config.isDeltaCorrection());
+    dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(v -> {
+        config.setDeltaCorrection(cbCorrectDelta.isChecked());
+        dialogInterface.dismiss();
+        compute();
+      });
+  };
 
   @Override
   protected void onSetupActionBar(ActionBar bar) {}
