@@ -89,7 +89,8 @@ public class Translator {
                 .getAbsolutePath() + "/translator/precedence.txt";
               sa = new PrecedenceAnalyzer(laResult, tableFile);
             } catch (IOException e) {
-              result.processErr = e.getMessage();
+              MyLog.w(LOG_TAG, "Can't initialize precedence table: " + e);
+              result.processErr = e.toString();
               return result;
             }
             break;

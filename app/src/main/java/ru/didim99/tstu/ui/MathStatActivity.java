@@ -212,7 +212,8 @@ public class MathStatActivity extends BaseActivity {
     dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(v -> {
         config.setDeltaCorrection(cbCorrectDelta.isChecked());
         dialogInterface.dismiss();
-        compute();
+        if (!etX.getText().toString().isEmpty())
+          compute();
       });
   };
 

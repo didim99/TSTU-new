@@ -21,9 +21,10 @@ public class SyntaxStream {
   public Integer pickNext() {
     if (!hasNext())
       throw new SyntaxAnalyzer.ProcessException("Unexpected end of file", lineNum);
-    Integer next = inputStream.get(realPos);
-    if (next == LangStruct.INTERNAL.NEWLINE)
-      next = inputStream.get(realPos + 1);
+    int nextPos = realPos;
+    Integer next = inputStream.get(nextPos);
+    while (next == LangStruct.INTERNAL.NEWLINE)
+      next = inputStream.get(++nextPos);
     return next;
   }
 
@@ -31,7 +32,7 @@ public class SyntaxStream {
     if (!hasNext())
       throw new SyntaxAnalyzer.ProcessException("Unexpected end of file", lineNum);
     Integer next = inputStream.get(realPos++);
-    if (next == LangStruct.INTERNAL.NEWLINE) {
+    while (next == LangStruct.INTERNAL.NEWLINE) {
       next = inputStream.get(realPos++);
       lineNum++;
     }
