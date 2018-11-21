@@ -1,7 +1,9 @@
 package ru.didim99.tstu.ui;
 
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
@@ -14,8 +16,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.jjoe64.graphview.GraphView;
+
+import java.io.IOException;
+import java.util.Locale;
+
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.math.MathStat;
+import ru.didim99.tstu.utils.InputValidator;
 import ru.didim99.tstu.utils.MyLog;
 
 public class MathStatActivity extends BaseActivity {
@@ -30,14 +37,21 @@ public class MathStatActivity extends BaseActivity {
   private Button btnGo;
   private Toast toast;
   // workflow
+  private SharedPreferences settings;
   private MathStat stat;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     MyLog.d(LOG_TAG, "MathStatActivity starting...");
+    settings = PreferenceManager.getDefaultSharedPreferences(this);
     setContentView(R.layout.act_mathstat);
-    stat = new MathStat();
+
+    try {
+      stat = new MathStat(this, settings);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
 
     setupActionBar();
     MyLog.d(LOG_TAG, "View components init...");
@@ -134,6 +148,10 @@ public class MathStatActivity extends BaseActivity {
             stat.getBrokenGroup(), stat.getBrokenValue()));
           toast.show();
           break;
+        case MathStat.ErrorCode.TOTAL_N_NOT_DEFINED:
+          toast.setText(R.string.errMathStat_emptyTotalN);
+          toast.show();
+          break;
       }
     }
   }
@@ -207,14 +225,49 @@ public class MathStatActivity extends BaseActivity {
     MathStat.Config config = stat.getConfig();
     AlertDialog dialog = (AlertDialog) dialogInterface;
     CheckBox cbCorrectDelta = dialog.findViewById(R.id.cbCorrectDelta);
+    CheckBox cbGeneralStat = dialog.findViewById(R.id.cbGeneralStat);
+    CheckBox cbReturnX = dialog.findViewById(R.id.cbReturnX);
+    EditText etGamma = dialog.findViewById(R.id.etGamma);
+    EditText etTotalN = dialog.findViewById(R.id.etTotalN);
 
+    if (config.getTotalN() > 0)
+      etTotalN.setText(String.valueOf(config.getTotalN()));
+    etGamma.setText(String.format(Locale.US, "%.2f", config.getGamma()));
     cbCorrectDelta.setChecked(config.isDeltaCorrection());
+    cbGeneralStat.setChecked(config.isGeneralStatEnabled());
+    cbReturnX.setChecked(config.isReturnX());
+    cbReturnX.setEnabled(cbGeneralStat.isChecked());
+    etGamma.setEnabled(cbGeneralStat.isChecked());
+    etTotalN.setEnabled(!cbReturnX.isChecked());
+
+    cbReturnX.setOnCheckedChangeListener((view, isChecked)
+      -> etTotalN.setEnabled(!isChecked));
+    cbGeneralStat.setOnCheckedChangeListener((view, isChecked) -> {
+      etTotalN.setEnabled(isChecked && !cbReturnX.isChecked());
+      cbReturnX.setEnabled(isChecked);
+      etGamma.setEnabled(isChecked);
+    });
+
     dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(v -> {
-        config.setDeltaCorrection(cbCorrectDelta.isChecked());
+      try {
+        InputValidator validator = InputValidator.getInstance();
+        float gamma = validator.checkFloat(etGamma,
+          null, 0, 1, R.string.errMathStat_emptyGamma,
+          R.string.errMathStat_incorrectGamma, "gamma");
+        config.update(cbCorrectDelta.isChecked(),
+          cbGeneralStat.isChecked(), cbReturnX.isChecked(), gamma);
+        if (config.isGeneralStatEnabled() && !config.isReturnX()) {
+          config.setTotalN(validator.checkInteger(etTotalN,
+            1, R.string.errMathStat_emptyTotalN,
+            R.string.errMathStat_incorrectTotalN, "totalN"));
+        }
+
+        config.updateSettings(settings);
         dialogInterface.dismiss();
         if (!etX.getText().toString().isEmpty())
           compute();
-      });
+      } catch (InputValidator.ValidationException ignored) {}
+    });
   };
 
   @Override

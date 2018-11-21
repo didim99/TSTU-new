@@ -1,6 +1,7 @@
 package ru.didim99.tstu.core.math;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import com.jjoe64.graphview.GraphView;
@@ -9,6 +10,7 @@ import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.jjoe64.graphview.series.PointsGraphSeries;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -23,6 +25,16 @@ import ru.didim99.tstu.utils.MyLog;
 public class MathStat {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_MathStat";
 
+  // settings
+  private static final String KEY_CORRECT_DELTA = "MathStat.correctDelta";
+  private static final String KEY_GENERAL_STAT = "MathStat.generalStat";
+  private static final String KEY_RETURN_X = "MathStat.returnX";
+  private static final String KEY_GAMMA = "MathStat.gamma";
+  private static final boolean DEFVALUE_CORRECT_DELTA = false;
+  private static final boolean DEFVALUE_GENERAL_STAT = false;
+  private static final boolean DEFVALUE_RETURN_X = true;
+  private static final float DEFVALUE_GAMMA = 0.95f;
+  // patterns
   private static final String G_DELIMITER_1 = "/";
   private static final String G_DELIMITER_2 = "#";
   private static final String I_DELIMITER = "..";
@@ -47,6 +59,7 @@ public class MathStat {
     public static final int INCORRECT_FORMAT_X = 6;
     public static final int INCORRECT_FORMAT_F = 7;
     public static final int NEGATIVE_F = 8;
+    public static final int TOTAL_N_NOT_DEFINED = 9;
   }
 
   static final class GraphType {
@@ -58,19 +71,36 @@ public class MathStat {
   // state
   private int errorCode;
   private int brokenGroup, brokenValue;
-  // workflow
+  // functions data
+  private FunctionTable laplas;
+  private FunctionTableR2 student;
+  private FunctionTableR2 chiSq;
+  // input data
   private Config config;
+  private ArrayList<Group> groups;
   private boolean useGroups, useIntervals;
   private int groupCount, n;
+  // basic statistics
   private double xAvg, delta, sigma, vf;
   private double deltaG, sigmaG;
-  private ArrayList<Group> groups;
+  // general statistics
+  private double tAvg, errAvg;
+  private double p1, p2, z1, z2;
+  private double deltaMin, deltaMax;
+  private double sigmaMin, sigmaMax;
   // view
   private int graphType;
   private boolean splitGroups;
 
-  public MathStat() {
-    config = new Config();
+  public MathStat(Context ctx, SharedPreferences settings)
+    throws IOException {
+    Storage storage = Storage.getInstance();
+    if (!storage.initCompleted())
+      storage.init(ctx);
+    laplas = storage.getLaplas();
+    student = storage.getStudent();
+    chiSq = storage.getChiSq();
+    config = new Config(settings);
     graphType = GraphType.POLYGON_F;
     splitGroups = false;
   }
@@ -78,8 +108,36 @@ public class MathStat {
   public void compute(String xStr, String fStr)
     throws ProcessException {
     initValues(xStr, fStr);
-    MyLog.d(LOG_TAG, "Computing statistics...");
+    computeBasicStat();
+    if (config.generalStat)
+      computeGeneralStat();
+    MyLog.d(LOG_TAG, "Computing completed");
+  }
 
+  private void initValues(String xStr, String fStr)
+    throws ProcessException {
+    MyLog.d(LOG_TAG, "Initializing...");
+    if (xStr.isEmpty())
+      setError(ErrorCode.EMPTY_X);
+    if (fStr.isEmpty())
+      setError(ErrorCode.EMPTY_F);
+    if (config.generalStat && !config.returnX
+      && config.totalN == 0)
+      setError(ErrorCode.TOTAL_N_NOT_DEFINED);
+
+    n = 0;
+    xAvg = delta = sigma = vf = 0;
+    groups = new ArrayList<>();
+    useGroups = xStr.contains(G_DELIMITER_1)
+      || xStr.contains(G_DELIMITER_2);
+    useIntervals = xStr.contains(I_DELIMITER);
+
+    parseValues(xStr, fStr);
+    checkXRepeats();
+  }
+
+  private void computeBasicStat() {
+    MyLog.d(LOG_TAG, "Computing basic statistics...");
     for (Group g : groups) {
       for (Value x : g.xList)
         g.n += x.f;
@@ -131,27 +189,26 @@ public class MathStat {
       sigma = g.sigma;
       vf = g.vf;
     }
-
-    MyLog.d(LOG_TAG, "Computing completed");
   }
 
-  private void initValues(String xStr, String fStr)
-    throws ProcessException {
-    MyLog.d(LOG_TAG, "Initializing...");
-    if (xStr.isEmpty())
-      setError(ErrorCode.EMPTY_X);
-    if (fStr.isEmpty())
-      setError(ErrorCode.EMPTY_F);
+  private void computeGeneralStat() {
+    MyLog.d(LOG_TAG, "Computing general statistics...");
 
-    n = 0;
-    xAvg = delta = sigma = vf = 0;
-    groups = new ArrayList<>();
-    useGroups = xStr.contains(G_DELIMITER_1)
-      || xStr.contains(G_DELIMITER_2);
-    useIntervals = xStr.contains(I_DELIMITER);
+    tAvg = n > 30 ?
+      laplas.getX(config.gamma / 2) :
+      student.get(config.gamma, n - 1);
+    errAvg = tAvg * sigma / Math.sqrt(n);
+    if (!config.returnX)
+      errAvg *= Math.sqrt(1 - (double) n / config.totalN);
 
-    parseValues(xStr, fStr);
-    checkXRepeats();
+    p1 = (1 + config.gamma) / 2;
+    p2 = (1 - config.gamma) / 2;
+    z1 = chiSq.get(p1, n - 1);
+    z2 = chiSq.get(p2, n - 1);
+    deltaMin = n * delta / z2;
+    deltaMax = n * delta / z1;
+    sigmaMin = Math.sqrt(deltaMin);
+    sigmaMax = Math.sqrt(deltaMax);
   }
 
   private void parseValues(String xStr, String fStr)
@@ -305,6 +362,22 @@ public class MathStat {
       sb.append(String.format(Locale.US, "  s   = %.3f\n", sigmaG));
     }
 
+    if (config.generalStat) {
+      sb.append("\n");
+      sb.append(ctx.getString(R.string.mathStat_intervalStat)).append("\n");
+      sb.append(String.format(Locale.US, " g  = %.3f\n", config.gamma));
+      sb.append(String.format(Locale.US, " n  = %d\n\n", n - 1));
+      sb.append(String.format(Locale.US, " t  = %.3f (%s)\n",
+        tAvg, n > 30 ? "Laplas" : "Student"));
+      sb.append(String.format(Locale.US, " dX = %.3f\n", errAvg));
+      sb.append(String.format(Locale.US, "  %.3f < a < %.3f\n\n",
+        xAvg - errAvg, xAvg + errAvg));
+      sb.append(String.format(Locale.US, " p1 = %.3f -> z1 = %.3f\n", p1, z1));
+      sb.append(String.format(Locale.US, " p2 = %.3f -> z2 = %.3f\n", p2, z2));
+      sb.append(String.format(Locale.US, "  %.3f < σ^2 < %.3f\n", deltaMin, deltaMax));
+      sb.append(String.format(Locale.US, "  %.3f < σ < %.3f\n", sigmaMin, sigmaMax));
+    }
+
     return sb.toString();
   }
 
@@ -422,21 +495,57 @@ public class MathStat {
 
   public static class Config {
     private boolean deltaCorrection;
+    private boolean generalStat;
+    private boolean returnX;
+    private float gamma;
+    private int totalN;
 
-    private Config() {
-      this.deltaCorrection = false;
+    private Config(SharedPreferences settings) {
+      deltaCorrection = settings.getBoolean(KEY_CORRECT_DELTA, DEFVALUE_CORRECT_DELTA);
+      generalStat = settings.getBoolean(KEY_GENERAL_STAT, DEFVALUE_GENERAL_STAT);
+      returnX = settings.getBoolean(KEY_RETURN_X, DEFVALUE_RETURN_X);
+      gamma = settings.getFloat(KEY_GAMMA, DEFVALUE_GAMMA);
     }
 
-    public Config(boolean deltaCorrection) {
+    public void update(boolean deltaCorrection, boolean generalStat,
+                       boolean returnX, float gamma) {
       this.deltaCorrection = deltaCorrection;
+      this.generalStat = generalStat;
+      this.returnX = returnX;
+      this.gamma = gamma;
+    }
+
+    public void setTotalN(int totalN) {
+      this.totalN = totalN;
+    }
+
+    public void updateSettings(SharedPreferences settings) {
+      settings.edit()
+        .putBoolean(KEY_CORRECT_DELTA, deltaCorrection)
+        .putBoolean(KEY_GENERAL_STAT, generalStat)
+        .putBoolean(KEY_RETURN_X, returnX)
+        .putFloat(KEY_GAMMA, gamma)
+        .apply();
     }
 
     public boolean isDeltaCorrection() {
       return deltaCorrection;
     }
 
-    public void setDeltaCorrection(boolean deltaCorrection) {
-      this.deltaCorrection = deltaCorrection;
+    public boolean isGeneralStatEnabled() {
+      return generalStat;
+    }
+
+    public boolean isReturnX() {
+      return returnX;
+    }
+
+    public double getGamma() {
+      return gamma;
+    }
+
+    public int getTotalN() {
+      return totalN;
     }
   }
 

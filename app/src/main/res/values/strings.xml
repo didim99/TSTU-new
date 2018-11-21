@@ -82,6 +82,10 @@
   <string name="errMathStat_incorrectFmtX">Некорректный формат X (группа %d, значение %d)</string>
   <string name="errMathStat_incorrectFmtF">Некорректный формат M (группа %d, значение %d)</string>
   <string name="errMathStat_negativeF">M должно быть положительным (группа %d, значение %d)</string>
+  <string name="errMathStat_emptyGamma">Не задана надежность</string>
+  <string name="errMathStat_incorrectGamma">Некорректно задана надежность</string>
+  <string name="errMathStat_emptyTotalN">Не задан объем ген. совокупности</string>
+  <string name="errMathStat_incorrectTotalN">Некорректно задан объем ген. совокупности</string>
   <!-- MathStat -->
   <string name="mathStat_inputData">Вариационный ряд</string>
   <string name="mathStat_xValues">Значения X</string>
@@ -110,10 +114,21 @@
     <b>S</b> - Стандартное отклонение<br/>
     <b>V</b> - Коэффициент вариации<br/>
     <b>d</b> - Межгрупповая дисперсия<br/>
-    <b>s</b> - Средняя групповых дисперсий
+    <b>s</b> - Средняя групповых дисперсий<br/>
+    <br/>Интервальная оценка:<br/>
+    <b>g</b> - Доверительная вероятность (надежность)<br/>
+    <b>n</b> - Число степеней свободы<br/>
+    <b>dX</b> - Предельная ошибка выборки<br/>
+    <b>a</b> - Генеральная средняя<br/>
+    <b>σ^2</b> - Генеральная дисперсия<br/>
+    <b>σ</b> - Генеральное стандартное отклонение<br/>
     ]]>
   </string>
   <string name="mathStat_correctDelta">Несмещенная дисперсия</string>
+  <string name="mathStat_intervalStat">Интервальная оценка:</string>
+  <string name="mathStat_returnX">Повторная выборка</string>
+  <string name="mathStat_gamma">Надежность</string>
+  <string name="mathStat_totalN">Объем ген. совокупности</string>
   <!-- Содержимое текстовых полей и подписей кнопок (Layout: act_dir_picker) -->
   <string name="actLabel_filePicker">Выбор файла</string>
   <string name="actLabel_dirPicker">Выбор каталога</string>

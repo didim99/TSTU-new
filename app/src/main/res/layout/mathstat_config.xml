@@ -16,4 +16,60 @@
     android:text="@string/mathStat_correctDelta"
     android:textSize="@dimen/textSize_main"/>
 
+  <CheckBox
+    android:id="@+id/cbGeneralStat"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/mathStat_intervalStat"
+    android:textSize="@dimen/textSize_main"/>
+
+  <CheckBox
+    android:id="@+id/cbReturnX"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/mathStat_returnX"
+    android:textSize="@dimen/textSize_main"/>
+
+  <TableLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="20dp"
+    android:layout_marginStart="20dp">
+
+    <TableRow>
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/mathStat_gamma"
+        android:textSize="@dimen/textSize_main"/>
+
+      <EditText
+        android:id="@+id/etGamma"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:inputType="numberDecimal"
+        android:ems="3"/>
+    </TableRow>
+
+    <TableRow>
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/mathStat_totalN"
+        android:textSize="@dimen/textSize_main"/>
+
+      <EditText
+        android:id="@+id/etTotalN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:inputType="numberDecimal"
+        android:ems="3"/>
+    </TableRow>
+  </TableLayout>
+
+
 </LinearLayout>
