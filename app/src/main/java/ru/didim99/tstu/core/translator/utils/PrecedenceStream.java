@@ -1,8 +1,7 @@
 package ru.didim99.tstu.core.translator.utils;
 
 import java.util.ArrayList;
-import ru.didim99.tstu.core.translator.LangStruct;
-import ru.didim99.tstu.core.translator.SyntaxAnalyzer;
+import ru.didim99.tstu.core.translator.InLang;
 import ru.didim99.tstu.utils.MyLog;
 
 /**
@@ -11,18 +10,15 @@ import ru.didim99.tstu.utils.MyLog;
 public class PrecedenceStream extends SyntaxStream {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_PStream";
 
-  private PrecedenceTable pt;
-  private int size;
+  private PrecedenceTable pt = PrecedenceTable.getInstance();
 
-  public PrecedenceStream(ArrayList<Integer> input, PrecedenceTable pt) {
+  public PrecedenceStream(ArrayList<Integer> input) {
     super(input);
-    this.pt = pt;
-    calcSize();
   }
 
   public int nextPrecedence() {
     if (!hasNextPrecedence())
-      throw new SyntaxAnalyzer.ProcessException("Unexpected end of file", lineNum);
+      return PrecedenceTable.RT.HIGHER;
 
     Integer l1 = next();
     if (isCustom(l1)) next();
@@ -30,7 +26,7 @@ public class PrecedenceStream extends SyntaxStream {
     MyLog.v(LOG_TAG, "Precedence "
       + "[" + rel + "] " + l1 + " -> " + pickNext());
     if (rel == PrecedenceTable.RT.NONE)
-      validateNext(LangStruct.INTERNAL.UNKNOWN);
+      validateNext(InLang.INTERNAL.UNKNOWN);
     return rel;
   }
 
@@ -45,21 +41,19 @@ public class PrecedenceStream extends SyntaxStream {
 
     MyLog.v(LOG_TAG, "Before: " + inputStream);
     ArrayList<Integer> range = new ArrayList<>();
-    int pos = 0, realStart = 0, realEnd = 0;
+    int realStart = 0, realEnd;
 
-    realPos = 0;
+    moveToStart();
     int factStart = start;
     for (Integer l : inputStream) {
-      if (l != LangStruct.INTERNAL.NEWLINE) {
+      if (l != InLang.INTERNAL.NEWLINE) {
         if (pos >= factStart) {
           if (pos == factStart)
             realStart = realPos;
           if (isCustom(l))
             count++;
-          if (count-- == 0) {
-            realEnd = realPos;
+          if (count-- == 0)
             break;
-          }
           range.add(l);
         } else if (isCustom(l))
           factStart++;
@@ -69,8 +63,9 @@ public class PrecedenceStream extends SyntaxStream {
       realPos++;
     }
 
+    realEnd = realPos;
     for (int i = realEnd - 1; i >= realStart; i--) {
-      if (inputStream.get(i) != LangStruct.INTERNAL.NEWLINE)
+      if (inputStream.get(i) != InLang.INTERNAL.NEWLINE)
         inputStream.remove(i);
     }
 
@@ -81,30 +76,11 @@ public class PrecedenceStream extends SyntaxStream {
     return range;
   }
 
-  public void moveToStart() {
-    realPos = 0;
-    lineNum = 1;
-  }
-
-  public int getSize() {
-    return size;
-  }
-
-  private void calcSize() {
-    realSize = inputStream.size();
-    size = 0;
-
-    for (Integer l : inputStream) {
-      if (l != LangStruct.INTERNAL.NEWLINE)
-        size++;
-    }
-  }
-
   private boolean hasNextPrecedence() {
-    return realPos + 2 <= realSize;
+    return pos + 2 <= size;
   }
 
-  private boolean isCustom(Integer l) {
-    return (l & LangStruct.MASK.CUSTOM) > 0;
+  private static boolean isCustom(Integer l) {
+    return (l & InLang.MASK.CUSTOM) > 0;
   }
 }

@@ -72,33 +72,8 @@ public class PrecedenceTable {
   }
 
   private void initMaps() {
-    symbolMap = new HashMap<>();
-    symbolMap.put(LangStruct.MNEMONIC.KEYWORD.PROGRAM, LangStruct.KEYWORD.PROGRAM);
-    symbolMap.put(LangStruct.MNEMONIC.KEYWORD.VAR, LangStruct.KEYWORD.VAR);
-    symbolMap.put(LangStruct.MNEMONIC.KEYWORD.INTEGER, LangStruct.KEYWORD.INTEGER);
-    symbolMap.put(LangStruct.MNEMONIC.KEYWORD.REAL, LangStruct.KEYWORD.REAL);
-    symbolMap.put(LangStruct.MNEMONIC.KEYWORD.BEGIN, LangStruct.KEYWORD.BEGIN);
-    symbolMap.put(LangStruct.MNEMONIC.KEYWORD.END, LangStruct.KEYWORD.END);
-    symbolMap.put(LangStruct.MNEMONIC.KEYWORD.FOR, LangStruct.KEYWORD.FOR);
-    symbolMap.put(LangStruct.MNEMONIC.KEYWORD.DOWNTO, LangStruct.KEYWORD.DOWNTO);
-    symbolMap.put(LangStruct.MNEMONIC.KEYWORD.DO, LangStruct.KEYWORD.DO);
-    symbolMap.put(LangStruct.MNEMONIC.KEYWORD.TO, LangStruct.KEYWORD.TO);
-    symbolMap.put(LangStruct.MNEMONIC.KEYWORD.READ, LangStruct.KEYWORD.READ);
-    symbolMap.put(LangStruct.MNEMONIC.KEYWORD.WRITELN, LangStruct.KEYWORD.WRITELN);
-    symbolMap.put(LangStruct.MNEMONIC.KEYWORD.WRITE, LangStruct.KEYWORD.WRITE);
-    symbolMap.put(LangStruct.MNEMONIC.OPERATOR.ASSIGN, LangStruct.OPERATOR.ASSIGN);
-    symbolMap.put(LangStruct.MNEMONIC.OPERATOR.PLUS, LangStruct.OPERATOR.PLUS);
-    symbolMap.put(LangStruct.MNEMONIC.OPERATOR.MINUS, LangStruct.OPERATOR.MINUS);
-    symbolMap.put(LangStruct.MNEMONIC.OPERATOR.PRODUCT, LangStruct.OPERATOR.PRODUCT);
-    symbolMap.put(LangStruct.MNEMONIC.OPERATOR.DIV, LangStruct.OPERATOR.DIV);
-    symbolMap.put(LangStruct.MNEMONIC.DIVIDER.END_OP, LangStruct.DIVIDER.END_OP);
-    symbolMap.put(LangStruct.MNEMONIC.DIVIDER.SEP_VL, LangStruct.DIVIDER.SEP_VL);
-    symbolMap.put(LangStruct.MNEMONIC.DIVIDER.END_VL, LangStruct.DIVIDER.END_VL);
-    symbolMap.put(LangStruct.MNEMONIC.DIVIDER.BEG_CALL, LangStruct.DIVIDER.BEG_CALL);
-    symbolMap.put(LangStruct.MNEMONIC.DIVIDER.END_CALL, LangStruct.DIVIDER.END_CALL);
-    symbolMap.put(LangStruct.MNEMONIC.DIVIDER.END_PROG, LangStruct.DIVIDER.END_PROG);
-    symbolMap.put(LangStruct.MNEMONIC.CUSTOM.ID, LangStruct.CUSTOM.ID);
-    symbolMap.put(LangStruct.MNEMONIC.CUSTOM.LITERAL, LangStruct.CUSTOM.LITERAL);
+    LangStruct ls = LangStruct.getInstance();
+    symbolMap = ls.getSymbolMap();
 
     valueMap = new HashMap<>();
     valueMap.put("-", RT.NONE);

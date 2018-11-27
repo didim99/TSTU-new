@@ -90,7 +90,7 @@ class HashTable<K, V> {
     for (int i = 0; i < entries.size(); i++) {
       Entry e = entries.get(i);
       sb.append(String.format(Locale.US, "%5d  %5d: %s\n",
-        i, e.chain, e.value.toString()));
+        i, e.chain, e.value == this ? "This table" : e.value.toString()));
     }
 
     return sb.toString();

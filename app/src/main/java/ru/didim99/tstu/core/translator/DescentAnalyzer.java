@@ -27,29 +27,29 @@ class DescentAnalyzer extends SyntaxAnalyzer {
 
   private AST.Program checkProgram() {
     AST.Identifier name = checkHeader();
-    inputStream.validateNext(LangStruct.DIVIDER.END_OP);
+    inputStream.validateNext(InLang.DIVIDER.END_OP);
     ArrayList<AST.VarDef> vars = checkSectionVar();
     AST.OpList operations = checkSectionOp();
-    inputStream.validateNext(LangStruct.DIVIDER.END_PROG);
+    inputStream.validateNext(InLang.DIVIDER.END_PROG);
     MyLog.v(LOG_TAG, "parsed element: PROGRAM");
     return new AST.Program(name, vars, operations);
   }
 
   private AST.Identifier checkHeader() {
-    inputStream.validateNext(LangStruct.KEYWORD.PROGRAM);
+    inputStream.validateNext(InLang.KEYWORD.PROGRAM);
     AST.Identifier name = checkVarName();
     MyLog.v(LOG_TAG, "parsed element: HEADER");
     return name;
   }
 
   private AST.Identifier checkVarName() {
-    inputStream.validateNext(LangStruct.CUSTOM.ID);
+    inputStream.validateNext(InLang.CUSTOM.ID);
     MyLog.v(LOG_TAG, "parsed element: IDENTIFIER");
     return new AST.Identifier(inputStream.next());
   }
 
   private ArrayList<AST.VarDef> checkSectionVar() {
-    inputStream.validateNext(LangStruct.KEYWORD.VAR);
+    inputStream.validateNext(InLang.KEYWORD.VAR);
     ArrayList<AST.VarDef> varDef = checkVarDeclaration();
     MyLog.v(LOG_TAG, "parsed element: VAR SECTION");
     return varDef;
@@ -58,15 +58,15 @@ class DescentAnalyzer extends SyntaxAnalyzer {
   private ArrayList<AST.VarDef> checkVarDeclaration() {
     ArrayList<AST.VarDef> varDefs = new ArrayList<>();
     ArrayList<AST.Identifier> vars = checkVarList();
-    inputStream.validateNext(LangStruct.DIVIDER.END_VL);
+    inputStream.validateNext(InLang.DIVIDER.END_VL);
     int type = checkType();
 
     for (AST.Identifier var : vars)
       result.getSymbolTable().get(var.getIndex()).setType(type);
     varDefs.add(new AST.VarDef(vars, type));
 
-    inputStream.validateNext(LangStruct.DIVIDER.END_OP);
-    if (inputStream.pickNext() == LangStruct.CUSTOM.ID) {
+    inputStream.validateNext(InLang.DIVIDER.END_OP);
+    if (inputStream.pickNext() == InLang.CUSTOM.ID) {
       varDefs.addAll(checkVarDeclaration());
     }
 
@@ -78,7 +78,7 @@ class DescentAnalyzer extends SyntaxAnalyzer {
     ArrayList<AST.Identifier> vars = new ArrayList<>();
     vars.add(checkVarName());
 
-    if (inputStream.pickNext() == LangStruct.DIVIDER.SEP_VL) {
+    if (inputStream.pickNext() == InLang.DIVIDER.SEP_VL) {
       inputStream.next();
       vars.addAll(checkVarList());
     }
@@ -89,20 +89,20 @@ class DescentAnalyzer extends SyntaxAnalyzer {
 
   private int checkType() {
     switch (inputStream.pickNext()) {
-      case LangStruct.KEYWORD.INTEGER:
-      case LangStruct.KEYWORD.REAL:
+      case InLang.KEYWORD.INTEGER:
+      case InLang.KEYWORD.REAL:
         MyLog.v(LOG_TAG, "parsed element: VAR TYPE");
         return inputStream.next();
       default:
-        inputStream.validateNext(LangStruct.INTERNAL.UNKNOWN);
-        return LangStruct.INTERNAL.UNKNOWN;
+        inputStream.validateNext(InLang.INTERNAL.UNKNOWN);
+        return InLang.INTERNAL.UNKNOWN;
     }
   }
 
   private AST.OpList checkSectionOp() {
-    inputStream.validateNext(LangStruct.KEYWORD.BEGIN);
+    inputStream.validateNext(InLang.KEYWORD.BEGIN);
     ArrayList<AST.Operation> operations = checkOpList();
-    inputStream.validateNext(LangStruct.KEYWORD.END);
+    inputStream.validateNext(InLang.KEYWORD.END);
     MyLog.v(LOG_TAG, "parsed element: OPERATOR SECTION");
     return new AST.OpList(operations);
   }
@@ -110,7 +110,7 @@ class DescentAnalyzer extends SyntaxAnalyzer {
   private ArrayList<AST.Operation> checkOpList() {
     ArrayList<AST.Operation> operations = new ArrayList<>();
     operations.add(checkOperator());
-    if (inputStream.pickNext() == LangStruct.DIVIDER.END_OP) {
+    if (inputStream.pickNext() == InLang.DIVIDER.END_OP) {
       inputStream.next();
       operations.addAll(checkOpList());
     }
@@ -121,43 +121,43 @@ class DescentAnalyzer extends SyntaxAnalyzer {
 
   private AST.Operation checkOperator() {
     switch (inputStream.pickNext()) {
-      case LangStruct.KEYWORD.READ:
+      case InLang.KEYWORD.READ:
         return checkInput();
-      case LangStruct.KEYWORD.WRITELN:
-      case LangStruct.KEYWORD.WRITE:
+      case InLang.KEYWORD.WRITELN:
+      case InLang.KEYWORD.WRITE:
         return checkOutput();
-      case LangStruct.KEYWORD.FOR:
+      case InLang.KEYWORD.FOR:
         return checkCycle();
-      case LangStruct.CUSTOM.ID:
+      case InLang.CUSTOM.ID:
         return checkAssign();
       default:
-        inputStream.validateNext(LangStruct.INTERNAL.UNKNOWN);
+        inputStream.validateNext(InLang.INTERNAL.UNKNOWN);
         return null;
     }
   }
 
   private AST.Operation checkInput() {
-    inputStream.validateNext(LangStruct.KEYWORD.READ);
-    inputStream.validateNext(LangStruct.DIVIDER.BEG_CALL);
+    inputStream.validateNext(InLang.KEYWORD.READ);
+    inputStream.validateNext(InLang.DIVIDER.BEG_CALL);
     ArrayList<AST.Identifier> vars = checkVarList();
-    inputStream.validateNext(LangStruct.DIVIDER.END_CALL);
+    inputStream.validateNext(InLang.DIVIDER.END_CALL);
     MyLog.v(LOG_TAG, "parsed element: INPUT");
     return new AST.Input(vars);
   }
 
   private AST.Operation checkOutput() {
     int operator = inputStream.validateNext(
-      LangStruct.KEYWORD.WRITE, LangStruct.KEYWORD.WRITELN);
-    inputStream.validateNext(LangStruct.DIVIDER.BEG_CALL);
+      InLang.KEYWORD.WRITE, InLang.KEYWORD.WRITELN);
+    inputStream.validateNext(InLang.DIVIDER.BEG_CALL);
     ArrayList<AST.Identifier> vars = checkVarList();
-    inputStream.validateNext(LangStruct.DIVIDER.END_CALL);
+    inputStream.validateNext(InLang.DIVIDER.END_CALL);
     MyLog.v(LOG_TAG, "parsed element: OUTPUT");
     return new AST.Output(operator, vars);
   }
 
   private AST.Assignment checkAssign() {
     AST.Identifier target = checkVarName();
-    inputStream.validateNext(LangStruct.OPERATOR.ASSIGN);
+    inputStream.validateNext(InLang.OPERATOR.ASSIGN);
     AST.Expression expr = checkExpression();
     MyLog.v(LOG_TAG, "parsed element: ASSIGNMENT");
     return new AST.Assignment(target, expr);
@@ -169,8 +169,8 @@ class DescentAnalyzer extends SyntaxAnalyzer {
     int operation = 0;
 
     if ((inputStream.pickNext()
-      & (LangStruct.OPERATOR.PLUS
-      | LangStruct.OPERATOR.MINUS)) > 0) {
+      & (InLang.OPERATOR.PLUS
+      | InLang.OPERATOR.MINUS)) > 0) {
       operation = inputStream.next();
       expr = checkExpression();
     }
@@ -185,8 +185,8 @@ class DescentAnalyzer extends SyntaxAnalyzer {
     int operation = 0;
 
     if ((inputStream.pickNext()
-      & (LangStruct.OPERATOR.PRODUCT
-      | LangStruct.OPERATOR.DIV)) > 0) {
+      & (InLang.OPERATOR.PRODUCT
+      | InLang.OPERATOR.DIV)) > 0) {
       operation = inputStream.next();
       sum = checkSummand();
     }
@@ -199,20 +199,20 @@ class DescentAnalyzer extends SyntaxAnalyzer {
     AST.Multiplier multiplier;
 
     switch (inputStream.pickNext()) {
-      case LangStruct.DIVIDER.BEG_CALL:
+      case InLang.DIVIDER.BEG_CALL:
         inputStream.next();
         multiplier = checkExpression();
-        inputStream.validateNext(LangStruct.DIVIDER.END_CALL);
+        inputStream.validateNext(InLang.DIVIDER.END_CALL);
         break;
-      case LangStruct.CUSTOM.ID:
+      case InLang.CUSTOM.ID:
         multiplier = checkVarName();
         break;
-      case LangStruct.CUSTOM.LITERAL:
+      case InLang.CUSTOM.LITERAL:
         inputStream.next();
         multiplier = new AST.Literal(inputStream.next());
         break;
       default:
-        inputStream.validateNext(LangStruct.INTERNAL.UNKNOWN);
+        inputStream.validateNext(InLang.INTERNAL.UNKNOWN);
         return null;
     }
 
@@ -221,14 +221,14 @@ class DescentAnalyzer extends SyntaxAnalyzer {
   }
 
   private AST.For checkCycle() {
-    inputStream.validateNext(LangStruct.KEYWORD.FOR);
+    inputStream.validateNext(InLang.KEYWORD.FOR);
     AST.Assignment start = checkAssign();
-    inputStream.validateNext(LangStruct.KEYWORD.TO, LangStruct.KEYWORD.DOWNTO);
+    inputStream.validateNext(InLang.KEYWORD.TO, InLang.KEYWORD.DOWNTO);
     AST.Expression end = checkExpression();
-    inputStream.validateNext(LangStruct.KEYWORD.DO);
+    inputStream.validateNext(InLang.KEYWORD.DO);
     AST.OpList opList;
 
-    if (inputStream.pickNext() == LangStruct.KEYWORD.BEGIN) {
+    if (inputStream.pickNext() == InLang.KEYWORD.BEGIN) {
       opList = checkSectionOp();
     } else {
       ArrayList<AST.Operation> operations = new ArrayList<>();

@@ -125,7 +125,7 @@
     ]]>
   </string>
   <string name="mathStat_correctDelta">Несмещенная дисперсия</string>
-  <string name="mathStat_intervalStat">Интервальная оценка:</string>
+  <string name="mathStat_intervalStat">Интервальная оценка</string>
   <string name="mathStat_returnX">Повторная выборка</string>
   <string name="mathStat_gamma">Надежность</string>
   <string name="mathStat_totalN">Объем ген. совокупности</string>

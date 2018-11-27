@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 import ru.didim99.tstu.R;
+import ru.didim99.tstu.core.translator.utils.PrecedenceTable;
 import ru.didim99.tstu.utils.MyLog;
 import ru.didim99.tstu.utils.Utils;
 
@@ -13,6 +14,8 @@ import ru.didim99.tstu.utils.Utils;
  */
 public class Translator {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_Translator";
+  private static final String BASEDIR = "/translator";
+  private final String ROOTDIR;
 
   public static final class Mode {
     public static final int LEXICAL   = 1;
@@ -32,21 +35,17 @@ public class Translator {
   private LexicalAnalyzer la;
 
   Translator(Context context, Config config) {
+    ROOTDIR = context.getExternalCacheDir()
+      .getAbsolutePath() + BASEDIR;
+
     this.context = context;
     this.config = config;
     this.result = new Result();
-    this.la = new LexicalAnalyzer();
-
-    if (config.forTesting) {
-      result.symbolSet = new ArrayList<>();
-      for (LangStruct.DictEntry entry : la.getSortedSymbolSet()) {
-        result.symbolSet.add(String.format(Locale.US, "%8s  %-4d  0x%04x",
-          entry.getMnemonic(), entry.getValue(), entry.getValue()));
-      }
-    }
   }
 
   Result translate() {
+    if (!initStatic())
+      return result;
     ArrayList<String> srcList;
     LexicalAnalyzer.Result laResult = null;
     SyntaxAnalyzer.Result saResult = null;
@@ -78,30 +77,22 @@ public class Translator {
     if (config.mode >= Mode.SYNTAX) {
       try {
         result.outputCode = null;
-
         switch (config.saType) {
           case SAType.DESCENT:
             sa = new DescentAnalyzer(laResult);
+            saResult = sa.analyze();
+            result.outputCode = "Синтаксический анализ успешно выполнен";
             break;
           case SAType.PRECEDENCE:
-            try {
-              String tableFile = context.getExternalCacheDir()
-                .getAbsolutePath() + "/translator/precedence.txt";
-              sa = new PrecedenceAnalyzer(laResult, tableFile);
-            } catch (IOException e) {
-              MyLog.w(LOG_TAG, "Can't initialize precedence table: " + e);
-              result.processErr = e.toString();
-              return result;
-            }
+            sa = new PrecedenceAnalyzer(laResult);
+            saResult = sa.analyze();
+            result.outputCode = ((PrecedenceAnalyzer) sa).getOutput();
             break;
           default:
             MyLog.e(LOG_TAG, "Unknown syntax analysis type");
             result.processErr = context.getString(R.string.errSyntaxType);
             return result;
         }
-
-        saResult = sa.analyze();
-        result.outputCode = "Синтаксический анализ успешно выполнен";
       } catch (SyntaxAnalyzer.ProcessException e) {
         e.printStackTrace();
         MyLog.e(LOG_TAG, "Syntax analysis error" +
@@ -118,6 +109,41 @@ public class Translator {
     }
 
     return result;
+  }
+
+  private boolean initStatic() {
+    LangStruct ls = LangStruct.getInstance();
+    if (!ls.initCompleted()) {
+      try {
+        String lsFile = ROOTDIR + "/inputLangStruct.txt";
+        ls.initStatic(lsFile);
+      } catch (IOException e) {
+        MyLog.w(LOG_TAG, "Can't load input language structure: " + e);
+        result.processErr = e.toString();
+        return false;
+      }
+    }
+
+    PrecedenceTable pt = PrecedenceTable.getInstance();
+    if (!pt.isInitCompleted()) {
+      try {
+        String tableFile = ROOTDIR + "/precedence.txt";
+        pt.initStatic(tableFile);
+      } catch (IOException e) {
+        MyLog.w(LOG_TAG, "Can't initialize precedence table: " + e);
+        result.processErr = e.toString();
+        return false;
+      }
+    }
+
+    la = new LexicalAnalyzer();
+    result.symbolSet = new ArrayList<>();
+    for (LangStruct.DictEntry entry : la.getSortedSymbolSet()) {
+      result.symbolSet.add(String.format(Locale.US, "%8s  %-4d  0x%04x",
+        entry.getMnemonic(), entry.getValue(), entry.getValue()));
+    }
+
+    return true;
   }
 
   public static class Config {

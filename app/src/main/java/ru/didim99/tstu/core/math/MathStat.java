@@ -364,7 +364,7 @@ public class MathStat {
 
     if (config.generalStat) {
       sb.append("\n");
-      sb.append(ctx.getString(R.string.mathStat_intervalStat)).append("\n");
+      sb.append(ctx.getString(R.string.mathStat_intervalStat)).append(":\n");
       sb.append(String.format(Locale.US, " g  = %.3f\n", config.gamma));
       sb.append(String.format(Locale.US, " n  = %d\n\n", n - 1));
       sb.append(String.format(Locale.US, " t  = %.3f (%s)\n",

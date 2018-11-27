@@ -1,7 +1,8 @@
 package ru.didim99.tstu.core.translator.utils;
 
 import java.util.ArrayList;
-import ru.didim99.tstu.core.translator.LangStruct;
+
+import ru.didim99.tstu.core.translator.InLang;
 import ru.didim99.tstu.core.translator.SyntaxAnalyzer;
 
 /**
@@ -9,13 +10,17 @@ import ru.didim99.tstu.core.translator.SyntaxAnalyzer;
  */
 public class SyntaxStream {
   final ArrayList<Integer> inputStream;
-  int realPos, realSize, lineNum;
+  int lineNum, pos, size;
+  int realPos, realSize;
 
   public SyntaxStream(ArrayList<Integer> input) {
     this.inputStream = input;
-    this.realSize = input.size();
-    this.lineNum = 1;
-    this.realPos = 0;
+    moveToStart();
+    calcSize();
+  }
+
+  public int getSize() {
+    return size;
   }
 
   public Integer pickNext() {
@@ -23,7 +28,7 @@ public class SyntaxStream {
       throw new SyntaxAnalyzer.ProcessException("Unexpected end of file", lineNum);
     int nextPos = realPos;
     Integer next = inputStream.get(nextPos);
-    while (next == LangStruct.INTERNAL.NEWLINE)
+    while (next == InLang.INTERNAL.NEWLINE)
       next = inputStream.get(++nextPos);
     return next;
   }
@@ -32,11 +37,12 @@ public class SyntaxStream {
     if (!hasNext())
       throw new SyntaxAnalyzer.ProcessException("Unexpected end of file", lineNum);
     Integer next = inputStream.get(realPos++);
-    while (next == LangStruct.INTERNAL.NEWLINE) {
+    while (next == InLang.INTERNAL.NEWLINE) {
       next = inputStream.get(realPos++);
       lineNum++;
     }
 
+    pos++;
     return next;
   }
 
@@ -48,20 +54,36 @@ public class SyntaxStream {
     }
 
     String type = "";
-    if ((nextSymbol & LangStruct.MASK.KEYWORD) > 0)
+    if ((nextSymbol & InLang.MASK.KEYWORD) > 0)
       type = "T_KEYWORD";
-    else if ((nextSymbol & LangStruct.MASK.OPERATOR) > 0)
+    else if ((nextSymbol & InLang.MASK.OPERATOR) > 0)
       type = "T_OPERATOR";
-    else if ((nextSymbol & LangStruct.MASK.DIVIDER) > 0)
+    else if ((nextSymbol & InLang.MASK.DIVIDER) > 0)
       type = "T_DIVIDER";
-    else if (nextSymbol.equals(LangStruct.CUSTOM.ID))
+    else if (nextSymbol.equals(InLang.CUSTOM.ID))
       type = "T_VARIABLE";
-    else if (nextSymbol.equals(LangStruct.CUSTOM.LITERAL))
+    else if (nextSymbol.equals(InLang.CUSTOM.LITERAL))
       type = "T_CONST";
     throw new SyntaxAnalyzer.ProcessException(String.format("Unexpected %s", type), lineNum);
   }
 
+  public void moveToStart() {
+    lineNum = 1;
+    realPos = 0;
+    pos = 0;
+  }
+
   boolean hasNext() {
-    return realPos < realSize;
+    return pos < size;
+  }
+
+  void calcSize() {
+    realSize = inputStream.size();
+    size = 0;
+
+    for (Integer l : inputStream) {
+      if (l != InLang.INTERNAL.NEWLINE)
+        size++;
+    }
   }
 }

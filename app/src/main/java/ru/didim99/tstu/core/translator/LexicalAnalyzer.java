@@ -52,7 +52,7 @@ class LexicalAnalyzer {
       }
 
       result.lexicalStream.addAll(lexemLine);
-      result.lexicalStream.add(LangStruct.INTERNAL.NEWLINE);
+      result.lexicalStream.add(InLang.INTERNAL.NEWLINE);
       lexemLine.clear();
       lineNum++;
     }
@@ -92,7 +92,7 @@ class LexicalAnalyzer {
           break;
       }
       String literal = line.substring(0, pos);
-      lexemLine.add(LangStruct.CUSTOM.LITERAL);
+      lexemLine.add(InLang.CUSTOM.LITERAL);
       lexemLine.add(Integer.parseInt(literal));
       return line.substring(pos);
     }
@@ -110,7 +110,7 @@ class LexicalAnalyzer {
       if (!isValidId(line.substring(0, ++length))) break;
     String varName = line.substring(0, --length);
     //MyLog.e(LOG_TAG, "\'" + line + "\' \'" + varName + "\'");
-    lexemLine.add(LangStruct.CUSTOM.ID);
+    lexemLine.add(InLang.CUSTOM.ID);
     lexemLine.add(symbolTable.add(varName));
     return line.substring(length);
   }
@@ -122,67 +122,67 @@ class LexicalAnalyzer {
   private void initStatic() {
     symbolSet = new ArrayList<>();
     symbolSet.add(new DictEntry(
-      LangStruct.MNEMONIC.KEYWORD.PROGRAM, LangStruct.KEYWORD.PROGRAM));
+      InLang.MNEMONIC.KEYWORD.PROGRAM, InLang.KEYWORD.PROGRAM));
     symbolSet.add(new DictEntry(
-      LangStruct.MNEMONIC.KEYWORD.VAR, LangStruct.KEYWORD.VAR));
+      InLang.MNEMONIC.KEYWORD.VAR, InLang.KEYWORD.VAR));
     symbolSet.add(new DictEntry(
-      LangStruct.MNEMONIC.KEYWORD.INTEGER, LangStruct.KEYWORD.INTEGER));
+      InLang.MNEMONIC.KEYWORD.INTEGER, InLang.KEYWORD.INTEGER));
     symbolSet.add(new DictEntry(
-      LangStruct.MNEMONIC.KEYWORD.REAL, LangStruct.KEYWORD.REAL));
+      InLang.MNEMONIC.KEYWORD.REAL, InLang.KEYWORD.REAL));
     symbolSet.add(new DictEntry(
-      LangStruct.MNEMONIC.KEYWORD.BEGIN, LangStruct.KEYWORD.BEGIN));
+      InLang.MNEMONIC.KEYWORD.BEGIN, InLang.KEYWORD.BEGIN));
     symbolSet.add(new DictEntry(
-      LangStruct.MNEMONIC.KEYWORD.END, LangStruct.KEYWORD.END));
+      InLang.MNEMONIC.KEYWORD.END, InLang.KEYWORD.END));
     symbolSet.add(new DictEntry(
-      LangStruct.MNEMONIC.KEYWORD.FOR, LangStruct.KEYWORD.FOR));
+      InLang.MNEMONIC.KEYWORD.FOR, InLang.KEYWORD.FOR));
     symbolSet.add(new DictEntry(
-      LangStruct.MNEMONIC.KEYWORD.DOWNTO, LangStruct.KEYWORD.DOWNTO));
+      InLang.MNEMONIC.KEYWORD.DOWNTO, InLang.KEYWORD.DOWNTO));
     symbolSet.add(new DictEntry(
-      LangStruct.MNEMONIC.KEYWORD.DO, LangStruct.KEYWORD.DO));
+      InLang.MNEMONIC.KEYWORD.DO, InLang.KEYWORD.DO));
     symbolSet.add(new DictEntry(
-      LangStruct.MNEMONIC.KEYWORD.TO, LangStruct.KEYWORD.TO));
+      InLang.MNEMONIC.KEYWORD.TO, InLang.KEYWORD.TO));
     symbolSet.add(new DictEntry(
-      LangStruct.MNEMONIC.KEYWORD.READ, LangStruct.KEYWORD.READ));
+      InLang.MNEMONIC.KEYWORD.READ, InLang.KEYWORD.READ));
     symbolSet.add(new DictEntry(
-      LangStruct.MNEMONIC.KEYWORD.WRITELN, LangStruct.KEYWORD.WRITELN));
+      InLang.MNEMONIC.KEYWORD.WRITELN, InLang.KEYWORD.WRITELN));
     symbolSet.add(new DictEntry(
-      LangStruct.MNEMONIC.KEYWORD.WRITE, LangStruct.KEYWORD.WRITE));
+      InLang.MNEMONIC.KEYWORD.WRITE, InLang.KEYWORD.WRITE));
     symbolSet.add(new DictEntry(
-      LangStruct.MNEMONIC.OPERATOR.ASSIGN, LangStruct.OPERATOR.ASSIGN));
+      InLang.MNEMONIC.OPERATOR.ASSIGN, InLang.OPERATOR.ASSIGN));
     symbolSet.add(new DictEntry(
-      LangStruct.MNEMONIC.OPERATOR.PLUS, LangStruct.OPERATOR.PLUS));
+      InLang.MNEMONIC.OPERATOR.PLUS, InLang.OPERATOR.PLUS));
     symbolSet.add(new DictEntry(
-      LangStruct.MNEMONIC.OPERATOR.MINUS, LangStruct.OPERATOR.MINUS));
+      InLang.MNEMONIC.OPERATOR.MINUS, InLang.OPERATOR.MINUS));
     symbolSet.add(new DictEntry(
-      LangStruct.MNEMONIC.OPERATOR.PRODUCT, LangStruct.OPERATOR.PRODUCT));
+      InLang.MNEMONIC.OPERATOR.PRODUCT, InLang.OPERATOR.PRODUCT));
     symbolSet.add(new DictEntry(
-      LangStruct.MNEMONIC.OPERATOR.DIV, LangStruct.OPERATOR.DIV));
+      InLang.MNEMONIC.OPERATOR.DIV, InLang.OPERATOR.DIV));
     symbolSet.add(new DictEntry(
-      LangStruct.MNEMONIC.OPERATOR.EQUAL, LangStruct.OPERATOR.EQUAL));
+      InLang.MNEMONIC.OPERATOR.EQUAL, InLang.OPERATOR.EQUAL));
     symbolSet.add(new DictEntry(
-      LangStruct.MNEMONIC.OPERATOR.LT, LangStruct.OPERATOR.LT));
+      InLang.MNEMONIC.OPERATOR.LT, InLang.OPERATOR.LT));
     symbolSet.add(new DictEntry(
-      LangStruct.MNEMONIC.OPERATOR.GT, LangStruct.OPERATOR.GT));
+      InLang.MNEMONIC.OPERATOR.GT, InLang.OPERATOR.GT));
     symbolSet.add(new DictEntry(
-      LangStruct.MNEMONIC.DIVIDER.END_OP, LangStruct.DIVIDER.END_OP));
+      InLang.MNEMONIC.DIVIDER.END_OP, InLang.DIVIDER.END_OP));
     symbolSet.add(new DictEntry(
-      LangStruct.MNEMONIC.DIVIDER.SEP_VL, LangStruct.DIVIDER.SEP_VL));
+      InLang.MNEMONIC.DIVIDER.SEP_VL, InLang.DIVIDER.SEP_VL));
     symbolSet.add(new DictEntry(
-      LangStruct.MNEMONIC.DIVIDER.END_VL, LangStruct.DIVIDER.END_VL));
+      InLang.MNEMONIC.DIVIDER.END_VL, InLang.DIVIDER.END_VL));
     symbolSet.add(new DictEntry(
-      LangStruct.MNEMONIC.DIVIDER.BEG_CALL, LangStruct.DIVIDER.BEG_CALL));
+      InLang.MNEMONIC.DIVIDER.BEG_CALL, InLang.DIVIDER.BEG_CALL));
     symbolSet.add(new DictEntry(
-      LangStruct.MNEMONIC.DIVIDER.END_CALL, LangStruct.DIVIDER.END_CALL));
+      InLang.MNEMONIC.DIVIDER.END_CALL, InLang.DIVIDER.END_CALL));
     symbolSet.add(new DictEntry(
-      LangStruct.MNEMONIC.DIVIDER.END_PROG, LangStruct.DIVIDER.END_PROG));
+      InLang.MNEMONIC.DIVIDER.END_PROG, InLang.DIVIDER.END_PROG));
 
     sortedSymbolSet = new ArrayList<>(symbolSet.size());
     for (DictEntry symbol : symbolSet)
       sortedSymbolSet.add(new DictEntry(symbol));
     sortedSymbolSet.add(new DictEntry(
-      LangStruct.MNEMONIC.CUSTOM.ID, LangStruct.CUSTOM.ID));
+      InLang.MNEMONIC.CUSTOM.ID, InLang.CUSTOM.ID));
     sortedSymbolSet.add(new DictEntry(
-      LangStruct.MNEMONIC.CUSTOM.LITERAL, LangStruct.CUSTOM.LITERAL));
+      InLang.MNEMONIC.CUSTOM.LITERAL, InLang.CUSTOM.LITERAL));
     Collections.sort(sortedSymbolSet, (s1, s2) ->
       Integer.compare(s1.getValue(), s2.getValue()));
 
