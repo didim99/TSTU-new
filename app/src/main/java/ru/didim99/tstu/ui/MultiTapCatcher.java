@@ -7,7 +7,7 @@ import ru.didim99.tstu.utils.Timer;
 /**
  * Created by didim99 on 15.11.18.
  */
-class MultiTapCatcher implements View.OnClickListener {
+public class MultiTapCatcher implements View.OnClickListener {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_MTC";
   private static final int THRESHOLD = 300;
 
@@ -17,12 +17,12 @@ class MultiTapCatcher implements View.OnClickListener {
   private Timer timer;
   private int taps, maxTaps;
 
-  MultiTapCatcher() {
+  public MultiTapCatcher() {
     this.timer = new Timer();
     this.taps = 0;
   }
 
-  void attachToView(View v, int maxTaps, MultiTapEventListener listener) {
+  public void attachToView(View v, int maxTaps, MultiTapEventListener listener) {
     attachToView(v, maxTaps, listener, null);
   }
 
@@ -58,7 +58,7 @@ class MultiTapCatcher implements View.OnClickListener {
       clickListener.onClick(v);
   }
 
-  interface MultiTapEventListener {
+  public interface MultiTapEventListener {
     void onMultiTapEvent(View v);
   }
 }

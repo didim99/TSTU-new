@@ -580,6 +580,4 @@ public class MathStat {
       n = 0;
     }
   }
-
-  public class ProcessException extends Exception {}
 }

@@ -1,6 +1,7 @@
-package ru.didim99.tstu.ui;
+package ru.didim99.tstu.ui.math;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -16,12 +17,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.jjoe64.graphview.GraphView;
-
 import java.io.IOException;
 import java.util.Locale;
-
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.math.MathStat;
+import ru.didim99.tstu.core.math.ProcessException;
+import ru.didim99.tstu.ui.BaseActivity;
+import ru.didim99.tstu.ui.MultiTapCatcher;
 import ru.didim99.tstu.utils.InputValidator;
 import ru.didim99.tstu.utils.MyLog;
 
@@ -30,7 +32,7 @@ public class MathStatActivity extends BaseActivity {
   private static final int TAP_MAX = 2;
 
   // view-elements
-  private MenuItem actionConfig;
+  private MenuItem actionConfig, actionType;
   private EditText etX, etF;
   private GraphView graph;
   private TextView tvOut;
@@ -75,9 +77,12 @@ public class MathStatActivity extends BaseActivity {
     MyLog.d(LOG_TAG, "Creating menu");
     getMenuInflater().inflate(R.menu.menu_mathstat, menu);
     actionConfig = menu.findItem(R.id.act_config);
+    actionType = menu.findItem(R.id.act_type);
 
-    if (uiLocked)
+    if (uiLocked) {
       actionConfig.setVisible(false);
+      actionType.setVisible(false);
+    }
 
     MyLog.d(LOG_TAG, "Menu created");
     return true;
@@ -91,6 +96,10 @@ public class MathStatActivity extends BaseActivity {
         return true;
       case R.id.act_config:
         configDialog();
+        return true;
+      case R.id.act_type:
+        finish();
+        startActivity(new Intent(this, RV2Activity.class));
         return true;
       default:
         return super.onOptionsItemSelected(item);
@@ -108,52 +117,53 @@ public class MathStatActivity extends BaseActivity {
       uiLock(false);
       stat.drawGraph(graph);
       tvOut.setText(stat.getTextResult(this));
-    } catch (MathStat.ProcessException e) {
+    } catch (ProcessException e) {
       uiLock(false);
       switch (stat.getErrorCode()) {
         case MathStat.ErrorCode.EMPTY_X:
-          toast.setText(R.string.errMathStat_emptyX);
-          toast.show();
+          showToast(R.string.errMathStat_emptyX);
           break;
         case MathStat.ErrorCode.EMPTY_F:
-          toast.setText(R.string.errMathStat_emptyF);
-          toast.show();
+          showToast(R.string.errMathStat_emptyF);
           break;
         case MathStat.ErrorCode.EMPTY_GROUP:
-          toast.setText(getString(R.string.errMathStat_emptyGroup,
-            stat.getBrokenGroup()));
-          toast.show();
+          showToast(R.string.errMathStat_emptyGroup,
+            stat.getBrokenGroup());
           break;
         case MathStat.ErrorCode.GROUPS_NOT_EQUALS:
-          toast.setText(R.string.errMathStat_groupsNotEquals);
-          toast.show();
+          showToast(R.string.errMathStat_groupsNotEquals);
           break;
         case MathStat.ErrorCode.ELEMENTS_NOT_EQUALS:
-          toast.setText(getString(R.string.errMathStat_elementsNotEquals,
-            stat.getBrokenGroup()));
-          toast.show();
+          showToast(R.string.errMathStat_elementsNotEquals,
+            stat.getBrokenGroup());
           break;
         case MathStat.ErrorCode.INCORRECT_FORMAT_X:
-          toast.setText(getString(R.string.errMathStat_incorrectFmtX,
-            stat.getBrokenGroup(), stat.getBrokenValue()));
-          toast.show();
+          showToast(R.string.errMathStat_incorrectFmtX,
+            stat.getBrokenGroup(), stat.getBrokenValue());
           break;
         case MathStat.ErrorCode.INCORRECT_FORMAT_F:
-          toast.setText(getString(R.string.errMathStat_incorrectFmtF,
-            stat.getBrokenGroup(), stat.getBrokenValue()));
-          toast.show();
+          showToast(R.string.errMathStat_incorrectFmtF,
+            stat.getBrokenGroup(), stat.getBrokenValue());
           break;
         case MathStat.ErrorCode.NEGATIVE_F:
-          toast.setText(getString(R.string.errMathStat_negativeF,
-            stat.getBrokenGroup(), stat.getBrokenValue()));
-          toast.show();
+          showToast(R.string.errMathStat_negativeF,
+            stat.getBrokenGroup(), stat.getBrokenValue());
           break;
         case MathStat.ErrorCode.TOTAL_N_NOT_DEFINED:
-          toast.setText(R.string.errMathStat_emptyTotalN);
-          toast.show();
+          showToast(R.string.errMathStat_emptyTotalN);
           break;
       }
     }
+  }
+
+  private void showToast(int msgId) {
+    toast.setText(msgId);
+    toast.show();
+  }
+
+  private void showToast(int msgId, Object... formatArgs) {
+    toast.setText(getString(msgId, formatArgs));
+    toast.show();
   }
 
   private boolean switchGraphType() {
@@ -181,6 +191,8 @@ public class MathStatActivity extends BaseActivity {
     graph.setClickable(!lock);
     if (actionConfig != null)
       actionConfig.setVisible(!lock);
+    if (actionType != null)
+      actionType.setVisible(!lock);
 
     if (lock) {
       MyLog.d(LOG_TAG, "Clearing UI...");

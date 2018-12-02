@@ -26,7 +26,7 @@
       android:name=".ui.NumericActivity"
       android:label="@string/startNumeric"/>
     <activity
-      android:name=".ui.MathStatActivity"
+      android:name=".ui.math.MathStatActivity"
       android:icon="@mipmap/ic_launcher_stat"
       android:label="@string/startMathStat"
       android:launchMode="singleTop">
@@ -35,6 +35,10 @@
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
+    <activity
+      android:name=".ui.math.RV2Activity"
+      android:label="@string/startRV2"
+      android:launchMode="singleTop"/>
     <activity
       android:name=".ui.dirpicker.DirPickerActivity"
       android:label="@string/actLabel_dirPicker"

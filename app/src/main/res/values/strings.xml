@@ -3,10 +3,13 @@
   <string name="app_name">САПР проекты</string>
   <string name="startTranslator">Транслятор</string>
   <string name="startNumeric">Численные методы</string>
-  <string name="startMathStat">Матстатистика</string>
+  <string name="startMath">Математика</string>
+  <string name="startMathStat">Математическая статистика</string>
+  <string name="startRV2">Двумерные случайные величины</string>
   <!-- Generic -->
   <string name="help">Справка</string>
   <string name="config">Настройки</string>
+  <string name="switchType">Сменить тип задачи</string>
   <string name="dialogButtonOk">OK</string>
   <string name="dialogButtonCancel">Отмена</string>
   <string name="buttonStart">Старт</string>
@@ -86,7 +89,19 @@
   <string name="errMathStat_incorrectGamma">Некорректно задана надежность</string>
   <string name="errMathStat_emptyTotalN">Не задан объем ген. совокупности</string>
   <string name="errMathStat_incorrectTotalN">Некорректно задан объем ген. совокупности</string>
+  <string name="errRV_emptyInput">Исходные данные отсутствуют</string>
+  <string name="errRV_incorrectFormat">Некорректный формат исходных данных</string>
+  <string name="errRV_titleNotDefined">Не задано имя величин</string>
+  <string name="errRV_titleIncorrect">Некорректно задоно имя величин</string>
+  <string name="errRV_incorrectX">Некорректный формат значения X (i: %d)</string>
+  <string name="errRV_incorrectY">Некорректный формат значения Y (j: %d)</string>
+  <string name="errRV_incorrectF">Некорректный формат значения m (i: %d, j: %d)</string>
+  <string name="errRV_sumOutOfRange">Сумма вероятностей не равна 1</string>
   <!-- MathStat -->
+  <string-array name="math_taskTypes">
+    <item>@string/startMathStat</item>
+    <item>@string/startRV2</item>
+  </string-array>
   <string name="mathStat_inputData">Вариационный ряд</string>
   <string name="mathStat_xValues">Значения X</string>
   <string name="mathStat_fValues">Значения M</string>
@@ -129,6 +144,21 @@
   <string name="mathStat_returnX">Повторная выборка</string>
   <string name="mathStat_gamma">Надежность</string>
   <string name="mathStat_totalN">Объем ген. совокупности</string>
+  <!-- Random values -->
+  <string name="rv_inputData">Исходные данные</string>
+  <string name="rv_regressionEquation">Уравнения регрессии</string>
+  <string name="rv_help" formatted="false">
+    <![CDATA[
+    Отдельные значения разделяются друг от друга <b>пробелами</b>. В первой строке обязательно указать имена величин, разделенные символом \"<b>/</b>\", далее через \"<b>:</b>\" указывается ряд значений одной из величин. Во второй и последующих строках первое число - значение второй величины, а далее - значения соответствующих вероятностей.<br/><br/>
+
+    Например:<br/><tt>
+    X / Y:    1    2    3<br/>
+        2   0.1  0.2  0.1<br/>
+        4     0 0.15  0.1<br/>
+        6  0.12 0.03  0.2
+    </tt>
+    ]]>
+  </string>
   <!-- Содержимое текстовых полей и подписей кнопок (Layout: act_dir_picker) -->
   <string name="actLabel_filePicker">Выбор файла</string>
   <string name="actLabel_dirPicker">Выбор каталога</string>

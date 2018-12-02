@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:padding="@dimen/layoutPadding"
+              android:orientation="horizontal"
+              android:baselineAligned="false">
+
+  <RelativeLayout
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="1">
+
+    <EditText
+      android:id="@+id/etInput"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentTop="true"
+      android:layout_above="@id/btnGo"
+      android:hint="@string/rv_inputData"
+      android:inputType="textMultiLine"
+      android:gravity="top"/>
+
+    <Button
+      android:id="@+id/btnGo"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true"
+      android:text="@string/mathStat_go"/>
+  </RelativeLayout>
+
+  <ScrollView
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="1">
+
+    <TextView
+      android:id="@+id/tvOut"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textSize="@dimen/textSize_main"
+      android:typeface="monospace"/>
+  </ScrollView>
+</LinearLayout>

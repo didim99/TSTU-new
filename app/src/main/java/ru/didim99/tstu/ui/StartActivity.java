@@ -4,10 +4,10 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
-import ru.didim99.tstu.BuildConfig;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.TSTU;
+import ru.didim99.tstu.ui.math.MathStatActivity;
+import ru.didim99.tstu.ui.math.RV2Activity;
 import ru.didim99.tstu.utils.MyLog;
 
 public class StartActivity extends AppCompatActivity {
@@ -20,8 +20,7 @@ public class StartActivity extends AppCompatActivity {
 
     findViewById(R.id.startTranslator).setOnClickListener(v ->
       startActivity(new Intent(this, TranslatorActivity.class)));
-    findViewById(R.id.startMathStat).setOnClickListener(v ->
-      startActivity(new Intent(this, MathStatActivity.class)));
+    findViewById(R.id.startMathStat).setOnClickListener(v -> mathTypeDialog());
     findViewById(R.id.startNumeric).setOnClickListener(v -> selectTypeDialog());
   }
 
@@ -33,6 +32,22 @@ public class StartActivity extends AppCompatActivity {
       Intent intent = new Intent(this, NumericActivity.class);
       intent.putExtra(TSTU.EXTRA_TYPE, pos + 1);
       startActivity(intent);
+    });
+    MyLog.d(LOG_TAG, "Type dialog created");
+    adb.create().show();
+  }
+
+  private void mathTypeDialog() {
+    MyLog.d(LOG_TAG, "Type dialog called");
+    AlertDialog.Builder adb = new AlertDialog.Builder(this);
+    adb.setTitle(R.string.numeric_selectType);
+    adb.setItems(R.array.math_taskTypes, (dialog, pos) -> {
+      Class target = null;
+      switch (pos) {
+        case 0: target = MathStatActivity.class; break;
+        case 1: target = RV2Activity.class; break;
+      }
+      startActivity(new Intent(this, target));
     });
     MyLog.d(LOG_TAG, "Type dialog created");
     adb.create().show();
