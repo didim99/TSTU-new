@@ -9,7 +9,9 @@
   <RelativeLayout
     android:layout_width="0dp"
     android:layout_height="match_parent"
-    android:layout_weight="1">
+    android:layout_weight="1"
+    android:paddingLeft="@dimen/layoutPadding"
+    android:paddingRight="@dimen/layoutPadding">
 
     <EditText
       android:id="@+id/etInput"

@@ -40,6 +40,10 @@
       android:label="@string/startRV2"
       android:launchMode="singleTop"/>
     <activity
+      android:name=".ui.math.CAActivity"
+      android:label="@string/startCA"
+      android:launchMode="singleTop"/>
+    <activity
       android:name=".ui.dirpicker.DirPickerActivity"
       android:label="@string/actLabel_dirPicker"
       android:launchMode="singleTop"

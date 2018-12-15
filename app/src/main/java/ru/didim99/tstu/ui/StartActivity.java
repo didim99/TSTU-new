@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.TSTU;
+import ru.didim99.tstu.ui.math.CAActivity;
 import ru.didim99.tstu.ui.math.MathStatActivity;
 import ru.didim99.tstu.ui.math.RV2Activity;
 import ru.didim99.tstu.utils.MyLog;
@@ -46,6 +47,7 @@ public class StartActivity extends AppCompatActivity {
       switch (pos) {
         case 0: target = MathStatActivity.class; break;
         case 1: target = RV2Activity.class; break;
+        case 2: target = CAActivity.class; break;
       }
       startActivity(new Intent(this, target));
     });

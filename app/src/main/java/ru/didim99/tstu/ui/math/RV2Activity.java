@@ -61,10 +61,8 @@ public class RV2Activity extends BaseActivity {
     MyLog.d(LOG_TAG, "Creating menu");
     getMenuInflater().inflate(R.menu.menu_rv2, menu);
     actionType = menu.findItem(R.id.act_type);
-
     if (uiLocked)
       actionType.setVisible(false);
-
     MyLog.d(LOG_TAG, "Menu created");
     return true;
   }
@@ -77,7 +75,7 @@ public class RV2Activity extends BaseActivity {
         return true;
       case R.id.act_type:
         finish();
-        startActivity(new Intent(this, MathStatActivity.class));
+        startActivity(new Intent(this, CAActivity.class));
         return true;
       default:
         return super.onOptionsItemSelected(item);

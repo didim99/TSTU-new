@@ -6,6 +6,7 @@
   <string name="startMath">Математика</string>
   <string name="startMathStat">Математическая статистика</string>
   <string name="startRV2">Двумерные случайные величины</string>
+  <string name="startCA">Корреляционный анализ</string>
   <!-- Generic -->
   <string name="help">Справка</string>
   <string name="config">Настройки</string>
@@ -97,10 +98,19 @@
   <string name="errRV_incorrectY">Некорректный формат значения Y (j: %d)</string>
   <string name="errRV_incorrectF">Некорректный формат значения m (i: %d, j: %d)</string>
   <string name="errRV_sumOutOfRange">Сумма вероятностей не равна 1</string>
+  <string name="errCA_loading">Не удалось загрузить справочные таблицы: %s</string>
+  <string name="errCA_emptyY">Не заданы значения Y</string>
+  <string name="errCA_elementsNotEquals">Количество элементов X и Y отличается</string>
+  <string name="errCA_incorrectFmtX">Некорректный формат X (значение %d)</string>
+  <string name="errCA_incorrectFmtY">Некорректный формат Y (значение %d)</string>
+  <string name="errCA_irrelevantR">Rxy не имеет значения</string>
+  <string name="errCA_emptyAlpha">Не задана значимость</string>
+  <string name="errCA_incorrectAlpha">Некорректно задана значимость</string>
   <!-- MathStat -->
   <string-array name="math_taskTypes">
     <item>@string/startMathStat</item>
     <item>@string/startRV2</item>
+    <item>@string/startCA</item>
   </string-array>
   <string name="mathStat_inputData">Вариационный ряд</string>
   <string name="mathStat_xValues">Значения X</string>
@@ -157,6 +167,20 @@
         4     0 0.15  0.1<br/>
         6  0.12 0.03  0.2
     </tt>
+    ]]>
+  </string>
+  <!-- CAActivity -->
+  <string name="mathStat_inputY">Y:</string>
+  <string name="mathStat_yValues">Значения Y</string>
+  <string name="ca_alpha">Значимость</string>
+  <string name="ca_regressionType">Тип регрессии</string>
+  <string-array name="ca_regressionTypes">
+    <item>a + b * x</item>
+    <item>a + b / x</item>
+  </string-array>
+  <string name="ca_help" formatted="false">
+    <![CDATA[
+    Отдельные значения разделяются друг от друга <b>пробелами</b>.
     ]]>
   </string>
   <!-- Содержимое текстовых полей и подписей кнопок (Layout: act_dir_picker) -->

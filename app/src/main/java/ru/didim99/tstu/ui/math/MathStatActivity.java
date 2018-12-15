@@ -225,7 +225,7 @@ public class MathStatActivity extends BaseActivity {
     adb.setTitle(R.string.config);
     adb.setPositiveButton(R.string.dialogButtonOk, null);
     adb.setNegativeButton(R.string.dialogButtonCancel, null);
-    adb.setView(R.layout.mathstat_config);
+    adb.setView(R.layout.dia_mathstat_config);
     AlertDialog dialog = adb.create();
     dialog.setOnShowListener(configListener);
     MyLog.d(LOG_TAG, "Dialog created");

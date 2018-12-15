@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:layout_margin="@dimen/layoutPadding">
+
+  <TextView
+    android:id="@+id/tvInputX"
+    android:layout_width="20dp"
+    android:layout_height="wrap_content"
+    android:layout_alignBaseline="@id/etInputX"
+    android:text="@string/mathStat_inputX"
+    android:textSize="@dimen/textSize_main"
+    android:textAlignment="textEnd"
+    android:gravity="end"/>
+
+  <EditText
+    android:id="@+id/etInputX"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"
+    android:layout_toRightOf="@id/tvInputX"
+    android:layout_toEndOf="@id/tvInputX"
+    android:inputType="numberDecimal|numberSigned|phone"
+    android:hint="@string/mathStat_xValues"/>
+
+  <TextView
+    android:id="@+id/tvInputY"
+    android:layout_width="20dp"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/etInputX"
+    android:layout_alignBaseline="@id/etInputY"
+    android:text="@string/mathStat_inputY"
+    android:textSize="@dimen/textSize_main"
+    android:textAlignment="textEnd"
+    android:gravity="end"/>
+
+  <EditText
+    android:id="@+id/etInputY"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/etInputX"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"
+    android:layout_toRightOf="@id/tvInputY"
+    android:layout_toEndOf="@id/tvInputY"
+    android:inputType="numberDecimal|numberSigned|phone"
+    android:hint="@string/mathStat_yValues"/>
+
+  <Button
+    android:id="@+id/btnGo"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/etInputY"
+    android:text="@string/mathStat_go"/>
+
+  <ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_below="@id/btnGo">
+
+    <HorizontalScrollView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+      <TextView
+        android:id="@+id/tvOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/textSize_main"
+        android:typeface="monospace"/>
+
+    </HorizontalScrollView>
+  </ScrollView>
+
+</RelativeLayout>

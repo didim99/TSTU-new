@@ -205,8 +205,8 @@ public class MathStat {
     p2 = (1 - config.gamma) / 2;
     z1 = chiSq.get(p1, n - 1);
     z2 = chiSq.get(p2, n - 1);
-    deltaMin = n * delta / z2;
-    deltaMax = n * delta / z1;
+    deltaMin = (config.deltaCorrection ? n - 1 : n) * delta / z2;
+    deltaMax = (config.deltaCorrection ? n - 1 : n) * delta / z1;
     sigmaMin = Math.sqrt(deltaMin);
     sigmaMax = Math.sqrt(deltaMax);
   }
