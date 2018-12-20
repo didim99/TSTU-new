@@ -45,6 +45,26 @@
         android:layout_marginStart="5dp"
         android:entries="@array/ca_regressionTypes"/>
     </TableRow>
+
+    <TableRow
+      android:id="@+id/rowRFactor"
+      android:visibility="gone">
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ca_revFactor"
+        android:textSize="@dimen/textSize_main"/>
+
+      <EditText
+        android:id="@+id/etRFactor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:inputType="numberDecimal"
+        android:ems="3"/>
+    </TableRow>
   </TableLayout>
 
 </LinearLayout>

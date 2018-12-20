@@ -11,6 +11,8 @@ import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -132,9 +134,6 @@ public class CAActivity extends BaseActivity {
           showToast(R.string.errCA_incorrectFmtY,
             ca.getBrokenValue());
           break;
-        case CAProcessor.ErrorCode.IRRELEVANT_R:
-          showToast(R.string.errCA_irrelevantR);
-          break;
       }
     }
   }
@@ -192,9 +191,26 @@ public class CAActivity extends BaseActivity {
     AlertDialog dialog = (AlertDialog) dialogInterface;
     EditText etAlpha = dialog.findViewById(R.id.etAlpha);
     Spinner regType = dialog.findViewById(R.id.spRegType);
+    View rowRFactor = dialog.findViewById(R.id.rowRFactor);
+    EditText etRFactor = dialog.findViewById(R.id.etRFactor);
 
-    etAlpha.setText(String.format(Locale.US, "%.2f", config.getAlpha()));
     regType.setSelection(config.getRegType() - 1);
+    etAlpha.setText(String.format(Locale.US, "%.2f", config.getAlpha()));
+    etRFactor.setText(String.format(Locale.US, "%.2f", config.getRevFactor()));
+    if (config.isRegressionReverse())
+      rowRFactor.setVisibility(View.VISIBLE);
+
+    regType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+      @Override
+      public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        config.setRegType(position + 1);
+        rowRFactor.setVisibility(config.isRegressionReverse()
+          ? View.VISIBLE : View.GONE);
+      }
+
+      @Override
+      public void onNothingSelected(AdapterView<?> parent) {}
+    });
 
     dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(v -> {
       try {
@@ -203,7 +219,14 @@ public class CAActivity extends BaseActivity {
           null, 0, 1, R.string.errCA_emptyAlpha,
           R.string.errCA_incorrectAlpha, "alpha");
 
-        config.update(alpha, regType.getSelectedItemPosition() + 1);
+        float rFactor = config.getRevFactor();
+        if (config.isRegressionReverse()) {
+          rFactor = validator.checkFloat(etRFactor,
+            null, 0, null, R.string.errCA_emptyRFactor,
+            R.string.errCA_incorrectRFactor, "rFactor");
+        }
+
+        config.update(alpha, rFactor);
         config.updateSettings(settings);
         dialogInterface.dismiss();
         if (!etX.getText().toString().isEmpty())

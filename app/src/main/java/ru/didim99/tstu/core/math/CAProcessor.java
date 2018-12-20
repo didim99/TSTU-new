@@ -14,14 +14,17 @@ import ru.didim99.tstu.utils.MyLog;
 public class CAProcessor {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_CA";
   private static final String V_REGEX = "\\s+";
+  private static final int L = 2;
 
   // settings
   private static final String KEY_ALPHA = "CA.alpha";
   private static final String KEY_R_TYPE = "CA.regressionType";
+  private static final String KEY_REV_FACTOR = "CA.revFactor";
   private static final float DEFVALUE_ALPHA = 0.05f;
   private static final int DEFVALUE_R_TYPE = 1;
+  private static final float DEFVALUE_REV_FACTOR = 1.0f;
   // output
-  private static final int CW = 6;
+  private static final int CW = 7;
   private static final int L_CW = 2;
   private static final int PREC = 2;
   private static final int PREC_F = 1;
@@ -45,7 +48,6 @@ public class CAProcessor {
     public static final int ELEMENTS_NOT_EQUALS = 5;
     public static final int INCORRECT_FORMAT_X = 6;
     public static final int INCORRECT_FORMAT_Y = 7;
-    public static final int IRRELEVANT_R = 8;
   }
 
   public static final class RegressionType {
@@ -58,8 +60,9 @@ public class CAProcessor {
   private int brokenValue;
   private FunctionTableR2 student;
   // workflow
-  private int n, l;
+  private int n;
   private Config config;
+  private boolean relevantR;
   private ArrayList<Double> xVals, yVals;
   private ArrayList<Double> x2Vals, y2Vals, xyVals;
   private ArrayList<Double> yxVals, qFVals, qRVals;
@@ -74,7 +77,6 @@ public class CAProcessor {
       storage.init(ctx);
     student = storage.getStudent();
     config = new Config(settings);
-    l = 2;
   }
 
   public void compute(String xStr, String yStr)
@@ -84,13 +86,13 @@ public class CAProcessor {
     MyLog.d(LOG_TAG, "Analysis completed");
   }
 
-  private void basicAnalysis() throws ProcessException {
+  private void basicAnalysis() {
     MyLog.d(LOG_TAG, "Analysing...");
 
     switch (config.regType) {
       case RegressionType.REVERSE:
         for (int i = 0; i < n; i++)
-          xVals.set(i, 1 / xVals.get(i));
+          xVals.set(i, config.revFactor / xVals.get(i));
         break;
     }
 
@@ -115,9 +117,7 @@ public class CAProcessor {
 
     tN = r * Math.sqrt(n - 2) / Math.sqrt(1 - Math.pow(r, 2));
     tCr = student.get(1 - config.alpha, n - 2);
-
-    if (Math.abs(tN) < tCr)
-      setError(ErrorCode.IRRELEVANT_R);
+    relevantR = !(Math.abs(tN) < tCr);
 
     xAvg = xSum / n;
     yAvg = ySum / n;
@@ -132,7 +132,7 @@ public class CAProcessor {
       qRSum += qRVals.get(i);
     }
 
-    tRN = (qFSum * (n - l)) / (qRSum * (l - 1));
+    tRN = (qFSum * (n - L)) / (qRSum * (L - 1));
   }
 
   private void initValues(String xStr, String yStr)
@@ -207,8 +207,13 @@ public class CAProcessor {
 
   public String getTextResult(Context ctx) {
     StringBuilder sb = new StringBuilder();
+    boolean rr = config.isRegressionReverse();
+    String XStr = rr ? "Z" : "X";
+    String xStr = rr ? "z" : "x";
+
     sb.append(String.format(Locale.US, T_HEADER,
-      "", "X", "Y", "XY", "X^2", "Y^2", "Yx", "Qf", "Qr"));
+      "", XStr, "Y", XStr + "Y", XStr + "^2",
+      "Y^2", "Y" + xStr, "Qf", "Qr"));
     for (int i = 0; i < n; i++) {
       sb.append(String.format(Locale.US, T_ROW, "",
         xVals.get(i), yVals.get(i), xyVals.get(i), x2Vals.get(i),
@@ -219,37 +224,46 @@ public class CAProcessor {
       "Σ", xSum, ySum, xySum, x2Sum, y2Sum, "", qFSum, qRSum));
 
     sb.append("\n");
-    sb.append(String.format(Locale.US, " Xavg: %.3f\n", xAvg));
-    sb.append(String.format(Locale.US, " Yavg: %.3f\n", yAvg));
-    sb.append(String.format(Locale.US, "   Sx: %.3f\n", xS));
-    sb.append(String.format(Locale.US, "   Sy: %.3f\n", yS));
+    sb.append(String.format(Locale.US, "    n: %d\n", n));
+    sb.append(String.format(Locale.US, "    α: %.3f\n", config.alpha));
+    if (rr) sb.append(String.format(Locale.US, "   rf: %.3f\n", config.revFactor));
     sb.append("\n");
-    sb.append(String.format(Locale.US, "  Rxy: %.3f\n", r));
+    sb.append(String.format(Locale.US, "   S%s: %.3f\n", xStr, xS));
+    sb.append(String.format(Locale.US, "   Sy: %.3f\n", yS));
+    sb.append(String.format(Locale.US, "  R%sy: %.3f\n", xStr, r));
     sb.append(String.format(Locale.US, "   Tn: %.3f\n", tN));
-    sb.append(String.format(Locale.US, "  Tcr: %.3f\n", tCr));
+    sb.append(String.format(Locale.US, "  Tcr: %.3f", tCr));
+    sb.append(" => ").append(ctx.getString(relevantR ?
+      R.string.ca_relevantR : R.string.ca_irrelevantR, xStr));
+    sb.append("\n");
 
-    sb.append("\n").append(ctx.getString(R.string.rv_regressionEquation)).append(":\n");
+    sb.append("\n").append(ctx.getString(R.string.rv_regressionEquation)).append(":\n\n");
+    sb.append(String.format(Locale.US, " %savg: %.3f\n", XStr, xAvg));
+    sb.append(String.format(Locale.US, " Yavg: %.3f\n", yAvg));
+    sb.append("\n");
     sb.append(String.format(Locale.US,
-      "  Yx - %.3f = %.3f * (x - %.3f)\n", yAvg, bYX, xAvg));
+      "  Y%s - %.3f = %.3f * (%s - %.3f)\n",
+      xStr, yAvg, bYX, xStr, xAvg));
     double a = yAvg - bYX * xAvg;
-    sb.append(String.format(Locale.US,
-      "  Yx = %.3f * x %s %.3f\n", bYX, (a < 0 ? "-" : "+"), Math.abs(a)));
+    sb.append(String.format(Locale.US, "  Yx = %.3f %s x %s %.3f\n",
+      bYX, (rr ? "/" : "*"), (a < 0 ? "-" : "+"), Math.abs(a)));
     sb.append("\n");
     sb.append(String.format(Locale.US, "  Trn: %.3f\n", tRN));
     return sb.toString();
   }
 
   public static class Config {
-    private float alpha;
+    private float alpha, revFactor;
     private int regType;
 
     private Config(SharedPreferences settings) {
       alpha = settings.getFloat(KEY_ALPHA, DEFVALUE_ALPHA);
       regType = settings.getInt(KEY_R_TYPE, DEFVALUE_R_TYPE);
+      revFactor = settings.getFloat(KEY_REV_FACTOR, DEFVALUE_REV_FACTOR);
     }
 
-    public void update(float alpha, int regType) {
-      this.regType = regType;
+    public void update(float alpha, float revFactor) {
+      this.revFactor = revFactor;
       this.alpha = alpha;
     }
 
@@ -261,11 +275,24 @@ public class CAProcessor {
       return regType;
     }
 
+    public float getRevFactor() {
+      return revFactor;
+    }
+
+    public void setRegType(int regType) {
+      this.regType = regType;
+    }
+
     public void updateSettings(SharedPreferences settings) {
       settings.edit()
         .putInt(KEY_R_TYPE, regType)
         .putFloat(KEY_ALPHA, alpha)
+        .putFloat(KEY_REV_FACTOR, revFactor)
         .apply();
+    }
+
+    public boolean isRegressionReverse() {
+      return regType == RegressionType.REVERSE;
     }
   }
 }

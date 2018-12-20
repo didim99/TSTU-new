@@ -103,9 +103,10 @@
   <string name="errCA_elementsNotEquals">Количество элементов X и Y отличается</string>
   <string name="errCA_incorrectFmtX">Некорректный формат X (значение %d)</string>
   <string name="errCA_incorrectFmtY">Некорректный формат Y (значение %d)</string>
-  <string name="errCA_irrelevantR">Rxy не имеет значения</string>
   <string name="errCA_emptyAlpha">Не задана значимость</string>
   <string name="errCA_incorrectAlpha">Некорректно задана значимость</string>
+  <string name="errCA_emptyRFactor">Не задан множитель для обратной регрессии</string>
+  <string name="errCA_incorrectRFactor">Некорректно задан множитель для обратной регрессии</string>
   <!-- MathStat -->
   <string-array name="math_taskTypes">
     <item>@string/startMathStat</item>
@@ -174,6 +175,7 @@
   <string name="mathStat_yValues">Значения Y</string>
   <string name="ca_alpha">Значимость</string>
   <string name="ca_regressionType">Тип регрессии</string>
+  <string name="ca_revFactor">Множитель</string>
   <string-array name="ca_regressionTypes">
     <item>a + b * x</item>
     <item>a + b / x</item>
@@ -183,6 +185,8 @@
     Отдельные значения разделяются друг от друга <b>пробелами</b>.
     ]]>
   </string>
+  <string name="ca_relevantR">R%sy значим</string>
+  <string name="ca_irrelevantR">R%sy не значим</string>
   <!-- Содержимое текстовых полей и подписей кнопок (Layout: act_dir_picker) -->
   <string name="actLabel_filePicker">Выбор файла</string>
   <string name="actLabel_dirPicker">Выбор каталога</string>
