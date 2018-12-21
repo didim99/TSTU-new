@@ -68,7 +68,7 @@ public class CAProcessor {
   private ArrayList<Double> yxVals, qFVals, qRVals;
   private double xSum, ySum, xySum, x2Sum, y2Sum;
   private double xAvg, yAvg, xS, yS, r, bYX;
-  private double tN, tCr, qFSum, qRSum, tRN;
+  private double tN, tCr, qFSum, qRSum, tRN, s;
 
   public CAProcessor(Context ctx, SharedPreferences settings)
     throws IOException {
@@ -133,6 +133,7 @@ public class CAProcessor {
     }
 
     tRN = (qFSum * (n - L)) / (qRSum * (L - 1));
+    s = qRSum / (n - L);
   }
 
   private void initValues(String xStr, String yStr)
@@ -238,6 +239,7 @@ public class CAProcessor {
     sb.append("\n");
 
     sb.append("\n").append(ctx.getString(R.string.rv_regressionEquation)).append(":\n\n");
+    sb.append(String.format(Locale.US, "  By%s: %.3f\n", xStr, bYX));
     sb.append(String.format(Locale.US, " %savg: %.3f\n", XStr, xAvg));
     sb.append(String.format(Locale.US, " Yavg: %.3f\n", yAvg));
     sb.append("\n");
@@ -245,10 +247,13 @@ public class CAProcessor {
       "  Y%s - %.3f = %.3f * (%s - %.3f)\n",
       xStr, yAvg, bYX, xStr, xAvg));
     double a = yAvg - bYX * xAvg;
-    sb.append(String.format(Locale.US, "  Yx = %.3f %s x %s %.3f\n",
-      bYX, (rr ? "/" : "*"), (a < 0 ? "-" : "+"), Math.abs(a)));
+    sb.append(String.format(Locale.US, "  Y%s = %.3f * %s %s %.3f\n",
+      xStr, bYX, xStr, (a < 0 ? "-" : "+"), Math.abs(a)));
+    if (rr) sb.append(String.format(Locale.US, "  Yx = %.3f / x %s %.3f\n",
+      bYX * 6, (a < 0 ? "-" : "+"), Math.abs(a)));
     sb.append("\n");
     sb.append(String.format(Locale.US, "  Trn: %.3f\n", tRN));
+    sb.append(String.format(Locale.US, "   S0: %.3f\n", s));
     return sb.toString();
   }
 

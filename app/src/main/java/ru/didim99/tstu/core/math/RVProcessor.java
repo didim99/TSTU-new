@@ -258,7 +258,7 @@ public class RVProcessor {
                            Double[] first, Double[] second) {
     sb.append(name).append(":\n");
     String format = "  %" + maxLen + ".3f: %.3f\n";
-    for (int i = 0; i < xVals.length; i++)
+    for (int i = 0; i < first.length; i++)
       sb.append(String.format(Locale.US, format, first[i], second[i]));
   }
 
