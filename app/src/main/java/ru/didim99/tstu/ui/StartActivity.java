@@ -19,13 +19,15 @@ public class StartActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.act_start);
 
+    findViewById(R.id.startMathStat).setOnClickListener(v -> mathTypeDialog());
+    findViewById(R.id.startNumeric).setOnClickListener(v -> numericTypeDialog());
     findViewById(R.id.startTranslator).setOnClickListener(v ->
       startActivity(new Intent(this, TranslatorActivity.class)));
-    findViewById(R.id.startMathStat).setOnClickListener(v -> mathTypeDialog());
-    findViewById(R.id.startNumeric).setOnClickListener(v -> selectTypeDialog());
+    findViewById(R.id.startGraphics).setOnClickListener(v ->
+      startActivity(new Intent(this, GraphicsActivity.class)));
   }
 
-  private void selectTypeDialog() {
+  private void numericTypeDialog() {
     MyLog.d(LOG_TAG, "Type dialog called");
     AlertDialog.Builder adb = new AlertDialog.Builder(this);
     adb.setTitle(R.string.numeric_selectType);

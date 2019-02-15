@@ -11,11 +11,11 @@
    android:orientation="vertical">
 
    <Button
-     android:id="@+id/startTranslator"
+     android:id="@+id/startMathStat"
      android:layout_width="match_parent"
      android:layout_height="wrap_content"
      android:padding="@dimen/actStart_btnPadding"
-     android:text="@string/startTranslator"/>
+     android:text="@string/startMath"/>
 
    <Button
      android:id="@+id/startNumeric"
@@ -25,11 +25,18 @@
      android:text="@string/startNumeric"/>
 
    <Button
-     android:id="@+id/startMathStat"
+     android:id="@+id/startTranslator"
      android:layout_width="match_parent"
      android:layout_height="wrap_content"
      android:padding="@dimen/actStart_btnPadding"
-     android:text="@string/startMath"/>
+     android:text="@string/startTranslator"/>
+
+   <Button
+     android:id="@+id/startGraphics"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:padding="@dimen/actStart_btnPadding"
+     android:text="@string/startGraphics"/>
  </LinearLayout>
 
 </RelativeLayout>

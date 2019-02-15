@@ -13,9 +13,11 @@
     android:supportsRtl="true"
     android:theme="@style/AppTheme"
     tools:ignore="GoogleAppIndexingWarning">
+
     <activity android:name=".ui.StartActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
+
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
@@ -29,12 +31,7 @@
       android:name=".ui.math.MathStatActivity"
       android:icon="@mipmap/ic_launcher_stat"
       android:label="@string/startMathStat"
-      android:launchMode="singleTop">
-      <intent-filter>
-        <action android:name="android.intent.action.MAIN"/>
-        <category android:name="android.intent.category.LAUNCHER"/>
-      </intent-filter>
-    </activity>
+      android:launchMode="singleTop"/>
     <activity
       android:name=".ui.math.RV2Activity"
       android:label="@string/startRV2"
@@ -43,6 +40,9 @@
       android:name=".ui.math.CAActivity"
       android:label="@string/startCA"
       android:launchMode="singleTop"/>
+    <activity
+      android:name=".ui.GraphicsActivity"
+      android:label="@string/startGraphics"/>
     <activity
       android:name=".ui.dirpicker.DirPickerActivity"
       android:label="@string/actLabel_dirPicker"

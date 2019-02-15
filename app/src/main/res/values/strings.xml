@@ -3,10 +3,11 @@
   <string name="app_name">САПР проекты</string>
   <string name="startTranslator">Транслятор</string>
   <string name="startNumeric">Численные методы</string>
-  <string name="startMath">Математика</string>
+  <string name="startMath">Матстатистика</string>
   <string name="startMathStat">Математическая статистика</string>
   <string name="startRV2">Двумерные случайные величины</string>
   <string name="startCA">Корреляционный анализ</string>
+  <string name="startGraphics">Графика</string>
   <!-- Generic -->
   <string name="help">Справка</string>
   <string name="config">Настройки</string>
@@ -196,6 +197,12 @@
   </string>
   <string name="ca_relevantR">R%sy значим</string>
   <string name="ca_irrelevantR">R%sy не значим</string>
+  <!-- Graphics -->
+  <string name="graphics_brezenhem">Алгоритм Брезенхэма</string>
+  <string name="graphics_animate">Анимировать</string>
+  <string name="graphics_clear">Очистить</string>
+  <string name="graphics_useAA">Использовать сглаживание</string>
+  <string name="graphics_angle">Угол наклона: %d&#176;</string>
   <!-- Содержимое текстовых полей и подписей кнопок (Layout: act_dir_picker) -->
   <string name="actLabel_filePicker">Выбор файла</string>
   <string name="actLabel_dirPicker">Выбор каталога</string>
