@@ -2,7 +2,6 @@ package ru.didim99.tstu.ui;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.Menu;
@@ -43,7 +42,6 @@ public class TranslatorActivity extends BaseActivity
     MyLog.d(LOG_TAG, "TranslatorActivity starting...");
     super.onCreate(savedInstanceState);
     setContentView(R.layout.act_translator);
-    setupActionBar();
 
     MyLog.d(LOG_TAG, "View components init...");
     toastMsg = Toast.makeText(this, "", Toast.LENGTH_LONG);
@@ -96,7 +94,7 @@ public class TranslatorActivity extends BaseActivity
           String extPath = data.getPath();
           if (!scheme.equals("file") && !(new File(extPath).exists())) {
             MyLog.e(LOG_TAG, "Can't load file/dir. Unsupported scheme: " + scheme);
-            toastMsg.setText(R.string.unsupportedScheme);
+            toastMsg.setText(R.string.errGeneric_unsupportedScheme);
             toastMsg.show();
             /*if (++loadCount < MAX_LOAD_COUNT) {
               toastMsg.setText(R.string.unsupportedScheme);
@@ -284,7 +282,4 @@ public class TranslatorActivity extends BaseActivity
     }
     return flag;
   }
-
-  @Override
-  protected void onSetupActionBar(ActionBar bar) {}
 }

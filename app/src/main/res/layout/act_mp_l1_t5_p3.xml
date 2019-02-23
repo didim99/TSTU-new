@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:padding="@dimen/layoutPadding">
+
+  <Button
+    android:id="@+id/mp_btn2"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_toLeftOf="@id/mp_center"
+    android:layout_toStartOf="@id/mp_center"
+    android:text="Left 50%"/>
+
+  <View
+    android:id="@+id/mp_center"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true"/>
+
+  <Button
+    android:id="@+id/mp_btn3"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"
+    android:layout_toRightOf="@id/mp_center"
+    android:layout_toEndOf="@id/mp_center"
+    android:text="Right 50%"/>
+
+  <Button
+    android:id="@+id/mp_btn1"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:text="Center"/>
+
+  <Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignTop="@id/mp_btn1"
+    android:layout_toLeftOf="@id/mp_btn1"
+    android:layout_toStartOf="@id/mp_btn1"
+    android:text="Center_left"/>
+
+  <Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignTop="@id/mp_btn1"
+    android:layout_toRightOf="@id/mp_btn1"
+    android:layout_toEndOf="@id/mp_btn1"
+    android:text="Center_right"/>
+
+  <Button
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:text="Bottom"/>
+
+</RelativeLayout>

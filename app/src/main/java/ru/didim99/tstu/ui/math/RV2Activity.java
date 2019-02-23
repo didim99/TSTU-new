@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.view.Menu;
@@ -42,7 +41,6 @@ public class RV2Activity extends BaseActivity {
     screenLarge = (getResources().getConfiguration().screenLayout
       & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
 
-    setupActionBar();
     MyLog.d(LOG_TAG, "View components init...");
     etInput = findViewById(R.id.etInput);
     btnGo = findViewById(R.id.btnGo);
@@ -152,9 +150,6 @@ public class RV2Activity extends BaseActivity {
     MyLog.d(LOG_TAG, "Dialog created");
     adb.create().show();
   }
-
-  @Override
-  protected void onSetupActionBar(ActionBar bar) {}
 
   private void showToast(int msgId) {
     toast.setText(msgId);

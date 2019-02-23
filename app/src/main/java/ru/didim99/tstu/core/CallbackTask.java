@@ -41,7 +41,6 @@ public abstract class CallbackTask<Config, Result> extends AsyncTask<Config, Voi
   @Override
   @CallSuper
   protected void onPreExecute() {
-    super.onPreExecute();
     if (listener != null)
       listener.onTaskEvent(Event.START, null);
   }
@@ -57,7 +56,6 @@ public abstract class CallbackTask<Config, Result> extends AsyncTask<Config, Voi
   @Override
   @CallSuper
   protected void onPostExecute(Void res) {
-    super.onPostExecute(res);
     MyLog.d(LOG_TAG, "Executing completed");
     if (listener != null)
       listener.onTaskEvent(Event.FINISH, result);

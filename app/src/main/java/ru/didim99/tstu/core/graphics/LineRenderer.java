@@ -1,7 +1,6 @@
 package ru.didim99.tstu.core.graphics;
 
 import android.graphics.Color;
-
 import ru.didim99.tstu.ui.DrawerView;
 
 /**

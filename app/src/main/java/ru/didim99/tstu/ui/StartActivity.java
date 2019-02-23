@@ -9,6 +9,8 @@ import ru.didim99.tstu.TSTU;
 import ru.didim99.tstu.ui.math.CAActivity;
 import ru.didim99.tstu.ui.math.MathStatActivity;
 import ru.didim99.tstu.ui.math.RV2Activity;
+import ru.didim99.tstu.ui.mp.lab1.L1ActMain;
+import ru.didim99.tstu.ui.oop.AbiturientActivity;
 import ru.didim99.tstu.utils.MyLog;
 
 public class StartActivity extends AppCompatActivity {
@@ -21,6 +23,8 @@ public class StartActivity extends AppCompatActivity {
 
     findViewById(R.id.startMathStat).setOnClickListener(v -> mathTypeDialog());
     findViewById(R.id.startNumeric).setOnClickListener(v -> numericTypeDialog());
+    findViewById(R.id.startMP).setOnClickListener(v -> mpTypeDialog());
+    findViewById(R.id.startOOP).setOnClickListener(v -> oopTypeDialog());
     findViewById(R.id.startTranslator).setOnClickListener(v ->
       startActivity(new Intent(this, TranslatorActivity.class)));
     findViewById(R.id.startGraphics).setOnClickListener(v ->
@@ -54,6 +58,36 @@ public class StartActivity extends AppCompatActivity {
       startActivity(new Intent(this, target));
     });
     MyLog.d(LOG_TAG, "Type dialog created");
+    adb.create().show();
+  }
+
+  private void mpTypeDialog() {
+    MyLog.d(LOG_TAG, "MP type dialog called");
+    AlertDialog.Builder adb = new AlertDialog.Builder(this);
+    adb.setTitle(R.string.mp_selectType);
+    adb.setItems(R.array.mp_taskTypes, (dialog, pos) -> {
+      Class target = null;
+      switch (pos) {
+        case 0: target = L1ActMain.class; break;
+      }
+      startActivity(new Intent(this, target));
+    });
+    MyLog.d(LOG_TAG, "MP type dialog created");
+    adb.create().show();
+  }
+
+  private void oopTypeDialog() {
+    MyLog.d(LOG_TAG, "OOP type dialog called");
+    AlertDialog.Builder adb = new AlertDialog.Builder(this);
+    adb.setTitle(R.string.oop_selectType);
+    adb.setItems(R.array.oop_taskTypes, (dialog, pos) -> {
+      Class target = null;
+      switch (pos) {
+        case 0: target = AbiturientActivity.class; break;
+      }
+      startActivity(new Intent(this, target));
+    });
+    MyLog.d(LOG_TAG, "OOP type dialog created");
     adb.create().show();
   }
 }

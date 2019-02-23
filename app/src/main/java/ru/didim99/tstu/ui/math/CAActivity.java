@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.view.Menu;
@@ -244,7 +243,4 @@ public class CAActivity extends BaseActivity {
     toast.setText(getString(msgId, formatArgs));
     toast.show();
   }
-
-  @Override
-  protected void onSetupActionBar(ActionBar bar) {}
 }

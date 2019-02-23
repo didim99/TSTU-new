@@ -14,13 +14,18 @@
   <string name="switchType">Сменить тип задачи</string>
   <string name="dialogButtonOk">OK</string>
   <string name="dialogButtonCancel">Отмена</string>
+  <string name="dialogButtonDelete">Удалить</string>
   <string name="buttonStart">Старт</string>
+  <string name="buttonAdd">Добавить</string>
+  <string name="buttonOpen">Открыть</string>
   <string name="buttonSave">Сохранить</string>
+  <string name="buttonMore">Дополнительно</string>
   <string name="pathLayout_pickFile">Путь до исходного файла</string>
   <string name="pathLayout_openExplorer">…</string>
   <string name="inputData">Исходные данные</string>
   <string name="outputData">Выходные данные</string>
   <string name="savedToFile">Сохранено в:\n%s</string>
+  <string name="loadedFromFile">Загружено из:\n%s</string>
   <string name="cantWriteFile">Не удалось записать файл:\n%s</string>
   <!-- FilePicker -->
   <string name="filePicker_emptyPath">Не указаны путь и имя файла</string>
@@ -73,9 +78,11 @@
   <string name="numeric_integration_trapezium">Метод трапеций</string>
   <string name="numeric_diffSolver_euler">Вторая модификация метода Эйлера</string>
   <!-- Errors -->
-  <string name="errNumeric_nothingToSave">Сохранять нечего</string>
-  <string name="unsupportedScheme">Не удалось загрузить файл.\nПопробуйте использовать другой файловый менеджер</string>
+  <string name="errGeneric_cantRead">Не удалось прочитать файл:\n%s</string>
+  <string name="errGeneric_cantWrite">Не удалось записать файл:\n%s</string>
+  <string name="errGeneric_unsupportedScheme">Не удалось загрузить файл.\nПопробуйте использовать другой файловый менеджер</string>
   <string name="errGeneric_inputFileNotReadable">Невозможно прочитать исходный файл</string>
+  <string name="errNumeric_nothingToSave">Сохранять нечего</string>
   <string name="errLexical_invalidStatement">Ошибка лексического анализа в строке %d: Неизвестный символ</string>
   <string name="errSyntax">Ошибка синтаксического анализа в строке %d: %s</string>
   <string name="errSyntaxType">Неизвестный тип синтаксического анализа</string>
@@ -108,6 +115,13 @@
   <string name="errCA_incorrectAlpha">Некорректно задана значимость</string>
   <string name="errCA_emptyRFactor">Не задан множитель для обратной регрессии</string>
   <string name="errCA_incorrectRFactor">Некорректно задан множитель для обратной регрессии</string>
+  <string name="errAbit_emptyInfo">Все поля должны быть заполнены</string>
+  <string name="errAbit_emptyGrades">Не указаны оценки</string>
+  <string name="errAbit_incorrectGrades">Некорректно указаны оценки</string>
+  <string name="errAbit_emptySum">Не указана сумма баллов</string>
+  <string name="errAbit_incorrectSum">Некорректная сумма балоов</string>
+  <string name="errAbit_emptyCount">Не указано количество абитуриентов</string>
+  <string name="errAbit_incorrectCount">Некорректное количество абитуриентов</string>
   <!-- MathStat -->
   <string-array name="math_taskTypes">
     <item>@string/startMathStat</item>
@@ -203,6 +217,56 @@
   <string name="graphics_clear">Очистить</string>
   <string name="graphics_useAA">Использовать сглаживание</string>
   <string name="graphics_angle">Угол наклона: %d&#176;</string>
+  <!-- Mobile platforms -->
+  <string name="startMP">МВП</string>
+  <string name="mp_selectType">Мобильные платформы</string>
+  <string name="mp_uiBasics">Основы UI</string>
+  <string-array name="mp_taskTypes">
+    <item>@string/mp_uiBasics</item>
+  </string-array>
+  <string name="mp_task1">Задание 1</string>
+  <string name="mp_task2">Задание 2</string>
+  <string name="mp_task3">Задание 3</string>
+  <string name="mp_task4">Задание 4</string>
+  <string name="mp_task5">Задание 5</string>
+  <string name="mp_sampleBtn">Кнопка</string>
+  <string name="mp_sampleBtn1">Кнопка 1</string>
+  <string name="mp_sampleBtn2">Кнопка 2</string>
+  <string name="mp_sampleBtn3">Кнопка 3</string>
+  <string name="mp_sampleBtn4">Кнопка 4</string>
+  <string name="mp_newBtn">Новая кнопка</string>
+  <string name="mp_sampleText">своя Фамилия и Имя</string>
+  <string name="mp_sampleText2">Фамилия и Имя матери</string>
+  <string name="mp_inout">Напишите что-нибудь</string>
+  <!-- OOP -->
+  <string name="startOOP">ООП</string>
+  <string name="oop_selectType">Объектно-ориентированное программирование</string>
+  <string-array name="oop_taskTypes">
+    <item>Абстракция предметной области</item>
+  </string-array>
+  <string name="oop_abit">Список абитуриентов</string>
+  <string name="oop_abit_add">Добавление абитуриента</string>
+  <string name="oop_abit_edit">Редактирование абитуриента</string>
+  <string name="oop_fullName">ФИО</string>
+  <string name="oop_surname">Фамилия</string>
+  <string name="oop_name">Имя</string>
+  <string name="oop_patronymic">Отчество</string>
+  <string name="oop_address">Адрес</string>
+  <string name="oop_grades">Оценки</string>
+  <string name="oop_lang">Русский язык</string>
+  <string name="oop_math">Математика</string>
+  <string name="oop_physics">Физика</string>
+  <string-array name="oop_abit_filters">
+    <item>Отобразить всех абитуриентов</item>
+    <item>Отобразить абитуриентов, имеющих неудовлеиворительные оценки</item>
+    <item>Отобразить абитуриентов, у которых сумма баллов не меньше N</item>
+    <item>Отобразить топ N абитуриентов по сумме баллов</item>
+  </string-array>
+  <string name="oop_abit_enterMinSum">Укажите минимальнкю сумму баллов</string>
+  <string name="oop_abit_enterCount">Укажите количество абитуриентов</string>
+  <string name="oop_abit_added">Абитуриент добавлен</string>
+  <string name="oop_abit_edited">Абитуриент отредактирован</string>
+  <string name="oop_abit_deleted">Абитуриент удален</string>
   <!-- Содержимое текстовых полей и подписей кнопок (Layout: act_dir_picker) -->
   <string name="actLabel_filePicker">Выбор файла</string>
   <string name="actLabel_dirPicker">Выбор каталога</string>

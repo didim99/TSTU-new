@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.view.Menu;
@@ -55,7 +54,6 @@ public class MathStatActivity extends BaseActivity {
       e.printStackTrace();
     }
 
-    setupActionBar();
     MyLog.d(LOG_TAG, "View components init...");
     etX = findViewById(R.id.etInputX);
     etF = findViewById(R.id.etInputF);
@@ -281,7 +279,4 @@ public class MathStatActivity extends BaseActivity {
       } catch (InputValidator.ValidationException ignored) {}
     });
   };
-
-  @Override
-  protected void onSetupActionBar(ActionBar bar) {}
 }

@@ -4,6 +4,7 @@
           package="ru.didim99.tstu">
 
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
   <application
     android:name=".TSTU"
@@ -17,16 +18,17 @@
     <activity android:name=".ui.StartActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
-
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
+
     <activity
       android:name=".ui.TranslatorActivity"
       android:label="@string/startTranslator"/>
     <activity
       android:name=".ui.NumericActivity"
       android:label="@string/startNumeric"/>
+
     <activity
       android:name=".ui.math.MathStatActivity"
       android:icon="@mipmap/ic_launcher_stat"
@@ -40,9 +42,55 @@
       android:name=".ui.math.CAActivity"
       android:label="@string/startCA"
       android:launchMode="singleTop"/>
+
     <activity
       android:name=".ui.GraphicsActivity"
       android:label="@string/startGraphics"/>
+
+    <activity
+      android:name=".ui.mp.lab1.L1ActMain"
+      android:label="@string/mp_uiBasics"/>
+    <activity
+      android:name=".ui.mp.lab1.ActTask1"
+      android:label="@string/mp_uiBasics"
+      android:theme="@style/AppThemePrint"/>
+    <activity
+      android:name=".ui.mp.lab1.ActTask2"
+      android:label="@string/mp_uiBasics"
+      android:theme="@style/AppThemePrint"/>
+    <activity
+      android:name=".ui.mp.lab1.ActTask3"
+      android:label="@string/mp_uiBasics"
+      android:theme="@style/AppThemePrint"/>
+    <activity
+      android:name=".ui.mp.lab1.ActTask41"
+      android:label="@string/mp_uiBasics"
+      android:theme="@style/AppThemePrint"/>
+    <activity
+      android:name=".ui.mp.lab1.ActTask42"
+      android:label="@string/mp_uiBasics"
+      android:theme="@style/AppThemePrint"/>
+    <activity
+      android:name=".ui.mp.lab1.ActTask51"
+      android:label="@string/mp_uiBasics"
+      android:theme="@style/AppThemePrint"/>
+    <activity
+      android:name=".ui.mp.lab1.ActTask52"
+      android:label="@string/mp_uiBasics"
+      android:theme="@style/AppThemePrint"/>
+    <activity
+      android:name=".ui.mp.lab1.ActTask53"
+      android:label="@string/mp_uiBasics"
+      android:theme="@style/AppThemePrint"/>
+    <activity
+      android:name=".ui.mp.lab1.ActTask54"
+      android:label="@string/mp_uiBasics"
+      android:theme="@style/AppThemePrint"/>
+
+    <activity
+      android:name=".ui.oop.AbiturientActivity"
+      android:label="@string/oop_abit"/>
+
     <activity
       android:name=".ui.dirpicker.DirPickerActivity"
       android:label="@string/actLabel_dirPicker"

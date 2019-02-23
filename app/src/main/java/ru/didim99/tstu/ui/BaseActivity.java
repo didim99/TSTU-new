@@ -1,6 +1,8 @@
 package ru.didim99.tstu.ui;
 
+import android.os.Bundle;
 import android.support.annotation.CallSuper;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -12,7 +14,15 @@ import android.view.MenuItem;
 public abstract class BaseActivity extends AppCompatActivity {
 
   //main workflow
-  protected boolean uiLocked;
+  protected boolean disableBackBtn = false;
+  protected boolean uiLocked = false;
+
+  @Override
+  @CallSuper
+  protected void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setupActionBar();
+  }
 
   @Override
   public final void onBackPressed() {
@@ -28,14 +38,16 @@ public abstract class BaseActivity extends AppCompatActivity {
     return false;
   }
 
-  protected final void setupActionBar() {
+  private void setupActionBar() {
     ActionBar bar = getSupportActionBar();
     if (bar != null) {
-      bar.setDisplayShowHomeEnabled(true);
-      bar.setDisplayHomeAsUpEnabled(true);
       onSetupActionBar(bar);
+      if (!disableBackBtn) {
+        bar.setDisplayShowHomeEnabled(true);
+        bar.setDisplayHomeAsUpEnabled(true);
+      }
     }
   }
 
-  protected abstract void onSetupActionBar(ActionBar bar);
+  protected void onSetupActionBar(ActionBar bar) {}
 }

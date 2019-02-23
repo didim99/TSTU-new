@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:paddingTop="@dimen/layoutPadding"
+  android:paddingBottom="@dimen/layoutPadding"
+  android:paddingLeft="@dimen/layoutPaddingLarge"
+  android:paddingRight="@dimen/layoutPaddingLarge">
+
+  <EditText
+    android:id="@+id/etSurname"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:inputType="textPersonName"
+    android:hint="@string/oop_surname"/>
+
+  <EditText
+    android:id="@+id/etName"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:inputType="textPersonName"
+    android:hint="@string/oop_name"/>
+
+  <EditText
+    android:id="@+id/etPatronymic"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:inputType="textPersonName"
+    android:hint="@string/oop_patronymic"/>
+
+  <EditText
+    android:id="@+id/etAddress"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:inputType="textPostalAddress"
+    android:hint="@string/oop_address"/>
+
+  <TableLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/layoutPaddingLarge"
+    android:layout_marginStart="@dimen/layoutPaddingLarge">
+
+    <TableRow>
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_span="2"
+        android:text="@string/oop_grades"
+        android:textSize="@dimen/textSize_large"
+        android:gravity="center"/>
+    </TableRow>
+
+    <TableRow>
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/oop_lang"
+        android:textSize="@dimen/textSize_main"/>
+
+      <EditText
+        android:id="@+id/etLang"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/layoutPadding"
+        android:layout_marginStart="@dimen/layoutPadding"
+        android:ems="5"
+        android:inputType="number"/>
+    </TableRow>
+
+    <TableRow>
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/oop_math"
+        android:textSize="@dimen/textSize_main"/>
+
+      <EditText
+        android:id="@+id/etMath"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/layoutPadding"
+        android:layout_marginStart="@dimen/layoutPadding"
+        android:ems="5"
+        android:inputType="number"/>
+    </TableRow>
+
+    <TableRow>
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/oop_physics"
+        android:textSize="@dimen/textSize_main"/>
+
+      <EditText
+        android:id="@+id/etPhysics"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/layoutPadding"
+        android:layout_marginStart="@dimen/layoutPadding"
+        android:ems="5"
+        android:inputType="number"/>
+    </TableRow>
+  </TableLayout>
+
+</LinearLayout>

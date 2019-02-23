@@ -69,7 +69,6 @@ public class NumericActivity extends BaseActivity
         break;
     }
 
-    setupActionBar();
     MyLog.d(LOG_TAG, "View components init...");
     TextView title = findViewById(R.id.tvTitle);
     cbTConst = findViewById(R.id.cbTConst);

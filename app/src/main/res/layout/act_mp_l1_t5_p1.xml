@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="horizontal"
+  android:padding="@dimen/layoutPadding"
+  android:baselineAligned="false"
+  android:gravity="center"
+  android:weightSum="10">
+
+  <LinearLayout
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_weight="8">
+
+    <Button
+      android:id="@+id/mp_btn1"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:text="@string/mp_sampleBtn1"/>
+
+    <Button
+      android:id="@+id/mp_btn2"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:text="@string/mp_sampleBtn2"/>
+
+    <Button
+      android:id="@+id/mp_btn3"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:text="@string/mp_sampleBtn3"/>
+
+    <Button
+      android:id="@+id/mp_btn4"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:text="@string/mp_sampleBtn4"/>
+
+  </LinearLayout>
+
+</LinearLayout>

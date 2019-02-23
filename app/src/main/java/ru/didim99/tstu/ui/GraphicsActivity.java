@@ -25,7 +25,6 @@ public class GraphicsActivity extends BaseActivity {
     MyLog.d(LOG_TAG, "GraphicsActivity starting...");
     super.onCreate(savedInstanceState);
     setContentView(R.layout.act_graphics);
-    setupActionBar();
 
     MyLog.d(LOG_TAG, "View components init...");
     btnAnimate = findViewById(R.id.btnAnimate);

@@ -5,52 +5,45 @@
   android:layout_height="match_parent">
 
  <LinearLayout
-   android:layout_width="wrap_content"
+   android:layout_width="200dp"
    android:layout_height="wrap_content"
    android:layout_centerInParent="true"
    android:orientation="vertical">
 
    <Button
-     android:id="@+id/startMathStat"
+     android:id="@+id/task1"
      android:layout_width="match_parent"
      android:layout_height="wrap_content"
      android:padding="@dimen/actStart_btnPadding"
-     android:text="@string/startMath"/>
+     android:text="@string/mp_task1"/>
 
    <Button
-     android:id="@+id/startNumeric"
+     android:id="@+id/task2"
      android:layout_width="match_parent"
      android:layout_height="wrap_content"
      android:padding="@dimen/actStart_btnPadding"
-     android:text="@string/startNumeric"/>
+     android:text="@string/mp_task2"/>
 
    <Button
-     android:id="@+id/startTranslator"
+     android:id="@+id/task3"
      android:layout_width="match_parent"
      android:layout_height="wrap_content"
      android:padding="@dimen/actStart_btnPadding"
-     android:text="@string/startTranslator"/>
+     android:text="@string/mp_task3"/>
 
    <Button
-     android:id="@+id/startGraphics"
+     android:id="@+id/task4"
      android:layout_width="match_parent"
      android:layout_height="wrap_content"
      android:padding="@dimen/actStart_btnPadding"
-     android:text="@string/startGraphics"/>
+     android:text="@string/mp_task4"/>
 
    <Button
-     android:id="@+id/startMP"
+     android:id="@+id/task5"
      android:layout_width="match_parent"
      android:layout_height="wrap_content"
      android:padding="@dimen/actStart_btnPadding"
-     android:text="@string/startMP"/>
-
-   <Button
-     android:id="@+id/startOOP"
-     android:layout_width="match_parent"
-     android:layout_height="wrap_content"
-     android:padding="@dimen/actStart_btnPadding"
-     android:text="@string/startOOP"/>
+     android:text="@string/mp_task5"/>
  </LinearLayout>
 
 </RelativeLayout>

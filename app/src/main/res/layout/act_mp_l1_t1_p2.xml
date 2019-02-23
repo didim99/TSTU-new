@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:id="@+id/rootLayout">
+
+  <Button
+    android:id="@+id/mp_btn1"
+    android:layout_width="300dp"
+    android:layout_height="300dp"
+    android:text="@string/mp_sampleBtn"
+    android:background="#ff0000"/>
+
+  <Button
+    android:id="@+id/mp_btn2"
+    android:layout_width="200dp"
+    android:layout_height="200dp"
+    android:text="@string/mp_sampleBtn"
+    android:background="#00ff00"/>
+
+  <Button
+    android:id="@+id/mp_btn3"
+    android:layout_width="100dp"
+    android:layout_height="100dp"
+    android:text="@string/mp_sampleBtn"
+    android:background="#0000ff"/>
+
+</FrameLayout>
