@@ -212,7 +212,13 @@
   <string name="ca_relevantR">R%sy значим</string>
   <string name="ca_irrelevantR">R%sy не значим</string>
   <!-- Graphics -->
-  <string name="graphics_brezenhem">Алгоритм Брезенхэма</string>
+  <string name="graphics_selectType">Компьютерная графика</string>
+  <string name="graphics_bresenham">Алгоритм Брезенхэма</string>
+  <string name="graphics_horizon">Плавающий горизонт</string>
+  <string-array name="graphics_taskTypes">
+    <item>@string/graphics_bresenham</item>
+    <item>@string/graphics_horizon</item>
+  </string-array>
   <string name="graphics_animate">Анимировать</string>
   <string name="graphics_clear">Очистить</string>
   <string name="graphics_useAA">Использовать сглаживание</string>
@@ -261,9 +267,11 @@
     <item>Отобразить абитуриентов, имеющих неудовлеиворительные оценки</item>
     <item>Отобразить абитуриентов, у которых сумма баллов не меньше N</item>
     <item>Отобразить топ N абитуриентов по сумме баллов</item>
+    <item>Отобразить абитуриентов, имеющих полупроходной балл</item>
   </string-array>
   <string name="oop_abit_enterMinSum">Укажите минимальнкю сумму баллов</string>
   <string name="oop_abit_enterCount">Укажите количество абитуриентов</string>
+  <string name="oop_abit_enterExact">Укажите проходной балл</string>
   <string name="oop_abit_added">Абитуриент добавлен</string>
   <string name="oop_abit_edited">Абитуриент отредактирован</string>
   <string name="oop_abit_deleted">Абитуриент удален</string>

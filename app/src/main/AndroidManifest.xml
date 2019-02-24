@@ -44,8 +44,13 @@
       android:launchMode="singleTop"/>
 
     <activity
-      android:name=".ui.GraphicsActivity"
-      android:label="@string/startGraphics"/>
+      android:name=".ui.graphich.LinesActivity"
+      android:label="@string/graphics_bresenham"
+      android:theme="@style/AppThemePrint"/>
+    <activity
+      android:name=".ui.graphich.HorizonActivity"
+      android:label="@string/graphics_horizon"
+      android:theme="@style/AppThemePrint"/>
 
     <activity
       android:name=".ui.mp.lab1.L1ActMain"

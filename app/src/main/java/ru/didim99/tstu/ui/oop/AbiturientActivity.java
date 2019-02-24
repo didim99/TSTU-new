@@ -117,6 +117,10 @@ public class AbiturientActivity extends BaseActivity {
           editDialog(R.string.oop_abit_enterCount,
             R.layout.dia_oop_abit_single_field, this::filterTop);
           break;
+        case 4:
+          editDialog(R.string.oop_abit_enterExact,
+            R.layout.dia_oop_abit_single_field, this::filterExact);
+          break;
       }
     });
     MyLog.d(LOG_TAG, "Filter dialog created");
@@ -245,6 +249,16 @@ public class AbiturientActivity extends BaseActivity {
         R.string.errAbit_emptyCount, R.string.errAbit_incorrectCount, "Count");
       dialog.dismiss();
       adapter.refreshData(manager.getTop(count));
+    } catch (InputValidator.ValidationException ignored) {}
+  }
+
+  private void filterExact(AlertDialog dialog) {
+    try {
+      EditText input = dialog.findViewById(R.id.etValue);
+      int sum = InputValidator.getInstance().checkInteger(input, 1,
+        R.string.errAbit_emptyCount, R.string.errAbit_incorrectCount, "Count");
+      dialog.dismiss();
+      adapter.refreshData(manager.getHalfPass(sum));
     } catch (InputValidator.ValidationException ignored) {}
   }
 

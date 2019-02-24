@@ -61,6 +61,14 @@ public class AbiturientManager {
     return res;
   }
 
+  public ArrayList<Abiturient> getHalfPass(int sum) {
+    int targetSum = sum - 1;
+    ArrayList<Abiturient> res = new ArrayList<>();
+    for (Abiturient a : abiturients)
+      if (a.getGrades().getSum() == targetSum) res.add(a);
+    return res;
+  }
+
   public void save(String path) throws IOException {
     ArrayList<String> data = new ArrayList<>();
     Gson packer = new Gson();
