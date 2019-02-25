@@ -222,7 +222,12 @@
   <string name="graphics_animate">Анимировать</string>
   <string name="graphics_clear">Очистить</string>
   <string name="graphics_useAA">Использовать сглаживание</string>
+  <string name="graphics_parameters">Параметры функции</string>
   <string name="graphics_angle">Угол наклона: %d&#176;</string>
+  <string name="graphics_projection">Угол проэкции: %d&#176;</string>
+  <string name="graphics_alpha">Значение ɑ: %.2f</string>
+  <string name="graphics_beta">Значение β: %.2f</string>
+  <string name="graphics_gamma">Значение γ: %.2f</string>
   <!-- Mobile platforms -->
   <string name="startMP">МВП</string>
   <string name="mp_selectType">Мобильные платформы</string>

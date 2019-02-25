@@ -1,4 +1,4 @@
-package ru.didim99.tstu.ui;
+package ru.didim99.tstu.ui.graphics;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -25,12 +25,14 @@ public class DrawerView extends View {
     super(context, attrs);
   }
 
-  public void setSource(Bitmap bitmap) {
-    src = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-    dst = new Rect();
-    paint = new Paint();
-    paint.setAntiAlias(false);
+  public void setSource(Bitmap bitmap, boolean antiAlias) {
+    this.src = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+    this.dst = new Rect();
     this.bitmap = bitmap;
+    if (!antiAlias) {
+      paint = new Paint();
+      paint.setAntiAlias(false);
+    }
   }
 
   @Override

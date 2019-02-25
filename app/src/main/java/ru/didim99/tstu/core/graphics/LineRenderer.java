@@ -1,7 +1,7 @@
 package ru.didim99.tstu.core.graphics;
 
 import android.graphics.Color;
-import ru.didim99.tstu.ui.DrawerView;
+import ru.didim99.tstu.ui.graphics.DrawerView;
 
 /**
  * Created by didim99 on 13.02.19.
@@ -9,6 +9,8 @@ import ru.didim99.tstu.ui.DrawerView;
 public class LineRenderer extends AsyncRenderer {
   public static final int ANGLE_MIN = -90;
   public static final int ANGLE_MAX = 90;
+  private static final int DEFAULT_WIDTH = 20;
+  private static final int DEFAULT_HEIGHT = 20;
   private static final int colorNegative = Color.RED;
   private static final int colorPositive = Color.GREEN;
 
@@ -17,7 +19,7 @@ public class LineRenderer extends AsyncRenderer {
   private boolean reverse, swap;
 
   public LineRenderer(DrawerView target, Config config) {
-    super(target, config);
+    super(target, config, DEFAULT_WIDTH, DEFAULT_HEIGHT, false);
     realXZero = this.config.width / 2;
     realYZero = this.config.height / 2;
     xMax = realXZero - 1;
@@ -46,9 +48,9 @@ public class LineRenderer extends AsyncRenderer {
 
   @Override
   public void frame() {
-    if (yi < yMax) drawPixel(xi, yi+1, config.bgColor);
-    if (yi > yMin) drawPixel(xi, yi-1, config.bgColor);
-    drawPixel(xi, yi, config.color);
+    if (yi < yMax) drawPixel(xi, yi+1, config.colorBg);
+    if (yi > yMin) drawPixel(xi, yi-1, config.colorBg);
+    drawPixel(xi, yi, config.colorFg);
 
     if (di > 0) {
       di += 2 * (dy - dx);
@@ -97,11 +99,11 @@ public class LineRenderer extends AsyncRenderer {
         yi = (int) yTmp;
         dy = yTmp > 0 ? 1 : -1;
         t = Math.abs(yTmp - yi);
-        drawPixel(xi, yi, lerp(config.bgColor, config.color, t));
-        drawPixel(xi, yi + dy, lerp(config.bgColor, config.color, 1 - t));
+        drawPixel(xi, yi, lerp(config.colorBg, config.colorFg, t));
+        drawPixel(xi, yi + dy, lerp(config.colorBg, config.colorFg, 1 - t));
         yTmp += g;
       } else {
-        drawPixel(xi, yi, config.color);
+        drawPixel(xi, yi, config.colorFg);
         if (di > 0) {
           di += 2 * (dy - dx);
           yi++;
@@ -126,7 +128,6 @@ public class LineRenderer extends AsyncRenderer {
   }
 
   private int lerp(int bg, int fg, double alpha) {
-    alpha *= alpha;
     double gamma = 1 - alpha;
     int res = (int) ((bg & 0xff) * alpha + (fg & 0xff) * gamma);
     res |= (int) (((bg >> 8) & 0xff) * alpha + ((fg >> 8) & 0xff) * gamma) << 8;

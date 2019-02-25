@@ -4,38 +4,37 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import java.lang.ref.WeakReference;
-import ru.didim99.tstu.ui.DrawerView;
+import ru.didim99.tstu.ui.graphics.DrawerView;
 
 /**
  * Created by didim99 on 15.02.19.
  */
 public class AsyncRenderer extends AsyncTask<Void, Void, Void> {
-  private static final int FPS = 1;
+  private static final int DEFAULT_BG = Color.WHITE;
+  private static final int DEFAULT_FG = Color.BLACK;
+  private static final int DEFAULT_FPS = 1;
   private static final int IDLE = 1000;
-  private static final int FRAME = 1000 / FPS;
-  private static final int DEFAULT_WIDTH = 20;
-  private static final int DEFAULT_HEIGHT = 20;
 
   private WeakReference<DrawerView> target;
   private boolean running, paused;
+  private int frameSleep;
   boolean animating;
   Config config;
   Bitmap bitmap;
 
-  AsyncRenderer(DrawerView target, Config config) {
-    this(target, config, DEFAULT_WIDTH, DEFAULT_HEIGHT);
-  }
-
-  AsyncRenderer(DrawerView target, Config config, int width, int height) {
+  AsyncRenderer(DrawerView target, Config config,
+                int width, int height, boolean antiAlias) {
     if (config == null) {
       this.config = new Config();
       this.config.width = width;
       this.config.height = height;
-      this.config.bgColor = Color.BLACK;
+      this.config.colorBg = DEFAULT_BG;
+      this.config.colorFg = DEFAULT_FG;
     } else this.config = config;
     this.target = new WeakReference<>(target);
     this.bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-    target.setSource(bitmap);
+    target.setSource(bitmap, antiAlias);
+    setFPS(DEFAULT_FPS);
     clear();
   }
 
@@ -53,7 +52,7 @@ public class AsyncRenderer extends AsyncTask<Void, Void, Void> {
         if (paused) { Thread.sleep(IDLE); continue; }
         frame();
         publishProgress();
-        Thread.sleep(FRAME);
+        Thread.sleep(frameSleep);
       } catch (InterruptedException ignored) {}
     }
     return null;
@@ -75,7 +74,7 @@ public class AsyncRenderer extends AsyncTask<Void, Void, Void> {
   }
 
   public void clear() {
-    bitmap.eraseColor(config.bgColor);
+    bitmap.eraseColor(config.colorBg);
   }
 
   public void animate() {
@@ -91,8 +90,8 @@ public class AsyncRenderer extends AsyncTask<Void, Void, Void> {
     this.config = config;
   }
 
-  public void setBackground(int color) {
-    config.bgColor = color;
+  void setFPS(int fps) {
+    frameSleep = 1000 / fps;
   }
 
   void frame() {}

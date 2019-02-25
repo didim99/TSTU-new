@@ -44,11 +44,11 @@
       android:launchMode="singleTop"/>
 
     <activity
-      android:name=".ui.graphich.LinesActivity"
+      android:name=".ui.graphics.LinesActivity"
       android:label="@string/graphics_bresenham"
       android:theme="@style/AppThemePrint"/>
     <activity
-      android:name=".ui.graphich.HorizonActivity"
+      android:name=".ui.graphics.HorizonActivity"
       android:label="@string/graphics_horizon"
       android:theme="@style/AppThemePrint"/>
 
