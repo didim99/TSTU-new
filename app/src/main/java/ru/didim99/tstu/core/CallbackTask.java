@@ -15,7 +15,7 @@ public abstract class CallbackTask<Config, Result> extends AsyncTask<Config, Voi
   public enum Event { START, FINISH }
 
   protected WeakReference<Context> appContext;
-  private EventListener<Result> listener;
+  protected EventListener<Result> listener;
   private Result result;
 
   public CallbackTask(Context context) {

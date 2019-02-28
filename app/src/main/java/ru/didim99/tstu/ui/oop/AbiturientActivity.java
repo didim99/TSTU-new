@@ -16,6 +16,7 @@ import ru.didim99.tstu.core.oop.Abiturient;
 import ru.didim99.tstu.core.oop.AbiturientManager;
 import ru.didim99.tstu.core.oop.GradeList;
 import ru.didim99.tstu.ui.BaseActivity;
+import ru.didim99.tstu.ui.DialogEventListener;
 import ru.didim99.tstu.utils.InputValidator;
 import ru.didim99.tstu.utils.MyLog;
 
@@ -234,7 +235,7 @@ public class AbiturientActivity extends BaseActivity {
 
   private void filterMinSum(AlertDialog dialog) {
     try {
-      EditText input = dialog.findViewById(R.id.etValue);
+      EditText input = dialog.findViewById(R.id.etInput);
       int sum = InputValidator.getInstance().checkInteger(input, 1,
         R.string.errAbit_emptySum, R.string.errAbit_incorrectSum, "Grade Sum");
       dialog.dismiss();
@@ -244,7 +245,7 @@ public class AbiturientActivity extends BaseActivity {
 
   private void filterTop(AlertDialog dialog) {
     try {
-      EditText input = dialog.findViewById(R.id.etValue);
+      EditText input = dialog.findViewById(R.id.etInput);
       int count = InputValidator.getInstance().checkInteger(input, 1,
         R.string.errAbit_emptyCount, R.string.errAbit_incorrectCount, "Count");
       dialog.dismiss();
@@ -254,15 +255,11 @@ public class AbiturientActivity extends BaseActivity {
 
   private void filterExact(AlertDialog dialog) {
     try {
-      EditText input = dialog.findViewById(R.id.etValue);
+      EditText input = dialog.findViewById(R.id.etInput);
       int sum = InputValidator.getInstance().checkInteger(input, 1,
         R.string.errAbit_emptyCount, R.string.errAbit_incorrectCount, "Count");
       dialog.dismiss();
       adapter.refreshData(manager.getHalfPass(sum));
     } catch (InputValidator.ValidationException ignored) {}
-  }
-
-  private interface DialogEventListener {
-    void onEvent(AlertDialog d);
   }
 }

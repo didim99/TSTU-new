@@ -12,12 +12,12 @@ public class HorizonRenderer extends AsyncRenderer {
   public static final int PROJ_MAX = 20;
   public static final int PITCH_MIN = -60;
   public static final int PITCH_MAX = 60;
-  public static final int ALPHA_MIN = -50;
-  public static final int ALPHA_MAX = 50;
+  public static final int ALPHA_MIN = -100;
+  public static final int ALPHA_MAX = 100;
   public static final int BETA_MIN = -30;
   public static final int BETA_MAX = 30;
-  public static final int GAMMA_MIN = -500;
-  public static final int GAMMA_MAX = 500;
+  public static final int GAMMA_MIN = 0;
+  public static final int GAMMA_MAX = 1000;
   public static final double A_FACTOR = 0.01;
   public static final double B_FACTOR = 0.1;
   public static final double G_FACTOR = 0.01;
@@ -28,7 +28,9 @@ public class HorizonRenderer extends AsyncRenderer {
   private static final int DEFAULT_BETA = 15;
   private static final int DEFAULT_GAMMA = 175;
   // Internal constants
-  private static final int FPS = 25;
+  private static final int COLOR_TOP = 0xff041048;
+  private static final int COLOR_BOTTOM = 0xff483404;
+  private static final int FPS = 50;
   private static final int VP_WIDTH = 700;
   private static final int VP_HEIGHT = 500;
   private static final int VP_F_RES = 500;
@@ -41,6 +43,7 @@ public class HorizonRenderer extends AsyncRenderer {
   private static final double VP_X_FACTOR = VP_F_RES / (F_MAX - F_MIN);
   private static final double VP_Y_FACTOR = VP_F_RES / (F_MAX - F_MIN);
   private static final double VP_Z_FACTOR = VP_F_RES / (F_MAX - F_MIN);
+  private static final int ANIM_Z_FACTOR = 8;
 
   private int[] minHorizon;
   private int[] maxHorizon;
@@ -85,7 +88,7 @@ public class HorizonRenderer extends AsyncRenderer {
   public void frame() {
     if (zi < F_MAX) {
       drawLayer(zi);
-      zi += Z_STEP;
+      zi += Z_STEP / ANIM_Z_FACTOR;
     } else {
       pause(true);
       animating = false;
@@ -121,16 +124,17 @@ public class HorizonRenderer extends AsyncRenderer {
 
     double x = F_MIN;
     for (int i = 0; i < X_RES; i++) {
-      setPixel(x(x) + offsetX, y(f(x, z)) + offsetY, config.colorFg);
+      setPixel(x(x) + offsetX, y(f(x, z)) + offsetY);
       x += X_STEP;
     }
   }
 
-  private void setPixel(int x, int y, int color) {
+  private void setPixel(int x, int y) {
     if (x >= 0 && x < VP_WIDTH && y >= 0 && y < VP_HEIGHT) {
       boolean draw = false;
-      if (y > maxHorizon[x]) { maxHorizon[x] = y; draw = true; }
-      if (y < minHorizon[x]) { minHorizon[x] = y; draw = true; }
+      int color = config.colorFg;
+      if (y < minHorizon[x]) { minHorizon[x] = y; color = COLOR_BOTTOM; draw = true; }
+      if (y > maxHorizon[x]) { maxHorizon[x] = y; color = COLOR_TOP; draw = true; }
       if (draw) bitmap.setPixel(x, VP_HEIGHT - (y + 1), color);
     }
   }

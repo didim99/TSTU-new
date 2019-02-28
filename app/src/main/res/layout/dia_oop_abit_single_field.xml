@@ -10,7 +10,7 @@
   android:paddingRight="@dimen/layoutPaddingLarge">
 
   <EditText
-    android:id="@+id/etValue"
+    android:id="@+id/etInput"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:inputType="number"/>

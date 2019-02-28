@@ -14,8 +14,8 @@
      android:id="@+id/mp_input"
      android:layout_width="250dp"
      android:layout_height="wrap_content"
-     android:hint="@string/mp_inout"
-     android:text="@string/mp_inout"
+     android:hint="@string/mp_input"
+     android:text="@string/mp_input"
      android:inputType="text"/>
 
    <Button

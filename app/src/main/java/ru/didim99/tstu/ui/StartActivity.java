@@ -14,6 +14,7 @@ import ru.didim99.tstu.ui.math.CAActivity;
 import ru.didim99.tstu.ui.math.MathStatActivity;
 import ru.didim99.tstu.ui.math.RV2Activity;
 import ru.didim99.tstu.ui.mp.lab1.L1ActMain;
+import ru.didim99.tstu.ui.mp.lab2.L2ActMain;
 import ru.didim99.tstu.ui.oop.AbiturientActivity;
 import ru.didim99.tstu.utils.MyLog;
 
@@ -22,7 +23,7 @@ public class StartActivity extends AppCompatActivity {
   private static final Class[] MATH_TARGET =
     { MathStatActivity.class, RV2Activity.class, CAActivity.class };
   private static final Class[] MP_TARGET =
-    { L1ActMain.class };
+    { L1ActMain.class, L2ActMain.class };
   private static final Class[] OOP_TARGET =
     { AbiturientActivity.class };
   private static final Class[] GRAPH_TARGET =

@@ -93,6 +93,18 @@
       android:theme="@style/AppThemePrint"/>
 
     <activity
+      android:name=".ui.mp.lab2.L2ActMain"
+      android:label="@string/mp_IOBasics"/>
+    <activity
+      android:name=".ui.mp.lab2.ActTask11"
+      android:label="@string/mp_IOBasics"
+      android:theme="@style/AppThemePrint"/>
+    <activity
+      android:name=".ui.mp.lab2.ActTask12"
+      android:label="@string/mp_IOBasics"
+      android:theme="@style/AppThemePrint"/>
+
+    <activity
       android:name=".ui.oop.AbiturientActivity"
       android:label="@string/oop_abit"/>
 
