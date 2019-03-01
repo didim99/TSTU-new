@@ -36,7 +36,7 @@ public class AbiturientActivity extends BaseActivity {
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.act_oop_abiturient);
+    setContentView(R.layout.act_simple_list);
 
     cacheFile = getExternalCacheDir().getAbsolutePath()
       .concat(DIRNAME).concat(FILENAME);

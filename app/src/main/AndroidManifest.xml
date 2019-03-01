@@ -3,6 +3,7 @@
           xmlns:tools="http://schemas.android.com/tools"
           package="ru.didim99.tstu">
 
+  <uses-permission android:name="android.permission.INTERNET"/>
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
@@ -101,6 +102,10 @@
       android:theme="@style/AppThemePrint"/>
     <activity
       android:name=".ui.mp.lab2.ActTask12"
+      android:label="@string/mp_IOBasics"
+      android:theme="@style/AppThemePrint"/>
+    <activity
+      android:name=".ui.mp.lab2.ActTask2"
       android:label="@string/mp_IOBasics"
       android:theme="@style/AppThemePrint"/>
 

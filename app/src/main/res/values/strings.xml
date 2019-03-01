@@ -122,6 +122,7 @@
   <string name="errAbit_incorrectSum">Некорректная сумма балоов</string>
   <string name="errAbit_emptyCount">Не указано количество абитуриентов</string>
   <string name="errAbit_incorrectCount">Некорректное количество абитуриентов</string>
+  <string name="errMp_emptyName">Не указано ФИО</string>
   <!-- MathStat -->
   <string-array name="math_taskTypes">
     <item>@string/startMathStat</item>
@@ -224,7 +225,7 @@
   <string name="graphics_useAA">Использовать сглаживание</string>
   <string name="graphics_parameters">Параметры функции</string>
   <string name="graphics_angle">Угол наклона: %d&#176;</string>
-  <string name="graphics_projection">Угол проэкции: %d&#176;</string>
+  <string name="graphics_projection">Угол проекции: %d&#176;</string>
   <string name="graphics_alpha">Значение ɑ: %.2f</string>
   <string name="graphics_beta">Значение β: %.2f</string>
   <string name="graphics_gamma">Значение γ: %.2f</string>
@@ -232,8 +233,10 @@
   <string name="startMP">МВП</string>
   <string name="mp_selectType">Мобильные платформы</string>
   <string name="mp_uiBasics">Основы UI</string>
+  <string name="mp_IOBasics">БД / файлы / мультимедиа</string>
   <string-array name="mp_taskTypes">
     <item>@string/mp_uiBasics</item>
+    <item>@string/mp_IOBasics</item>
   </string-array>
   <string name="mp_task1">Задание 1</string>
   <string name="mp_task2">Задание 2</string>
@@ -246,9 +249,22 @@
   <string name="mp_sampleBtn3">Кнопка 3</string>
   <string name="mp_sampleBtn4">Кнопка 4</string>
   <string name="mp_newBtn">Новая кнопка</string>
+  <string name="mp_dbError">Ошибка при работе с БД</string>
   <string name="mp_sampleText">своя Фамилия и Имя</string>
   <string name="mp_sampleText2">Фамилия и Имя матери</string>
-  <string name="mp_inout">Напишите что-нибудь</string>
+  <string name="mp_input">Напишите что-нибудь</string>
+  <string name="mp_view">Показать</string>
+  <string name="mp_add">Добавить</string>
+  <string name="mp_replace">Заменить</string>
+  <string name="mp_enterName">Укажите ФИО</string>
+  <string name="mp_added">Данные добавлены (запись %d)</string>
+  <string name="mp_replaced">Данные заменены (запись %d)</string>
+  <string name="mp_id">ID</string>
+  <string name="mp_singer">Исполнитель</string>
+  <string name="mp_songName">Название композиции</string>
+  <string name="mp_date">Дата добавления</string>
+  <string name="mp_defaultname">Фамилия Имя Отчество</string>
+  <string name="mp_offlineMode">Отсутствует интернет-соединение, переход в автономный режим</string>
   <!-- OOP -->
   <string name="startOOP">ООП</string>
   <string name="oop_selectType">Объектно-ориентированное программирование</string>
