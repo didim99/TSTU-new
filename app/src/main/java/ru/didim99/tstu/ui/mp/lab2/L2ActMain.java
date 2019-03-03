@@ -14,10 +14,10 @@ public class L2ActMain extends BaseActivity {
 
     findViewById(R.id.task1).setOnClickListener(v -> openTask(ActTask11.class));
     findViewById(R.id.task2).setOnClickListener(v -> openTask(ActTask2.class));
-    //findViewById(R.id.task3).setOnClickListener(v -> openTask(ActTask3.class));
+    findViewById(R.id.task3).setOnClickListener(v -> openTask(ActTask31.class));
   }
 
-  public void openTask(Class target) {
+  private void openTask(Class target) {
     startActivity(new Intent(this, target));
   }
 }

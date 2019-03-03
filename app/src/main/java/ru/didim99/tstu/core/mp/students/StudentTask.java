@@ -117,7 +117,7 @@ public class StudentTask extends CallbackTask<Action, ArrayList<Student>> {
       cursor.close();
       ContentValues replacement = new ContentValues();
       replacement.put(DBHelper.KEY_NAME, appContext.get()
-        .getString(R.string.mp_defaultname));
+        .getString(R.string.mp_defaultName));
       db.update(DBHelper.TABLE_STUDENTS, replacement,
         DBHelper.SQL_ID_EQUALS, new String[] {String.valueOf(student.getId())});
     }

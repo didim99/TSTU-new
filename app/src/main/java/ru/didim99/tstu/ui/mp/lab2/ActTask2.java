@@ -1,5 +1,6 @@
 package ru.didim99.tstu.ui.mp.lab2;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,7 +26,8 @@ public class ActTask2 extends BaseActivity {
     task = (RadioTask) getLastCustomNonConfigurationInstance();
     if (task == null) task = new RadioTask(getApplicationContext());
     task.setOnStatUpdateListener(adapter::refreshData);
-    task.execute();
+    if (task.getStatus() == AsyncTask.Status.PENDING)
+      task.execute();
   }
 
   @Override

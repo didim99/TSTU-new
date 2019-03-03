@@ -238,6 +238,12 @@
     <item>@string/mp_uiBasics</item>
     <item>@string/mp_IOBasics</item>
   </string-array>
+  <string name="mp_btnA">A</string>
+  <string name="mp_btnB">B</string>
+  <string name="mp_btnC">C</string>
+  <string name="mp_btnD">D</string>
+  <string name="mp_btnE">E</string>
+  <string name="mp_btnF">F</string>
   <string name="mp_task1">Задание 1</string>
   <string name="mp_task2">Задание 2</string>
   <string name="mp_task3">Задание 3</string>
@@ -263,8 +269,22 @@
   <string name="mp_singer">Исполнитель</string>
   <string name="mp_songName">Название композиции</string>
   <string name="mp_date">Дата добавления</string>
-  <string name="mp_defaultname">Фамилия Имя Отчество</string>
+  <string name="mp_defaultName">Фамилия Имя Отчество</string>
   <string name="mp_offlineMode">Отсутствует интернет-соединение, переход в автономный режим</string>
+  <string name="mp_prevScreen">Предыдущий экран</string>
+  <string name="mp_nextScreen">Следующий экран</string>
+  <string name="mp_cm_initFirst">Необходимо инициализировать камеру</string>
+  <string name="mp_cm_initFailure">Не удалось инициализировать камеру: %s</string>
+  <string name="mp_cm_cantCreateDirs">Не удалось создать каталоги для фотографий</string>
+  <string name="mp_cm_unavailable">Не удалось инициализировать камеру. Операция невозможна</string>
+  <string name="mp_cm_nothingToSave">Сохранаять нечего, сначала сделайте фото</string>
+  <string name="mp_cm_pictureCreated">Получена новая фотография</string>
+  <string name="mp_cm_pictureSavedToSD">Фотография записана на внешний накопитель</string>
+  <string name="mp_cm_flashEnabled">Вспышка включена</string>
+  <string name="mp_cm_flashDisabled">Вспышка отключена</string>
+  <string name="mp_cm_fdEnabled">Распознавание лиц включено</string>
+  <string name="mp_cm_fdDisabled">Распознавание лиц отключено</string>
+  <string name="mp_cm_cameraClosed">Камера отключена</string>
   <!-- OOP -->
   <string name="startOOP">ООП</string>
   <string name="oop_selectType">Объектно-ориентированное программирование</string>

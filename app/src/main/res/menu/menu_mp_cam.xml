@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <item
+    android:id="@+id/act_prev"
+    android:icon="@drawable/ic_prev_24dp"
+    android:title="@string/mp_prevScreen"
+    app:showAsAction="always"/>
+
+  <item
+    android:id="@+id/act_next"
+    android:icon="@drawable/ic_next_24dp"
+    android:title="@string/mp_nextScreen"
+    app:showAsAction="ifRoom"/>
+</menu>
