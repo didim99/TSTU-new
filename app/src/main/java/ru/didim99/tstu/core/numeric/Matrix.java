@@ -12,17 +12,17 @@ public class Matrix {
   private double[][] data;
   private String name;
 
-  Matrix(String name, int rows, int columns) {
+  public Matrix(String name, int rows, int columns) {
     this.data = new double[rows][columns];
     this.name = name;
   }
 
-  Matrix(String name, double[][] data) {
+  public Matrix(String name, double[][] data) {
     this.data = data;
     this.name = name;
   }
 
-  Matrix(String name, Matrix other, boolean copyValues) {
+  public Matrix(String name, Matrix other, boolean copyValues) {
     this(name, other.getRowCount(), other.getColumnCount());
     if (copyValues) {
       for (int i = 0; i < getRowCount(); i++) {
@@ -33,11 +33,11 @@ public class Matrix {
     }
   }
 
-  double get(int row, int column) {
+  protected double get(int row, int column) {
     return data[row][column];
   }
 
-  void set(int row, int column, double value) {
+  protected void set(int row, int column, double value) {
     data[row][column] = value;
   }
 
@@ -59,15 +59,28 @@ public class Matrix {
       "Can only be used with single-row or single-column matrix");
   }
 
-  int getRowCount() {
+  public int getRowCount() {
     return data.length;
   }
 
-  int getColumnCount() {
+  public int getColumnCount() {
     return data[0].length;
   }
 
-  Matrix add(Matrix other) {
+  public String getName() {
+    return name;
+  }
+
+  public boolean isSquare() {
+    return getRowCount() == getColumnCount();
+  }
+
+  public boolean sameAs(Matrix other) {
+    return getRowCount() == other.getRowCount()
+      && getColumnCount() == other.getColumnCount();
+  }
+
+  public Matrix add(Matrix other) {
     if (other.getColumnCount() != getColumnCount()) {
       throw new IllegalArgumentException(
         "Can only be used with same size matrix");
@@ -88,7 +101,7 @@ public class Matrix {
     return res;
   }
 
-  Matrix sub(Matrix other) {
+  public Matrix sub(Matrix other) {
     if (other.getColumnCount() != getColumnCount()) {
       throw new IllegalArgumentException(
         "Can only be used with same size matrix");
@@ -103,6 +116,19 @@ public class Matrix {
     for (int i = 0; i < getRowCount(); i++) {
       for (int j = 0; j < getColumnCount(); j++) {
         res.set(i, j, get(i, j) - other.get(i, j));
+      }
+    }
+
+    return res;
+  }
+
+  public Matrix multiply(double factor) {
+    Matrix res = new Matrix(String.format(
+      Locale.US, "%.1f%s", factor, name),
+      getRowCount(), getColumnCount());
+    for (int i = 0; i < getRowCount(); i++) {
+      for (int j = 0; j < getColumnCount(); j++) {
+        res.set(i, j, get(i, j) * factor);
       }
     }
 
@@ -184,18 +210,37 @@ public class Matrix {
     sb.append(String.format(Locale.US, "Matrix %s (%dx%d):",
       name, getRowCount(), getColumnCount()));
 
+    int l1 = 0, l2 = 0;
+    double max = -Double.MAX_VALUE, min = -max, d;
+    for (int i = 0; i < getRowCount(); i++) {
+      for (int j = 0; j < getColumnCount(); j++) {
+        d = get(i, j);
+        if (d > max) max = d;
+        if (d < min) min = d;
+      }
+    }
+
+    if (min < 0) l1++;
+    if (max < 0) l2++;
+    int imin = (int) Math.abs(min);
+    int imax = (int) Math.abs(max);
+    while (imin > 0) { imin /= 10; l1++; }
+    while (imax > 0) { imax /= 10; l2++; }
+    int l = Math.max(l1, l2) + 6;
+
+    String fmt = String.format(Locale.US, "%%%d.3f", l);
     for (int i = 0; i < getRowCount(); i++) {
       sb.append("\n");
       for (int j = 0; j < getColumnCount(); j++) {
-        sb.append(String.format(Locale.US, "%8.3f", get(i, j)));
+        sb.append(String.format(Locale.US, fmt, get(i, j)));
       }
     }
 
     return sb.toString();
   }
 
-  static Matrix createRandom(String name, int rows, int columns,
-                             int minValue, int maxValue) {
+  public static Matrix createRandom(String name, int rows, int columns,
+                                    int minValue, int maxValue) {
     Matrix matrix = new Matrix(name, rows, columns);
     Random random = new Random();
 

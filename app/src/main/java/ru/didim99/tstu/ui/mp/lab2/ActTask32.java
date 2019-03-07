@@ -9,7 +9,6 @@ public class ActTask32 extends CameraActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.act_mp_l2_t3_p2);
-    findViewById(R.id.mp_btn1).setOnClickListener(v -> cm.savePhoto());
     findViewById(R.id.mp_btn2).setOnClickListener(v -> cm.saveToSD());
     actNext = ActTask33.class;
     actPrev = ActTask31.class;

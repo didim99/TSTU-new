@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:padding="@dimen/layoutPadding">
+
+  <View
+    android:id="@+id/hCenter"
+    android:layout_width="10dp"
+    android:layout_height="match_parent"
+    android:layout_centerHorizontal="true" />
+
+  <View
+    android:id="@+id/vCenter"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_centerVertical="true" />
+
+  <EditText
+    android:id="@+id/etSrc"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_toLeftOf="@id/hCenter"
+    android:layout_toStartOf="@id/hCenter"
+    android:layout_above="@id/selectLayout"
+    android:hint="@string/rv_inputData"
+    android:inputType="textMultiLine"
+    android:gravity="top"/>
+
+  <LinearLayout
+    android:id="@+id/selectLayout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_toLeftOf="@id/hCenter"
+    android:layout_toStartOf="@id/hCenter"
+    android:layout_above="@id/vCenter"
+    android:layout_marginTop="@dimen/layoutPadding"
+    android:layout_marginBottom="@dimen/layoutPadding"
+    android:orientation="horizontal">
+
+    <RadioGroup
+      android:id="@+id/rgOperand"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:orientation="horizontal">
+
+      <RadioButton
+        android:id="@+id/useAsA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/oop_matrixA"
+        android:textSize="@dimen/textSize_main"
+        android:checked="true"/>
+
+      <RadioButton
+        android:id="@+id/useAsB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:text="@string/oop_matrixB"
+        android:textSize="@dimen/textSize_main"/>
+    </RadioGroup>
+
+    <CheckBox
+      android:id="@+id/cbSquare"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:text="@string/oop_squareMatrix"
+      android:textSize="@dimen/textSize_main"/>
+  </LinearLayout>
+
+  <TableLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_toLeftOf="@id/hCenter"
+    android:layout_toStartOf="@id/hCenter"
+    android:layout_below="@id/vCenter"
+    android:stretchColumns="*">
+
+    <TableRow>
+      <Button
+        android:id="@+id/btnCreate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/oop_btnCreate"/>
+
+      <Button
+        android:id="@+id/btnCreateRnd"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/oop_btnCreateRnd"/>
+    </TableRow>
+
+    <TableRow>
+      <EditText
+        android:id="@+id/etFactor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:inputType="numberDecimal|numberSigned"
+        android:hint="@string/oop_enterFactor"/>
+
+      <Button
+        android:id="@+id/btnMultiplyConst"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/oop_btnMultiplyConst"
+        android:enabled="false"/>
+    </TableRow>
+
+    <TableRow
+      android:paddingTop="2dp"
+      android:paddingBottom="2dp">
+
+      <Button
+        android:id="@+id/btnAdd"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/oop_btnAdd"
+        android:enabled="false"/>
+
+      <Button
+        android:id="@+id/btnMultiply"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/oop_btnMultiply"
+        android:enabled="false"/>
+
+      <Button
+        android:id="@+id/btnTranspose"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:text="@string/oop_btnTranspose"
+        android:enabled="false"/>
+    </TableRow>
+  </TableLayout>
+
+  <TextView
+    android:id="@+id/titleSrc"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"
+    android:layout_toRightOf="@id/hCenter"
+    android:layout_toEndOf="@id/hCenter"
+    android:text="@string/oop_srcMatrix"
+    android:textColor="@color/dirPicker_textActive"
+    android:textSize="16sp" />
+
+  <ScrollView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/titleSrc"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"
+    android:layout_toRightOf="@id/hCenter"
+    android:layout_toEndOf="@id/hCenter">
+
+    <TextView
+      android:id="@+id/tvSrc"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textSize="16sp"
+      android:typeface="monospace"/>
+  </ScrollView>
+
+  <TextView
+    android:id="@+id/titleOut"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignTop="@id/vCenter"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"
+    android:layout_toRightOf="@id/hCenter"
+    android:layout_toEndOf="@id/hCenter"
+    android:text="@string/oop_outMatrix"
+    android:textColor="@color/dirPicker_textActive"
+    android:textSize="16sp" />
+
+  <TextView
+    android:id="@+id/tvOut"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/titleOut"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"
+    android:layout_toRightOf="@id/hCenter"
+    android:layout_toEndOf="@id/hCenter"
+    android:textSize="16sp"
+    android:typeface="monospace"/>
+</RelativeLayout>

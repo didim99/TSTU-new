@@ -128,6 +128,9 @@
     <activity
       android:name=".ui.oop.AbiturientActivity"
       android:label="@string/oop_abit"/>
+    <activity
+      android:name=".ui.oop.MatrixActivity"
+      android:label="@string/oop_matrix"/>
 
     <activity
       android:name=".ui.dirpicker.DirPickerActivity"

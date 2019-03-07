@@ -121,7 +121,11 @@
   <string name="errAbit_emptySum">Не указана сумма баллов</string>
   <string name="errAbit_incorrectSum">Некорректная сумма балоов</string>
   <string name="errAbit_emptyCount">Не указано количество абитуриентов</string>
-  <string name="errAbit_incorrectCount">Некорректное количество абитуриентов</string>
+  <string name="errAbit_incorrectCount">Не указан коэффициент умножения</string>
+  <string name="errOOP_emptyMatrix">Введите данные для создания матрицы</string>
+  <string name="errOOP_incorrectMatrix">Некорректные данные для создания матрицы</string>
+  <string name="errOOP_emptyFactor">Некорректный коэффициент умножения</string>
+  <string name="errOOP_incorrectFactor">Некорректное количество абитуриентов</string>
   <string name="errMp_emptyName">Не указано ФИО</string>
   <!-- MathStat -->
   <string-array name="math_taskTypes">
@@ -290,6 +294,7 @@
   <string name="oop_selectType">Объектно-ориентированное программирование</string>
   <string-array name="oop_taskTypes">
     <item>Абстракция предметной области</item>
+    <item>@string/oop_matrix</item>
   </string-array>
   <string name="oop_abit">Список абитуриентов</string>
   <string name="oop_abit_add">Добавление абитуриента</string>
@@ -316,6 +321,19 @@
   <string name="oop_abit_added">Абитуриент добавлен</string>
   <string name="oop_abit_edited">Абитуриент отредактирован</string>
   <string name="oop_abit_deleted">Абитуриент удален</string>
+  <string name="oop_matrix">Матричные операции</string>
+  <string name="oop_srcMatrix">Исходные данные</string>
+  <string name="oop_outMatrix">Результат</string>
+  <string name="oop_matrixA">Операнд A</string>
+  <string name="oop_matrixB">Операнд B</string>
+  <string name="oop_squareMatrix">Квадратная</string>
+  <string name="oop_btnCreate">Исполльзовать</string>
+  <string name="oop_btnCreateRnd">Сгенерировать</string>
+  <string name="oop_btnAdd">A + B</string>
+  <string name="oop_btnMultiply">A × B</string>
+  <string name="oop_btnTranspose">Транспонировать</string>
+  <string name="oop_btnMultiplyConst">Умножить на скаляр</string>
+  <string name="oop_enterFactor">Коэффициент</string>
   <!-- Содержимое текстовых полей и подписей кнопок (Layout: act_dir_picker) -->
   <string name="actLabel_filePicker">Выбор файла</string>
   <string name="actLabel_dirPicker">Выбор каталога</string>

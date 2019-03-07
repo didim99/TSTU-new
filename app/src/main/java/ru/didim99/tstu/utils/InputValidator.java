@@ -107,7 +107,7 @@ public class InputValidator {
     toastMsg.show();
   }
 
-  public class ValidationException extends IllegalArgumentException {
+  public static class ValidationException extends IllegalArgumentException {
     ValidationException(Throwable cause) { super(cause); }
     ValidationException() { super(); }
   }

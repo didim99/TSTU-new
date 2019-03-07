@@ -158,10 +158,6 @@ public class CameraManager {
     msg.show();
   }
 
-  public void savePhoto() {
-    if (invalidState()) return;
-  }
-
   public void saveToSD() {
     if (invalidState()) return;
     if (pictureData == null) {
