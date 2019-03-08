@@ -76,12 +76,10 @@ public class TranslatorActivity extends BaseActivity
   }
 
   @Override
-  public TranslatorTask onRetainCustomNonConfigurationInstance() {
-    if (task != null) {
+  public Object onRetainCustomNonConfigurationInstance() {
+    if (task != null)
       task.unregisterEventListener();
-      return task;
-    } else
-      return null;
+    return task;
   }
 
   @Override

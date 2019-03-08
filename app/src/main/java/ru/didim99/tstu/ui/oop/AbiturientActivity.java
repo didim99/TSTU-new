@@ -16,7 +16,6 @@ import ru.didim99.tstu.core.oop.Abiturient;
 import ru.didim99.tstu.core.oop.AbiturientManager;
 import ru.didim99.tstu.core.oop.GradeList;
 import ru.didim99.tstu.ui.BaseActivity;
-import ru.didim99.tstu.ui.DialogEventListener;
 import ru.didim99.tstu.utils.InputValidator;
 import ru.didim99.tstu.utils.MyLog;
 
@@ -68,7 +67,7 @@ public class AbiturientActivity extends BaseActivity {
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case R.id.act_add:
-        editDialog(R.string.oop_abit_add,
+        inputFieldDialog(R.string.oop_abit_add,
           R.layout.dia_oop_abit_add, this::addAbiturient);
         return false;
       case R.id.act_open:
@@ -111,38 +110,21 @@ public class AbiturientActivity extends BaseActivity {
           adapter.refreshData(manager.getBadGrades());
           break;
         case 2:
-          editDialog(R.string.oop_abit_enterMinSum,
-            R.layout.dia_oop_abit_single_field, this::filterMinSum);
+          inputFieldDialog(R.string.oop_abit_enterMinSum,
+            R.layout.dia_sf_number, this::filterMinSum);
           break;
         case 3:
-          editDialog(R.string.oop_abit_enterCount,
-            R.layout.dia_oop_abit_single_field, this::filterTop);
+          inputFieldDialog(R.string.oop_abit_enterCount,
+            R.layout.dia_sf_number, this::filterTop);
           break;
         case 4:
-          editDialog(R.string.oop_abit_enterExact,
-            R.layout.dia_oop_abit_single_field, this::filterExact);
+          inputFieldDialog(R.string.oop_abit_enterExact,
+            R.layout.dia_sf_number, this::filterExact);
           break;
       }
     });
     MyLog.d(LOG_TAG, "Filter dialog created");
     adb.create().show();
-  }
-
-  private void editDialog(int titleId, int viewId, DialogEventListener listener) {
-    MyLog.d(LOG_TAG, "Edit dialog called");
-    AlertDialog.Builder adb = new AlertDialog.Builder(this);
-    adb.setTitle(titleId);
-    adb.setView(viewId);
-    adb.setPositiveButton(R.string.dialogButtonOk, null);
-    adb.setNegativeButton(R.string.dialogButtonCancel, null);
-    MyLog.d(LOG_TAG, "Edit dialog created");
-    AlertDialog dialog = adb.create();
-    dialog.setOnShowListener((di) -> {
-      AlertDialog d = (AlertDialog) di;
-      d.getButton(AlertDialog.BUTTON_POSITIVE)
-        .setOnClickListener(v -> listener.onEvent(d));
-    });
-    dialog.show();
   }
 
   private void editItemDialog(int itemId) {

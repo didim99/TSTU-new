@@ -18,6 +18,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.mp.DBHelper;
+import ru.didim99.tstu.core.mp.WebAPI;
 import ru.didim99.tstu.utils.MyLog;
 
 /**
@@ -53,7 +54,7 @@ public class RadioTask extends AsyncTask<Void, Void, Integer> {
     OkHttpClient client = new OkHttpClient.Builder()
       .connectTimeout(5, TimeUnit.SECONDS)
       .writeTimeout(5, TimeUnit.SECONDS).build();
-    webAPI = new Retrofit.Builder().baseUrl(WebAPI.URL_BASE)
+    webAPI = new Retrofit.Builder().baseUrl(WebAPI.URL_RADIO)
       .client(client).build().create(WebAPI.class);
   }
 

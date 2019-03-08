@@ -10,7 +10,7 @@ public class L2ActMain extends BaseActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.act_mp_l2_main);
+    setContentView(R.layout.act_mp_task_list);
 
     findViewById(R.id.task1).setOnClickListener(v -> openTask(ActTask11.class));
     findViewById(R.id.task2).setOnClickListener(v -> openTask(ActTask2.class));

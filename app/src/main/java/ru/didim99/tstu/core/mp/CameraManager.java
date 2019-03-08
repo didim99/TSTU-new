@@ -138,8 +138,8 @@ public class CameraManager {
     if (invalidState()) return;
     Parameters p = camera.getParameters();
     boolean enabled = p.getFlashMode().equals(Parameters.FLASH_MODE_ON);
-    p.setFlashMode(enabled ? Parameters.FLASH_MODE_ON
-      : Parameters.FLASH_MODE_OFF);
+    p.setFlashMode(enabled ? Parameters.FLASH_MODE_OFF
+      : Parameters.FLASH_MODE_ON);
     camera.setParameters(p);
     msg.setText(enabled ? R.string.mp_cm_flashDisabled
       : R.string.mp_cm_flashEnabled);

@@ -31,6 +31,28 @@
       android:layout_height="wrap_content"
       android:padding="@dimen/actStart_btnPadding"
       android:text="@string/mp_task3"/>
+
+    <LinearLayout
+      android:id="@+id/mp_extended"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:visibility="gone">
+
+      <Button
+        android:id="@+id/task4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/actStart_btnPadding"
+        android:text="@string/mp_task4"/>
+
+      <Button
+        android:id="@+id/task5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/actStart_btnPadding"
+        android:text="@string/mp_task5"/>
+    </LinearLayout>
   </LinearLayout>
 
 </LinearLayout>
