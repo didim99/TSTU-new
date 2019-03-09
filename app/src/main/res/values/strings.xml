@@ -127,6 +127,10 @@
   <string name="errOOP_emptyFactor">Некорректный коэффициент умножения</string>
   <string name="errOOP_incorrectFactor">Некорректное количество абитуриентов</string>
   <string name="errMp_emptyName">Не указано ФИО</string>
+  <string name="errJournal_emptyId">Не указан ID журнала</string>
+  <string name="errJournal_incorrectId">Некорректно указан ID журнала</string>
+  <string name="errNotice_emptyHeader">Не указан заголовок уведомления</string>
+  <string name="errNotice_emptyText">Не указан текст уведомления</string>
   <!-- MathStat -->
   <string-array name="math_taskTypes">
     <item>@string/startMathStat</item>
@@ -237,10 +241,12 @@
   <string name="startMP">МВП</string>
   <string name="mp_selectType">Мобильные платформы</string>
   <string name="mp_uiBasics">Основы UI</string>
-  <string name="mp_IOBasics">БД / файлы / мультимедиа</string>
+  <string name="mp_ioBasics">БД / файлы / мультимедиа</string>
+  <string name="mp_netBasics">Сеть / настройки / уведомления</string>
   <string-array name="mp_taskTypes">
     <item>@string/mp_uiBasics</item>
-    <item>@string/mp_IOBasics</item>
+    <item>@string/mp_ioBasics</item>
+    <item>@string/mp_netBasics</item>
   </string-array>
   <string name="mp_btnA">A</string>
   <string name="mp_btnB">B</string>
@@ -259,16 +265,20 @@
   <string name="mp_sampleBtn3">Кнопка 3</string>
   <string name="mp_sampleBtn4">Кнопка 4</string>
   <string name="mp_newBtn">Новая кнопка</string>
+  <string name="mp_download">Скачать</string>
+  <string name="mp_add">Добавить</string>
+  <string name="mp_save">Сохранить</string>
+  <string name="mp_view">Показать</string>
+  <string name="mp_replace">Заменить</string>
+  <string name="mp_delete">Удалить</string>
   <string name="mp_dbError">Ошибка при работе с БД</string>
   <string name="mp_sampleText">своя Фамилия и Имя</string>
   <string name="mp_sampleText2">Фамилия и Имя матери</string>
   <string name="mp_input">Напишите что-нибудь</string>
-  <string name="mp_view">Показать</string>
-  <string name="mp_add">Добавить</string>
-  <string name="mp_replace">Заменить</string>
   <string name="mp_enterName">Укажите ФИО</string>
   <string name="mp_added">Данные добавлены (запись %d)</string>
   <string name="mp_replaced">Данные заменены (запись %d)</string>
+  <string name="mp_deleted">Данные удалены (запись %d)</string>
   <string name="mp_id">ID</string>
   <string name="mp_singer">Исполнитель</string>
   <string name="mp_songName">Название композиции</string>
@@ -289,6 +299,27 @@
   <string name="mp_cm_fdEnabled">Распознавание лиц включено</string>
   <string name="mp_cm_fdDisabled">Распознавание лиц отключено</string>
   <string name="mp_cm_cameraClosed">Камера отключена</string>
+  <string name="mp_journal_cantCreateDirs">Не удалось создать каталог для загрузки файлов</string>
+  <string name="mp_enterJournalId">Введите ID журнала</string>
+  <string name="mp_downloadStarted">Загрузка начата</string>
+  <string name="mp_downloadFinished">Загрузка завершена. Файл сохранен в:\n%s</string>
+  <string name="mp_downloadFailed_noInternet">Отсутствует подключение к Интернету</string>
+  <string name="mp_downloadFailed_notFound">Запрашиваемый файл не найден</string>
+  <string name="mp_downloadFailed_localIO">Не удалось записать файл: ошибка ввода-вывода</string>
+  <string name="mp_journal_selectFile">Выберите файл</string>
+  <string name="mo_journal_noViewerFound">Приложение для просмотра PDF не найдено</string>
+  <string name="mp_journal_selectForDelete">Выберите файл для удаления</string>
+  <string name="mp_journal_confirmDelete">Удалить файл %s?</string>
+  <string name="mp_journal_deleted">Файл удален</string>
+  <string name="mp_notShowMore">Больше не показывать</string>
+  <string name="mp_prefManual">Измените состоянме настройки и нажмите ОК для сохранения</string>
+  <string name="mp_notice_selectToView">Выберите уведомление</string>
+  <string name="mp_notice_header">Заголовок уведомления</string>
+  <string name="mp_notice_text">Текст уведомления</string>
+  <string name="mp_notice_date">Дата уведомления</string>
+  <string name="mp_notice_enterHeader">Введите заголовок</string>
+  <string name="mp_notice_enterText">Введите текст</string>
+  <string name="mp_notice_confirmDelete">Удалить уведомление \"%s\"?</string>
   <!-- OOP -->
   <string name="startOOP">ООП</string>
   <string name="oop_selectType">Объектно-ориентированное программирование</string>
