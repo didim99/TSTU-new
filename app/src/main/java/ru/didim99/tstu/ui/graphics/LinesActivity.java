@@ -8,6 +8,7 @@ import android.widget.TextView;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.graphics.Config;
 import ru.didim99.tstu.core.graphics.LineRenderer;
+import ru.didim99.tstu.ui.graphics.view.DrawerView;
 import ru.didim99.tstu.utils.MyLog;
 
 public class LinesActivity extends AnimationActivity {
@@ -38,7 +39,7 @@ public class LinesActivity extends AnimationActivity {
 
     Config config = (Config) getLastCustomNonConfigurationInstance();
     renderer = new LineRenderer(targetView, config);
-    renderer.execute();
+    renderer.start();
 
     config = renderer.getConfig();
     tvAngle.setText(getString(R.string.graphics_angle, config.getAngle()));

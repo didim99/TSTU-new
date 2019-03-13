@@ -60,4 +60,13 @@ public class Notice {
   public String toString() {
     return id + ": " + header;
   }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null) return false;
+    if (this == obj) return true;
+    if (!(obj instanceof Notice)) return false;
+    Notice other = (Notice) obj;
+    return other.id == this.id;
+  }
 }

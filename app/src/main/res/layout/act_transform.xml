@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:orientation="horizontal"
+  android:padding="@dimen/layoutPadding">
+
+  <LinearLayout
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:orientation="vertical"
+    android:layout_marginRight="@dimen/layoutPadding"
+    android:layout_marginEnd="@dimen/layoutPadding">
+
+    <Button
+      android:id="@+id/btnLoad"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/graphics_load"/>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal">
+
+      <Button
+        android:id="@+id/btnClear"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/graphics_clear"/>
+
+      <Button
+        android:id="@+id/btnReset"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:text="@string/graphics_reset"/>
+    </LinearLayout>
+
+    <ImageView
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/dirPicker_divHeight"
+      android:layout_marginLeft="@dimen/dirPicker_divHMargin"
+      android:layout_marginRight="@dimen/dirPicker_divHMargin"
+      android:layout_marginTop="@dimen/layoutPadding"
+      android:layout_marginBottom="@dimen/layoutPadding"
+      app:srcCompat="@color/dirPicker_divider"
+      tools:ignore="ContentDescription"/>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="@dimen/layoutPadding"
+      android:orientation="horizontal">
+
+      <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
+        android:text="@string/graphics_projectionType"
+        android:textSize="@dimen/textSize_main"
+        android:gravity="end"/>
+
+      <Spinner
+        android:id="@+id/spProjectionType"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:entries="@array/graphics_projectionTypes"/>
+    </LinearLayout>
+
+    <LinearLayout
+      android:id="@+id/ppConfig"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical">
+
+      <ru.didim99.tstu.ui.graphics.view.RangeBar
+        android:id="@+id/rbParallelAngle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/graphics_projection"/>
+
+      <ru.didim99.tstu.ui.graphics.view.RangeBar
+        android:id="@+id/rbParallelFactor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/graphics_parallelFactor"
+        app:scaled="true"/>
+    </LinearLayout>
+
+    <LinearLayout
+      android:id="@+id/cpConfig"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:visibility="gone">
+
+      <ru.didim99.tstu.ui.graphics.view.RangeBar
+        android:id="@+id/rbCentralDistance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/graphics_centralDistance"/>
+    </LinearLayout>
+
+    <ImageView
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/dirPicker_divHeight"
+      android:layout_marginLeft="@dimen/dirPicker_divHMargin"
+      android:layout_marginRight="@dimen/dirPicker_divHMargin"
+      android:layout_marginTop="@dimen/layoutPadding"
+      android:layout_marginBottom="@dimen/layoutPadding"
+      app:srcCompat="@color/dirPicker_divider"
+      tools:ignore="ContentDescription"/>
+
+    <CheckBox
+      android:id="@+id/cbDrawAxis"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/graphics_drawAxis"/>
+
+    <CheckBox
+      android:id="@+id/cbNegativeAxis"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="@dimen/layoutPadding"
+      android:text="@string/graphics_negativeAxis"/>
+
+    <ImageView
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/dirPicker_divHeight"
+      android:layout_marginLeft="@dimen/dirPicker_divHMargin"
+      android:layout_marginRight="@dimen/dirPicker_divHMargin"
+      android:layout_marginTop="@dimen/layoutPadding"
+      android:layout_marginBottom="@dimen/layoutPadding"
+      app:srcCompat="@color/dirPicker_divider"
+      tools:ignore="ContentDescription"/>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="@dimen/layoutPadding"
+      android:orientation="horizontal">
+
+      <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
+        android:text="@string/graphics_transformType"
+        android:textSize="@dimen/textSize_main"
+        android:gravity="end"/>
+
+      <Spinner
+        android:id="@+id/spTransformType"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:entries="@array/graphics_transformTypes"/>
+    </LinearLayout>
+
+    <LinearLayout
+      android:id="@+id/translateConfig"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical">
+
+      <ru.didim99.tstu.ui.graphics.view.RangeBar
+        android:id="@+id/rbTranslateX"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/graphics_translateX"
+        app:scaled="true"/>
+
+      <ru.didim99.tstu.ui.graphics.view.RangeBar
+        android:id="@+id/rbTranslateY"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/graphics_translateY"
+        app:scaled="true"/>
+
+      <ru.didim99.tstu.ui.graphics.view.RangeBar
+        android:id="@+id/rbTranslateZ"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/graphics_translateZ"
+        app:scaled="true"/>
+    </LinearLayout>
+
+    <LinearLayout
+      android:id="@+id/scaleConfig"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:visibility="gone">
+
+      <ru.didim99.tstu.ui.graphics.view.RangeBar
+        android:id="@+id/rbScaleX"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/graphics_scaleX"
+        app:scaled="true"/>
+
+      <ru.didim99.tstu.ui.graphics.view.RangeBar
+        android:id="@+id/rbScaleY"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/graphics_scaleY"
+        app:scaled="true"/>
+
+      <ru.didim99.tstu.ui.graphics.view.RangeBar
+        android:id="@+id/rbScaleZ"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/graphics_scaleZ"
+        app:scaled="true"/>
+
+      <CheckBox
+        android:id="@+id/cbSyncScale"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/layoutPadding"
+        android:text="@string/graphics_syncTransform"/>
+    </LinearLayout>
+
+    <LinearLayout
+      android:id="@+id/rotateConfig"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:visibility="gone">
+
+      <ru.didim99.tstu.ui.graphics.view.RangeBar
+        android:id="@+id/rbRotateX"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/graphics_rotateX"/>
+
+      <ru.didim99.tstu.ui.graphics.view.RangeBar
+        android:id="@+id/rbRotateY"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/graphics_rotateY"/>
+
+      <ru.didim99.tstu.ui.graphics.view.RangeBar
+        android:id="@+id/rbRotateZ"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/graphics_rotateZ"/>
+    </LinearLayout>
+
+    <ImageView
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/dirPicker_divHeight"
+      android:layout_marginLeft="@dimen/dirPicker_divHMargin"
+      android:layout_marginRight="@dimen/dirPicker_divHMargin"
+      android:layout_marginTop="@dimen/layoutPadding"
+      android:layout_marginBottom="@dimen/layoutPadding"
+      app:srcCompat="@color/dirPicker_divider"
+      tools:ignore="ContentDescription"/>
+  </LinearLayout>
+
+  <ru.didim99.tstu.ui.graphics.view.DrawerView
+    android:id="@+id/view"
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="1"/>
+
+</LinearLayout>

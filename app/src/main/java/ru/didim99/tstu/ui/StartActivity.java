@@ -10,6 +10,7 @@ import ru.didim99.tstu.R;
 import ru.didim99.tstu.TSTU;
 import ru.didim99.tstu.ui.graphics.HorizonActivity;
 import ru.didim99.tstu.ui.graphics.LinesActivity;
+import ru.didim99.tstu.ui.graphics.TransformActivity;
 import ru.didim99.tstu.ui.math.CAActivity;
 import ru.didim99.tstu.ui.math.MathStatActivity;
 import ru.didim99.tstu.ui.math.RV2Activity;
@@ -29,7 +30,7 @@ public class StartActivity extends AppCompatActivity {
   private static final Class[] OOP_TARGET =
     { AbiturientActivity.class, MatrixActivity.class };
   private static final Class[] GRAPH_TARGET =
-    { LinesActivity.class, HorizonActivity.class };
+    { LinesActivity.class, HorizonActivity.class, TransformActivity.class};
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

@@ -131,6 +131,10 @@
   <string name="errJournal_incorrectId">Некорректно указан ID журнала</string>
   <string name="errNotice_emptyHeader">Не указан заголовок уведомления</string>
   <string name="errNotice_emptyText">Не указан текст уведомления</string>
+  <string name="errGraphics_incorrectType">Некорректный формат файла</string>
+  <string name="errGraphics_unableLoad">Невозможно импортировать файл: %s</string>
+  <string name="errGraphics_invalidFormat">Некорректный формат данных</string>
+  <string name="errGraphics_ioError">Ошибка ввода-вывода</string>
   <!-- MathStat -->
   <string-array name="math_taskTypes">
     <item>@string/startMathStat</item>
@@ -224,12 +228,16 @@
   <string name="graphics_selectType">Компьютерная графика</string>
   <string name="graphics_bresenham">Алгоритм Брезенхэма</string>
   <string name="graphics_horizon">Плавающий горизонт</string>
+  <string name="graphics_transform">Афинные преобразования</string>
   <string-array name="graphics_taskTypes">
     <item>@string/graphics_bresenham</item>
     <item>@string/graphics_horizon</item>
+    <item>@string/graphics_transform</item>
   </string-array>
+  <string name="graphics_load">Загрузить модель</string>
   <string name="graphics_animate">Анимировать</string>
   <string name="graphics_clear">Очистить</string>
+  <string name="graphics_reset">Сбросить трансформации</string>
   <string name="graphics_useAA">Использовать сглаживание</string>
   <string name="graphics_parameters">Параметры функции</string>
   <string name="graphics_angle">Угол наклона: %d&#176;</string>
@@ -237,6 +245,31 @@
   <string name="graphics_alpha">Значение ɑ: %.2f</string>
   <string name="graphics_beta">Значение β: %.2f</string>
   <string name="graphics_gamma">Значение γ: %.2f</string>
+  <string name="graphics_parallelFactor">Коэффициент L: %.2f</string>
+  <string name="graphics_centralDistance">Расстояние до точки схода: %d</string>
+  <string name="graphics_projectionType">Тип проекции</string>
+  <string-array name="graphics_projectionTypes">
+    <item>Параллельная</item>
+    <item>Центральная</item>
+  </string-array>
+  <string name="graphics_drawAxis">Отображать оси координат</string>
+  <string name="graphics_negativeAxis">Отображать отрицательное направление</string>
+  <string name="graphics_transformType">Тип трансформации</string>
+  <string-array name="graphics_transformTypes">
+    <item>Перемещение</item>
+    <item>Масштабирование</item>
+    <item>Вращение</item>
+  </string-array>
+  <string name="graphics_syncTransform">Синхронизировать</string>
+  <string name="graphics_translateX">Перемещение по оси X: %.1f</string>
+  <string name="graphics_translateY">Перемещение по оси Y: %.1f</string>
+  <string name="graphics_translateZ">Перемещение по оси Z: %.1f</string>
+  <string name="graphics_scaleX">Масштабирование по оси X: %.2f</string>
+  <string name="graphics_scaleY">Масштабирование по оси Y: %.2f</string>
+  <string name="graphics_scaleZ">Масштабирование по оси Z: %.2f</string>
+  <string name="graphics_rotateX">Вращение по оси X: %d</string>
+  <string name="graphics_rotateY">Вращение по оси Y: %d</string>
+  <string name="graphics_rotateZ">Вращение по оси Z: %d</string>
   <!-- Mobile platforms -->
   <string name="startMP">МВП</string>
   <string name="mp_selectType">Мобильные платформы</string>

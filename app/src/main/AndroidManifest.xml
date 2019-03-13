@@ -56,6 +56,10 @@
       android:name=".ui.graphics.HorizonActivity"
       android:label="@string/graphics_horizon"
       android:theme="@style/AppThemePrint"/>
+    <activity
+      android:name=".ui.graphics.TransformActivity"
+      android:label="@string/graphics_transform"
+      android:theme="@style/AppThemePrint"/>
 
     <activity
       android:name=".ui.mp.lab1.L1ActMain"

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:orientation="horizontal"
@@ -26,31 +27,17 @@
       android:layout_height="wrap_content"
       android:text="@string/graphics_clear"/>
 
-    <TextView
-      android:id="@+id/tvAngleProjection"
+    <ru.didim99.tstu.ui.graphics.view.RangeBar
+      android:id="@+id/rbProjection"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_marginTop="@dimen/layoutPadding"
-      android:textSize="@dimen/textSize_main"
-      android:textAlignment="center"/>
+      app:title="@string/graphics_projection"/>
 
-    <SeekBar
-      android:id="@+id/sbAngleProjection"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"/>
-
-    <TextView
-      android:id="@+id/tvAnglePitch"
+    <ru.didim99.tstu.ui.graphics.view.RangeBar
+      android:id="@+id/rbPitch"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_marginTop="@dimen/layoutPadding"
-      android:textSize="@dimen/textSize_main"
-      android:textAlignment="center"/>
-
-    <SeekBar
-      android:id="@+id/sbAnglePitch"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"/>
+      app:title="@string/graphics_angle"/>
 
     <TextView
       android:layout_width="match_parent"
@@ -60,47 +47,29 @@
       android:textSize="@dimen/textSize_main"
       android:textAlignment="center"/>
 
-    <TextView
-      android:id="@+id/tvAlpha"
+    <ru.didim99.tstu.ui.graphics.view.RangeBar
+      android:id="@+id/rbAlpha"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_marginTop="@dimen/layoutPadding"
-      android:textSize="@dimen/textSize_main"
-      android:textAlignment="center"/>
+      app:title="@string/graphics_alpha"
+      app:scaled="true"/>
 
-    <SeekBar
-      android:id="@+id/sbAlpha"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"/>
-
-    <TextView
-      android:id="@+id/tvBeta"
+    <ru.didim99.tstu.ui.graphics.view.RangeBar
+      android:id="@+id/rbBeta"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_marginTop="@dimen/layoutPadding"
-      android:textSize="@dimen/textSize_main"
-      android:textAlignment="center"/>
+      app:title="@string/graphics_beta"
+      app:scaled="true"/>
 
-    <SeekBar
-      android:id="@+id/sbBeta"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"/>
-
-    <TextView
-      android:id="@+id/tvGamma"
+    <ru.didim99.tstu.ui.graphics.view.RangeBar
+      android:id="@+id/rbGamma"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_marginTop="@dimen/layoutPadding"
-      android:textSize="@dimen/textSize_main"
-      android:textAlignment="center"/>
-
-    <SeekBar
-      android:id="@+id/sbGamma"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"/>
+      app:title="@string/graphics_gamma"
+      app:scaled="true"/>
   </LinearLayout>
 
-  <ru.didim99.tstu.ui.graphics.DrawerView
+  <ru.didim99.tstu.ui.graphics.view.DrawerView
     android:id="@+id/view"
     android:layout_width="0dp"
     android:layout_height="match_parent"

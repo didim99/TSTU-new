@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import java.lang.ref.WeakReference;
-import ru.didim99.tstu.ui.graphics.DrawerView;
+import ru.didim99.tstu.ui.graphics.view.DrawerView;
 
 /**
  * Created by didim99 on 15.02.19.
@@ -22,7 +22,7 @@ public class AsyncRenderer extends AsyncTask<Void, Void, Void> {
   Config config;
   Bitmap bitmap;
 
-  AsyncRenderer(DrawerView target, Config config,
+  AsyncRenderer(DrawerView target, int type, Config config,
                 int width, int height, boolean antiAlias) {
     if (config == null) {
       this.config = new Config();
@@ -32,10 +32,22 @@ public class AsyncRenderer extends AsyncTask<Void, Void, Void> {
       this.config.colorFg = DEFAULT_FG;
     } else this.config = config;
     this.target = new WeakReference<>(target);
-    this.bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-    target.setSource(bitmap, antiAlias);
+
+    if (type == Config.Type.BITMAP) {
+      this.bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+      target.setSource(bitmap, antiAlias);
+    }
+
     setFPS(DEFAULT_FPS);
     clear();
+  }
+
+  void onSceneCreated(Scene scene) {
+    target.get().setSource(scene);
+  }
+
+  public void start() {
+    executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
   }
 
   @Override
@@ -74,7 +86,8 @@ public class AsyncRenderer extends AsyncTask<Void, Void, Void> {
   }
 
   public void clear() {
-    bitmap.eraseColor(config.colorBg);
+    if (bitmap != null)
+      bitmap.eraseColor(config.colorBg);
   }
 
   public void animate() {

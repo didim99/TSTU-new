@@ -5,7 +5,6 @@ import android.support.v7.app.AlertDialog;
 import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.mp.notice.Notice;
 import ru.didim99.tstu.core.mp.notice.NoticeManager;
@@ -43,7 +42,7 @@ public class ActTask33 extends BaseActivity {
     adb.setTitle(getString(R.string.mp_notice_confirmDelete, notice.getHeader()));
     adb.setNegativeButton(R.string.dialogButtonCancel, null);
     adb.setPositiveButton(R.string.dialogButtonOk,
-      (dialog, which) -> manager.delete(notice.getId()));
+      (dialog, which) -> manager.delete(notice));
     MyLog.d(LOG_TAG, "Delete dialog created");
     adb.create().show();
   }

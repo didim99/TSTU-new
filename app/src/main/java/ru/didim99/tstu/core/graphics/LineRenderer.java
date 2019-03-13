@@ -1,7 +1,7 @@
 package ru.didim99.tstu.core.graphics;
 
 import android.graphics.Color;
-import ru.didim99.tstu.ui.graphics.DrawerView;
+import ru.didim99.tstu.ui.graphics.view.DrawerView;
 
 /**
  * Created by didim99 on 13.02.19.
@@ -19,7 +19,8 @@ public class LineRenderer extends AsyncRenderer {
   private boolean reverse, swap;
 
   public LineRenderer(DrawerView target, Config config) {
-    super(target, config, DEFAULT_WIDTH, DEFAULT_HEIGHT, false);
+    super(target, Config.Type.BITMAP, config,
+      DEFAULT_WIDTH, DEFAULT_HEIGHT, false);
     realXZero = this.config.width / 2;
     realYZero = this.config.height / 2;
     xMax = realXZero - 1;

@@ -1,7 +1,7 @@
 package ru.didim99.tstu.core.graphics;
 
 import java.util.Arrays;
-import ru.didim99.tstu.ui.graphics.DrawerView;
+import ru.didim99.tstu.ui.graphics.view.DrawerView;
 
 /**
  * Created by didim99 on 24.02.19.
@@ -52,7 +52,8 @@ public class HorizonRenderer extends AsyncRenderer {
   private double zi;
 
   public HorizonRenderer(DrawerView target, Config config) {
-    super(target, config, VP_WIDTH, VP_HEIGHT, true);
+    super(target, Config.Type.BITMAP, config,
+      VP_WIDTH, VP_HEIGHT, true);
     minHorizon = new int[VP_WIDTH];
     maxHorizon = new int[VP_WIDTH];
     setFPS(FPS);

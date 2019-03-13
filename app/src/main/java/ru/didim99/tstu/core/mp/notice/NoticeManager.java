@@ -73,9 +73,9 @@ public class NoticeManager
     startTask(new Action(Action.Type.ADD, notice));
   }
 
-  public void delete(int id) {
+  public void delete(Notice notice) {
     if (!initCompleted) return;
-    startTask(new Action(Action.Type.DELETE, get(id)));
+    startTask(new Action(Action.Type.DELETE, notice));
   }
 
   public void send(Notice notice) {
@@ -84,6 +84,7 @@ public class NoticeManager
 
     Notification n = new NotificationCompat.Builder(ctx)
       .setColor(ctx.getResources().getColor(R.color.colorPrimaryDark))
+      .setPriority(NotificationCompat.PRIORITY_HIGH)
       .setDefaults(Notification.DEFAULT_ALL)
       .setSmallIcon(R.drawable.ic_info_24dp)
       .setContentTitle(notice.getHeader())
