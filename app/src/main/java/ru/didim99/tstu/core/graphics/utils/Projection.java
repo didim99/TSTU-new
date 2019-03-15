@@ -9,13 +9,16 @@ public class Projection {
   private static final int DEFAULT_TYPE = Type.PARALLEL;
   private static final int DEFAULT_PPA = 63;
   private static final double DEFAULT_PPF = 0.5;
-  private static final int DEFAULT_CPD = 1500;
+  private static final int DEFAULT_CPD = 500;
+  private static final boolean DEFAULT_USE_X = false;
+  private static final boolean DEFAULT_USE_Y = false;
+  private static final boolean DEFAULT_USE_Z = true;
   public static final int PPA_MIN = 0;
   public static final int PPA_MAX = 90;
   public static final int PPF_MIN = 25;
   public static final int PPF_MAX = 100;
   public static final int CPD_MIN = 100;
-  public static final int CPD_MAX = 5000;
+  public static final int CPD_MAX = 1000;
   public static final double PPF_FACTOR = 0.01;
 
   public static final class Type {
@@ -29,6 +32,7 @@ public class Projection {
     private double ppFactor;
     private double sinP, cosP;
     private int cpDistance;
+    private boolean useX, useY, useZ;
 
     private Config() {}
   }
@@ -44,6 +48,9 @@ public class Projection {
       this.config.ppAngle = DEFAULT_PPA;
       this.config.ppFactor = DEFAULT_PPF;
       this.config.cpDistance = DEFAULT_CPD;
+      this.config.useX = DEFAULT_USE_X;
+      this.config.useY = DEFAULT_USE_Y;
+      this.config.useZ = DEFAULT_USE_Z;
     } else this.config = config;
     applyType(this.config.type);
     this.listener = listener;
@@ -67,18 +74,37 @@ public class Projection {
     return config.cpDistance;
   }
 
+  public boolean isUseX() {
+    return config.useX;
+  }
+
+  public boolean isUseY() {
+    return config.useY;
+  }
+
+  public boolean isUseZ() {
+    return config.useZ;
+  }
+
   public void setPPAngle(int angle) {
     config.ppAngle = angle;
     compute();
   }
 
-  public void setPPFacror(double factor) {
+  public void setPPFactor(double factor) {
     config.ppFactor = factor;
     compute();
   }
 
   public void setCPDistance(int distance) {
     config.cpDistance = distance;
+    compute();
+  }
+
+  public void setPoints(boolean useX, boolean useY, boolean useZ) {
+    config.useX = useX;
+    config.useY = useY;
+    config.useZ = useZ;
     compute();
   }
 
@@ -102,15 +128,15 @@ public class Projection {
 
   private PointF projectParallel(Vec4 vec) {
     return new PointF(
-      (float) (vec.x() - vec.z() * config.cosP),
-      (float) (vec.y() - vec.z() * config.sinP));
+      (float) (vec.x() + vec.z() * config.cosP),
+      (float) (vec.y() + vec.z() * config.sinP));
   }
 
   private PointF projectCentral(Vec4 vec) {
-    double f = 1
-      + vec.z() / config.cpDistance
-      /*+ vec.x() / config.cpDistance*/
-      /*- vec.y() / config.cpDistance*/;
+    double f = 1;
+    if (config.useX) f += vec.x() / config.cpDistance / 2;
+    if (config.useY) f += vec.y() / config.cpDistance / 2;
+    if (config.useZ) f += vec.z() / config.cpDistance;
     return new PointF(
       (float) (vec.x() / f),
       (float) (vec.y() / f));

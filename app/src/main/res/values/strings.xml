@@ -254,6 +254,9 @@
     <item>Параллельная</item>
     <item>Центральная</item>
   </string-array>
+  <string name="graphics_pointX">Точка схода по X</string>
+  <string name="graphics_pointY">Точка схода по Y</string>
+  <string name="graphics_pointZ">Точка схода по Z</string>
   <string name="graphics_drawAxis">Отображать оси координат</string>
   <string name="graphics_negativeAxis">Отображать отрицательное направление</string>
   <string name="graphics_transformType">Тип трансформации</string>

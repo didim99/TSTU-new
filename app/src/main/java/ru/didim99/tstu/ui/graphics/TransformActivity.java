@@ -31,6 +31,7 @@ public class TransformActivity extends AnimationActivity {
   private View scaleLayout;
   private View rotateLayout;
   private CheckBox cbNegativeAxis;
+  private CheckBox cbPointX, cbPointY, cbPointZ;
   private RangeBar rbTranslateX, rbTranslateY, rbTranslateZ;
   private RangeBar rbScaleX, rbScaleY, rbScaleZ;
   private RangeBar rbRotateX, rbRotateY, rbRotateZ;
@@ -50,6 +51,9 @@ public class TransformActivity extends AnimationActivity {
     translateLayout = findViewById(R.id.translateConfig);
     scaleLayout = findViewById(R.id.scaleConfig);
     rotateLayout = findViewById(R.id.rotateConfig);
+    cbPointX = findViewById(R.id.cbPointX);
+    cbPointY = findViewById(R.id.cbPointY);
+    cbPointZ = findViewById(R.id.cbPointZ);
     cbNegativeAxis = findViewById(R.id.cbNegativeAxis);
     CheckBox cbDrawAxis = findViewById(R.id.cbDrawAxis);
     CheckBox cbSyncScale = findViewById(R.id.cbSyncScale);
@@ -88,7 +92,7 @@ public class TransformActivity extends AnimationActivity {
     rbPPFactor.setBounds(Projection.PPF_MIN, Projection.PPF_MAX);
     rbPPFactor.setValue(projection.getPPFactor());
     rbPPFactor.setOnScaledValueChangedListener(value ->
-      ((EdgeRenderer) renderer).getProjection().setPPFacror(value));
+      ((EdgeRenderer) renderer).getProjection().setPPFactor(value));
     rbCPDistance.setBounds(Projection.CPD_MIN, Projection.CPD_MAX);
     rbCPDistance.setValue(projection.getCPDistance());
     rbCPDistance.setOnValueChangedListener(value ->
@@ -182,13 +186,23 @@ public class TransformActivity extends AnimationActivity {
       ((EdgeRenderer) renderer).setNegativeAxis(c));
     cbDrawAxis.setChecked(config.isDrawAxis());
     cbDrawAxis.setOnCheckedChangeListener((v, c) -> {
+      MyLog.d(LOG_TAG, "Draw axis: " + c);
       ((EdgeRenderer) renderer).setDrawAxis(c);
       cbNegativeAxis.setEnabled(c);
     });
 
+    cbPointX.setChecked(projection.isUseX());
+    cbPointY.setChecked(projection.isUseY());
+    cbPointZ.setChecked(projection.isUseZ());
+    cbPointX.setOnCheckedChangeListener((v, c) -> onPointCountChanged());
+    cbPointY.setOnCheckedChangeListener((v, c) -> onPointCountChanged());
+    cbPointZ.setOnCheckedChangeListener((v, c) -> onPointCountChanged());
+    onPointCountChanged();
+
     syncScale = config.isSyncScale();
     cbSyncScale.setChecked(syncScale);
     cbSyncScale.setOnCheckedChangeListener((v, c) -> {
+      MyLog.d(LOG_TAG, "Sync scale: " + c);
       ((EdgeRenderer) renderer).setSyncScale(syncScale = c);
       if (c) onSceneScaleChanged(rbScaleX.getValue());
     });
@@ -208,6 +222,23 @@ public class TransformActivity extends AnimationActivity {
     rbRotateX.setValue((int) config.getRotate().x());
     rbRotateY.setValue((int) config.getRotate().y());
     rbRotateZ.setValue((int) config.getRotate().z());
+  }
+
+  private void onPointCountChanged() {
+    MyLog.d(LOG_TAG, "Central projection points changed");
+    boolean useX = cbPointX.isChecked();
+    boolean useY = cbPointY.isChecked();
+    boolean useZ = cbPointZ.isChecked();
+    int count = 0;
+    if (useX) count++;
+    if (useY) count++;
+    if (useZ) count++;
+    boolean one = count == 1;
+    cbPointX.setEnabled(!one || !useX);
+    cbPointY.setEnabled(!one || !useY);
+    cbPointZ.setEnabled(!one || !useZ);
+    ((EdgeRenderer) renderer).getProjection()
+      .setPoints(useX, useY, useZ);
   }
 
   private void onSceneScaleChanged(double value) {

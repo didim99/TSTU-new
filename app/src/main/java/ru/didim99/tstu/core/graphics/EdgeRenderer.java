@@ -25,6 +25,7 @@ public class EdgeRenderer extends AsyncRenderer implements Scene {
   public static final double SCL_FACTOR = 0.01;
   // Default parameters values
   private static final boolean DEFAULT_DRAW_AXIS = true;
+  private static final boolean DEFAULT_NEGATIVE_AXIS = false;
   private static final boolean DEFAULT_SYNC_SCALE = true;
   private static final double DEFAULT_TRN = 0;
   private static final double DEFAULT_SCL = 1.0;
@@ -54,16 +55,17 @@ public class EdgeRenderer extends AsyncRenderer implements Scene {
     this.sceneTransform = new Mat4();
     this.configured = false;
 
-    if (config == null) {
-      this.config.models = new ArrayList<>();
-      this.config.drawAxis = DEFAULT_DRAW_AXIS;
-      this.config.negativeAxis = DEFAULT_DRAW_AXIS;
-      clearTransform();
-    }
-
     projection = new Projection(
       this.config.prConfig, this::onSceneChanged);
     this.config.prConfig = projection.getConfig();
+
+    if (config == null) {
+      this.config.models = new ArrayList<>();
+      this.config.drawAxis = DEFAULT_DRAW_AXIS;
+      this.config.negativeAxis = DEFAULT_NEGATIVE_AXIS;
+      clearTransform();
+    }
+
     sceneTransform.scale(new Vec4(DSS, DSS, DSS));
     onSceneCreated(this);
     onSceneChanged();
@@ -163,7 +165,7 @@ public class EdgeRenderer extends AsyncRenderer implements Scene {
   }
 
   private void onSceneChanged() {
-    this.axis = new Axis(AXIS_LENGTH, config.negativeAxis);
+    axis = new Axis(AXIS_LENGTH, config.negativeAxis);
     modelTransform.loadIdentity();
     modelTransform.rotate(config.rotate);
     modelTransform.scale(config.scale);
@@ -174,11 +176,8 @@ public class EdgeRenderer extends AsyncRenderer implements Scene {
 
   private void configure(Canvas canvas) {
     if (configured) return;
-    config.width = canvas.getWidth();
-    config.height = canvas.getHeight();
-    sceneTransform.translate(new Vec4(
-      config.width / 2f,
-      config.height / 2f, 0));
+    config.width = canvas.getWidth() / 2;
+    config.height = canvas.getHeight() / 2;
     configured = true;
     onSceneChanged();
   }
@@ -203,11 +202,14 @@ public class EdgeRenderer extends AsyncRenderer implements Scene {
   }
 
   private void drawModel(EdgeModel model, Canvas canvas, Paint paint) {
+    float[] rastered = model.getRastered();
+    for (int i = 0; i < rastered.length; i++) {
+      if (i % 2 == 0) rastered[i] += config.width;
+      else rastered[i] = (float) config.height - rastered[i];
+    }
+
     paint.setColor(model.getColor());
     paint.setStrokeWidth(model.getLineWidth());
-    float[] rastered = model.getRastered();
-    for (int i = 1; i < rastered.length; i += 2)
-      rastered[i] = (float) config.height - rastered[i];
     canvas.drawLines(rastered, paint);
   }
 }
