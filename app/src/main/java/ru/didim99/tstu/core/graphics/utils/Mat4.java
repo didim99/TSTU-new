@@ -25,14 +25,16 @@ public class Mat4 {
   }
 
   public void multiply(Mat4 m) {
+    Mat4 res = new Mat4();
     for (int i = 0; i < N; i++) {
       for (int j = 0; j < N; j++) {
         double tmp = 0;
         for (int k = 0; k < N; k++)
           tmp += get(i, k) * m.get(k, j);
-        set(i, j, tmp);
+        res.set(i, j, tmp);
       }
     }
+    load(res);
   }
 
   public void translate(Vec4 translate) {
@@ -49,14 +51,19 @@ public class Mat4 {
 
   public void rotate(Vec4 rotate) {
     Mat4 tmp = new Mat4();
-    tmp.loadRotateX(rotate.x());
+    tmp.loadRotate(rotate);
     multiply(tmp);
-    tmp.loadIdentity();
-    tmp.loadRotateY(rotate.y());
-    multiply(tmp);
-    tmp.loadIdentity();
-    tmp.loadRotateZ(rotate.z());
-    multiply(tmp);
+  }
+
+  public void loadIdentity() {
+    data[0] = 1; data[1] = 0; data[2] = 0; data[3] = 0;
+    data[4] = 0; data[5] = 1; data[6] = 0; data[7] = 0;
+    data[8] = 0; data[9] = 0; data[10] = 1; data[11] = 0;
+    data[12] = 0; data[13] = 0; data[14] = 0; data[15] = 1;
+  }
+
+  private void load(Mat4 src) {
+    System.arraycopy(src.data, 0, data, 0, data.length);
   }
 
   private void loadTranslate(Vec4 translate) {
@@ -71,25 +78,28 @@ public class Mat4 {
     data[10] = scale.z();
   }
 
-  private void loadRotateX(double angle) {
-    double s = Math.sin(Math.toRadians(angle));
-    double c = Math.cos(Math.toRadians(angle));
-    data[5] = c; data[6] = s;
-    data[9] = -s; data[10] = c;
-  }
+  private void loadRotate(Vec4 rotate) {
+    double rx = Math.toRadians(rotate.x());
+    double ry = Math.toRadians(rotate.y());
+    double rz = Math.toRadians(rotate.z());
+    double sx = Math.sin(rx);
+    double cx = Math.cos(rx);
+    double sy = Math.sin(ry);
+    double cy = Math.cos(ry);
+    double sz = Math.sin(rz);
+    double cz = Math.cos(rz);
+    double ss = sx * sy;
+    double cs = cx * sy;
 
-  private void loadRotateY(double angle) {
-    double s = Math.sin(Math.toRadians(angle));
-    double c = Math.cos(Math.toRadians(angle));
-    data[0] = c; data[2] = -s;
-    data[8] = s; data[10] = c;
-  }
-
-  private void loadRotateZ(double angle) {
-    double s = Math.sin(Math.toRadians(angle));
-    double c = Math.cos(Math.toRadians(angle));
-    data[0] = c; data[1] = s;
-    data[4] = -s; data[5] = c;
+    data[0]   =  cy * cz;
+    data[1]   = -cy * sz;
+    data[2]   = -sy;
+    data[4]   = -ss * cz + cx * sz;
+    data[5]   =  ss * sz + cx * cz;
+    data[6]   = -sx * cy;
+    data[8]   =  cs * cz + sx * sz;
+    data[9]   = -cs * sz + sx * cz;
+    data[10]  =  cx * cy;
   }
 
   @Override
@@ -101,12 +111,5 @@ public class Mat4 {
         data[4 * i], data[ 4 * i + 1],
         data[4 * i + 2], data[4 * i + 3]));
     return sb.toString();
-  }
-
-  public void loadIdentity() {
-    data[0] = 1; data[1] = 0; data[2] = 0; data[3] = 0;
-    data[4] = 0; data[5] = 1; data[6] = 0; data[7] = 0;
-    data[8] = 0; data[9] = 0; data[10] = 1; data[11] = 0;
-    data[12] = 0; data[13] = 0; data[14] = 0; data[15] = 1;
   }
 }
