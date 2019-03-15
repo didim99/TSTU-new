@@ -19,6 +19,7 @@ import ru.didim99.tstu.ui.mp.lab2.L2ActMain;
 import ru.didim99.tstu.ui.mp.lab3.L3ActMain;
 import ru.didim99.tstu.ui.oop.AbiturientActivity;
 import ru.didim99.tstu.ui.oop.MatrixActivity;
+import ru.didim99.tstu.ui.oop.ShopActivity;
 import ru.didim99.tstu.utils.MyLog;
 
 public class StartActivity extends AppCompatActivity {
@@ -28,7 +29,7 @@ public class StartActivity extends AppCompatActivity {
   private static final Class[] MP_TARGET =
     { L1ActMain.class, L2ActMain.class, L3ActMain.class };
   private static final Class[] OOP_TARGET =
-    { AbiturientActivity.class, MatrixActivity.class };
+    { AbiturientActivity.class, MatrixActivity.class, ShopActivity.class };
   private static final Class[] GRAPH_TARGET =
     { LinesActivity.class, HorizonActivity.class, TransformActivity.class};
 

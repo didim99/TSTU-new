@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:layout_margin="@dimen/layoutPadding">
+
+  <View
+    android:id="@+id/hCenter"
+    android:layout_width="5dp"
+    android:layout_height="match_parent"
+    android:layout_centerHorizontal="true" />
+
+  <View
+    android:id="@+id/vCenter"
+    android:layout_width="match_parent"
+    android:layout_height="5dp"
+    android:layout_centerVertical="true" />
+
+  <TextView
+    android:id="@+id/tvTitleShop"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_toLeftOf="@id/hCenter"
+    android:layout_toStartOf="@id/hCenter"
+    android:layout_marginBottom="@dimen/layoutPadding"
+    android:text="@string/oop_section_shop"
+    android:textSize="@dimen/textSize_large"
+    android:textColor="@color/dirPicker_textActive"
+    android:gravity="center"/>
+
+  <LinearLayout
+    android:id="@+id/groupLayout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/tvTitleShop"
+    android:layout_alignLeft="@id/tvTitleShop"
+    android:layout_alignStart="@id/tvTitleShop"
+    android:layout_alignRight="@id/tvTitleShop"
+    android:layout_alignEnd="@id/tvTitleShop"
+    android:layout_marginBottom="5dp">
+
+    <TextView
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:layout_marginRight="10dp"
+      android:layout_marginEnd="10dp"
+      android:text="@string/oop_shop"
+      android:textSize="@dimen/textSize_main"
+      android:gravity="end"/>
+
+    <Spinner
+      android:id="@+id/spShop"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"/>
+
+    <TextView
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:layout_marginRight="10dp"
+      android:layout_marginEnd="10dp"
+      android:text="@string/oop_group"
+      android:textSize="@dimen/textSize_main"
+      android:gravity="end"/>
+
+    <Spinner
+      android:id="@+id/spGroup"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="2"/>
+  </LinearLayout>
+
+  <android.support.v7.widget.RecyclerView
+    android:id="@+id/rvShop"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/groupLayout"
+    android:layout_above="@id/vCenter"
+    android:layout_alignLeft="@id/tvTitleShop"
+    android:layout_alignStart="@id/tvTitleShop"
+    android:layout_alignRight="@id/tvTitleShop"
+    android:layout_alignEnd="@id/tvTitleShop"/>
+
+  <TextView
+    android:id="@+id/tvTitleCard"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/vCenter"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_toLeftOf="@id/hCenter"
+    android:layout_toStartOf="@id/hCenter"
+    android:layout_marginBottom="@dimen/layoutPadding"
+    android:text="@string/oop_section_card"
+    android:textSize="@dimen/textSize_large"
+    android:textColor="@color/dirPicker_textActive"
+    android:gravity="center"/>
+
+  <android.support.v7.widget.RecyclerView
+    android:id="@+id/rvCard"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/tvTitleCard"
+    android:layout_above="@id/buyLayout"
+    android:layout_alignLeft="@id/tvTitleCard"
+    android:layout_alignStart="@id/tvTitleCard"
+    android:layout_alignRight="@id/tvTitleCard"
+    android:layout_alignEnd="@id/tvTitleCard"/>
+
+  <LinearLayout
+    android:id="@+id/buyLayout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_alignLeft="@id/tvTitleCard"
+    android:layout_alignStart="@id/tvTitleCard"
+    android:layout_alignRight="@id/tvTitleCard"
+    android:layout_alignEnd="@id/tvTitleCard">
+
+    <TextView
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:layout_marginRight="10dp"
+      android:layout_marginEnd="10dp"
+      android:text="@string/oop_shop_cardSum"
+      android:textSize="@dimen/textSize_main"
+      android:gravity="end"/>
+
+    <TextView
+      android:id="@+id/tvCardSum"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:layout_marginRight="10dp"
+      android:layout_marginEnd="10dp"
+      android:textColor="@color/dirPicker_textActive"
+      android:textSize="@dimen/textSize_main"/>
+
+    <Button
+      android:id="@+id/btnBuy"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:text="@string/oop_buy"/>
+
+  </LinearLayout>
+
+  <TextView
+    android:id="@+id/tvTitleInventory"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"
+    android:layout_toRightOf="@id/hCenter"
+    android:layout_toEndOf="@id/hCenter"
+    android:layout_marginBottom="@dimen/layoutPadding"
+    android:text="@string/oop_section_inventory"
+    android:textSize="@dimen/textSize_large"
+    android:textColor="@color/dirPicker_textActive"
+    android:gravity="center"/>
+
+  <android.support.v7.widget.RecyclerView
+    android:id="@+id/rvInventory"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_above="@id/vCenter"
+    android:layout_alignTop="@id/rvShop"
+    android:layout_alignLeft="@id/tvTitleInventory"
+    android:layout_alignStart="@id/tvTitleInventory"
+    android:layout_alignRight="@id/tvTitleInventory"
+    android:layout_alignEnd="@id/tvTitleInventory"/>
+
+  <TextView
+    android:id="@+id/tvTitleMoney"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/vCenter"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"
+    android:layout_toRightOf="@id/hCenter"
+    android:layout_toEndOf="@id/hCenter"
+    android:layout_marginBottom="@dimen/layoutPadding"
+    android:text="@string/oop_section_money"
+    android:textSize="@dimen/textSize_large"
+    android:textColor="@color/dirPicker_textActive"
+    android:gravity="center"/>
+
+  <TableLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/tvTitleMoney"
+    android:layout_alignLeft="@id/tvTitleMoney"
+    android:layout_alignStart="@id/tvTitleMoney"
+    android:layout_alignRight="@id/tvTitleMoney"
+    android:layout_alignEnd="@id/tvTitleMoney"
+    android:paddingLeft="@dimen/layoutPaddingLarge"
+    android:paddingRight="@dimen/layoutPaddingLarge">
+
+    <TableRow>
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/oop_shop_accountNumber"
+        android:textSize="@dimen/textSize_main"
+        android:gravity="end"/>
+
+      <TextView
+        android:id="@+id/tvAccNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:textColor="@color/dirPicker_textActive"
+        android:textSize="@dimen/textSize_main"/>
+    </TableRow>
+
+    <TableRow>
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/oop_shop_accountValue"
+        android:textSize="@dimen/textSize_main"
+        android:gravity="end"/>
+
+      <TextView
+        android:id="@+id/tvAccValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:textColor="@color/dirPicker_textActive"
+        android:textSize="@dimen/textSize_main"/>
+    </TableRow>
+
+    <TableRow>
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/oop_shop_creditLimit"
+        android:textSize="@dimen/textSize_main"
+        android:gravity="end"/>
+
+      <TextView
+        android:id="@+id/tvCreditLimit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:textColor="@color/dirPicker_textActive"
+        android:textSize="@dimen/textSize_main"/>
+    </TableRow>
+
+    <TableRow>
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/oop_shop_creditValue"
+        android:textSize="@dimen/textSize_main"
+        android:gravity="end"/>
+
+      <TextView
+        android:id="@+id/tvCreditValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:textColor="@color/dirPicker_textActive"
+        android:textSize="@dimen/textSize_main"/>
+    </TableRow>
+  </TableLayout>
+
+  <LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_above="@id/btnSalary"
+    android:layout_alignLeft="@id/tvTitleMoney"
+    android:layout_alignStart="@id/tvTitleMoney"
+    android:layout_alignRight="@id/tvTitleMoney"
+    android:layout_alignEnd="@id/tvTitleMoney"
+    tools:ignore="ButtonStyle">
+
+    <Button
+      android:id="@+id/btnTakeCredit"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:text="@string/oop_shop_takeCredit"/>
+
+    <Button
+      android:id="@+id/btnCloseCredit"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:text="@string/oop_shop_closeCredit"/>
+  </LinearLayout>
+
+  <Button
+    android:id="@+id/btnSalary"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_alignLeft="@id/tvTitleMoney"
+    android:layout_alignStart="@id/tvTitleMoney"
+    android:layout_alignRight="@id/tvTitleMoney"
+    android:layout_alignEnd="@id/tvTitleMoney"
+    android:text="@string/oop_shop_salary"/>
+
+</RelativeLayout>

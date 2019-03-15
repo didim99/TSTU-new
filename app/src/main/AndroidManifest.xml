@@ -159,6 +159,9 @@
     <activity
       android:name=".ui.oop.MatrixActivity"
       android:label="@string/oop_matrix"/>
+    <activity
+      android:name=".ui.oop.ShopActivity"
+      android:label="@string/oop_shopping"/>
 
     <activity
       android:name=".ui.dirpicker.DirPickerActivity"
