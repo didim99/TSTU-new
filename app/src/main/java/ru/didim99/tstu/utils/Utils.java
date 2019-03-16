@@ -21,6 +21,17 @@ public class Utils {
 
   /* ======== STRING UTILS ========== */
 
+  public static String joinStr(String delimiter, String... args) {
+    if (args == null || args.length == 0)
+      return null;
+    StringBuilder builder = new StringBuilder();
+    int size = args.length - 1;
+    for (int i = 0; i < size; i++)
+      builder.append(args[i]).append(delimiter);
+    builder.append(args[size]);
+    return builder.toString();
+  }
+
   public static String joinStr(String delimiter, ArrayList<String> args) {
     if (args == null || args.isEmpty())
       return null;
@@ -45,6 +56,15 @@ public class Utils {
     } catch (NumberFormatException ignored) {
       return null;
     }
+  }
+
+  public static String[] intArrayToStringArray (int[] args) {
+    if (args == null || args.length == 0)
+      return null;
+    String[] result = new String[args.length];
+    for (int i = 0; i < args.length; i++)
+      result[i] = String.valueOf(args[i]);
+    return result;
   }
 
   /* ======== FILE UTILS =========== */

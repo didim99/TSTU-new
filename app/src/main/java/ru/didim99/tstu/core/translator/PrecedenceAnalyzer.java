@@ -49,9 +49,9 @@ class PrecedenceAnalyzer extends SyntaxAnalyzer {
       Iterator<Integer> it = range.iterator();
       while (it.hasNext()) {
         l = it.next();
-        if (l == InLang.CUSTOM.ID)
+        if (l == LangMap.CUSTOM.ID)
           line.add(st.get(it.next()).getName());
-        else if (l == InLang.CUSTOM.LITERAL)
+        else if (l == LangMap.CUSTOM.LITERAL)
           line.add(String.valueOf(it.next()));
         else
           line.add(ls.getMnemonic(l));

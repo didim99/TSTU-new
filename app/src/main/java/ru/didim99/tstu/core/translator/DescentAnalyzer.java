@@ -1,6 +1,9 @@
 package ru.didim99.tstu.core.translator;
 
 import java.util.ArrayList;
+import ru.didim99.tstu.core.translator.AST.*;
+import ru.didim99.tstu.core.translator.LangMap.*;
+import ru.didim99.tstu.core.translator.utils.SymbolTable;
 import ru.didim99.tstu.core.translator.utils.SyntaxStream;
 import ru.didim99.tstu.utils.MyLog;
 
@@ -11,6 +14,7 @@ class DescentAnalyzer extends SyntaxAnalyzer {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_DSA";
 
   private SyntaxStream inputStream;
+  private ArrayList<VarDef> vars;
 
   DescentAnalyzer(LexicalAnalyzer.Result input) {
     super(input);
@@ -25,48 +29,51 @@ class DescentAnalyzer extends SyntaxAnalyzer {
 
   /* ======== SYNTAX IMPLEMENTATION ========== */
 
-  private AST.Program checkProgram() {
-    AST.Identifier name = checkHeader();
-    inputStream.validateNext(InLang.DIVIDER.END_OP);
-    ArrayList<AST.VarDef> vars = checkSectionVar();
-    AST.OpList operations = checkSectionOp();
-    inputStream.validateNext(InLang.DIVIDER.END_PROG);
+  private Program checkProgram() {
+    Identifier name = checkHeader();
+    inputStream.validateNext(DIVIDER.SEMICOLON);
+    vars = checkSectionVar();
+    OpList operations = checkSectionOp();
+    inputStream.validateNext(DIVIDER.DOT);
     MyLog.v(LOG_TAG, "parsed element: PROGRAM");
-    return new AST.Program(name, vars, operations);
+    return new Program(name, vars, operations);
   }
 
-  private AST.Identifier checkHeader() {
-    inputStream.validateNext(InLang.KEYWORD.PROGRAM);
-    AST.Identifier name = checkVarName();
+  private Identifier checkHeader() {
+    inputStream.validateNext(KEYWORD.PROGRAM);
+    Identifier name = checkVarName(true);
     MyLog.v(LOG_TAG, "parsed element: HEADER");
     return name;
   }
 
-  private AST.Identifier checkVarName() {
-    inputStream.validateNext(InLang.CUSTOM.ID);
+  private Identifier checkVarName(boolean init) {
+    inputStream.validateNext(CUSTOM.ID);
     MyLog.v(LOG_TAG, "parsed element: IDENTIFIER");
-    return new AST.Identifier(inputStream.next());
+    Identifier id = new Identifier(inputStream.next());
+    if (!init) checkDefinition(id);
+    return id;
   }
 
-  private ArrayList<AST.VarDef> checkSectionVar() {
-    inputStream.validateNext(InLang.KEYWORD.VAR);
-    ArrayList<AST.VarDef> varDef = checkVarDeclaration();
+  private ArrayList<VarDef> checkSectionVar() {
+    inputStream.validateNext(KEYWORD.VAR);
+    ArrayList<VarDef> varDef = checkVarDeclaration();
     MyLog.v(LOG_TAG, "parsed element: VAR SECTION");
     return varDef;
   }
 
-  private ArrayList<AST.VarDef> checkVarDeclaration() {
-    ArrayList<AST.VarDef> varDefs = new ArrayList<>();
-    ArrayList<AST.Identifier> vars = checkVarList();
-    inputStream.validateNext(InLang.DIVIDER.END_VL);
+  private ArrayList<VarDef> checkVarDeclaration() {
+    ArrayList<VarDef> varDefs = new ArrayList<>();
+    ArrayList<Identifier> vars = checkVarList(true);
+    SymbolTable table = result.getSymbolTable();
+    inputStream.validateNext(DIVIDER.COLON);
     int type = checkType();
 
-    for (AST.Identifier var : vars)
-      result.getSymbolTable().get(var.getIndex()).setType(type);
-    varDefs.add(new AST.VarDef(vars, type));
+    for (Identifier var : vars)
+      table.get(var.getIndex()).setType(type);
 
-    inputStream.validateNext(InLang.DIVIDER.END_OP);
-    if (inputStream.pickNext() == InLang.CUSTOM.ID) {
+    varDefs.add(new VarDef(vars, type));
+    inputStream.validateNext(DIVIDER.SEMICOLON);
+    if (inputStream.pickNext() == CUSTOM.ID) {
       varDefs.addAll(checkVarDeclaration());
     }
 
@@ -74,13 +81,13 @@ class DescentAnalyzer extends SyntaxAnalyzer {
     return varDefs;
   }
 
-  private ArrayList<AST.Identifier> checkVarList() {
-    ArrayList<AST.Identifier> vars = new ArrayList<>();
-    vars.add(checkVarName());
+  private ArrayList<Identifier> checkVarList(boolean init) {
+    ArrayList<Identifier> vars = new ArrayList<>();
+    vars.add(checkVarName(init));
 
-    if (inputStream.pickNext() == InLang.DIVIDER.SEP_VL) {
+    if (inputStream.pickNext() == DIVIDER.COMMA) {
       inputStream.next();
-      vars.addAll(checkVarList());
+      vars.addAll(checkVarList(init));
     }
 
     MyLog.v(LOG_TAG, "parsed element: VAR LIST");
@@ -89,28 +96,28 @@ class DescentAnalyzer extends SyntaxAnalyzer {
 
   private int checkType() {
     switch (inputStream.pickNext()) {
-      case InLang.KEYWORD.INTEGER:
-      case InLang.KEYWORD.REAL:
+      case KEYWORD.INTEGER:
+      case KEYWORD.REAL:
         MyLog.v(LOG_TAG, "parsed element: VAR TYPE");
         return inputStream.next();
       default:
-        inputStream.validateNext(InLang.INTERNAL.UNKNOWN);
-        return InLang.INTERNAL.UNKNOWN;
+        inputStream.validateNext(INTERNAL.UNKNOWN);
+        return INTERNAL.UNKNOWN;
     }
   }
 
-  private AST.OpList checkSectionOp() {
-    inputStream.validateNext(InLang.KEYWORD.BEGIN);
-    ArrayList<AST.Operation> operations = checkOpList();
-    inputStream.validateNext(InLang.KEYWORD.END);
+  private OpList checkSectionOp() {
+    inputStream.validateNext(KEYWORD.START);
+    ArrayList<Operation> operations = checkOpList();
+    inputStream.validateNext(KEYWORD.END);
     MyLog.v(LOG_TAG, "parsed element: OPERATOR SECTION");
-    return new AST.OpList(operations);
+    return new OpList(operations);
   }
 
-  private ArrayList<AST.Operation> checkOpList() {
-    ArrayList<AST.Operation> operations = new ArrayList<>();
+  private ArrayList<Operation> checkOpList() {
+    ArrayList<Operation> operations = new ArrayList<>();
     operations.add(checkOperator());
-    if (inputStream.pickNext() == InLang.DIVIDER.END_OP) {
+    if (inputStream.pickNext() == DIVIDER.SEMICOLON) {
       inputStream.next();
       operations.addAll(checkOpList());
     }
@@ -119,100 +126,100 @@ class DescentAnalyzer extends SyntaxAnalyzer {
     return operations;
   }
 
-  private AST.Operation checkOperator() {
+  private Operation checkOperator() {
     switch (inputStream.pickNext()) {
-      case InLang.KEYWORD.READ:
+      case KEYWORD.IN:
         return checkInput();
-      case InLang.KEYWORD.WRITELN:
-      case InLang.KEYWORD.WRITE:
+      case KEYWORD.OUTLINE:
+      case KEYWORD.OUT:
         return checkOutput();
-      case InLang.KEYWORD.FOR:
+      case KEYWORD.CYCLE:
         return checkCycle();
-      case InLang.CUSTOM.ID:
+      case CUSTOM.ID:
         return checkAssign();
       default:
-        inputStream.validateNext(InLang.INTERNAL.UNKNOWN);
+        inputStream.validateNext(INTERNAL.UNKNOWN);
         return null;
     }
   }
 
-  private AST.Operation checkInput() {
-    inputStream.validateNext(InLang.KEYWORD.READ);
-    inputStream.validateNext(InLang.DIVIDER.BEG_CALL);
-    ArrayList<AST.Identifier> vars = checkVarList();
-    inputStream.validateNext(InLang.DIVIDER.END_CALL);
-    MyLog.v(LOG_TAG, "parsed element: INPUT");
-    return new AST.Input(vars);
+  private Operation checkInput() {
+    inputStream.validateNext(KEYWORD.IN);
+    inputStream.validateNext(DIVIDER.LBR);
+    ArrayList<Identifier> vars = checkVarList(false);
+    inputStream.validateNext(DIVIDER.RBR);
+    MyLog.v(LOG_TAG, "parsed element: IN");
+    return new Input(vars);
   }
 
-  private AST.Operation checkOutput() {
+  private Operation checkOutput() {
     int operator = inputStream.validateNext(
-      InLang.KEYWORD.WRITE, InLang.KEYWORD.WRITELN);
-    inputStream.validateNext(InLang.DIVIDER.BEG_CALL);
-    ArrayList<AST.Identifier> vars = checkVarList();
-    inputStream.validateNext(InLang.DIVIDER.END_CALL);
+      KEYWORD.OUT, KEYWORD.OUTLINE);
+    inputStream.validateNext(DIVIDER.LBR);
+    ArrayList<Identifier> vars = checkVarList(false);
+    inputStream.validateNext(DIVIDER.RBR);
     MyLog.v(LOG_TAG, "parsed element: OUTPUT");
-    return new AST.Output(operator, vars);
+    return new Output(operator, vars);
   }
 
-  private AST.Assignment checkAssign() {
-    AST.Identifier target = checkVarName();
-    inputStream.validateNext(InLang.OPERATOR.ASSIGN);
-    AST.Expression expr = checkExpression();
+  private Assignment checkAssign() {
+    Identifier target = checkVarName(false);
+    inputStream.validateNext(OPERATOR.ASSIGN);
+    Expression expr = checkExpression();
     MyLog.v(LOG_TAG, "parsed element: ASSIGNMENT");
-    return new AST.Assignment(target, expr);
+    return new Assignment(target, expr);
   }
 
-  private AST.Expression checkExpression() {
-    AST.Summand left = checkSummand();
-    AST.Expression expr = null;
+  private Expression checkExpression() {
+    Summand left = checkSummand();
+    Expression expr = null;
     int operation = 0;
 
     if ((inputStream.pickNext()
-      & (InLang.OPERATOR.PLUS
-      | InLang.OPERATOR.MINUS)) > 0) {
+      & (OPERATOR.PLUS
+      | OPERATOR.MINUS)) > 0) {
       operation = inputStream.next();
       expr = checkExpression();
     }
 
     MyLog.v(LOG_TAG, "parsed element: EXPRESSION");
-    return new AST.Expression(left, expr, operation);
+    return new Expression(left, expr, operation);
   }
 
-  private AST.Summand checkSummand() {
-    AST.Multiplier left = checkMultiplier();
-    AST.Summand sum = null;
+  private Summand checkSummand() {
+    Multiplier left = checkMultiplier();
+    Summand sum = null;
     int operation = 0;
 
     if ((inputStream.pickNext()
-      & (InLang.OPERATOR.PRODUCT
-      | InLang.OPERATOR.DIV)) > 0) {
+      & (OPERATOR.PRODUCT
+      | OPERATOR.DIV)) > 0) {
       operation = inputStream.next();
       sum = checkSummand();
     }
 
     MyLog.v(LOG_TAG, "parsed element: SUMMAND");
-    return new AST.Summand(left, sum, operation);
+    return new Summand(left, sum, operation);
   }
 
-  private AST.Multiplier checkMultiplier() {
-    AST.Multiplier multiplier;
+  private Multiplier checkMultiplier() {
+    Multiplier multiplier;
 
     switch (inputStream.pickNext()) {
-      case InLang.DIVIDER.BEG_CALL:
+      case DIVIDER.LBR:
         inputStream.next();
         multiplier = checkExpression();
-        inputStream.validateNext(InLang.DIVIDER.END_CALL);
+        inputStream.validateNext(DIVIDER.RBR);
         break;
-      case InLang.CUSTOM.ID:
-        multiplier = checkVarName();
+      case CUSTOM.ID:
+        multiplier = checkVarName(false);
         break;
-      case InLang.CUSTOM.LITERAL:
+      case CUSTOM.LITERAL:
         inputStream.next();
-        multiplier = new AST.Literal(inputStream.next());
+        multiplier = new Literal(inputStream.next());
         break;
       default:
-        inputStream.validateNext(InLang.INTERNAL.UNKNOWN);
+        inputStream.validateNext(INTERNAL.UNKNOWN);
         return null;
     }
 
@@ -220,23 +227,36 @@ class DescentAnalyzer extends SyntaxAnalyzer {
     return multiplier;
   }
 
-  private AST.For checkCycle() {
-    inputStream.validateNext(InLang.KEYWORD.FOR);
-    AST.Assignment start = checkAssign();
-    inputStream.validateNext(InLang.KEYWORD.TO, InLang.KEYWORD.DOWNTO);
-    AST.Expression end = checkExpression();
-    inputStream.validateNext(InLang.KEYWORD.DO);
-    AST.OpList opList;
+  private Cycle checkCycle() {
+    inputStream.validateNext(KEYWORD.CYCLE);
+    Assignment start = checkAssign();
+    int type = inputStream.validateNext(
+      KEYWORD.TO, KEYWORD.DOWNTO);
+    Expression end = checkExpression();
+    inputStream.validateNext(KEYWORD.DO);
+    OpList opList;
 
-    if (inputStream.pickNext() == InLang.KEYWORD.BEGIN) {
+    if (inputStream.pickNext() == KEYWORD.START) {
       opList = checkSectionOp();
     } else {
-      ArrayList<AST.Operation> operations = new ArrayList<>();
+      ArrayList<Operation> operations = new ArrayList<>();
       operations.add(checkOperator());
-      opList = new AST.OpList(operations);
+      opList = new OpList(operations);
     }
 
-    MyLog.v(LOG_TAG, "parsed element: FOR");
-    return new AST.For(start, end, opList);
+    MyLog.v(LOG_TAG, "parsed element: CYCLE");
+    return new Cycle(start, end, type, opList);
+  }
+
+  private void checkDefinition(Identifier id) {
+    for (VarDef list : vars) {
+      for (Identifier defined : list.getVars().getList()) {
+        if (defined.getIndex() == id.getIndex()) return;
+      }
+    }
+
+    Symbol s = result.getSymbolTable().get(id.getIndex());
+    throw new ProcessException("Undefined variable: "
+      + s.getName(), inputStream.getLineNim());
   }
 }

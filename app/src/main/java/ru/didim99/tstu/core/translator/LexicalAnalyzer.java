@@ -2,10 +2,10 @@ package ru.didim99.tstu.core.translator;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import ru.didim99.tstu.core.translator.LangMap.*;
+import ru.didim99.tstu.core.translator.LangStruct.DictEntry;
 import ru.didim99.tstu.core.translator.utils.SymbolTable;
 import ru.didim99.tstu.utils.MyLog;
-
-import static ru.didim99.tstu.core.translator.LangStruct.DictEntry;
 
 /**
  * Created by didim99 on 06.09.18.
@@ -52,7 +52,7 @@ class LexicalAnalyzer {
       }
 
       result.lexicalStream.addAll(lexemLine);
-      result.lexicalStream.add(InLang.INTERNAL.NEWLINE);
+      result.lexicalStream.add(INTERNAL.NEWLINE);
       lexemLine.clear();
       lineNum++;
     }
@@ -86,13 +86,14 @@ class LexicalAnalyzer {
     if (Character.isDigit(first)) {
       int pos = 0;
       while (++pos < line.length()) {
-        if (Character.isLetter(line.charAt(pos)))
-          throw new ProcessException("Unexpected character: " + first, lineNum);
-        if (!Character.isDigit(line.charAt(pos)))
+        char curr = line.charAt(pos);
+        if (Character.isLetter(curr))
+          throw new ProcessException("Unexpected character: " + curr, lineNum);
+        if (!Character.isDigit(curr))
           break;
       }
       String literal = line.substring(0, pos);
-      lexemLine.add(InLang.CUSTOM.LITERAL);
+      lexemLine.add(CUSTOM.LITERAL);
       lexemLine.add(Integer.parseInt(literal));
       return line.substring(pos);
     }
@@ -110,7 +111,7 @@ class LexicalAnalyzer {
       if (!isValidId(line.substring(0, ++length))) break;
     String varName = line.substring(0, --length);
     //MyLog.e(LOG_TAG, "\'" + line + "\' \'" + varName + "\'");
-    lexemLine.add(InLang.CUSTOM.ID);
+    lexemLine.add(CUSTOM.ID);
     lexemLine.add(symbolTable.add(varName));
     return line.substring(length);
   }
@@ -121,68 +122,39 @@ class LexicalAnalyzer {
 
   private void initStatic() {
     symbolSet = new ArrayList<>();
-    symbolSet.add(new DictEntry(
-      InLang.MNEMONIC.KEYWORD.PROGRAM, InLang.KEYWORD.PROGRAM));
-    symbolSet.add(new DictEntry(
-      InLang.MNEMONIC.KEYWORD.VAR, InLang.KEYWORD.VAR));
-    symbolSet.add(new DictEntry(
-      InLang.MNEMONIC.KEYWORD.INTEGER, InLang.KEYWORD.INTEGER));
-    symbolSet.add(new DictEntry(
-      InLang.MNEMONIC.KEYWORD.REAL, InLang.KEYWORD.REAL));
-    symbolSet.add(new DictEntry(
-      InLang.MNEMONIC.KEYWORD.BEGIN, InLang.KEYWORD.BEGIN));
-    symbolSet.add(new DictEntry(
-      InLang.MNEMONIC.KEYWORD.END, InLang.KEYWORD.END));
-    symbolSet.add(new DictEntry(
-      InLang.MNEMONIC.KEYWORD.FOR, InLang.KEYWORD.FOR));
-    symbolSet.add(new DictEntry(
-      InLang.MNEMONIC.KEYWORD.DOWNTO, InLang.KEYWORD.DOWNTO));
-    symbolSet.add(new DictEntry(
-      InLang.MNEMONIC.KEYWORD.DO, InLang.KEYWORD.DO));
-    symbolSet.add(new DictEntry(
-      InLang.MNEMONIC.KEYWORD.TO, InLang.KEYWORD.TO));
-    symbolSet.add(new DictEntry(
-      InLang.MNEMONIC.KEYWORD.READ, InLang.KEYWORD.READ));
-    symbolSet.add(new DictEntry(
-      InLang.MNEMONIC.KEYWORD.WRITELN, InLang.KEYWORD.WRITELN));
-    symbolSet.add(new DictEntry(
-      InLang.MNEMONIC.KEYWORD.WRITE, InLang.KEYWORD.WRITE));
-    symbolSet.add(new DictEntry(
-      InLang.MNEMONIC.OPERATOR.ASSIGN, InLang.OPERATOR.ASSIGN));
-    symbolSet.add(new DictEntry(
-      InLang.MNEMONIC.OPERATOR.PLUS, InLang.OPERATOR.PLUS));
-    symbolSet.add(new DictEntry(
-      InLang.MNEMONIC.OPERATOR.MINUS, InLang.OPERATOR.MINUS));
-    symbolSet.add(new DictEntry(
-      InLang.MNEMONIC.OPERATOR.PRODUCT, InLang.OPERATOR.PRODUCT));
-    symbolSet.add(new DictEntry(
-      InLang.MNEMONIC.OPERATOR.DIV, InLang.OPERATOR.DIV));
-    symbolSet.add(new DictEntry(
-      InLang.MNEMONIC.OPERATOR.EQUAL, InLang.OPERATOR.EQUAL));
-    symbolSet.add(new DictEntry(
-      InLang.MNEMONIC.OPERATOR.LT, InLang.OPERATOR.LT));
-    symbolSet.add(new DictEntry(
-      InLang.MNEMONIC.OPERATOR.GT, InLang.OPERATOR.GT));
-    symbolSet.add(new DictEntry(
-      InLang.MNEMONIC.DIVIDER.END_OP, InLang.DIVIDER.END_OP));
-    symbolSet.add(new DictEntry(
-      InLang.MNEMONIC.DIVIDER.SEP_VL, InLang.DIVIDER.SEP_VL));
-    symbolSet.add(new DictEntry(
-      InLang.MNEMONIC.DIVIDER.END_VL, InLang.DIVIDER.END_VL));
-    symbolSet.add(new DictEntry(
-      InLang.MNEMONIC.DIVIDER.BEG_CALL, InLang.DIVIDER.BEG_CALL));
-    symbolSet.add(new DictEntry(
-      InLang.MNEMONIC.DIVIDER.END_CALL, InLang.DIVIDER.END_CALL));
-    symbolSet.add(new DictEntry(
-      InLang.MNEMONIC.DIVIDER.END_PROG, InLang.DIVIDER.END_PROG));
+    symbolSet.add(new DictEntry(PASCAL.KEYWORD.PROGRAM, KEYWORD.PROGRAM));
+    symbolSet.add(new DictEntry(PASCAL.KEYWORD.VAR, KEYWORD.VAR));
+    symbolSet.add(new DictEntry(PASCAL.KEYWORD.INTEGER, KEYWORD.INTEGER));
+    symbolSet.add(new DictEntry(PASCAL.KEYWORD.REAL, KEYWORD.REAL));
+    symbolSet.add(new DictEntry(PASCAL.KEYWORD.BEGIN, KEYWORD.START));
+    symbolSet.add(new DictEntry(PASCAL.KEYWORD.END, KEYWORD.END));
+    symbolSet.add(new DictEntry(PASCAL.KEYWORD.FOR, KEYWORD.CYCLE));
+    symbolSet.add(new DictEntry(PASCAL.KEYWORD.DOWNTO, KEYWORD.DOWNTO));
+    symbolSet.add(new DictEntry(PASCAL.KEYWORD.DO, KEYWORD.DO));
+    symbolSet.add(new DictEntry(PASCAL.KEYWORD.TO, KEYWORD.TO));
+    symbolSet.add(new DictEntry(PASCAL.KEYWORD.READ, KEYWORD.IN));
+    symbolSet.add(new DictEntry(PASCAL.KEYWORD.WRITELN, KEYWORD.OUTLINE));
+    symbolSet.add(new DictEntry(PASCAL.KEYWORD.WRITE, KEYWORD.OUT));
+    symbolSet.add(new DictEntry(PASCAL.OPERATOR.ASSIGN, OPERATOR.ASSIGN));
+    symbolSet.add(new DictEntry(PASCAL.OPERATOR.PLUS, OPERATOR.PLUS));
+    symbolSet.add(new DictEntry(PASCAL.OPERATOR.MINUS, OPERATOR.MINUS));
+    symbolSet.add(new DictEntry(PASCAL.OPERATOR.PRODUCT, OPERATOR.PRODUCT));
+    symbolSet.add(new DictEntry(PASCAL.OPERATOR.DIV, OPERATOR.DIV));
+    symbolSet.add(new DictEntry(PASCAL.OPERATOR.EQUAL, OPERATOR.EQUAL));
+    symbolSet.add(new DictEntry(PASCAL.OPERATOR.LT, OPERATOR.LT));
+    symbolSet.add(new DictEntry(PASCAL.OPERATOR.GT, OPERATOR.GT));
+    symbolSet.add(new DictEntry(PASCAL.DIVIDER.END_OP, DIVIDER.SEMICOLON));
+    symbolSet.add(new DictEntry(PASCAL.DIVIDER.SEP_VL, DIVIDER.COMMA));
+    symbolSet.add(new DictEntry(PASCAL.DIVIDER.END_VL, DIVIDER.COLON));
+    symbolSet.add(new DictEntry(PASCAL.DIVIDER.BEG_CALL, DIVIDER.LBR));
+    symbolSet.add(new DictEntry(PASCAL.DIVIDER.END_CALL, DIVIDER.RBR));
+    symbolSet.add(new DictEntry(PASCAL.DIVIDER.END_PROG, DIVIDER.DOT));
 
     sortedSymbolSet = new ArrayList<>(symbolSet.size());
     for (DictEntry symbol : symbolSet)
       sortedSymbolSet.add(new DictEntry(symbol));
-    sortedSymbolSet.add(new DictEntry(
-      InLang.MNEMONIC.CUSTOM.ID, InLang.CUSTOM.ID));
-    sortedSymbolSet.add(new DictEntry(
-      InLang.MNEMONIC.CUSTOM.LITERAL, InLang.CUSTOM.LITERAL));
+    sortedSymbolSet.add(new DictEntry(PASCAL.CUSTOM.ID, CUSTOM.ID));
+    sortedSymbolSet.add(new DictEntry(PASCAL.CUSTOM.LITERAL, CUSTOM.LITERAL));
     Collections.sort(sortedSymbolSet, (s1, s2) ->
       Integer.compare(s1.getValue(), s2.getValue()));
 

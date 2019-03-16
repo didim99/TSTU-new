@@ -27,13 +27,13 @@
       android:layout_height="wrap_content"
       android:text="@string/graphics_clear"/>
 
-    <ru.didim99.tstu.ui.graphics.view.RangeBar
+    <ru.didim99.tstu.ui.view.RangeBar
       android:id="@+id/rbProjection"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       app:title="@string/graphics_projection"/>
 
-    <ru.didim99.tstu.ui.graphics.view.RangeBar
+    <ru.didim99.tstu.ui.view.RangeBar
       android:id="@+id/rbPitch"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
@@ -47,21 +47,21 @@
       android:textSize="@dimen/textSize_main"
       android:textAlignment="center"/>
 
-    <ru.didim99.tstu.ui.graphics.view.RangeBar
+    <ru.didim99.tstu.ui.view.RangeBar
       android:id="@+id/rbAlpha"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       app:title="@string/graphics_alpha"
       app:scaled="true"/>
 
-    <ru.didim99.tstu.ui.graphics.view.RangeBar
+    <ru.didim99.tstu.ui.view.RangeBar
       android:id="@+id/rbBeta"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       app:title="@string/graphics_beta"
       app:scaled="true"/>
 
-    <ru.didim99.tstu.ui.graphics.view.RangeBar
+    <ru.didim99.tstu.ui.view.RangeBar
       android:id="@+id/rbGamma"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
       app:scaled="true"/>
   </LinearLayout>
 
-  <ru.didim99.tstu.ui.graphics.view.DrawerView
+  <ru.didim99.tstu.ui.view.DrawerView
     android:id="@+id/view"
     android:layout_width="0dp"
     android:layout_height="match_parent"

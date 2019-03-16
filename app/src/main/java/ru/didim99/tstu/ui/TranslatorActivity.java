@@ -17,6 +17,7 @@ import ru.didim99.tstu.core.CallbackTask;
 import ru.didim99.tstu.core.translator.Translator;
 import ru.didim99.tstu.core.translator.TranslatorTask;
 import ru.didim99.tstu.ui.dirpicker.DirPickerActivity;
+import ru.didim99.tstu.ui.view.NumberedTextView;
 import ru.didim99.tstu.utils.MyLog;
 import ru.didim99.tstu.utils.Utils;
 
@@ -24,14 +25,14 @@ public class TranslatorActivity extends BaseActivity
   implements TranslatorTask.EventListener<Translator.Result> {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_TransAct";
   private static final int REQUEST_GET_FILE = 1;
-  private static final boolean isUseInternalExplorer = true;
 
   //view-elements
   private View dataLayout, pbMain;
   private Button btnPickFile, btnLexical,
     btnSyntax, btnSymbol, btnTranslate;
-  private TextView tvSrc, tvOut;
   private EditText etStartPath;
+  private NumberedTextView tvSrc;
+  private TextView tvOut;
   private Toast toastMsg;
   //main workflow
   private TranslatorTask task;
@@ -94,15 +95,6 @@ public class TranslatorActivity extends BaseActivity
             MyLog.e(LOG_TAG, "Can't load file/dir. Unsupported scheme: " + scheme);
             toastMsg.setText(R.string.errGeneric_unsupportedScheme);
             toastMsg.show();
-            /*if (++loadCount < MAX_LOAD_COUNT) {
-              toastMsg.setText(R.string.unsupportedScheme);
-              toastMsg.show();
-              return;
-            } else {
-              internalExplorerDialog();
-              loadCount = 0;
-              return;
-            }*/
           }
 
           etStartPath.setText(extPath);
@@ -172,23 +164,10 @@ public class TranslatorActivity extends BaseActivity
   }
 
   private void openFileExp() {
-    if (isUseInternalExplorer) {
-      MyLog.d(LOG_TAG, "Choose file from DirPicker...");
-      Intent intent = new Intent(this, DirPickerActivity.class);
-      intent.putExtra(DirPickerActivity.KEY_MODE, DirPickerActivity.Mode.FILE);
-      startActivityForResult(intent, REQUEST_GET_FILE);
-    } else {
-      MyLog.d(LOG_TAG, "Choose file from external file manager");
-      Intent getFileIntent = new Intent();
-      getFileIntent.setAction(Intent.ACTION_GET_CONTENT);
-      getFileIntent.setType("file/*");
-
-      if (Utils.isIntentSafe(this, getFileIntent)) {
-        MyLog.d(LOG_TAG, "Calling external file manager...");
-        startActivityForResult(getFileIntent, REQUEST_GET_FILE);
-      } else
-        MyLog.e(LOG_TAG, "No any external file manager found");
-    }
+    MyLog.d(LOG_TAG, "Choose file from DirPicker...");
+    Intent intent = new Intent(this, DirPickerActivity.class);
+    intent.putExtra(DirPickerActivity.KEY_MODE, DirPickerActivity.Mode.FILE);
+    startActivityForResult(intent, REQUEST_GET_FILE);
   }
 
   private void uiLock(boolean state) {

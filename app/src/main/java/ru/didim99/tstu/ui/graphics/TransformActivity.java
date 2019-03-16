@@ -16,8 +16,8 @@ import ru.didim99.tstu.core.graphics.ModelLoader;
 import ru.didim99.tstu.core.graphics.utils.EdgeModel;
 import ru.didim99.tstu.core.graphics.utils.Projection;
 import ru.didim99.tstu.ui.dirpicker.DirPickerActivity;
-import ru.didim99.tstu.ui.graphics.view.DrawerView;
-import ru.didim99.tstu.ui.graphics.view.RangeBar;
+import ru.didim99.tstu.ui.view.DrawerView;
+import ru.didim99.tstu.ui.view.RangeBar;
 import ru.didim99.tstu.utils.MyLog;
 
 public class TransformActivity extends AnimationActivity {

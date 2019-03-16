@@ -1,7 +1,7 @@
 package ru.didim99.tstu.core.translator.utils;
 
 import java.util.ArrayList;
-import ru.didim99.tstu.core.translator.InLang;
+import ru.didim99.tstu.core.translator.LangMap;
 import ru.didim99.tstu.utils.MyLog;
 
 /**
@@ -26,7 +26,7 @@ public class PrecedenceStream extends SyntaxStream {
     MyLog.v(LOG_TAG, "Precedence "
       + "[" + rel + "] " + l1 + " -> " + pickNext());
     if (rel == PrecedenceTable.RT.NONE)
-      validateNext(InLang.INTERNAL.UNKNOWN);
+      validateNext(LangMap.INTERNAL.UNKNOWN);
     return rel;
   }
 
@@ -46,7 +46,7 @@ public class PrecedenceStream extends SyntaxStream {
     moveToStart();
     int factStart = start;
     for (Integer l : inputStream) {
-      if (l != InLang.INTERNAL.NEWLINE) {
+      if (l != LangMap.INTERNAL.NEWLINE) {
         if (pos >= factStart) {
           if (pos == factStart)
             realStart = realPos;
@@ -65,7 +65,7 @@ public class PrecedenceStream extends SyntaxStream {
 
     realEnd = realPos;
     for (int i = realEnd - 1; i >= realStart; i--) {
-      if (inputStream.get(i) != InLang.INTERNAL.NEWLINE)
+      if (inputStream.get(i) != LangMap.INTERNAL.NEWLINE)
         inputStream.remove(i);
     }
 
@@ -81,6 +81,6 @@ public class PrecedenceStream extends SyntaxStream {
   }
 
   private static boolean isCustom(Integer l) {
-    return (l & InLang.MASK.CUSTOM) > 0;
+    return (l & LangMap.MASK.CUSTOM) > 0;
   }
 }

@@ -1,7 +1,7 @@
 package ru.didim99.tstu.core.graphics;
 
 import java.util.Arrays;
-import ru.didim99.tstu.ui.graphics.view.DrawerView;
+import ru.didim99.tstu.ui.view.DrawerView;
 
 /**
  * Created by didim99 on 24.02.19.

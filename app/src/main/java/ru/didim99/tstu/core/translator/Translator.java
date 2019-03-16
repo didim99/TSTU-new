@@ -69,7 +69,8 @@ public class Translator {
         MyLog.e(LOG_TAG, "Lexical analysis error" +
           "(" + e.getLineNum() +  "}: " + e.toString());
         result.processErr = context.getString(
-          R.string.errLexical_invalidStatement, e.getLineNum());
+          R.string.errLexical_invalidStatement,
+          e.getLineNum(), e.getMessage());
         return result;
       }
     }
@@ -103,9 +104,11 @@ public class Translator {
       }
     }
 
-    if (config.mode >= Mode.SYMBOLS) {
+    if (config.mode == Mode.SYMBOLS) {
       result.outputCode = saResult.getSymbolTable().toString();
-      return result;
+    } else if (config.mode == Mode.FULL) {
+      CodeGenerator cg = new FortranGenerator();
+      result.outputCode = cg.generate(saResult);
     }
 
     return result;
@@ -115,8 +118,9 @@ public class Translator {
     LangStruct ls = LangStruct.getInstance();
     if (!ls.initCompleted()) {
       try {
-        String lsFile = ROOTDIR + "/inputLangStruct.txt";
-        ls.initStatic(lsFile);
+        String ilFile = ROOTDIR + "/inputLangStruct.txt";
+        String olFile = ROOTDIR + "/fortranStruct.txt";
+        ls.initStatic(ilFile, olFile);
       } catch (IOException e) {
         MyLog.w(LOG_TAG, "Can't load input language structure: " + e);
         result.processErr = e.toString();
@@ -172,5 +176,9 @@ public class Translator {
 
     public boolean hasInputCode() { return inputCode != null; }
     public boolean hasOutputCode() { return outputCode != null; }
+  }
+
+  interface CodeGenerator {
+    String generate(SyntaxAnalyzer.Result src);
   }
 }

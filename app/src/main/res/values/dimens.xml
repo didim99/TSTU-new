@@ -7,6 +7,8 @@
   <dimen name="textSize_large">18sp</dimen>
   <dimen name="pathLayoutHMargin">15dp</dimen>
   <dimen name="pathLayoutVMargin">5dp</dimen>
+  <!-- Custom views -->
+  <dimen name="lineNumberMargin">8dp</dimen>
   <!-- DirPicker -->
   <dimen name="dirPicker_textSize_path">18sp</dimen>
   <dimen name="dirPicker_layoutHMargin">5dp</dimen>

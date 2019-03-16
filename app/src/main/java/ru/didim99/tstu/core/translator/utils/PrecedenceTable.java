@@ -49,10 +49,10 @@ public class PrecedenceTable {
     String firstLine;
     String[] subLines, headers;
 
-    while ((firstLine = src.get(0)).isEmpty())
+    while ((firstLine = src.get(0).trim()).isEmpty())
       src.remove(0);
 
-    subLines = headers = firstLine.trim().split(DELIMITER);
+    subLines = headers = firstLine.split(DELIMITER);
     table = new SparseArray<>(subLines.length);
     for (String key : subLines)
       table.append(symbolMap.get(key), new SparseArray<>());
@@ -73,7 +73,7 @@ public class PrecedenceTable {
 
   private void initMaps() {
     LangStruct ls = LangStruct.getInstance();
-    symbolMap = ls.getSymbolMap();
+    symbolMap = ls.getLexemeMap();
 
     valueMap = new HashMap<>();
     valueMap.put("-", RT.NONE);

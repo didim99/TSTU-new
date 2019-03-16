@@ -1,4 +1,4 @@
-package ru.didim99.tstu.ui.graphics.view;
+package ru.didim99.tstu.ui.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;

@@ -1,9 +1,10 @@
 package ru.didim99.tstu.core.translator.utils;
 
 import java.util.ArrayList;
-
-import ru.didim99.tstu.core.translator.InLang;
+import ru.didim99.tstu.core.translator.LangMap;
+import ru.didim99.tstu.core.translator.LangStruct;
 import ru.didim99.tstu.core.translator.SyntaxAnalyzer;
+import ru.didim99.tstu.utils.Utils;
 
 /**
  * Created by didim99 on 03.11.18.
@@ -23,21 +24,25 @@ public class SyntaxStream {
     return size;
   }
 
+  public int getLineNim() {
+    return lineNum;
+  }
+
   public Integer pickNext() {
-    if (!hasNext())
+    if (endOfStream())
       throw new SyntaxAnalyzer.ProcessException("Unexpected end of file", lineNum);
     int nextPos = realPos;
     Integer next = inputStream.get(nextPos);
-    while (next == InLang.INTERNAL.NEWLINE)
+    while (next == LangMap.INTERNAL.NEWLINE)
       next = inputStream.get(++nextPos);
     return next;
   }
 
   public Integer next() {
-    if (!hasNext())
+    if (endOfStream())
       throw new SyntaxAnalyzer.ProcessException("Unexpected end of file", lineNum);
     Integer next = inputStream.get(realPos++);
-    while (next == InLang.INTERNAL.NEWLINE) {
+    while (next == LangMap.INTERNAL.NEWLINE) {
       next = inputStream.get(realPos++);
       lineNum++;
     }
@@ -53,18 +58,32 @@ public class SyntaxStream {
         return possible;
     }
 
-    String type = "";
-    if ((nextSymbol & InLang.MASK.KEYWORD) > 0)
-      type = "T_KEYWORD";
-    else if ((nextSymbol & InLang.MASK.OPERATOR) > 0)
-      type = "T_OPERATOR";
-    else if ((nextSymbol & InLang.MASK.DIVIDER) > 0)
-      type = "T_DIVIDER";
-    else if (nextSymbol.equals(InLang.CUSTOM.ID))
+    String type = "", exp = "";
+    LangStruct ls = LangStruct.getInstance();
+    String token = ls.getMnemonic(nextSymbol);
+    if (token == null) token = "";
+    else token = String.format("'%s' ", token);
+
+    if (expected[0] != LangMap.INTERNAL.UNKNOWN) {
+      ArrayList<String> list = new ArrayList<>();
+      for (Integer possible : expected)
+        list.add(ls.getMnemonic(possible));
+      exp = Utils.joinStr(", ", list);
+      exp = " expecting: ".concat(exp);
+    }
+
+    if ((nextSymbol & LangMap.MASK.KEYWORD) > 0)
+      type = "(T_KEYWORD)";
+    else if ((nextSymbol & LangMap.MASK.OPERATOR) > 0)
+      type = "(T_OPERATOR)";
+    else if ((nextSymbol & LangMap.MASK.DIVIDER) > 0)
+      type = "(T_DIVIDER)";
+    else if (nextSymbol.equals(LangMap.CUSTOM.ID))
       type = "T_VARIABLE";
-    else if (nextSymbol.equals(InLang.CUSTOM.LITERAL))
+    else if (nextSymbol.equals(LangMap.CUSTOM.LITERAL))
       type = "T_CONST";
-    throw new SyntaxAnalyzer.ProcessException(String.format("Unexpected %s", type), lineNum);
+    throw new SyntaxAnalyzer.ProcessException(
+      String.format("Unexpected %s%s%s", token, type, exp), lineNum);
   }
 
   public void moveToStart() {
@@ -73,8 +92,8 @@ public class SyntaxStream {
     pos = 0;
   }
 
-  boolean hasNext() {
-    return pos < size;
+  private boolean endOfStream() {
+    return pos >= size;
   }
 
   void calcSize() {
@@ -82,7 +101,7 @@ public class SyntaxStream {
     size = 0;
 
     for (Integer l : inputStream) {
-      if (l != InLang.INTERNAL.NEWLINE)
+      if (l != LangMap.INTERNAL.NEWLINE)
         size++;
     }
   }

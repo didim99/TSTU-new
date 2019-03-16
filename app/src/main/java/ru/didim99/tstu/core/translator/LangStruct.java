@@ -13,42 +13,53 @@ import ru.didim99.tstu.utils.Utils;
  */
 public class LangStruct {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_LangStruct";
+  private static final String DIVIDER = "\\s+";
 
   private static LangStruct instance = new LangStruct();
   public static LangStruct getInstance() { return instance; }
   private LangStruct() {}
 
-  private Map<String, Integer> symbolMap;
-  private SparseArray<String> symbolMapReverse;
+  private Map<String, Integer> lexemeMap;
+  private SparseArray<String> lexemeMapReverse;
+  private SparseArray<String> fortranLexemeMap;
 
-  public Map<String, Integer> getSymbolMap() {
-    return symbolMap;
+  public Map<String, Integer> getLexemeMap() {
+    return lexemeMap;
   }
 
-  String getMnemonic(int id) {
-    return symbolMapReverse.get(id);
+  public String getMnemonic(int id) {
+    return lexemeMapReverse.get(id);
+  }
+
+  String getOutMnemonic(int id) {
+    return fortranLexemeMap.get(id);
   }
 
   boolean initCompleted() {
-    return symbolMap != null && symbolMapReverse != null;
+    return lexemeMap != null && lexemeMapReverse != null;
   }
 
-  void initStatic(String fileName) throws IOException {
+  void initStatic(String ilFile, String olFile) throws IOException {
     MyLog.d(LOG_TAG, "Static init started");
-    ArrayList<String> lines = Utils.readFile(fileName);
-    symbolMapReverse = new SparseArray<>(lines.size());
-    symbolMap = new HashMap<>(lines.size());
+    fortranLexemeMap = new SparseArray<>();
+    lexemeMapReverse = new SparseArray<>();
+    lexemeMap = new HashMap<>();
+    loadLang(ilFile, lexemeMap, lexemeMapReverse);
+    loadLang(olFile, null, fortranLexemeMap);
+    MyLog.d(LOG_TAG, "Static init completed");
+  }
 
+  private void loadLang(String file, Map<String, Integer> sMap,
+                        SparseArray<String> rsMap) throws IOException {
+    ArrayList<String> lines = Utils.readFile(file);
     for (String line : lines) {
       if (line.isEmpty()) continue;
-      String[] subLines = line.split("\\s+");
+      String[] subLines = line.split(DIVIDER);
       int id = Integer.parseInt(subLines[1], 16);
       String name = subLines[0];
-      symbolMap.put(name, id);
-      symbolMapReverse.append(id, name);
+      if (sMap != null) sMap.put(name, id);
+      if (rsMap != null) rsMap.append(id, name);
     }
-
-    MyLog.d(LOG_TAG, "Static init completed");
   }
 
   static final class DictEntry {

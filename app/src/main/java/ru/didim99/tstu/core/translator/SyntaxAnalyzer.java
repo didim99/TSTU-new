@@ -26,6 +26,10 @@ public abstract class SyntaxAnalyzer {
       return symbolTable;
     }
 
+    public AST.Program getProgram() {
+      return program;
+    }
+
     void setProgram(AST.Program program) {
       this.program = program;
     }

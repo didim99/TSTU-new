@@ -8,7 +8,7 @@ import android.widget.TextView;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.graphics.Config;
 import ru.didim99.tstu.core.graphics.LineRenderer;
-import ru.didim99.tstu.ui.graphics.view.DrawerView;
+import ru.didim99.tstu.ui.view.DrawerView;
 import ru.didim99.tstu.utils.MyLog;
 
 public class LinesActivity extends AnimationActivity {

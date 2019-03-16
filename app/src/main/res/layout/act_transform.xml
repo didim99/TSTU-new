@@ -83,13 +83,13 @@
       android:layout_height="wrap_content"
       android:orientation="vertical">
 
-      <ru.didim99.tstu.ui.graphics.view.RangeBar
+      <ru.didim99.tstu.ui.view.RangeBar
         android:id="@+id/rbParallelAngle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:title="@string/graphics_projection"/>
 
-      <ru.didim99.tstu.ui.graphics.view.RangeBar
+      <ru.didim99.tstu.ui.view.RangeBar
         android:id="@+id/rbParallelFactor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -104,7 +104,7 @@
       android:orientation="vertical"
       android:visibility="gone">
 
-      <ru.didim99.tstu.ui.graphics.view.RangeBar
+      <ru.didim99.tstu.ui.view.RangeBar
         android:id="@+id/rbCentralDistance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -202,21 +202,21 @@
       android:layout_height="wrap_content"
       android:orientation="vertical">
 
-      <ru.didim99.tstu.ui.graphics.view.RangeBar
+      <ru.didim99.tstu.ui.view.RangeBar
         android:id="@+id/rbTranslateX"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:title="@string/graphics_translateX"
         app:scaled="true"/>
 
-      <ru.didim99.tstu.ui.graphics.view.RangeBar
+      <ru.didim99.tstu.ui.view.RangeBar
         android:id="@+id/rbTranslateY"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:title="@string/graphics_translateY"
         app:scaled="true"/>
 
-      <ru.didim99.tstu.ui.graphics.view.RangeBar
+      <ru.didim99.tstu.ui.view.RangeBar
         android:id="@+id/rbTranslateZ"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -231,21 +231,21 @@
       android:orientation="vertical"
       android:visibility="gone">
 
-      <ru.didim99.tstu.ui.graphics.view.RangeBar
+      <ru.didim99.tstu.ui.view.RangeBar
         android:id="@+id/rbScaleX"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:title="@string/graphics_scaleX"
         app:scaled="true"/>
 
-      <ru.didim99.tstu.ui.graphics.view.RangeBar
+      <ru.didim99.tstu.ui.view.RangeBar
         android:id="@+id/rbScaleY"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:title="@string/graphics_scaleY"
         app:scaled="true"/>
 
-      <ru.didim99.tstu.ui.graphics.view.RangeBar
+      <ru.didim99.tstu.ui.view.RangeBar
         android:id="@+id/rbScaleZ"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -267,19 +267,19 @@
       android:orientation="vertical"
       android:visibility="gone">
 
-      <ru.didim99.tstu.ui.graphics.view.RangeBar
+      <ru.didim99.tstu.ui.view.RangeBar
         android:id="@+id/rbRotateX"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:title="@string/graphics_rotateX"/>
 
-      <ru.didim99.tstu.ui.graphics.view.RangeBar
+      <ru.didim99.tstu.ui.view.RangeBar
         android:id="@+id/rbRotateY"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:title="@string/graphics_rotateY"/>
 
-      <ru.didim99.tstu.ui.graphics.view.RangeBar
+      <ru.didim99.tstu.ui.view.RangeBar
         android:id="@+id/rbRotateZ"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -297,7 +297,7 @@
       tools:ignore="ContentDescription"/>
   </LinearLayout>
 
-  <ru.didim99.tstu.ui.graphics.view.DrawerView
+  <ru.didim99.tstu.ui.view.DrawerView
     android:id="@+id/view"
     android:layout_width="0dp"
     android:layout_height="match_parent"

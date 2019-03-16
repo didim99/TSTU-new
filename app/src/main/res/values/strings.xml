@@ -83,8 +83,8 @@
   <string name="errGeneric_unsupportedScheme">Не удалось загрузить файл.\nПопробуйте использовать другой файловый менеджер</string>
   <string name="errGeneric_inputFileNotReadable">Невозможно прочитать исходный файл</string>
   <string name="errNumeric_nothingToSave">Сохранять нечего</string>
-  <string name="errLexical_invalidStatement">Ошибка лексического анализа в строке %d: Неизвестный символ</string>
-  <string name="errSyntax">Ошибка синтаксического анализа в строке %d: %s</string>
+  <string name="errLexical_invalidStatement">Ошибка лексического анализа в строке %d.\n%s</string>
+  <string name="errSyntax">Ошибка синтаксического анализа в строке %d.\n%s</string>
   <string name="errSyntaxType">Неизвестный тип синтаксического анализа</string>
   <string name="errMathStat_emptyX">Не заданы значения X</string>
   <string name="errMathStat_emptyF">Не заданы значения M</string>

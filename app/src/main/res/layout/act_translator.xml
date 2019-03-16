@@ -3,6 +3,7 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:padding="@dimen/layoutPadding"
               android:orientation="vertical">
 
@@ -110,12 +111,12 @@
             android:text="@string/inputData"
             android:textSize="@dimen/textSize_main"/>
 
-          <TextView
+          <ru.didim99.tstu.ui.view.NumberedTextView
             android:id="@+id/tvSrc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/textSize_main"
-            android:typeface = "monospace"/>
+            app:lineNumColor="@color/dirPicker_textActive"
+            app:textSize="@dimen/textSize_main"/>
         </LinearLayout>
 
         <LinearLayout
@@ -137,7 +138,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/textSize_main"
-            android:typeface = "monospace"/>
+            android:typeface="monospace"/>
         </LinearLayout>
 
       </LinearLayout>

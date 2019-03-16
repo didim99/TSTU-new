@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import java.lang.ref.WeakReference;
-import ru.didim99.tstu.ui.graphics.view.DrawerView;
+import ru.didim99.tstu.ui.view.DrawerView;
 
 /**
  * Created by didim99 on 15.02.19.

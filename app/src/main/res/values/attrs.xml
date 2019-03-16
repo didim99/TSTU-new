@@ -4,4 +4,9 @@
     <attr name="title" format="string"/>
     <attr name="scaled" format="boolean"/>
   </declare-styleable>
+  <declare-styleable name="NumberedTextView">
+    <attr name="lineNumColor" format="color"/>
+    <attr name="contentColor" format="color"/>
+    <attr name="textSize" format="dimension"/>
+  </declare-styleable>
 </resources>

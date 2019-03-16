@@ -8,7 +8,7 @@ import ru.didim99.tstu.core.graphics.utils.EdgeModel;
 import ru.didim99.tstu.core.graphics.utils.Mat4;
 import ru.didim99.tstu.core.graphics.utils.Projection;
 import ru.didim99.tstu.core.graphics.utils.Vec4;
-import ru.didim99.tstu.ui.graphics.view.DrawerView;
+import ru.didim99.tstu.ui.view.DrawerView;
 
 /**
  * Created by didim99 on 09.03.19.

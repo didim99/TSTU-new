@@ -10,12 +10,24 @@ class AST {
   static class Program {
     private Identifier name;
     private ArrayList<VarDef> vars;
-    private OpList operaions;
+    private OpList operations;
 
     Program(Identifier name, ArrayList<VarDef> vars, OpList operations) {
       this.name = name;
       this.vars = vars;
-      this.operaions = operations;
+      this.operations = operations;
+    }
+
+    Identifier getName() {
+      return name;
+    }
+
+    ArrayList<VarDef> getVars() {
+      return vars;
+    }
+
+    OpList getOperations() {
+      return operations;
     }
   }
 
@@ -27,21 +39,37 @@ class AST {
       this.vars = new VarList(vars);
       this.type = type;
     }
+
+    int getType() {
+      return type;
+    }
+
+    VarList getVars() {
+      return vars;
+    }
   }
 
   static class VarList {
-    private ArrayList<Identifier> vars;
+    private ArrayList<Identifier> list;
 
-    VarList(ArrayList<Identifier> vars) {
-      this.vars = vars;
+    VarList(ArrayList<Identifier> list) {
+      this.list = list;
+    }
+
+    ArrayList<Identifier> getList() {
+      return list;
     }
   }
 
   static class OpList {
-    private ArrayList<Operation> operations;
+    private ArrayList<Operation> list;
 
     OpList(ArrayList<Operation> operations) {
-      this.operations = operations;
+      this.list = operations;
+    }
+
+    ArrayList<Operation> getList() {
+      return list;
     }
   }
 
@@ -55,6 +83,18 @@ class AST {
       this.right = right;
       this.operation = operation;
     }
+
+    Summand getLeft() {
+      return left;
+    }
+
+    Expression getRight() {
+      return right;
+    }
+
+    int getOperation() {
+      return operation;
+    }
   }
 
   static class Summand {
@@ -62,14 +102,22 @@ class AST {
     private Summand right;
     private int operation;
 
-    Summand(Multiplier left) {
-      this(left, null, 0);
-    }
-
     Summand(Multiplier left, Summand right, int operation) {
       this.left = left;
       this.right = right;
       this.operation = operation;
+    }
+
+    Multiplier getLeft() {
+      return left;
+    }
+
+    Summand getRight() {
+      return right;
+    }
+
+    int getOperation() {
+      return operation;
     }
   }
 
@@ -91,6 +139,10 @@ class AST {
     Literal(Integer value) {
       this.value = value;
     }
+
+    int getValue() {
+      return value;
+    }
   }
 
   static class Input implements Operation {
@@ -98,6 +150,10 @@ class AST {
 
     Input(ArrayList<Identifier> vars) {
       this.vars = new VarList(vars);
+    }
+
+    VarList getVars() {
+      return vars;
     }
   }
 
@@ -109,6 +165,14 @@ class AST {
       this.action = action;
       this.vars = new VarList(vars);
     }
+
+    VarList getVars() {
+      return vars;
+    }
+
+    int getAction() {
+      return action;
+    }
   }
 
   static class Assignment implements Operation {
@@ -119,17 +183,44 @@ class AST {
       this.target = target;
       this.expr = expr;
     }
+
+    Identifier getTarget() {
+      return target;
+    }
+
+    Expression getExpr() {
+      return expr;
+    }
   }
 
-  static class For implements Operation {
+  static class Cycle implements Operation {
     private Assignment start;
     private Expression end;
     private OpList operations;
+    private int type;
 
-    public For(Assignment start, Expression end, OpList operations) {
+    public Cycle(Assignment start, Expression end,
+                 int type, OpList operations) {
       this.start = start;
       this.end = end;
+      this.type = type;
       this.operations = operations;
+    }
+
+    Assignment getStart() {
+      return start;
+    }
+
+    Expression getEnd() {
+      return end;
+    }
+
+    OpList getOperations() {
+      return operations;
+    }
+
+    int getType() {
+      return type;
     }
   }
 
