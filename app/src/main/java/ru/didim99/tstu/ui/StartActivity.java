@@ -20,6 +20,7 @@ import ru.didim99.tstu.ui.mp.lab3.L3ActMain;
 import ru.didim99.tstu.ui.oop.AbiturientActivity;
 import ru.didim99.tstu.ui.oop.MatrixActivity;
 import ru.didim99.tstu.ui.oop.ShopActivity;
+import ru.didim99.tstu.ui.os.ProcessActivity;
 import ru.didim99.tstu.utils.MyLog;
 
 public class StartActivity extends AppCompatActivity {
@@ -31,7 +32,8 @@ public class StartActivity extends AppCompatActivity {
   private static final Class[] OOP_TARGET =
     { AbiturientActivity.class, MatrixActivity.class, ShopActivity.class };
   private static final Class[] GRAPH_TARGET =
-    { LinesActivity.class, HorizonActivity.class, TransformActivity.class};
+    { LinesActivity.class, HorizonActivity.class, TransformActivity.class };
+  private static final Class[] OS_TARGET = { ProcessActivity.class };
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,8 @@ public class StartActivity extends AppCompatActivity {
       R.string.oop_selectType, R.array.oop_taskTypes, OOP_TARGET));
     findViewById(R.id.startGraphics).setOnClickListener(v -> activityTypeDialog(
       R.string.graphics_selectType, R.array.graphics_taskTypes, GRAPH_TARGET));
+    findViewById(R.id.startOS).setOnClickListener(v -> activityTypeDialog(
+      R.string.sectionOS, R.array.os_taskTypes, OS_TARGET));
   }
 
   private void activityTypeDialog(@StringRes int titleId, @ArrayRes int listId,

@@ -12,7 +12,7 @@ import ru.didim99.tstu.utils.MyLog;
  * Created by didim99 on 09.03.19.
  */
 public class ModelLoader extends CallbackTask<String, EdgeModel> {
-  private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "ModelLoader";
+  private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_ModelLoader";
 
   public ModelLoader(Context context) {
     super(context);

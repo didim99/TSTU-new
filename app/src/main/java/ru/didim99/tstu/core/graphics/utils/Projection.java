@@ -116,14 +116,14 @@ public class Projection {
     compute();
   }
 
+  PointF project(Vec4 vec) {
+    return projector.project(vec);
+  }
+
   private void compute() {
     config.sinP = Math.sin(Math.toRadians(config.ppAngle)) * config.ppFactor;
     config.cosP = Math.cos(Math.toRadians(config.ppAngle)) * config.ppFactor;
     if (listener != null) listener.OnProjectionChanged();
-  }
-
-  PointF project(Vec4 vec) {
-    return projector.project(vec);
   }
 
   private PointF projectParallel(Vec4 vec) {

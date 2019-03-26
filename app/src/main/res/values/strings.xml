@@ -27,6 +27,7 @@
   <string name="savedToFile">Сохранено в:\n%s</string>
   <string name="loadedFromFile">Загружено из:\n%s</string>
   <string name="cantWriteFile">Не удалось записать файл:\n%s</string>
+  <string name="rootUnavailable">На вашем устройстве не получен Root-доступ</string>
   <!-- FilePicker -->
   <string name="filePicker_emptyPath">Не указаны путь и имя файла</string>
   <string name="filePicker_fileNotExist">Такого файла не существует</string>
@@ -435,6 +436,27 @@
   <string name="oop_shop_creditSum">Укажите сумму кредита</string>
   <string name="oop_shop_pay">С вашего счета будет списано: %s Продолжить?</string>
   <string name="oop_shop_timeToEat">Время перекусить</string>
+  <!-- OS -->
+  <string name="startOS">ОС</string>
+  <string name="sectionOS">Операционные системы</string>
+  <string name="os_processlist">Информация о процессах</string>
+  <string name="os_proc_subtitle">Всего процессов: %d, потоков: %d, выполняется: %d</string>
+  <string-array name="os_taskTypes">
+    <item>@string/os_processlist</item>
+  </string-array>
+  <string name="os_position">#</string>
+  <string name="os_pid">PID</string>
+  <string name="os_tid">TID</string>
+  <string name="os_ppid">PPID</string>
+  <string name="os_nice">Nice</string>
+  <string name="os_threads">Thr</string>
+  <string name="os_memory">Mem</string>
+  <string name="os_cmd">Command</string>
+  <string name="os_name">Thread name</string>
+  <string name="os_showKT">Показывать потоки ядра</string>
+  <string name="os_threadInfo">Информация о потоках процесса %d</string>
+  <string name="os_executable">Файлы</string>
+  <string name="os_executableFor">Файлы процесса %d</string>
   <!-- Содержимое текстовых полей и подписей кнопок (Layout: act_dir_picker) -->
   <string name="actLabel_filePicker">Выбор файла</string>
   <string name="actLabel_dirPicker">Выбор каталога</string>

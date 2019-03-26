@@ -10,6 +10,11 @@
   <color name="graph2">#ffdf3d</color>
   <color name="graph3">#ff943d</color>
   <color name="graph4">#ff5445</color>
+  <!-- OS -->
+  <color name="os_green">#88e36b</color>
+  <color name="os_yellow">#E3CF6B</color>
+  <color name="os_red">#E36B6B</color>
+  <color name="os_normal">#CECECE</color>
   <!-- DirPickerActivity -->
   <color name="dirPicker_divider">#606060</color>
   <color name="dirPicker_textActive">#ffffff</color>

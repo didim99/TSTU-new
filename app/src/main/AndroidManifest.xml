@@ -164,6 +164,10 @@
       android:label="@string/oop_shopping"/>
 
     <activity
+      android:name=".ui.os.ProcessActivity"
+      android:label="@string/os_processlist"/>
+
+    <activity
       android:name=".ui.dirpicker.DirPickerActivity"
       android:label="@string/actLabel_dirPicker"
       android:launchMode="singleTop"
