@@ -27,9 +27,9 @@ public class Vec4 {
   public double y() { return data[Y]; }
   public double z() { return data[Z]; }
 
-  public void setX(double x) { data[X] = x; }
-  public void setY(double y) { data[Y] = y; }
-  public void setZ(double z) { data[Z] = z; }
+  public void x(double x) { data[X] = x; }
+  public void y(double y) { data[Y] = y; }
+  public void z(double z) { data[Z] = z; }
 
   Vec4 multiply(Mat4 matrix) {
     Vec4 r = new Vec4(this);

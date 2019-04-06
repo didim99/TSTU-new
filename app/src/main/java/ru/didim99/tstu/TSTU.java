@@ -15,6 +15,5 @@ public class TSTU extends Application {
   public void onCreate() {
     super.onCreate();
     InputValidator.getInstance().init(this);
-    RootShell.init(this);
   }
 }

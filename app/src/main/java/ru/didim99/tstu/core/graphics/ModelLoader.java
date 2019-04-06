@@ -1,17 +1,15 @@
 package ru.didim99.tstu.core.graphics;
 
 import android.content.Context;
-import android.widget.Toast;
 import java.io.IOException;
-import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.CallbackTask;
-import ru.didim99.tstu.core.graphics.utils.EdgeModel;
+import ru.didim99.tstu.core.graphics.utils.Model;
 import ru.didim99.tstu.utils.MyLog;
 
 /**
  * Created by didim99 on 09.03.19.
  */
-public class ModelLoader extends CallbackTask<String, EdgeModel> {
+public class ModelLoader extends CallbackTask<String, Model> {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_ModelLoader";
 
   public ModelLoader(Context context) {
@@ -19,23 +17,16 @@ public class ModelLoader extends CallbackTask<String, EdgeModel> {
   }
 
   @Override
-  protected EdgeModel doInBackgroundInternal(String path) {
-    Context ctx = appContext.get();
-    String err;
-
+  protected Model doInBackgroundInternal(String path) {
     try {
-      return EdgeModel.loadOBJ(path);
+      return Model.load(path);
     } catch (IOException e) {
-      MyLog.e(LOG_TAG, "Unable to load model: " + e);
-      err = ctx.getString(R.string.errGraphics_ioError);
-    } catch (EdgeModel.ParserException e) {
-      MyLog.e(LOG_TAG, "Unable to load model: " + e);
-      err = ctx.getString(R.string.errGraphics_invalidFormat);
+      MyLog.e(LOG_TAG, "Unable to load item: " + e);
+    } catch (Model.ParserException e) {
+      MyLog.e(LOG_TAG, "Unable to load item: " + e);
+      e.printStackTrace();
     }
 
-    Toast.makeText(ctx, ctx.getString(
-      R.string.errGraphics_unableLoad, err),
-      Toast.LENGTH_LONG).show();
     return null;
   }
 }

@@ -17,6 +17,7 @@ import ru.didim99.tstu.R;
 
 public class RootShell {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_shell";
+  private static boolean initCompleted = false;
   private static boolean available = true;
   private static Process shell;
   private static DataOutputStream stdin;
@@ -29,6 +30,7 @@ public class RootShell {
     MyLog.d(LOG_TAG, "Trying to get Root-access...");
     try {
       startSession();
+      initCompleted = true;
       MyLog.d(LOG_TAG, "Root-access available");
     } catch (IOException e) {
       MyLog.w(LOG_TAG, "Root-access unavailable");
@@ -113,5 +115,9 @@ public class RootShell {
 
   public static String getError() {
     return errBuf;
+  }
+
+  public static boolean isInitCompleted() {
+    return initCompleted;
   }
 }

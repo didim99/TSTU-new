@@ -60,6 +60,10 @@
       android:name=".ui.graphics.TransformActivity"
       android:label="@string/graphics_transform"
       android:theme="@style/AppThemePrint"/>
+    <activity
+      android:name=".ui.graphics.TexturesActivity"
+      android:label="@string/graphics_textures"
+      android:theme="@style/AppThemePrint"/>
 
     <activity
       android:name=".ui.mp.lab1.L1ActMain"

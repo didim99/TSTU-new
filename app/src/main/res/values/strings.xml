@@ -135,7 +135,7 @@
   <string name="errNotice_emptyHeader">Не указан заголовок уведомления</string>
   <string name="errNotice_emptyText">Не указан текст уведомления</string>
   <string name="errGraphics_incorrectType">Некорректный формат файла</string>
-  <string name="errGraphics_unableLoad">Невозможно импортировать файл: %s</string>
+  <string name="errGraphics_unableLoad">Невозможно импортировать файл</string>
   <string name="errGraphics_invalidFormat">Некорректный формат данных</string>
   <string name="errGraphics_ioError">Ошибка ввода-вывода</string>
   <!-- MathStat -->
@@ -232,12 +232,15 @@
   <string name="graphics_bresenham">Алгоритм Брезенхэма</string>
   <string name="graphics_horizon">Плавающий горизонт</string>
   <string name="graphics_transform">Афинные преобразования</string>
+  <string name="graphics_textures">Текстурирование</string>
   <string-array name="graphics_taskTypes">
     <item>@string/graphics_bresenham</item>
     <item>@string/graphics_horizon</item>
     <item>@string/graphics_transform</item>
+    <item>@string/graphics_textures</item>
   </string-array>
-  <string name="graphics_load">Загрузить модель</string>
+  <string name="graphics_loadModel">Загрузить модель</string>
+  <string name="graphics_loadTexture">Загрузить текстуру</string>
   <string name="graphics_animate">Анимировать</string>
   <string name="graphics_clear">Очистить</string>
   <string name="graphics_reset">Сбросить трансформации</string>

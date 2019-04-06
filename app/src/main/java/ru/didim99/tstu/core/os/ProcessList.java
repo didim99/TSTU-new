@@ -38,6 +38,7 @@ public class ProcessList {
   private String tmpFile;
 
   ProcessList(Context context) {
+    if (!RootShell.isInitCompleted()) RootShell.init(context);
     tmpFile = context.getCacheDir().getAbsolutePath()
       .concat(File.separator).concat(TMPFILE);
     rootFailed = !RootShell.hasRootAccess();

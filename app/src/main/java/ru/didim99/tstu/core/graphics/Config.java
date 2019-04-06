@@ -1,8 +1,9 @@
 package ru.didim99.tstu.core.graphics;
 
 import java.util.ArrayList;
-import ru.didim99.tstu.core.graphics.utils.EdgeModel;
+import ru.didim99.tstu.core.graphics.utils.Model;
 import ru.didim99.tstu.core.graphics.utils.Projection;
+import ru.didim99.tstu.core.graphics.utils.Texture;
 import ru.didim99.tstu.core.graphics.utils.Vec4;
 
 /**
@@ -52,12 +53,14 @@ public class Config {
     return gamma;
   }
 
-  // EdgeRenderer
-  ArrayList<EdgeModel> models;
+  // ModelRenderer
+  int modelType;
+  ArrayList<Model> models;
   Projection.Config prConfig;
   boolean drawAxis, negativeAxis;
   Vec4 translate, scale, rotate;
   boolean syncScale;
+  Texture texture;
 
   public boolean isDrawAxis() {
     return drawAxis;

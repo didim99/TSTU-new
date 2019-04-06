@@ -10,10 +10,10 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.graphics.Config;
-import ru.didim99.tstu.core.graphics.EdgeRenderer;
-import ru.didim99.tstu.core.graphics.EdgeRenderer.TransformType;
+import ru.didim99.tstu.core.graphics.ModelRenderer;
+import ru.didim99.tstu.core.graphics.ModelRenderer.TransformType;
 import ru.didim99.tstu.core.graphics.ModelLoader;
-import ru.didim99.tstu.core.graphics.utils.EdgeModel;
+import ru.didim99.tstu.core.graphics.utils.Model;
 import ru.didim99.tstu.core.graphics.utils.Projection;
 import ru.didim99.tstu.ui.dirpicker.DirPickerActivity;
 import ru.didim99.tstu.ui.view.DrawerView;
@@ -72,82 +72,82 @@ public class TransformActivity extends AnimationActivity {
     Spinner spPType = findViewById(R.id.spProjectionType);
     Spinner spTType = findViewById(R.id.spTransformType);
     findViewById(R.id.btnClear).setOnClickListener(
-      v -> ((EdgeRenderer) renderer).clearScene());
+      v -> ((ModelRenderer) renderer).clearScene());
     findViewById(R.id.btnLoad).setOnClickListener(v -> openFile());
     findViewById(R.id.btnReset).setOnClickListener(v -> clearTransform());
     MyLog.d(LOG_TAG, "View components init competed");
 
     Config config = (Config) getLastCustomNonConfigurationInstance();
-    renderer = new EdgeRenderer(targetView, config);
+    renderer = new ModelRenderer(Model.Type.EDGE, targetView, config);
     renderer.start();
 
     config = renderer.getConfig();
-    Projection projection = ((EdgeRenderer) renderer).getProjection();
+    Projection projection = ((ModelRenderer) renderer).getProjection();
     // Projection configuration
     rbPPAngle.setBounds(Projection.PPA_MIN, Projection.PPA_MAX);
     rbPPAngle.setValue(projection.getPPAngle());
     rbPPAngle.setOnValueChangedListener(value ->
-      ((EdgeRenderer) renderer).getProjection().setPPAngle(value));
+      ((ModelRenderer) renderer).getProjection().setPPAngle(value));
     rbPPFactor.setFactor(Projection.PPF_FACTOR);
     rbPPFactor.setBounds(Projection.PPF_MIN, Projection.PPF_MAX);
     rbPPFactor.setValue(projection.getPPFactor());
     rbPPFactor.setOnScaledValueChangedListener(value ->
-      ((EdgeRenderer) renderer).getProjection().setPPFactor(value));
+      ((ModelRenderer) renderer).getProjection().setPPFactor(value));
     rbCPDistance.setBounds(Projection.CPD_MIN, Projection.CPD_MAX);
     rbCPDistance.setValue(projection.getCPDistance());
     rbCPDistance.setOnValueChangedListener(value ->
-      ((EdgeRenderer) renderer).getProjection().setCPDistance(value));
+      ((ModelRenderer) renderer).getProjection().setCPDistance(value));
     // Translation configuration
-    rbTranslateX.setFactor(EdgeRenderer.TRN_FACTOR);
-    rbTranslateX.setBounds(EdgeRenderer.TRN_MIN, EdgeRenderer.TRN_MAX);
+    rbTranslateX.setFactor(ModelRenderer.TRN_FACTOR);
+    rbTranslateX.setBounds(ModelRenderer.TRN_MIN, ModelRenderer.TRN_MAX);
     rbTranslateX.setValue(config.getTranslate().x());
     rbTranslateX.setOnScaledValueChangedListener(value ->
-      ((EdgeRenderer) renderer).setTranslateX(value));
-    rbTranslateY.setFactor(EdgeRenderer.TRN_FACTOR);
-    rbTranslateY.setBounds(EdgeRenderer.TRN_MIN, EdgeRenderer.TRN_MAX);
+      ((ModelRenderer) renderer).setTranslateX(value));
+    rbTranslateY.setFactor(ModelRenderer.TRN_FACTOR);
+    rbTranslateY.setBounds(ModelRenderer.TRN_MIN, ModelRenderer.TRN_MAX);
     rbTranslateY.setValue(config.getTranslate().y());
     rbTranslateY.setOnScaledValueChangedListener(value ->
-      ((EdgeRenderer) renderer).setTranslateY(value));
-    rbTranslateZ.setFactor(EdgeRenderer.TRN_FACTOR);
-    rbTranslateZ.setBounds(EdgeRenderer.TRN_MIN, EdgeRenderer.TRN_MAX);
+      ((ModelRenderer) renderer).setTranslateY(value));
+    rbTranslateZ.setFactor(ModelRenderer.TRN_FACTOR);
+    rbTranslateZ.setBounds(ModelRenderer.TRN_MIN, ModelRenderer.TRN_MAX);
     rbTranslateZ.setValue(config.getTranslate().z());
     rbTranslateZ.setOnScaledValueChangedListener(value ->
-      ((EdgeRenderer) renderer).setTranslateZ(value));
+      ((ModelRenderer) renderer).setTranslateZ(value));
     // Scale configuration
-    rbScaleX.setFactor(EdgeRenderer.SCL_FACTOR);
-    rbScaleX.setBounds(EdgeRenderer.SCL_MIN, EdgeRenderer.SCL_MAX);
+    rbScaleX.setFactor(ModelRenderer.SCL_FACTOR);
+    rbScaleX.setBounds(ModelRenderer.SCL_MIN, ModelRenderer.SCL_MAX);
     rbScaleX.setValue(config.getScale().x());
     rbScaleX.setOnScaledValueChangedListener(value -> {
       if (syncScale) onSceneScaleChanged(value);
-      else ((EdgeRenderer) renderer).setScaleX(value);
+      else ((ModelRenderer) renderer).setScaleX(value);
     });
-    rbScaleY.setFactor(EdgeRenderer.SCL_FACTOR);
-    rbScaleY.setBounds(EdgeRenderer.SCL_MIN, EdgeRenderer.SCL_MAX);
+    rbScaleY.setFactor(ModelRenderer.SCL_FACTOR);
+    rbScaleY.setBounds(ModelRenderer.SCL_MIN, ModelRenderer.SCL_MAX);
     rbScaleY.setValue(config.getScale().y());
     rbScaleY.setOnScaledValueChangedListener(value -> {
       if (syncScale) onSceneScaleChanged(value);
-      else ((EdgeRenderer) renderer).setScaleY(value);
+      else ((ModelRenderer) renderer).setScaleY(value);
     });
-    rbScaleZ.setFactor(EdgeRenderer.SCL_FACTOR);
-    rbScaleZ.setBounds(EdgeRenderer.SCL_MIN, EdgeRenderer.SCL_MAX);
+    rbScaleZ.setFactor(ModelRenderer.SCL_FACTOR);
+    rbScaleZ.setBounds(ModelRenderer.SCL_MIN, ModelRenderer.SCL_MAX);
     rbScaleZ.setValue(config.getScale().z());
     rbScaleZ.setOnScaledValueChangedListener(value -> {
       if (syncScale) onSceneScaleChanged(value);
-      else ((EdgeRenderer) renderer).setScaleZ(value);
+      else ((ModelRenderer) renderer).setScaleZ(value);
     });
     // Rotation configuration
-    rbRotateX.setBounds(EdgeRenderer.ROT_MIN, EdgeRenderer.ROT_MAX);
+    rbRotateX.setBounds(ModelRenderer.ROT_MIN, ModelRenderer.ROT_MAX);
     rbRotateX.setValue((int) config.getRotate().x());
     rbRotateX.setOnValueChangedListener(value ->
-      ((EdgeRenderer) renderer).setRotateX(value));
-    rbRotateY.setBounds(EdgeRenderer.ROT_MIN, EdgeRenderer.ROT_MAX);
+      ((ModelRenderer) renderer).setRotateX(value));
+    rbRotateY.setBounds(ModelRenderer.ROT_MIN, ModelRenderer.ROT_MAX);
     rbRotateY.setValue((int) config.getRotate().y());
     rbRotateY.setOnValueChangedListener(value ->
-      ((EdgeRenderer) renderer).setRotateY(value));
-    rbRotateZ.setBounds(EdgeRenderer.ROT_MIN, EdgeRenderer.ROT_MAX);
+      ((ModelRenderer) renderer).setRotateY(value));
+    rbRotateZ.setBounds(ModelRenderer.ROT_MIN, ModelRenderer.ROT_MAX);
     rbRotateZ.setValue((int) config.getRotate().z());
     rbRotateZ.setOnValueChangedListener(value ->
-      ((EdgeRenderer) renderer).setRotateZ(value));
+      ((ModelRenderer) renderer).setRotateZ(value));
 
     spPType.setSelection(projection.getType());
     spPType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -157,14 +157,14 @@ public class TransformActivity extends AnimationActivity {
           pos == Projection.Type.PARALLEL ? View.VISIBLE : View.GONE);
         cpConfigLayout.setVisibility(
           pos == Projection.Type.CENTRAL ? View.VISIBLE : View.GONE);
-        ((EdgeRenderer) renderer).getProjection().applyType(pos);
+        ((ModelRenderer) renderer).getProjection().applyType(pos);
       }
 
       @Override
       public void onNothingSelected(AdapterView<?> parent) {}
     });
 
-    spTType.setSelection(EdgeRenderer.TransformType.TRANSLATE);
+    spTType.setSelection(ModelRenderer.TransformType.TRANSLATE);
     spTType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
       @Override
       public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
@@ -183,11 +183,11 @@ public class TransformActivity extends AnimationActivity {
     cbNegativeAxis.setEnabled(config.isDrawAxis());
     cbNegativeAxis.setChecked(config.isNegativeAxis());
     cbNegativeAxis.setOnCheckedChangeListener((v, c) ->
-      ((EdgeRenderer) renderer).setNegativeAxis(c));
+      ((ModelRenderer) renderer).setNegativeAxis(c));
     cbDrawAxis.setChecked(config.isDrawAxis());
     cbDrawAxis.setOnCheckedChangeListener((v, c) -> {
       MyLog.d(LOG_TAG, "Draw axis: " + c);
-      ((EdgeRenderer) renderer).setDrawAxis(c);
+      ((ModelRenderer) renderer).setDrawAxis(c);
       cbNegativeAxis.setEnabled(c);
     });
 
@@ -203,7 +203,7 @@ public class TransformActivity extends AnimationActivity {
     cbSyncScale.setChecked(syncScale);
     cbSyncScale.setOnCheckedChangeListener((v, c) -> {
       MyLog.d(LOG_TAG, "Sync scale: " + c);
-      ((EdgeRenderer) renderer).setSyncScale(syncScale = c);
+      ((ModelRenderer) renderer).setSyncScale(syncScale = c);
       if (c) onSceneScaleChanged(rbScaleX.getValue());
     });
 
@@ -212,7 +212,7 @@ public class TransformActivity extends AnimationActivity {
 
   private void clearTransform() {
     MyLog.d(LOG_TAG, "Clearing all transformations");
-    Config config = ((EdgeRenderer) renderer).clearTransform();
+    Config config = ((ModelRenderer) renderer).clearTransform();
     rbTranslateX.setValue(config.getTranslate().x());
     rbTranslateY.setValue(config.getTranslate().y());
     rbTranslateZ.setValue(config.getTranslate().z());
@@ -237,12 +237,12 @@ public class TransformActivity extends AnimationActivity {
     cbPointX.setEnabled(!one || !useX);
     cbPointY.setEnabled(!one || !useY);
     cbPointZ.setEnabled(!one || !useZ);
-    ((EdgeRenderer) renderer).getProjection()
+    ((ModelRenderer) renderer).getProjection()
       .setPoints(useX, useY, useZ);
   }
 
   private void onSceneScaleChanged(double value) {
-    ((EdgeRenderer) renderer).setScale(value);
+    ((ModelRenderer) renderer).setScale(value);
     rbScaleX.setValue(value);
     rbScaleY.setValue(value);
     rbScaleZ.setValue(value);
@@ -255,11 +255,11 @@ public class TransformActivity extends AnimationActivity {
         Uri data = i.getData();
         if (data != null) {
           String path = data.getPath();
-          if (path != null && path.endsWith(EdgeModel.FILE_MASK)) {
+          if (path != null && path.endsWith(Model.FILE_MASK)) {
             MyLog.d(LOG_TAG, "Loading model: " + path);
             ModelLoader loader = new ModelLoader(this);
             loader.registerEventListener((event, model) ->
-              ((EdgeRenderer) renderer).onModelLoaded(model));
+              ((ModelRenderer) renderer).onModelLoaded(model));
             loader.execute(path);
           } else {
             Toast.makeText(this, R.string.errGraphics_incorrectType,

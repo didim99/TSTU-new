@@ -10,6 +10,7 @@ import ru.didim99.tstu.R;
 import ru.didim99.tstu.TSTU;
 import ru.didim99.tstu.ui.graphics.HorizonActivity;
 import ru.didim99.tstu.ui.graphics.LinesActivity;
+import ru.didim99.tstu.ui.graphics.TexturesActivity;
 import ru.didim99.tstu.ui.graphics.TransformActivity;
 import ru.didim99.tstu.ui.math.CAActivity;
 import ru.didim99.tstu.ui.math.MathStatActivity;
@@ -32,11 +33,13 @@ public class StartActivity extends AppCompatActivity {
   private static final Class[] OOP_TARGET =
     { AbiturientActivity.class, MatrixActivity.class, ShopActivity.class };
   private static final Class[] GRAPH_TARGET =
-    { LinesActivity.class, HorizonActivity.class, TransformActivity.class };
+    { LinesActivity.class, HorizonActivity.class,
+      TransformActivity.class, TexturesActivity.class };
   private static final Class[] OS_TARGET = { ProcessActivity.class };
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+    MyLog.d(LOG_TAG, "StartActivity creating...");
     super.onCreate(savedInstanceState);
     setContentView(R.layout.act_start);
 
@@ -53,6 +56,8 @@ public class StartActivity extends AppCompatActivity {
       R.string.graphics_selectType, R.array.graphics_taskTypes, GRAPH_TARGET));
     findViewById(R.id.startOS).setOnClickListener(v -> activityTypeDialog(
       R.string.sectionOS, R.array.os_taskTypes, OS_TARGET));
+
+    MyLog.d(LOG_TAG, "StartActivity created");
   }
 
   private void activityTypeDialog(@StringRes int titleId, @ArrayRes int listId,

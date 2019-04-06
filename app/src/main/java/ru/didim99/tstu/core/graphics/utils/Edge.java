@@ -4,15 +4,12 @@ package ru.didim99.tstu.core.graphics.utils;
  * Created by didim99 on 09.03.19.
  */
 public class Edge {
-  private int v1, v2;
+  int v1, v2;
 
-  public Edge(int v1, int v2) {
+  Edge(int v1, int v2) {
     this.v1 = v1;
     this.v2 = v2;
   }
-
-  public int v1() { return v1; }
-  public int v2() { return v2; }
 
   @Override
   public boolean equals(Object obj) {
