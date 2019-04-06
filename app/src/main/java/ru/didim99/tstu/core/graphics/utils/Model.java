@@ -99,9 +99,9 @@ public class Model {
     }
   }
 
-  public static Model load(String fileName)
+  public static Model load(String path)
     throws IOException, ParserException {
-    ArrayList<String> src = Utils.readFile(fileName);
+    ArrayList<String> src = Utils.readFile(path);
     MyLog.d(LOG_TAG, "Loading OBJ data");
     Model model = new Model();
     ArrayList<PointF> texels = model.texels;

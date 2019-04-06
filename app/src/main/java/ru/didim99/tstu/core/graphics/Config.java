@@ -28,6 +28,10 @@ public class Config {
     return angle;
   }
 
+  public boolean useAntiAlias() {
+    return antiAlias;
+  }
+
   // HorizonRenderer
   double angleP, angleZ;
   int intAngleP, intAngleZ;
@@ -84,5 +88,9 @@ public class Config {
 
   public boolean isSyncScale() {
     return syncScale;
+  }
+
+  public boolean hasTexture() {
+    return texture != null;
   }
 }

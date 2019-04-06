@@ -4,12 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.support.annotation.RawRes;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,5 +106,29 @@ public class Utils {
     PackageManager packageManager = context.getPackageManager();
     List<ResolveInfo> activities = packageManager.queryIntentActivities(intent, 0);
     return activities.size() > 0;
+  }
+
+  public static String resToFile(Context context, @RawRes int resId)
+    throws IOException {
+    String name = context.getResources().getResourceEntryName(resId);
+    String dstPath = context.getFilesDir().getAbsolutePath()
+      .concat(File.separator).concat(name);
+    MyLog.d(LOG_TAG, "Raw resource ["
+      + name + "] resolved to: " + dstPath);
+    File file = new File(dstPath);
+
+    if (!file.exists()) {
+      MyLog.d(LOG_TAG, "Copying resource data to file: " + dstPath);
+      InputStream src = context.getResources().openRawResource(resId);
+      OutputStream dst = new FileOutputStream(file);
+      byte[] buffer = new byte[1024]; int length;
+      while ((length = src.read(buffer)) > 0)
+        dst.write(buffer, 0, length);
+      MyLog.d(LOG_TAG, "Resource data copied");
+      dst.close();
+      src.close();
+    }
+
+    return dstPath;
   }
 }

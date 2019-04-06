@@ -16,26 +16,11 @@
     android:layout_marginRight="@dimen/layoutPadding"
     android:layout_marginEnd="@dimen/layoutPadding">
 
-    <LinearLayout
+    <Button
+      android:id="@+id/btnLoadTexture"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:orientation="horizontal"
-      tools:ignore="ButtonStyle">
-
-      <Button
-        android:id="@+id/btnLoadModel"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/graphics_loadModel"/>
-
-      <Button
-        android:id="@+id/btnLoadTexture"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/graphics_loadTexture"/>
-    </LinearLayout>
+      android:text="@string/graphics_loadTexture"/>
 
     <LinearLayout
       android:layout_width="match_parent"
@@ -57,6 +42,40 @@
         android:layout_weight="2"
         android:text="@string/graphics_reset"/>
     </LinearLayout>
+
+    <CheckBox
+      android:id="@+id/cbTextureFiltering"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="@dimen/layoutPadding"
+      android:text="@string/graphics_textureFiltering"/>
+
+    <ru.didim99.tstu.ui.view.RangeBar
+      android:id="@+id/rbTranslateX"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:title="@string/graphics_translateX"
+      app:scaled="true"/>
+
+    <ru.didim99.tstu.ui.view.RangeBar
+      android:id="@+id/rbTranslateY"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:title="@string/graphics_translateY"
+      app:scaled="true"/>
+
+    <ru.didim99.tstu.ui.view.RangeBar
+      android:id="@+id/rbScale"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:title="@string/graphics_scale"
+      app:scaled="true"/>
+
+    <ru.didim99.tstu.ui.view.RangeBar
+      android:id="@+id/rbRotate"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:title="@string/graphics_rotate"/>
   </LinearLayout>
 
   <ru.didim99.tstu.ui.view.DrawerView

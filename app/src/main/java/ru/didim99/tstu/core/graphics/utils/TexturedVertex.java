@@ -15,4 +15,11 @@ public class TexturedVertex {
     this.u = t.x;
     this.v = t.y;
   }
+
+  public TexturedVertex(PointF v, PointF t) {
+    this.x = v.x;
+    this.y = v.y;
+    this.u = t.x;
+    this.v = t.y;
+  }
 }

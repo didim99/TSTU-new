@@ -135,7 +135,7 @@
   <string name="errNotice_emptyHeader">Не указан заголовок уведомления</string>
   <string name="errNotice_emptyText">Не указан текст уведомления</string>
   <string name="errGraphics_incorrectType">Некорректный формат файла</string>
-  <string name="errGraphics_unableLoad">Невозможно импортировать файл</string>
+  <string name="errGraphics_unableLoadInternal">Невозможно Загрузить ресурс: %s</string>
   <string name="errGraphics_invalidFormat">Некорректный формат данных</string>
   <string name="errGraphics_ioError">Ошибка ввода-вывода</string>
   <!-- MathStat -->
@@ -276,9 +276,12 @@
   <string name="graphics_scaleX">Масштабирование по оси X: %.2f</string>
   <string name="graphics_scaleY">Масштабирование по оси Y: %.2f</string>
   <string name="graphics_scaleZ">Масштабирование по оси Z: %.2f</string>
-  <string name="graphics_rotateX">Вращение по оси X: %d</string>
-  <string name="graphics_rotateY">Вращение по оси Y: %d</string>
-  <string name="graphics_rotateZ">Вращение по оси Z: %d</string>
+  <string name="graphics_rotateX">Вращение по оси X: %d&#176;</string>
+  <string name="graphics_rotateY">Вращение по оси Y: %d&#176;</string>
+  <string name="graphics_rotateZ">Вращение по оси Z: %d&#176;</string>
+  <string name="graphics_scale">Масштабирование: %.2f</string>
+  <string name="graphics_rotate">Вращение: %d&#176;</string>
+  <string name="graphics_textureFiltering">Билинейная фильтрация текстур</string>
   <!-- Mobile platforms -->
   <string name="startMP">МВП</string>
   <string name="mp_selectType">Мобильные платформы</string>
