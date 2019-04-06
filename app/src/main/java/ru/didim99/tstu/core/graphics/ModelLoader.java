@@ -20,11 +20,8 @@ public class ModelLoader extends CallbackTask<String, Model> {
   protected Model doInBackgroundInternal(String path) {
     try {
       return Model.load(path);
-    } catch (IOException e) {
+    } catch (IOException | Model.ParserException e) {
       MyLog.e(LOG_TAG, "Unable to load item: " + e);
-    } catch (Model.ParserException e) {
-      MyLog.e(LOG_TAG, "Unable to load item: " + e);
-      e.printStackTrace();
     }
 
     return null;

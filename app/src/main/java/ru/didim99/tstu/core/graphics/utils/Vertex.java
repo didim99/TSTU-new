@@ -18,8 +18,6 @@ public class Vertex {
     rastered = p.project(transformed);
   }
 
-  double depth() { return transformed.z(); }
-
   public Vec4 rastered() {
     return new Vec4(rastered.x, rastered.y, transformed.z());
   }

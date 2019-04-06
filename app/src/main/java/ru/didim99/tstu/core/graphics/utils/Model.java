@@ -3,7 +3,6 @@ package ru.didim99.tstu.core.graphics.utils;
 import android.graphics.PointF;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import ru.didim99.tstu.utils.MyLog;
 import ru.didim99.tstu.utils.Utils;
 
@@ -86,8 +85,6 @@ public class Model {
   public void render(Mat4 transform, Projection p) {
     for (Vertex v : vertices)
       v.render(transform, p);
-    /*if (type == Type.FACE)
-      Collections.sort(faces, this::faceCompare);*/
 
     int i = 0;
     PointF p1, p2;
@@ -100,18 +97,6 @@ public class Model {
       rastered[i+3] = p2.y;
       i += 4;
     }
-  }
-
-  private int faceCompare(Face f1, Face f2) {
-    Vertex v1 = vertices.get(f1.v1);
-    Vertex v2 = vertices.get(f1.v2);
-    Vertex v3 = vertices.get(f1.v3);
-    double z1 = (v1.depth() + v2.depth() + v3.depth()) / 3;
-    v1 = vertices.get(f2.v1);
-    v2 = vertices.get(f2.v2);
-    v3 = vertices.get(f2.v3);
-    double z2 = (v1.depth() + v2.depth() + v3.depth()) / 3;
-    return Double.compare(z2, z1);
   }
 
   public static Model load(String fileName)
