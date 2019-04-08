@@ -10,6 +10,7 @@ import ru.didim99.tstu.R;
 import ru.didim99.tstu.TSTU;
 import ru.didim99.tstu.ui.graphics.HorizonActivity;
 import ru.didim99.tstu.ui.graphics.LinesActivity;
+import ru.didim99.tstu.ui.graphics.ShadingActivity;
 import ru.didim99.tstu.ui.graphics.TexturesActivity;
 import ru.didim99.tstu.ui.graphics.TransformActivity;
 import ru.didim99.tstu.ui.math.CAActivity;
@@ -32,9 +33,10 @@ public class StartActivity extends AppCompatActivity {
     { L1ActMain.class, L2ActMain.class, L3ActMain.class };
   private static final Class[] OOP_TARGET =
     { AbiturientActivity.class, MatrixActivity.class, ShopActivity.class };
-  private static final Class[] GRAPH_TARGET =
-    { LinesActivity.class, HorizonActivity.class,
-      TransformActivity.class, TexturesActivity.class };
+  private static final Class[] GRAPH_TARGET = {
+      LinesActivity.class, HorizonActivity.class,
+      TransformActivity.class, TexturesActivity.class,
+      ShadingActivity.class };
   private static final Class[] OS_TARGET = { ProcessActivity.class };
 
   @Override

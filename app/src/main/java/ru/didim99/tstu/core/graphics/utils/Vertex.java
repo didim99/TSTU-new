@@ -13,9 +13,17 @@ public class Vertex {
     world = new Vec4(x, y, z);
   }
 
-  void render(Mat4 transform, Projection p) {
+  void transform(Mat4 transform) {
     transformed = world.multiply(transform);
+  }
+
+  void render(Mat4 transform, Projection p) {
+    transform(transform);
     rastered = p.project(transformed);
+  }
+
+  public Vec4 transformed() {
+    return transformed;
   }
 
   public Vec4 rastered() {

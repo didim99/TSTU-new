@@ -62,7 +62,7 @@ public class Mat4 {
     data[12] = 0; data[13] = 0; data[14] = 0; data[15] = 1;
   }
 
-  private void load(Mat4 src) {
+  public void load(Mat4 src) {
     System.arraycopy(src.data, 0, data, 0, data.length);
   }
 

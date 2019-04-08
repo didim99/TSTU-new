@@ -131,4 +131,15 @@ public class Utils {
 
     return dstPath;
   }
+
+  /* ======== COLOR UTILS ======== */
+
+  public static int lerp(int bg, int fg, double alpha) {
+    double gamma = 1 - alpha;
+    int res = (int) ((bg & 0xff) * alpha + (fg & 0xff) * gamma);
+    res |= (int) (((bg >> 8) & 0xff) * alpha + ((fg >> 8) & 0xff) * gamma) << 8;
+    res |= (int) (((bg >> 16) & 0xff) * alpha + ((fg >> 16) & 0xff) * gamma) << 16;
+    res |= 0xff000000;
+    return res;
+  }
 }

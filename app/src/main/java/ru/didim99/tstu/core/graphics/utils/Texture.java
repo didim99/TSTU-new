@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import java.io.IOException;
 
+import static ru.didim99.tstu.utils.Utils.lerp;
+
 /**
  * Created by didim99 on 05.04.19.
  */
@@ -20,8 +22,8 @@ public class Texture {
     this.height = data.getHeight();
     this.xMax = width - 1;
     this.yMax = height - 1;
-    this.xfMax = xMax - 1;
-    this.yfMax = yMax - 1;
+    this.xfMax = xMax - .1;
+    this.yfMax = yMax - .1;
   }
 
   public void recycle() {
@@ -40,22 +42,13 @@ public class Texture {
   }
 
   private int getPixelFiltered(double u, double v) {
-    u = bound(u * width, xfMax);
-    v = bound(v * height, yfMax);
+    u = bound(u * xMax, xfMax);
+    v = bound(v * yMax, yfMax);
     int x = (int) Math.floor(u); u = x + 1 - u;
     int y = (int) Math.floor(v); v = y + 1 - v;
     int c1 = lerp(data.getPixel(x, y), data.getPixel(x+1, y), u);
     int c2 = lerp(data.getPixel(x, y+1), data.getPixel(x+1, y+1), u);
     return lerp(c1, c2, v);
-  }
-
-  private static int lerp(int bg, int fg, double alpha) {
-    double gamma = 1 - alpha;
-    int res = (int) ((bg & 0xff) * alpha + (fg & 0xff) * gamma);
-    res |= (int) (((bg >> 8) & 0xff) * alpha + ((fg >> 8) & 0xff) * gamma) << 8;
-    res |= (int) (((bg >> 16) & 0xff) * alpha + ((fg >> 16) & 0xff) * gamma) << 16;
-    res |= 0xff000000;
-    return res;
   }
 
   private static int bound(int i, int max) {

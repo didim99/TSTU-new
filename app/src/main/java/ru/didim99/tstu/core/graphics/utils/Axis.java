@@ -1,5 +1,6 @@
 package ru.didim99.tstu.core.graphics.utils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -13,6 +14,8 @@ public class Axis extends Model {
 
   public Axis(double length, boolean drawNegative) {
     super(Type.EDGE, "Axis", DEFAULT_WIDTH, DEFAULT_COLOR);
+    ArrayList<Edge> edges = new ArrayList<>(Arrays.asList(AXIS_EDGES));
+    ArrayList<Vertex> vertices = new ArrayList<>();
     double start = drawNegative ? -length : 0;
     vertices.add(new Vertex(start, 0, 0));
     vertices.add(new Vertex(length, 0, 0));
@@ -20,7 +23,6 @@ public class Axis extends Model {
     vertices.add(new Vertex(0, length, 0));
     vertices.add(new Vertex(0, 0, start));
     vertices.add(new Vertex(0, 0, length));
-    edges.addAll(Arrays.asList(AXIS_EDGES));
-    rastered = new float[edges.size() * 4];
+    load(vertices, edges);
   }
 }

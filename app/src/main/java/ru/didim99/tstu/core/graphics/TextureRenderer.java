@@ -1,15 +1,12 @@
 package ru.didim99.tstu.core.graphics;
 
-import android.graphics.PointF;
-import java.util.ArrayList;
 import ru.didim99.tstu.core.graphics.utils.Face;
 import ru.didim99.tstu.core.graphics.utils.Mat4;
 import ru.didim99.tstu.core.graphics.utils.Model;
 import ru.didim99.tstu.core.graphics.utils.Projection;
 import ru.didim99.tstu.core.graphics.utils.Texture;
-import ru.didim99.tstu.core.graphics.utils.TexturedVertex;
+import ru.didim99.tstu.core.graphics.utils.VertexHolder;
 import ru.didim99.tstu.core.graphics.utils.Vec4;
-import ru.didim99.tstu.core.graphics.utils.Vertex;
 import ru.didim99.tstu.ui.view.DrawerView;
 
 import static java.lang.Math.ceil;
@@ -70,6 +67,7 @@ public class TextureRenderer extends AsyncRenderer {
 
   public void onTextureLoaded(Texture texture) {
     if (texture != null) {
+      texture.enableFiltering(config.antiAlias);
       config.texture = texture;
       onSceneChanged();
     }
@@ -134,11 +132,9 @@ public class TextureRenderer extends AsyncRenderer {
   }
 
   private void draw(Model model) {
-    ArrayList<Vertex> vertices = model.getVertices();
-    ArrayList<PointF> texels = model.getTexels();
     Texture texture = config.texture;
 
-    TexturedVertex a, b, c, vtmp;
+    VertexHolder a, b, c, vtmp;
     double xStart, xEnd, uStart, uEnd, vStart, vEnd;
     double dxStart, duStart, dvStart, dxEnd, duEnd, dvEnd;
     double tmp, k, du, dv, x, u, v, ay, by, bcy;
@@ -150,9 +146,9 @@ public class TextureRenderer extends AsyncRenderer {
 
     // текстурирование каждой грани
     for (Face face : model.getFaces()) {
-      a = new TexturedVertex(vertices.get(face.v1).rastered, texels.get(face.t1));
-      b = new TexturedVertex(vertices.get(face.v2).rastered, texels.get(face.t2));
-      c = new TexturedVertex(vertices.get(face.v3).rastered, texels.get(face.t3));
+      a = new VertexHolder(face.v1.rastered, face.t1);
+      b = new VertexHolder(face.v2.rastered, face.t2);
+      c = new VertexHolder(face.v3.rastered, face.t3);
 
       // отсортируем вершины грани по y
       if (a.y > b.y) { vtmp = a; a = b; b = vtmp; }

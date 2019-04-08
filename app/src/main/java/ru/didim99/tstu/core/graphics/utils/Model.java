@@ -20,6 +20,7 @@ public class Model {
   private static final String L_COMMENT = "#";
   private static final String L_OBJECT = "o";
   private static final String L_VERTEX = "v";
+  private static final String L_NORMAL = "vn";
   private static final String L_TEXEL = "vt";
   private static final String L_FACE = "f";
 
@@ -30,11 +31,12 @@ public class Model {
 
   private int type;
   private String name;
-  ArrayList<Vertex> vertices;
-  ArrayList<Edge> edges;
-  float[] rastered;
+  private ArrayList<Vertex> vertices;
+  private ArrayList<Vertex> normals;
   private ArrayList<PointF> texels;
+  private ArrayList<Edge> edges;
   private ArrayList<Face> faces;
+  private float[] rastered;
   private float width;
   private int color;
 
@@ -44,6 +46,7 @@ public class Model {
 
   Model(int type, String name, float width, int color) {
     vertices = new ArrayList<>();
+    normals = new ArrayList<>();
     texels = new ArrayList<>();
     faces = new ArrayList<>();
     edges = new ArrayList<>();
@@ -52,6 +55,12 @@ public class Model {
     this.color = color;
     this.type = type;
     this.name = name;
+  }
+
+  void load(ArrayList<Vertex> vertices, ArrayList<Edge> edges) {
+    this.rastered = new float[edges.size() * 4];
+    this.vertices = vertices;
+    this.edges = edges;
   }
 
   public int getType() {
@@ -72,10 +81,6 @@ public class Model {
 
   public ArrayList<Vertex> getVertices() {
     return vertices;
-  }
-
-  public ArrayList<PointF> getTexels() {
-    return texels;
   }
 
   public ArrayList<Face> getFaces() {
@@ -99,18 +104,26 @@ public class Model {
     }
   }
 
+  public void rotateNormals(Mat4 transform) {
+    for (Vertex n : normals) n.transform(transform);
+  }
+
   public static Model load(String path)
     throws IOException, ParserException {
     ArrayList<String> src = Utils.readFile(path);
     MyLog.d(LOG_TAG, "Loading OBJ data");
     Model model = new Model();
-    ArrayList<PointF> texels = model.texels;
+
     ArrayList<Vertex> vertices = model.vertices;
+    ArrayList<Vertex> normals = model.normals;
+    ArrayList<PointF> texels = model.texels;
     ArrayList<Face> faces = model.faces;
     ArrayList<Edge> edges = model.edges;
+    int[] v = new int[] {0, 0, 0};
+    int[] n = new int[] {0, 0, 0};
+    int[] t = new int[] {0, 0, 0};
     boolean useTextures = false;
-    int[] vt = new int[3];
-    int[] v = new int[3];
+    boolean useNormals = false;
 
     try {
       int count;
@@ -129,22 +142,31 @@ public class Model {
               Double.parseDouble(parts[2]),
               Double.parseDouble(parts[3])));
             break;
+          case L_NORMAL:
+            useNormals = true;
+            normals.add(new Vertex(
+              Double.parseDouble(parts[1]),
+              Double.parseDouble(parts[2]),
+              Double.parseDouble(parts[3])));
+            break;
           case L_TEXEL:
             useTextures = true;
             texels.add(new PointF(
               Float.parseFloat(parts[1]),
-              Float.parseFloat(parts[2])
-            ));
+              Float.parseFloat(parts[2])));
             break;
           case L_FACE:
             count = parts.length - 1;
-            if (useTextures) {
+            if (useTextures || useNormals) {
               for (int i = 1; i <= count; i++) {
                 part = parts[i].split(SET_VERTEX);
                 v[i - 1] = Integer.parseInt(part[0]) - 1;
-                vt[i - 1] = Integer.parseInt(part[1]) - 1;
+                if (useTextures)
+                  t[i - 1] = Integer.parseInt(part[1]) - 1;
+                if (useNormals)
+                  n[i - 1] = Integer.parseInt(part[2]) - 1;
               }
-              faces.add(new Face(v, vt));
+              faces.add(new Face(v, n, t));
               for (int i = 0; i < count - 1; i++)
                 addEdge(edges, v[i], v[i+1]);
               addEdge(edges, v[0], v[count - 1]);
@@ -161,8 +183,14 @@ public class Model {
       throw new ParserException("Incorrect input data", e);
     }
 
+    for (Face face : faces) {
+      face.linkVertex(vertices);
+      if (useNormals) face.linkNormal(normals);
+      if (useTextures) face.linkTexture(texels);
+    }
+
     model.rastered = new float[edges.size() * 4];
-    model.type = useTextures ? Type.FACE : Type.EDGE;
+    model.type = useNormals ? Type.FACE : Type.EDGE;
     MyLog.d(LOG_TAG, "Data loaded (name: " + model.name
       + ", vertices: " + vertices.size() + ", edges: " + edges.size() + ")");
     return model;
