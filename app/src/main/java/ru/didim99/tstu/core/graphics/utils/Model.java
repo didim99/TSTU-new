@@ -15,8 +15,8 @@ public class Model {
   private static final float DEFAULT_WIDTH = 2f;
   public static final String FILE_MASK = ".obj";
 
-  private static final String SET_PART = " ";
-  private static final String SET_VERTEX = "/";
+  private static final String SEP_PART = " ";
+  private static final String SEP_VERTEX = "/";
   private static final String L_COMMENT = "#";
   private static final String L_OBJECT = "o";
   private static final String L_VERTEX = "v";
@@ -32,10 +32,12 @@ public class Model {
   private int type;
   private String name;
   private ArrayList<Vertex> vertices;
+  private ArrayList<Vertex> vNormals;
   private ArrayList<Vertex> normals;
   private ArrayList<PointF> texels;
   private ArrayList<Edge> edges;
   private ArrayList<Face> faces;
+  private boolean useVNormals;
   private float[] rastered;
   private float width;
   private int color;
@@ -46,6 +48,7 @@ public class Model {
 
   Model(int type, String name, float width, int color) {
     vertices = new ArrayList<>();
+    vNormals = new ArrayList<>();
     normals = new ArrayList<>();
     texels = new ArrayList<>();
     faces = new ArrayList<>();
@@ -105,7 +108,33 @@ public class Model {
   }
 
   public void rotateNormals(Mat4 transform) {
-    for (Vertex n : normals) n.transform(transform);
+    ArrayList<Vertex> list = useVNormals ? vNormals : normals;
+    for (Vertex n : list) n.transform(transform);
+  }
+
+  public void useVNormals(boolean state) {
+    useVNormals = state;
+    for (Face face : faces) {
+      if (!state) face.linkNormalFace(normals);
+      else face.linkNormalVertex(vNormals);
+    }
+  }
+
+  private void computeVNormals() {
+    for (int vi = 0; vi < vertices.size(); vi++) {
+      Vec4 tmp = new Vec4(0, 0, 0);
+      int count = 0;
+
+      for (Face face : faces) {
+        if (face.useVertex(vi)) {
+          tmp.add(face.n1.world());
+          count++;
+        }
+      }
+
+      tmp.div(count);
+      vNormals.add(new Vertex(tmp));
+    }
   }
 
   public static Model load(String path)
@@ -131,7 +160,7 @@ public class Model {
       for (String line : src) {
         if (line.isEmpty()) continue;
         if (line.startsWith(L_COMMENT)) continue;
-        parts = line.split(SET_PART);
+        parts = line.split(SEP_PART);
         switch (parts[0]) {
           case L_OBJECT:
             model.name = parts[1];
@@ -159,7 +188,7 @@ public class Model {
             count = parts.length - 1;
             if (useTextures || useNormals) {
               for (int i = 1; i <= count; i++) {
-                part = parts[i].split(SET_VERTEX);
+                part = parts[i].split(SEP_VERTEX);
                 v[i - 1] = Integer.parseInt(part[0]) - 1;
                 if (useTextures)
                   t[i - 1] = Integer.parseInt(part[1]) - 1;
@@ -185,14 +214,17 @@ public class Model {
 
     for (Face face : faces) {
       face.linkVertex(vertices);
-      if (useNormals) face.linkNormal(normals);
+      if (useNormals) face.linkNormalFace(normals);
       if (useTextures) face.linkTexture(texels);
     }
 
+    if (useNormals) model.computeVNormals();
     model.rastered = new float[edges.size() * 4];
     model.type = useNormals ? Type.FACE : Type.EDGE;
     MyLog.d(LOG_TAG, "Data loaded (name: " + model.name
-      + ", vertices: " + vertices.size() + ", edges: " + edges.size() + ")");
+      + ", vertices: " + vertices.size() + ", normals: " + normals.size()
+      + ", texels: " + texels.size() + ", edges: " + edges.size()
+      + ", faces: " + faces.size() + ")");
     return model;
   }
 

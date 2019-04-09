@@ -53,6 +53,24 @@
       app:srcCompat="@color/dirPicker_divider"
       tools:ignore="ContentDescription"/>
 
+    <CheckBox
+      android:id="@+id/cbVNormals"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="@dimen/layoutPadding"
+      android:layout_marginBottom="@dimen/layoutPadding"
+      android:text="@string/graphics_useVNormals"/>
+
+    <ImageView
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/dirPicker_divHeight"
+      android:layout_marginLeft="@dimen/dirPicker_divHMargin"
+      android:layout_marginRight="@dimen/dirPicker_divHMargin"
+      android:layout_marginTop="@dimen/layoutPadding"
+      android:layout_marginBottom="@dimen/layoutPadding"
+      app:srcCompat="@color/dirPicker_divider"
+      tools:ignore="ContentDescription"/>
+
     <ru.didim99.tstu.ui.view.RangeBar
       android:id="@+id/rbScale"
       android:layout_width="match_parent"

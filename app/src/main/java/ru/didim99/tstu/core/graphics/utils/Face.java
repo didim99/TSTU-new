@@ -32,7 +32,13 @@ public class Face {
     v3 = vertices.get(iv3);
   }
 
-  void linkNormal(ArrayList<Vertex> normals) {
+  void linkNormalVertex(ArrayList<Vertex> normals) {
+    n1 = normals.get(iv1);
+    n2 = normals.get(iv2);
+    n3 = normals.get(iv3);
+  }
+
+  void linkNormalFace(ArrayList<Vertex> normals) {
     n1 = normals.get(in1);
     n2 = normals.get(in2);
     n3 = normals.get(in3);
@@ -42,5 +48,9 @@ public class Face {
     t1 = texels.get(it1);
     t2 = texels.get(it2);
     t3 = texels.get(it3);
+  }
+
+  boolean useVertex(int v) {
+    return iv1 == v || iv2 == v || iv3 == v;
   }
 }

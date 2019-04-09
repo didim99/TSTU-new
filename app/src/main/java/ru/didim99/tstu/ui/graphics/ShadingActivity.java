@@ -3,8 +3,11 @@ package ru.didim99.tstu.ui.graphics;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Toast;
 import ru.didim99.tstu.R;
+import ru.didim99.tstu.core.CallbackTask;
 import ru.didim99.tstu.core.graphics.Config;
 import ru.didim99.tstu.core.graphics.ModelLoader;
 import ru.didim99.tstu.core.graphics.ModelRenderer;
@@ -21,6 +24,8 @@ public class ShadingActivity extends AnimationActivity {
   // View-elements
   private RangeBar rbScale;
   private RangeBar rbRotateX, rbRotateY, rbRotateZ;
+  private CheckBox cbVNormals;
+  private Button btnLoad;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -30,13 +35,15 @@ public class ShadingActivity extends AnimationActivity {
 
     MyLog.d(LOG_TAG, "View components init...");
     DrawerView targetView = findViewById(R.id.view);
+    btnLoad = findViewById(R.id.btnLoad);
     rbScale = findViewById(R.id.rbScale);
     rbRotateX = findViewById(R.id.rbRotateX);
     rbRotateY = findViewById(R.id.rbRotateY);
     rbRotateZ = findViewById(R.id.rbRotateZ);
+    cbVNormals = findViewById(R.id.cbVNormals);
+    btnLoad.setOnClickListener(v -> openFile());
     findViewById(R.id.btnClear).setOnClickListener(
       v -> ((ModelRenderer) renderer).clearScene());
-    findViewById(R.id.btnLoad).setOnClickListener(v -> openFile());
     findViewById(R.id.btnReset).setOnClickListener(v -> clearTransform());
     MyLog.d(LOG_TAG, "View components init competed");
 
@@ -47,6 +54,9 @@ public class ShadingActivity extends AnimationActivity {
     renderer.start();
 
     config = renderer.getConfig();
+    cbVNormals.setChecked(config.isUseVNormals());
+    cbVNormals.setOnCheckedChangeListener((v, c) ->
+      ((ModelRenderer) renderer).setUseVNormals(c));
     // Scale configuration
     rbScale.setFactor(ModelRenderer.SCL_FACTOR);
     rbScale.setBounds(ModelRenderer.SCL_MIN, ModelRenderer.SCL_MAX);
@@ -89,8 +99,7 @@ public class ShadingActivity extends AnimationActivity {
           if (path != null && path.endsWith(Model.FILE_MASK)) {
             MyLog.d(LOG_TAG, "Loading model: " + path);
             ModelLoader loader = new ModelLoader(this);
-            loader.registerEventListener((event, model) ->
-              ((ModelRenderer) renderer).onModelLoaded(model));
+            loader.registerEventListener(this::onModelLoadEevent);
             loader.execute(path);
           } else {
             Toast.makeText(this, R.string.errGraphics_incorrectType,
@@ -102,6 +111,15 @@ public class ShadingActivity extends AnimationActivity {
       else if (resultCode == RESULT_CANCELED)
         MyLog.d(LOG_TAG, "Choosing path aborted");
     }
+  }
+
+  private void onModelLoadEevent(CallbackTask.Event event, Model model) {
+    ((ModelRenderer) renderer).onModelLoaded(model);
+    boolean lock = event == CallbackTask.Event.START;
+    btnLoad.setText(lock ? R.string.graphics_loading
+      : R.string.graphics_loadModel);
+    cbVNormals.setEnabled(!lock);
+    btnLoad.setEnabled(!lock);
   }
 
   private void openFile() {

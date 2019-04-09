@@ -10,8 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.ArrayList;
 import ru.didim99.tstu.R;
-import ru.didim99.tstu.core.os.MappingInfo;
-import ru.didim99.tstu.core.os.ProcessList;
+import ru.didim99.tstu.core.os.procinfo.MappingInfo;
+import ru.didim99.tstu.core.os.procinfo.ProcessList;
 
 /**
  * Created by didim99 on 25.03.19.

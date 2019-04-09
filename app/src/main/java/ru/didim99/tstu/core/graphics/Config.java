@@ -63,7 +63,7 @@ public class Config {
   Projection.Config prConfig;
   boolean drawAxis, negativeAxis;
   Vec4 translate, scale, rotate;
-  boolean syncScale;
+  boolean syncScale, useVNormals;
   Texture texture;
 
   public boolean isDrawAxis() {
@@ -88,6 +88,10 @@ public class Config {
 
   public boolean isSyncScale() {
     return syncScale;
+  }
+
+  public boolean isUseVNormals() {
+    return useVNormals;
   }
 
   public boolean hasTexture() {

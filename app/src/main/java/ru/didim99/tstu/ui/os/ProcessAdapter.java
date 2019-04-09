@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.ArrayList;
 import ru.didim99.tstu.R;
-import ru.didim99.tstu.core.os.ProcessInfo;
+import ru.didim99.tstu.core.os.procinfo.ProcessInfo;
 
 /**
  * Created by didim99 on 25.03.19.

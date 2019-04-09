@@ -1,4 +1,4 @@
-package ru.didim99.tstu.core.os;
+package ru.didim99.tstu.core.os.procinfo;
 
 import android.content.Context;
 import android.os.AsyncTask;

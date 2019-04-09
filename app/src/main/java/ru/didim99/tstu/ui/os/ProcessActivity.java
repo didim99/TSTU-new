@@ -14,10 +14,10 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.ArrayList;
 import ru.didim99.tstu.R;
-import ru.didim99.tstu.core.os.MappingInfo;
-import ru.didim99.tstu.core.os.ProcessInfo;
-import ru.didim99.tstu.core.os.ProcessList;
-import ru.didim99.tstu.core.os.ProcessScanner;
+import ru.didim99.tstu.core.os.procinfo.MappingInfo;
+import ru.didim99.tstu.core.os.procinfo.ProcessInfo;
+import ru.didim99.tstu.core.os.procinfo.ProcessList;
+import ru.didim99.tstu.core.os.procinfo.ProcessScanner;
 import ru.didim99.tstu.ui.BaseActivity;
 
 /**

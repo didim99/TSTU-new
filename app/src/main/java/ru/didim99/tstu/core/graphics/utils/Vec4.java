@@ -15,7 +15,7 @@ public class Vec4 {
 
   private double data[];
 
-  private Vec4(Vec4 src) {
+  Vec4(Vec4 src) {
     data = Arrays.copyOf(src.data, src.data.length);
   }
 
@@ -30,6 +30,18 @@ public class Vec4 {
   public void x(double x) { data[X] = x; }
   public void y(double y) { data[Y] = y; }
   public void z(double z) { data[Z] = z; }
+
+  void add(Vec4 v) {
+    data[X] += v.data[X];
+    data[Y] += v.data[Y];
+    data[Z] += v.data[Z];
+  }
+
+  void div(double f) {
+    data[X] /= f;
+    data[Y] /= f;
+    data[Z] /= f;
+  }
 
   Vec4 multiply(Mat4 matrix) {
     Vec4 r = new Vec4(this);

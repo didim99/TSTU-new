@@ -1,4 +1,4 @@
-package ru.didim99.tstu.core.os;
+package ru.didim99.tstu.core.os.procinfo;
 
 /**
  * Created by didim99 on 26.03.19.

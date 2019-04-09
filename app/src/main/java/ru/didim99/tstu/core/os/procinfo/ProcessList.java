@@ -1,4 +1,4 @@
-package ru.didim99.tstu.core.os;
+package ru.didim99.tstu.core.os.procinfo;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

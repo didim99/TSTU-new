@@ -7,6 +7,8 @@ import java.lang.ref.WeakReference;
 import ru.didim99.tstu.utils.MyLog;
 
 /**
+ * Common extension of Android AsyncTask
+ * using start/finish listener to simplify events handling
  * Created by didim99 on 15.09.18.
  */
 public abstract class CallbackTask<Config, Result> extends AsyncTask<Config, Void, Void> {
@@ -46,6 +48,7 @@ public abstract class CallbackTask<Config, Result> extends AsyncTask<Config, Voi
   }
 
   @Override
+  @SafeVarargs
   protected final Void doInBackground(Config... configs) {
     if (configs == null) return null;
     MyLog.d(LOG_TAG, "Executing...");

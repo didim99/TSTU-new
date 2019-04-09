@@ -14,7 +14,6 @@ import ru.didim99.tstu.core.graphics.utils.Vec4;
 import ru.didim99.tstu.core.graphics.utils.Vertex;
 import ru.didim99.tstu.core.graphics.utils.VertexHolder;
 import ru.didim99.tstu.ui.view.DrawerView;
-import ru.didim99.tstu.utils.MyLog;
 
 import static java.lang.Math.ceil;
 import static ru.didim99.tstu.utils.Utils.lerp;
@@ -36,6 +35,7 @@ public class ModelRenderer extends AsyncRenderer implements Scene {
   private static final boolean DEFAULT_DRAW_AXIS = true;
   private static final boolean DEFAULT_NEGATIVE_AXIS = false;
   private static final boolean DEFAULT_SYNC_SCALE = true;
+  private static final boolean DEFAULT_VNORMALS = true;
   private static final double DEFAULT_TRN = 0;
   private static final double DEFAULT_SCL = 1.0;
   private static final int DEFAULT_ROT = 0;
@@ -78,6 +78,7 @@ public class ModelRenderer extends AsyncRenderer implements Scene {
       this.config.models = new ArrayList<>();
       this.config.drawAxis = DEFAULT_DRAW_AXIS;
       this.config.negativeAxis = DEFAULT_NEGATIVE_AXIS;
+      this.config.useVNormals = DEFAULT_VNORMALS;
       clearTransform();
     }
 
@@ -156,8 +157,16 @@ public class ModelRenderer extends AsyncRenderer implements Scene {
     onSceneChanged();
   }
 
+  public void setUseVNormals(boolean state) {
+    config.useVNormals = state;
+    for (Model model : config.models)
+      model.useVNormals(state);
+    onSceneChanged();
+  }
+
   public void onModelLoaded(Model model) {
     if (model != null) {
+      model.useVNormals(config.useVNormals);
       config.models.add(model);
       onSceneChanged();
     }
@@ -247,13 +256,11 @@ public class ModelRenderer extends AsyncRenderer implements Scene {
   }
 
   private void drawModel(Model model, Canvas canvas) {
-    MyLog.d(MyLog.LOG_TAG_BASE, "Model: " + model);
-
-    VertexHolder a, b, c, vtmp;
-    double xStart, xEnd, cStart, cEnd, zStart, zEnd;
-    double dxStart, dcStart, dzStart, dxEnd, dcEnd, dzEnd;
-    double tmp, k, dc, dz, x, cc, z, ay, by, bcy;
     int w, h, yCurr, xCurr, len, offset, iay, iby, icy, color;
+    double dxStart, dcStart, dzStart, dxEnd, dcEnd, dzEnd;
+    double xStart, xEnd, cStart, cEnd, zStart, zEnd;
+    double tmp, k, dc, dz, x, cc, z, ay, by, bcy;
+    VertexHolder a, b, c, vtmp;
 
     w = config.width * 2 - 1;
     h = config.height * 2 - 1;

@@ -13,6 +13,10 @@ public class Vertex {
     world = new Vec4(x, y, z);
   }
 
+  Vertex(Vec4 v) {
+    world = new Vec4(v);
+  }
+
   void transform(Mat4 transform) {
     transformed = world.multiply(transform);
   }
@@ -20,6 +24,10 @@ public class Vertex {
   void render(Mat4 transform, Projection p) {
     transform(transform);
     rastered = p.project(transformed);
+  }
+
+  public Vec4 world() {
+    return world;
   }
 
   public Vec4 transformed() {
