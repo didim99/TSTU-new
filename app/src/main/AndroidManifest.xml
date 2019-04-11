@@ -172,7 +172,7 @@
       android:label="@string/oop_shopping"/>
 
     <activity
-      android:name=".ui.os.ProcessActivity"
+      android:name=".ui.os.procinfo.ProcessActivity"
       android:label="@string/os_processlist"/>
 
     <activity
