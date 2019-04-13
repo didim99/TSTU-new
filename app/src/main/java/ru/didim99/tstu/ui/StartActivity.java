@@ -22,7 +22,8 @@ import ru.didim99.tstu.ui.mp.lab3.L3ActMain;
 import ru.didim99.tstu.ui.oop.AbiturientActivity;
 import ru.didim99.tstu.ui.oop.MatrixActivity;
 import ru.didim99.tstu.ui.oop.ShopActivity;
-import ru.didim99.tstu.ui.os.ProcessActivity;
+import ru.didim99.tstu.ui.os.expanse.ExpanseActivity;
+import ru.didim99.tstu.ui.os.procinfo.ProcessActivity;
 import ru.didim99.tstu.utils.MyLog;
 
 public class StartActivity extends AppCompatActivity {
@@ -37,7 +38,8 @@ public class StartActivity extends AppCompatActivity {
       LinesActivity.class, HorizonActivity.class,
       TransformActivity.class, TexturesActivity.class,
       ShadingActivity.class };
-  private static final Class[] OS_TARGET = { ProcessActivity.class };
+  private static final Class[] OS_TARGET =
+    { ProcessActivity.class, ExpanseActivity.class };
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

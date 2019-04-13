@@ -9,4 +9,7 @@
     <attr name="contentColor" format="color"/>
     <attr name="textSize" format="dimension"/>
   </declare-styleable>
+  <declare-styleable name="GameFieldView">
+    <attr name="gridColor" format="color"/>
+  </declare-styleable>
 </resources>

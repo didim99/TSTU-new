@@ -56,8 +56,19 @@ public class RangeBar extends LinearLayout
     else setValue(DEFAULT_VALUE);
   }
 
+  @Override
+  public void setEnabled(boolean enabled) {
+    super.setEnabled(enabled);
+    seekBar.setEnabled(enabled);
+    tvTitle.setEnabled(enabled);
+  }
+
   public double getValue() {
     return (minValue + seekBar.getProgress()) * factor;
+  }
+
+  public void setMaximum(int max) {
+    seekBar.setMax(max - minValue);
   }
 
   public void setBounds(int min, int max) {

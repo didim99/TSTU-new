@@ -10,6 +10,12 @@
   <color name="graph2">#ffdf3d</color>
   <color name="graph3">#ff943d</color>
   <color name="graph4">#ff5445</color>
+  <color name="player0">#506aa4f5</color>
+  <color name="player1">#503dff57</color>
+  <color name="player2">#50ffdf3d</color>
+  <color name="player3">#50ff943d</color>
+  <color name="player4">#50ff5445</color>
+  <color name="player5">#50AE45FF</color>
   <!-- OS -->
   <color name="os_green">#88e36b</color>
   <color name="os_yellow">#E3CF6B</color>

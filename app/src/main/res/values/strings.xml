@@ -138,6 +138,10 @@
   <string name="errGraphics_unableLoadInternal">Невозможно Загрузить ресурс: %s</string>
   <string name="errGraphics_invalidFormat">Некорректный формат данных</string>
   <string name="errGraphics_ioError">Ошибка ввода-вывода</string>
+  <string name="errExpanse_emptyW">Не задана ширина поля</string>
+  <string name="errExpanse_emptyH">Не задана высота поля</string>
+  <string name="errExpanse_invalidW">Некорректно задана ширина поля</string>
+  <string name="errExpanse_invalidH">Некорректно задана высота поля</string>
   <!-- MathStat -->
   <string-array name="math_taskTypes">
     <item>@string/startMathStat</item>
@@ -450,9 +454,11 @@
   <string name="startOS">ОС</string>
   <string name="sectionOS">Операционные системы</string>
   <string name="os_processlist">Информация о процессах</string>
+  <string name="os_expanse">Многопоточность</string>
   <string name="os_proc_subtitle">Всего процессов: %d, потоков: %d, выполняется: %d</string>
   <string-array name="os_taskTypes">
     <item>@string/os_processlist</item>
+    <item>@string/os_expanse</item>
   </string-array>
   <string name="os_position">#</string>
   <string name="os_pid">PID</string>
@@ -467,6 +473,23 @@
   <string name="os_threadInfo">Информация о потоках процесса %d</string>
   <string name="os_executable">Файлы</string>
   <string name="os_executableFor">Файлы процесса %d</string>
+  <string name="os_expanse_fieldSize">Размер игрового поля</string>
+  <string name="os_expanse_fieldSizeW">Ширина</string>
+  <string name="os_expanse_fieldSizeH">Высота</string>
+  <string name="os_expanse_cross">x</string>
+  <string name="os_expanse_playerCount">Игроков</string>
+  <string name="os_expanse_distance">Мин. дистанция: %d</string>
+  <string name="os_expanse_initial">Не инициализирован</string>
+  <string name="os_expanse_ready">Готов</string>
+  <string name="os_expanse_starting">Запуск…</string>
+  <string name="os_expanse_init">Инициализировать</string>
+  <string name="os_expanse_start">Начать</string>
+  <string name="os_expanse_stop">Остановить</string>
+  <string name="os_expanse_playersInfo">Игроки</string>
+  <string name="os_expanse_player">Игрок %d</string>
+  <string name="os_expanse_progress">Захвачено %d/%d (%.1f%%)</string>
+  <string name="os_expanse_interrupted">Игра прервана</string>
+  <string name="os_expanse_gameOver">Игра окончена</string>
   <!-- Содержимое текстовых полей и подписей кнопок (Layout: act_dir_picker) -->
   <string name="actLabel_filePicker">Выбор файла</string>
   <string name="actLabel_dirPicker">Выбор каталога</string>

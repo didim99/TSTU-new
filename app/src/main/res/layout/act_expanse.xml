@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:orientation="horizontal"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:padding="@dimen/layoutPadding">
+
+  <LinearLayout
+    android:layout_width="300dp"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+      android:id="@+id/tvFieldSize"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/os_expanse_fieldSize"
+      android:textSize="@dimen/textSize_main"
+      android:gravity="center"/>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+      <EditText
+        android:id="@+id/etSizeX"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:inputType="number"
+        android:nextFocusDown="@id/etSizeY"
+        android:hint="@string/os_expanse_fieldSizeW"/>
+
+      <TextView
+        android:id="@+id/tvFieldSizeX"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:text="@string/os_expanse_cross"
+        android:textSize="@dimen/textSize_main"
+        android:gravity="center"/>
+
+      <EditText
+        android:id="@+id/etSizeY"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:inputType="number"
+        android:hint="@string/os_expanse_fieldSizeH"/>
+    </LinearLayout>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="@dimen/layoutPadding">
+
+      <TextView
+        android:id="@+id/tvPlayerCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:text="@string/os_expanse_playerCount"
+        android:textSize="@dimen/textSize_main"/>
+
+      <Spinner
+        android:id="@+id/spPlayerCount"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"/>
+    </LinearLayout>
+
+    <ru.didim99.tstu.ui.view.RangeBar
+      android:id="@+id/rbDistance"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="@dimen/layoutPadding"
+      app:title="@string/os_expanse_distance"/>
+
+    <Button
+      android:id="@+id/btnInit"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/os_expanse_init"/>
+
+    <Button
+      android:id="@+id/btnStart"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/os_expanse_start"/>
+
+    <TextView
+      android:id="@+id/tvStatus"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textSize="@dimen/textSize_main"
+      android:textColor="@color/dirPicker_textActive"
+      android:gravity="center"/>
+
+    <ProgressBar
+      android:id="@+id/pbGameState"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="@dimen/layoutPadding"
+      android:layout_marginRight="@dimen/layoutPadding"
+      android:layout_marginTop="@dimen/layoutPadding"
+      style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+      android:scaleY="3.0"/>
+
+    <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="@dimen/layoutPadding"
+      android:text="@string/os_expanse_playersInfo"
+      android:textSize="@dimen/textSize_main"
+      android:gravity="center"/>
+
+    <android.support.v7.widget.RecyclerView
+      android:id="@+id/playerList"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_margin="@dimen/layoutPadding"/>
+  </LinearLayout>
+
+  <ru.didim99.tstu.ui.os.expanse.GameFieldView
+    android:id="@+id/gameField"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:gridColor="@color/dirPicker_divider"
+    android:focusableInTouchMode="true">
+    <requestFocus/>
+  </ru.didim99.tstu.ui.os.expanse.GameFieldView>
+
+</LinearLayout>
