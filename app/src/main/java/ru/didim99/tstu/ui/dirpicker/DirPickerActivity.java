@@ -37,16 +37,15 @@ public class DirPickerActivity extends AppCompatActivity
 
   public static final String KEY_MODE = "DirPickerActivity.mode";
   private static final String KEY_LAST_PATH = "dirPicker.lastPath";
-  private static final String FS_ROOT = "/";
-  private static final int NO_SELECTION = -1;
+  private static final String SEP = File.separator;
 
   private Context appContext;
   private SharedPreferences settings;
   private TextView tvPath, tvEmpty;
   private Button btnGo;
+  private RecyclerView listDir;
   private DirListAdapter adapter;
-  private ArrayList<DirEntry> arrayDir = new ArrayList<>();
-  private int selectedId = NO_SELECTION;
+  private ArrayList<DirEntry> arrayDir;
   private String path;
   private int mode;
 
@@ -56,12 +55,11 @@ public class DirPickerActivity extends AppCompatActivity
     setContentView(R.layout.act_dir_picker);
     appContext = getApplicationContext();
     settings = PreferenceManager.getDefaultSharedPreferences(appContext);
+    arrayDir = new ArrayList<>();
 
     //loading saved instance
     State savedState = (State) getLastCustomNonConfigurationInstance();
-    if (savedState != null) {
-      path = savedState.path;
-    }
+    if (savedState != null) path = savedState.path;
 
     //View components init
     tvPath = findViewById(R.id.dirPicker_tvPath);
@@ -69,7 +67,7 @@ public class DirPickerActivity extends AppCompatActivity
     btnGo = findViewById(R.id.dirPicker_go);
     btnGo.setOnClickListener(v -> onClickGo(null));
     adapter = new DirListAdapter(this, this, arrayDir);
-    RecyclerView listDir = findViewById(R.id.dirPicker_listDir);
+    listDir = findViewById(R.id.dirPicker_listDir);
     listDir.setLayoutManager(new LinearLayoutManager(this));
     listDir.setHasFixedSize(true);
     listDir.setAdapter(adapter);
@@ -82,9 +80,9 @@ public class DirPickerActivity extends AppCompatActivity
     }
 
     if (path == null)
-      path = settings.getString(KEY_LAST_PATH, FS_ROOT);
+      path = settings.getString(KEY_LAST_PATH, SEP);
     // Checking access to file system root directory
-    if (path.equals(FS_ROOT) && !isDirOpened(path)) {
+    if (path.equals(SEP) && !isDirOpened(path)) {
       Toast.makeText(appContext,
         R.string.dirPicker_fsRootUnreadable, Toast.LENGTH_LONG).show();
       path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
@@ -102,73 +100,71 @@ public class DirPickerActivity extends AppCompatActivity
   }
 
   @Override
-  public void onItemClick(int selectedId, boolean isDir) {
-    if (isDir) {
-      this.selectedId = selectedId;
+  public void onItemClick(DirEntry item) {
+    if (item.isLevelUp()) {
+      onClickBack();
+    } else if (item.isDir()) {
+      path = path.concat(item.getName()).concat(SEP);
       updateListDir();
     } else if (mode == Mode.FILE) {
-      onClickGo(arrayDir.get(selectedId).getName());
+      onClickGo(item.getName());
     }
   }
 
-  public void onClickBack (View view) {
-    if (path.equals(FS_ROOT)) {
+  private void onClickBack() {
+    if (path.equals(SEP)) {
       setResult(RESULT_CANCELED, new Intent());
       finish();
     } else {
       path = new File(path).getParent();
-      if (!path.equals(FS_ROOT))
-        path += "/";
+      if (!path.equals(SEP))
+        path = path.concat(SEP);
       updateListDir();
     }
   }
 
-  public void onClickGo (String fileName) {
+  private void onClickGo(String fileName) {
     //save last picked path in SharedPreferences
     settings.edit().putString(KEY_LAST_PATH, path).apply();
     Intent intent = new Intent();
-    if (fileName != null)
-      path += fileName;
-    intent.setData(Uri.parse("file://" + path));
+    if (fileName != null) path = path.concat(fileName);
+    intent.setData(Uri.parse("file://".concat(path)));
     setResult(RESULT_OK, intent);
     finish();
   }
 
-  private void updateListDir () {
-    if (selectedId != NO_SELECTION)
-      path = path + arrayDir.get(selectedId).getName() + "/";
-    selectedId = NO_SELECTION;
-    arrayDir.clear();
+  private void updateListDir() {
     MyLog.d(LOG_TAG, "Curr path: " + path);
+    arrayDir.clear();
 
+    if (!path.equals(SEP)) arrayDir.add(new DirEntry());
     ArrayList<DirEntry> arrayFiles = new ArrayList<>();
     File[] files = new File(path).listFiles();
-
     boolean dirOpened = files != null;
     btnGo.setEnabled(dirOpened);
+
     if (dirOpened) {
       if (files.length > 0) {
         tvEmpty.setVisibility(TextView.INVISIBLE);
         Arrays.sort(files);
-        DirEntry entry;
+
         for (File file : files) {
           boolean isDir = file.isDirectory();
-          entry = new DirEntry(file.getName(), isDir);
-          if (isDir)
-            arrayDir.add(entry);
-          else
-            arrayFiles.add(entry);
+          DirEntry entry = new DirEntry(file.getName(), isDir);
+          if (isDir) arrayDir.add(entry);
+          else arrayFiles.add(entry);
         }
+
         arrayDir.addAll(arrayFiles);
-      } else {
+      } else
         tvEmpty.setVisibility(TextView.VISIBLE);
-      }
     } else {
       Toast.makeText(appContext,
         R.string.dirPicker_dirUnreadable, Toast.LENGTH_LONG).show();
     }
 
     adapter.notifyDataSetChanged();
+    listDir.scrollToPosition(0);
     tvPath.setText(path);
   }
 
@@ -179,23 +175,6 @@ public class DirPickerActivity extends AppCompatActivity
       return true;
     } catch (Exception e) {
       return false;
-    }
-  }
-
-  static class DirEntry {
-    private String name;
-    private boolean isDir;
-
-    DirEntry(String name, boolean isDir) {
-      this.name = name;
-      this.isDir = isDir;
-    }
-
-    String getName() {
-      return name;
-    }
-    boolean isDir() {
-      return isDir;
     }
   }
 

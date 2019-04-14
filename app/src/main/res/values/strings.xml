@@ -496,6 +496,6 @@
   <string name="dirPicker_dirUnreadable">Нет доступа в текущий каталог</string>
   <string name="dirPicker_fsRootUnreadable">Не удалось открыть корневой каталог, открываю sdcard</string>
   <string name="tvText_dirPicker_empty">Пусто</string>
-  <string name="btnText_dirPicker_back">Назад</string>
   <string name="btnText_dirPicker_go">Выбрать</string>
+  <string name="dirPicker_levelUp">На уровень выше</string>
 </resources>
