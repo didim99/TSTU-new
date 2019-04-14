@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.os.expanse.Expanse;
 import ru.didim99.tstu.core.os.expanse.GameField;
@@ -233,9 +234,18 @@ public class ExpanseActivity extends BaseActivity
       int players = spPCount.getSelectedItemPosition() + Expanse.PLAYERS_MIN;
       int distance = (int) rbDistance.getValue();
 
+      if (!Expanse.canSpawn(w, h, players)) {
+        MyLog.e(LOG_TAG, "Too many players");
+        Toast.makeText(this, R.string.errExpanse_tooManyPlayers,
+          Toast.LENGTH_LONG).show();
+        return;
+      }
+
       game.configure(w, h, players);
-      game.spawnPlayers(distance);
-      onGameInitialized();
+      if (!game.spawnPlayers(distance)) {
+        Toast.makeText(this, R.string.errExpanse_spawnFailed,
+          Toast.LENGTH_LONG).show();
+      } else onGameInitialized();
       MyLog.d(LOG_TAG, "Game configuration completed");
     } catch (InputValidator.ValidationException ignored) {}
   }

@@ -113,19 +113,24 @@ public class Expanse implements Player.OnStepListener {
     }
   }
 
-  public void spawnPlayers(int minDistance) {
+  public boolean spawnPlayers(int minDistance) {
     MyLog.d(LOG_TAG, "Spawn players: " + players.size()
      + ", distance: " + minDistance);
     this.minDistance = minDistance;
     boolean done = false;
+    int retry = 0;
 
     while (!done) {
       done = trySpawnPlayers();
-      if (!done) MyLog.w(LOG_TAG, "Spawn failed");
+      if (!done) {
+        MyLog.w(LOG_TAG, "Spawn failed");
+        if (retry++ > MAX_RETRY * 2) return false;
+      }
     }
 
     MyLog.d(LOG_TAG, "All players spawned");
     applyState(State.READY);
+    return true;
   }
 
   private boolean trySpawnPlayers() {
@@ -210,9 +215,13 @@ public class Expanse implements Player.OnStepListener {
   }
 
   public static int getMaxDistance(int w, int h) {
-    int max = Math.min(w, h) / 2;
+    int max = Math.min(w, h) / 2 - 1;
     if (max < 1) max = 1;
     return max;
+  }
+
+  public static boolean canSpawn(int w, int h, int players) {
+    return players * 2 <= w * h;
   }
 
   public interface OnStateChangeListener {

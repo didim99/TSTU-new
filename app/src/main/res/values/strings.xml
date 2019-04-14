@@ -142,6 +142,8 @@
   <string name="errExpanse_emptyH">Не задана высота поля</string>
   <string name="errExpanse_invalidW">Некорректно задана ширина поля</string>
   <string name="errExpanse_invalidH">Некорректно задана высота поля</string>
+  <string name="errExpanse_tooManyPlayers">Слишком много игроков</string>
+  <string name="errExpanse_spawnFailed">Не удалось разместить игроков на поле. попробуйте уменьшить дистанцию и повторить инициализацию еще раз.</string>
   <!-- MathStat -->
   <string-array name="math_taskTypes">
     <item>@string/startMathStat</item>
