@@ -102,8 +102,10 @@ public class GameFieldView extends View {
 
   private void drawCells(Canvas canvas) {
     if (gameField == null) return;
+    int columnSize = cellSize * -sizeY;
     Rect rect = new Rect(offsetX, offsetY,
       offsetX + cellSize, offsetY + cellSize);
+
     for (int x = 0; x < sizeX; x++) {
       for (int y = 0; y < sizeY; y++) {
         GameField.Cell cell = gameField.getCell(x, y);
@@ -115,7 +117,7 @@ public class GameFieldView extends View {
         rect.offset(0, cellSize);
       }
 
-      rect.offset(cellSize, cellSize * -sizeY);
+      rect.offset(cellSize, columnSize);
     }
   }
 }
