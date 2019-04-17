@@ -129,6 +129,8 @@
   <string name="errOOP_incorrectFactor">Некорректное количество абитуриентов</string>
   <string name="errShop_emptyCredit">Не указана сумма кредита</string>
   <string name="errShop_largeSum">Недостаточно средств на счете</string>
+  <string name="errOOP_emptySize">Не указан размер массива</string>
+  <string name="errOOP_incorrectSize">Некорректно указан размер массива</string>
   <string name="errMp_emptyName">Не указано ФИО</string>
   <string name="errJournal_emptyId">Не указан ID журнала</string>
   <string name="errJournal_incorrectId">Некорректно указан ID журнала</string>
@@ -382,6 +384,7 @@
     <item>Абстракция предметной области</item>
     <item>@string/oop_matrix</item>
     <item>@string/oop_shopping</item>
+    <item>@string/oop_exceptions</item>
   </string-array>
   <string name="oop_abit">Список абитуриентов</string>
   <string name="oop_abit_add">Добавление абитуриента</string>
@@ -452,6 +455,9 @@
   <string name="oop_shop_creditSum">Укажите сумму кредита</string>
   <string name="oop_shop_pay">С вашего счета будет списано: %s Продолжить?</string>
   <string name="oop_shop_timeToEat">Время перекусить</string>
+  <string name="oop_exceptions">Исключения / Табулирование функции</string>
+  <string name="oop_exceptions_size">Размер массива</string>
+  <string name="oop_exceptions_go">Рассчитать</string>
   <!-- OS -->
   <string name="startOS">ОС</string>
   <string name="sectionOS">Операционные системы</string>
@@ -492,6 +498,13 @@
   <string name="os_expanse_progress">Захвачено %d/%d (%.1f%%)</string>
   <string name="os_expanse_interrupted">Игра прервана</string>
   <string name="os_expanse_gameOver">Игра окончена</string>
+  <!-- IS -->
+  <string name="startIS">ИБ</string>
+  <string name="sectionIS">Информационная безопасность</string>
+  <string name="is_dataTransmission">Передача информации</string>
+  <string-array name="is_taskTypes">
+    <item>@string/is_dataTransmission</item>
+  </string-array>
   <!-- Содержимое текстовых полей и подписей кнопок (Layout: act_dir_picker) -->
   <string name="actLabel_filePicker">Выбор файла</string>
   <string name="actLabel_dirPicker">Выбор каталога</string>

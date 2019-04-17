@@ -170,6 +170,9 @@
     <activity
       android:name=".ui.oop.ShopActivity"
       android:label="@string/oop_shopping"/>
+    <activity
+      android:name=".ui.oop.ExceptionsActivity"
+      android:label="@string/oop_exceptions"/>
 
     <activity
       android:name=".ui.os.procinfo.ProcessActivity"
