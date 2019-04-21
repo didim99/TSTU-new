@@ -23,13 +23,9 @@ public class ProcessScanner extends AsyncTask<Void, Void, Void> {
   }
 
   public void start() {
-    executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-  }
-
-  @Override
-  protected void onPreExecute() {
     this.running = true;
     this.paused = true;
+    executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
   }
 
   @Override

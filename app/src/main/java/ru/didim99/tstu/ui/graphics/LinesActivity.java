@@ -3,12 +3,11 @@ package ru.didim99.tstu.ui.graphics;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.SeekBar;
-import android.widget.TextView;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.graphics.Config;
 import ru.didim99.tstu.core.graphics.LineRenderer;
 import ru.didim99.tstu.ui.view.DrawerView;
+import ru.didim99.tstu.ui.view.RangeBar;
 import ru.didim99.tstu.utils.MyLog;
 
 public class LinesActivity extends AnimationActivity {
@@ -16,7 +15,6 @@ public class LinesActivity extends AnimationActivity {
 
   //view-elements
   private Button btnAnimate;
-  private TextView tvAngle;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +24,7 @@ public class LinesActivity extends AnimationActivity {
 
     MyLog.d(LOG_TAG, "View components init...");
     btnAnimate = findViewById(R.id.btnAnimate);
-    tvAngle = findViewById(R.id.tvAngle);
-    SeekBar sbAngle = findViewById(R.id.sbAngle);
+    RangeBar rbAngle = findViewById(R.id.rbAngle);
     DrawerView targetView = findViewById(R.id.view);
     btnAnimate.setOnClickListener(v -> renderer.animate());
     findViewById(R.id.btnClear).setOnClickListener(v -> renderer.clear());
@@ -41,21 +38,10 @@ public class LinesActivity extends AnimationActivity {
     renderer = new LineRenderer(targetView, config);
     renderer.start();
 
-    config = renderer.getConfig();
-    tvAngle.setText(getString(R.string.graphics_angle, config.getAngle()));
-    sbAngle.setMax(LineRenderer.ANGLE_MAX - LineRenderer.ANGLE_MIN);
-    sbAngle.setProgress(config.getAngle() - LineRenderer.ANGLE_MIN);
-    sbAngle.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-      @Override public void onStartTrackingTouch(SeekBar seekBar) {}
-      @Override public void onStopTrackingTouch(SeekBar seekBar) {}
-
-      @Override
-      public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        int angle = LineRenderer.ANGLE_MIN + progress;
-        tvAngle.setText(getString(R.string.graphics_angle, angle));
-        ((LineRenderer) renderer).setAngle(angle);
-      }
-    });
+    rbAngle.setBounds(LineRenderer.ANGLE_MIN, LineRenderer.ANGLE_MAX);
+    rbAngle.setValue(renderer.getConfig().getAngle());
+    rbAngle.setOnValueChangedListener(value ->
+      ((LineRenderer) renderer).setAngle(value));
 
     MyLog.d(LOG_TAG, "LinesActivity started");
   }

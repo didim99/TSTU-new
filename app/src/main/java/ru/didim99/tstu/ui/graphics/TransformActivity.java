@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -15,6 +14,7 @@ import ru.didim99.tstu.core.graphics.ModelRenderer.TransformType;
 import ru.didim99.tstu.core.graphics.ModelLoader;
 import ru.didim99.tstu.core.graphics.utils.Model;
 import ru.didim99.tstu.core.graphics.utils.Projection;
+import ru.didim99.tstu.ui.SpinnerAdapter;
 import ru.didim99.tstu.ui.dirpicker.DirPickerActivity;
 import ru.didim99.tstu.ui.view.DrawerView;
 import ru.didim99.tstu.ui.view.RangeBar;
@@ -150,35 +150,11 @@ public class TransformActivity extends AnimationActivity {
       ((ModelRenderer) renderer).setRotateZ(value));
 
     spPType.setSelection(projection.getType());
-    spPType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-      @Override
-      public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        ppConfigLayout.setVisibility(
-          pos == Projection.Type.PARALLEL ? View.VISIBLE : View.GONE);
-        cpConfigLayout.setVisibility(
-          pos == Projection.Type.CENTRAL ? View.VISIBLE : View.GONE);
-        ((ModelRenderer) renderer).getProjection().applyType(pos);
-      }
-
-      @Override
-      public void onNothingSelected(AdapterView<?> parent) {}
-    });
-
+    spPType.setOnItemSelectedListener(
+      new SpinnerAdapter(this::onPTypeChanged));
     spTType.setSelection(ModelRenderer.TransformType.TRANSLATE);
-    spTType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-      @Override
-      public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        translateLayout.setVisibility(
-          pos == TransformType.TRANSLATE ? View.VISIBLE : View.GONE);
-        scaleLayout.setVisibility(
-          pos == TransformType.SCALE ? View.VISIBLE : View.GONE);
-        rotateLayout.setVisibility(
-          pos == TransformType.ROTATE ? View.VISIBLE : View.GONE);
-      }
-
-      @Override
-      public void onNothingSelected(AdapterView<?> parent) {}
-    });
+    spTType.setOnItemSelectedListener(
+      new SpinnerAdapter(this::onTTypeChanged));
 
     cbNegativeAxis.setEnabled(config.isDrawAxis());
     cbNegativeAxis.setChecked(config.isNegativeAxis());
@@ -208,6 +184,25 @@ public class TransformActivity extends AnimationActivity {
     });
 
     MyLog.d(LOG_TAG, "TransformActivity started");
+  }
+
+  private void onPTypeChanged(int type) {
+    MyLog.d(LOG_TAG, "Projection type changed: " + type);
+    ppConfigLayout.setVisibility(
+      type == Projection.Type.PARALLEL ? View.VISIBLE : View.GONE);
+    cpConfigLayout.setVisibility(
+      type == Projection.Type.CENTRAL ? View.VISIBLE : View.GONE);
+    ((ModelRenderer) renderer).getProjection().applyType(type);
+  }
+
+  private void onTTypeChanged(int type) {
+    MyLog.d(LOG_TAG, "Transform type changed: " + type);
+    translateLayout.setVisibility(
+      type == TransformType.TRANSLATE ? View.VISIBLE : View.GONE);
+    scaleLayout.setVisibility(
+      type == TransformType.SCALE ? View.VISIBLE : View.GONE);
+    rotateLayout.setVisibility(
+      type == TransformType.ROTATE ? View.VISIBLE : View.GONE);
   }
 
   private void clearTransform() {

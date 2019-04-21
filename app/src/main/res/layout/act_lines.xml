@@ -3,6 +3,7 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   android:orientation="horizontal"
   android:padding="@dimen/layoutPadding">
 
@@ -26,18 +27,11 @@
       android:layout_height="wrap_content"
       android:text="@string/graphics_clear"/>
 
-    <TextView
-      android:id="@+id/tvAngle"
+    <ru.didim99.tstu.ui.view.RangeBar
+      android:id="@+id/rbAngle"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_marginTop="@dimen/layoutPadding"
-      android:textSize="@dimen/textSize_main"
-      android:textAlignment="center"/>
-
-    <SeekBar
-      android:id="@+id/sbAngle"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"/>
+      app:title="@string/graphics_angle"/>
 
     <CheckBox
       android:id="@+id/cbUseAA"

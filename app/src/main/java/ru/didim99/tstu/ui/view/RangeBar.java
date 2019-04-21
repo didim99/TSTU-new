@@ -26,7 +26,7 @@ public class RangeBar extends LinearLayout
   private OnScaledValueChangedListener sListener;
   private boolean isScaled;
   private double factor = 1.0;
-  private int minValue;
+  private int minValue, maxValue;
   private String title;
 
   public RangeBar(Context context) {
@@ -67,13 +67,20 @@ public class RangeBar extends LinearLayout
     return (minValue + seekBar.getProgress()) * factor;
   }
 
+  public void setMinimum(int min) {
+    seekBar.setMax(maxValue - min);
+    minValue = min;
+  }
+
   public void setMaximum(int max) {
     seekBar.setMax(max - minValue);
+    maxValue = max;
   }
 
   public void setBounds(int min, int max) {
     seekBar.setMax(max - min);
     minValue = min;
+    maxValue = max;
   }
 
   public void setValue(int value) {

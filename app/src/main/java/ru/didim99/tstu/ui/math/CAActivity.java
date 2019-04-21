@@ -11,7 +11,6 @@ import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -23,6 +22,7 @@ import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.math.CAProcessor;
 import ru.didim99.tstu.core.math.ProcessException;
 import ru.didim99.tstu.ui.BaseActivity;
+import ru.didim99.tstu.ui.SpinnerAdapter;
 import ru.didim99.tstu.utils.InputValidator;
 import ru.didim99.tstu.utils.MyLog;
 
@@ -199,17 +199,11 @@ public class CAActivity extends BaseActivity {
     if (config.isRegressionReverse())
       rowRFactor.setVisibility(View.VISIBLE);
 
-    regType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-      @Override
-      public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        config.setRegType(position + 1);
-        rowRFactor.setVisibility(config.isRegressionReverse()
-          ? View.VISIBLE : View.GONE);
-      }
-
-      @Override
-      public void onNothingSelected(AdapterView<?> parent) {}
-    });
+    regType.setOnItemSelectedListener(new SpinnerAdapter(position -> {
+      config.setRegType(position + 1);
+      rowRFactor.setVisibility(config.isRegressionReverse()
+        ? View.VISIBLE : View.GONE);
+    }));
 
     dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(v -> {
       try {

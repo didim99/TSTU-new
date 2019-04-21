@@ -5,8 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +24,7 @@ import ru.didim99.tstu.core.oop.shop.products.Food;
 import ru.didim99.tstu.core.oop.shop.products.Product;
 import ru.didim99.tstu.ui.BaseActivity;
 import ru.didim99.tstu.ui.DialogEventListener;
+import ru.didim99.tstu.ui.SpinnerAdapter;
 import ru.didim99.tstu.utils.InputValidator;
 import ru.didim99.tstu.utils.MyLog;
 
@@ -122,41 +121,28 @@ public class ShopActivity extends BaseActivity {
     ArrayAdapter<String> shopListAdapter = new ArrayAdapter<>(this,
       android.R.layout.simple_list_item_1, controller.getShopList());
     spShop.setAdapter(shopListAdapter);
-    spShop.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-      @Override
-      public void onNothingSelected(AdapterView<?> parent) {}
-
-      @Override
-      public void onItemSelected(AdapterView<?> parent, View view,
-                                 int position, long id) {
-        if (controller.getCard().hasItems()) {
-          new AlertDialog.Builder(ShopActivity.this)
-            .setTitle(R.string.oop_shop_cardNotEmpty)
-            .setNegativeButton(R.string.oop_shop_throwCard, (d, v) -> {
-              controller.getCard().clear();
-              onShopChanged(position);
-            })
-            .setPositiveButton(R.string.oop_shop_buyCard, (d, v) -> {
-              onShopChanged(position);
-              buyCard();
-            })
-            .create().show();
-        } else onShopChanged(position);
-      }
-    });
+    spShop.setOnItemSelectedListener(new SpinnerAdapter(position -> {
+      if (controller.getCard().hasItems()) {
+        new AlertDialog.Builder(ShopActivity.this)
+          .setTitle(R.string.oop_shop_cardNotEmpty)
+          .setNegativeButton(R.string.oop_shop_throwCard, (d, v) -> {
+            controller.getCard().clear();
+            onShopChanged(position);
+          })
+          .setPositiveButton(R.string.oop_shop_buyCard, (d, v) -> {
+            onShopChanged(position);
+            buyCard();
+          })
+          .create().show();
+      } else onShopChanged(position);
+    }));
 
     Shop shop = controller.getCurrentShop();
     divListAdapter = new ArrayAdapter<>(this,
       android.R.layout.simple_list_item_1, shop.getDivList());
     spDiv.setAdapter(divListAdapter);
-    spDiv.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-      @Override
-      public void onNothingSelected(AdapterView<?> parent) {}
-
-      @Override
-      public void onItemSelected(AdapterView<?> parent, View view,
-                                 int position, long id) { onDivChanged(position); }
-    });
+    spDiv.setOnItemSelectedListener(
+      new SpinnerAdapter(this::onDivChanged));
 
     onInventoryStateChanged();
     onCardStateChanged();
