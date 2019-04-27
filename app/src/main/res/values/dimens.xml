@@ -9,6 +9,12 @@
   <dimen name="pathLayoutVMargin">5dp</dimen>
   <!-- Custom views -->
   <dimen name="lineNumberMargin">8dp</dimen>
+  <dimen name="valueBarRadius">44dp</dimen>
+  <dimen name="valueBarThickness">6dp</dimen>
+  <dimen name="valueBreCircle_containerSize">100dp</dimen>
+  <dimen name="valueBreCircle_valuePadding">5dp</dimen>
+  <dimen name="valueBreCircle_txtSizeMain">20sp</dimen>
+  <dimen name="valueBreCircle_txtSizeSub">16sp</dimen>
   <!-- DirPicker -->
   <dimen name="dirPicker_textSize_path">18sp</dimen>
   <dimen name="dirPicker_layoutHMargin">5dp</dimen>

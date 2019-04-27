@@ -3,6 +3,7 @@ package ru.didim99.tstu.core.graphics.utils;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import java.io.IOException;
+import ru.didim99.tstu.utils.Utils;
 
 import static ru.didim99.tstu.utils.Utils.lerp;
 
@@ -36,27 +37,19 @@ public class Texture {
 
   public int getPixel(double u, double v) {
     if (useFiltering) return getPixelFiltered(u, v);
-    int x = bound((int) (u * width), xMax);
-    int y = bound((int) (v * height), yMax);
+    int x = Utils.bound((int) (u * width), xMax);
+    int y = Utils.bound((int) (v * height), yMax);
     return data.getPixel(x, y);
   }
 
   private int getPixelFiltered(double u, double v) {
-    u = bound(u * xMax, xfMax);
-    v = bound(v * yMax, yfMax);
+    u = Utils.bound(u * xMax, xfMax);
+    v = Utils.bound(v * yMax, yfMax);
     int x = (int) Math.floor(u); u = x + 1 - u;
     int y = (int) Math.floor(v); v = y + 1 - v;
     int c1 = lerp(data.getPixel(x, y), data.getPixel(x+1, y), u);
     int c2 = lerp(data.getPixel(x, y+1), data.getPixel(x+1, y+1), u);
     return lerp(c1, c2, v);
-  }
-
-  private static int bound(int i, int max) {
-    return i < 0 ? 0 : (i > max ? max : i);
-  }
-
-  private static double bound(double d, double max) {
-    return d < 0 ? 0 : (d > max ? max : d);
   }
 
   public static Texture load(String path) throws IOException {

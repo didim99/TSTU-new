@@ -16,12 +16,15 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Random;
 
 /**
  * Created by didim99 on 10.09.18.
  */
 public class Utils {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_Utils";
+  private static final String BYTES = "bKMGT";
 
   /* ======== STRING UTILS ========== */
 
@@ -45,6 +48,27 @@ public class Utils {
       builder.append(args.get(i)).append(delimiter);
     builder.append(args.get(size));
     return builder.toString();
+  }
+
+  public static String formatBytes(int bytes) {
+    int offset = 0;
+    while (bytes > 1024) { bytes >>= 10; offset++; }
+    return String.format(Locale.US, "%d%c",
+      bytes, BYTES.charAt(offset));
+  }
+
+  /* ======== MATH UTILS ======== */
+
+  public static int randInRange(Random random, int min, int max) {
+    return min + random.nextInt(max - min);
+  }
+
+  public static int bound(int i, int max) {
+    return i < 0 ? 0 : (i > max ? max : i);
+  }
+
+  public static double bound(double d, double max) {
+    return d < 0 ? 0 : (d > max ? max : d);
   }
 
   /* ======== ARRAY UTILS =========== */

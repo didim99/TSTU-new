@@ -5,22 +5,30 @@
   <color name="colorAccent">#6aa4f5</color>
   <color name="colorAccentBg">#406aa4f5</color>
   <color name="textSelectionBg">@color/colorAccentBg</color>
+  <color name="valueBarBg">@color/colorAccentBg</color>
+  <color name="valueBarFg">@color/colorAccent</color>
   <color name="graph0">@color/colorAccent</color>
   <color name="graph1">#3dff57</color>
   <color name="graph2">#ffdf3d</color>
   <color name="graph3">#ff943d</color>
   <color name="graph4">#ff5445</color>
+  <!-- OS/Expanse -->
   <color name="player0">#506aa4f5</color>
   <color name="player1">#503dff57</color>
   <color name="player2">#50ffdf3d</color>
   <color name="player3">#50ff943d</color>
   <color name="player4">#50ff5445</color>
   <color name="player5">#508c5dff</color>
-  <!-- OS -->
+  <!-- OS/ProcessInfo -->
   <color name="os_green">#88e36b</color>
   <color name="os_yellow">#E3CF6B</color>
   <color name="os_red">#E36B6B</color>
   <color name="os_normal">#CECECE</color>
+  <!-- OS/Scheduler -->
+  <color name="colorRAMFg">#88e36b</color>
+  <color name="colorRAMBg">#4088e36b</color>
+  <color name="colorHDDFg">#E3CF6B</color>
+  <color name="colorHDDBg">#40E3CF6B</color>
   <!-- DirPickerActivity -->
   <color name="dirPicker_divider">#606060</color>
   <color name="dirPicker_textActive">#ffffff</color>

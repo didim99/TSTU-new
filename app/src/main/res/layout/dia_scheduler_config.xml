@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="wrap_content"
+  android:layout_height="wrap_content"
+  android:paddingLeft="@dimen/layoutPaddingLarge"
+  android:paddingRight="@dimen/layoutPaddingLarge">
+
+  <TableRow>
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/os_scheduler_totalRAM"
+      android:textSize="@dimen/textSize_main"
+      android:gravity="end"/>
+
+    <EditText
+      android:id="@+id/etRAM"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="@dimen/layoutPadding"
+      android:layout_marginStart="@dimen/layoutPadding"
+      android:inputType="number"
+      android:ems="5"/>
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="@dimen/layoutPadding"
+      android:layout_marginStart="@dimen/layoutPadding"
+      android:text="@string/os_scheduler_RAMUnits"
+      android:textSize="@dimen/textSize_main"/>
+  </TableRow>
+
+  <TableRow>
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/os_scheduler_hddSpeed"
+      android:textSize="@dimen/textSize_main"
+      android:gravity="end"/>
+
+    <EditText
+      android:id="@+id/etHDD"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="@dimen/layoutPadding"
+      android:layout_marginStart="@dimen/layoutPadding"
+      android:inputType="number"
+      android:ems="5"/>
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="@dimen/layoutPadding"
+      android:layout_marginStart="@dimen/layoutPadding"
+      android:text="@string/os_scheduler_HDDUnits"
+      android:textSize="@dimen/textSize_main"/>
+  </TableRow>
+
+  <TableRow>
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/os_scheduler_ticks"
+      android:textSize="@dimen/textSize_main"
+      android:gravity="end"/>
+
+    <EditText
+      android:id="@+id/etTicks"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="@dimen/layoutPadding"
+      android:layout_marginStart="@dimen/layoutPadding"
+      android:inputType="number"
+      android:ems="5"/>
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="@dimen/layoutPadding"
+      android:layout_marginStart="@dimen/layoutPadding"
+      android:text="@string/os_scheduler_timeUnits"
+      android:textSize="@dimen/textSize_main"/>
+  </TableRow>
+</TableLayout>

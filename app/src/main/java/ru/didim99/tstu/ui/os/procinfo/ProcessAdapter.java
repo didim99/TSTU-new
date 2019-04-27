@@ -1,6 +1,5 @@
 package ru.didim99.tstu.ui.os.procinfo;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -12,12 +11,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.os.procinfo.ProcessInfo;
+import ru.didim99.tstu.utils.Utils;
 
 /**
  * Created by didim99 on 25.03.19.
  */
 public class ProcessAdapter extends RecyclerView.Adapter<ProcessAdapter.ViewHolder> {
-  private static final String BYTES = "bKMGT";
 
   static final class Mode {
     static final int PROCESS = 1;
@@ -80,7 +79,7 @@ public class ProcessAdapter extends RecyclerView.Adapter<ProcessAdapter.ViewHold
       holder.ppid.setText(String.valueOf(process.getPpid()));
       holder.nice.setText(String.valueOf(process.getNice()));
       holder.threads.setText(String.valueOf(process.getThreads()));
-      holder.mem.setText(formatBytes(process.getMRes()));
+      holder.mem.setText(Utils.formatBytes(process.getMRes() << 10));
       holder.name.setText(process.getName());
       int nice = process.getNice();
       holder.nice.setTextColor(nice < 0 ? colorRed
@@ -111,13 +110,6 @@ public class ProcessAdapter extends RecyclerView.Adapter<ProcessAdapter.ViewHold
   void refreshData(ArrayList<ProcessInfo> items) {
     this.items = new ArrayList<>(items);
     notifyDataSetChanged();
-  }
-
-  @SuppressLint("DefaultLocale")
-  private String formatBytes(int kBytes) {
-    int offset = 1;
-    while (kBytes > 1024) { kBytes >>= 10; offset++; }
-    return String.format("%d%c", kBytes, BYTES.charAt(offset));
   }
 
   static class ViewHolder extends RecyclerView.ViewHolder {

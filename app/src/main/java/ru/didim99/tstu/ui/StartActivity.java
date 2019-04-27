@@ -25,6 +25,7 @@ import ru.didim99.tstu.ui.oop.MatrixActivity;
 import ru.didim99.tstu.ui.oop.ShopActivity;
 import ru.didim99.tstu.ui.os.expanse.ExpanseActivity;
 import ru.didim99.tstu.ui.os.procinfo.ProcessActivity;
+import ru.didim99.tstu.ui.os.scheduler.SchedulerActivity;
 import ru.didim99.tstu.utils.MyLog;
 
 public class StartActivity extends AppCompatActivity {
@@ -41,7 +42,8 @@ public class StartActivity extends AppCompatActivity {
       TransformActivity.class, TexturesActivity.class,
       ShadingActivity.class };
   private static final Class[] OS_TARGET =
-    { ProcessActivity.class, ExpanseActivity.class };
+    { ProcessActivity.class, ExpanseActivity.class,
+      SchedulerActivity.class };
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

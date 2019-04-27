@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:padding="@dimen/layoutPadding">
+
+  <View
+    android:id="@+id/hCenter"
+    android:layout_width="5dp"
+    android:layout_height="match_parent"
+    android:layout_centerHorizontal="true" />
+
+  <View
+    android:id="@+id/vCenter"
+    android:layout_width="match_parent"
+    android:layout_height="5dp"
+    android:layout_centerVertical="true" />
+
+  <RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_alignBottom="@id/vCenter"
+    android:layout_alignRight="@id/hCenter"
+    android:layout_alignEnd="@id/hCenter">
+
+    <View
+      android:id="@+id/hCenter1"
+      android:layout_width="5dp"
+      android:layout_height="match_parent"
+      android:layout_centerHorizontal="true"/>
+
+    <TextView
+      android:id="@+id/tvReadyTitle"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentTop="true"
+      android:layout_alignParentLeft="true"
+      android:layout_alignParentStart="true"
+      android:layout_toLeftOf="@id/hCenter1"
+      android:layout_toStartOf="@id/hCenter1"
+      android:text="@string/os_scheduler_ready"
+      android:textSize="@dimen/textSize_main"
+      android:textColor="@color/colorAccent"
+      android:gravity="center"/>
+
+    <android.support.v7.widget.RecyclerView
+      android:id="@+id/rvReady"
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent"
+      android:layout_below="@id/tvReadyTitle"
+      android:layout_alignParentLeft="true"
+      android:layout_alignParentStart="true"
+      android:layout_toLeftOf="@id/hCenter1"
+      android:layout_toStartOf="@id/hCenter1"/>
+
+    <TextView
+      android:id="@+id/tvWaitingTitle"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentTop="true"
+      android:layout_alignParentRight="true"
+      android:layout_alignParentEnd="true"
+      android:layout_toRightOf="@id/hCenter1"
+      android:layout_toEndOf="@id/hCenter1"
+      android:text="@string/os_scheduler_waiting"
+      android:textSize="@dimen/textSize_main"
+      android:textColor="@color/colorAccent"
+      android:gravity="center"/>
+
+    <android.support.v7.widget.RecyclerView
+      android:id="@+id/rvWaiting"
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent"
+      android:layout_below="@id/tvWaitingTitle"
+      android:layout_alignParentRight="true"
+      android:layout_alignParentEnd="true"
+      android:layout_toRightOf="@id/hCenter1"
+      android:layout_toEndOf="@id/hCenter1"/>
+  </RelativeLayout>
+
+  <ru.didim99.tstu.ui.view.ValueBar
+    android:id="@+id/vbRAM"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_above="@id/vbHDD"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_marginBottom="10dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginStart="5dp"
+    app:iconID="@drawable/ic_memory_ram_24dp"
+    app:colorForeground="@color/colorRAMFg"
+    app:colorBackground="@color/colorRAMBg"
+    app:units="@string/os_scheduler_RAMUnits"/>
+
+  <ru.didim99.tstu.ui.view.ValueBar
+    android:id="@+id/vbHDD"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_marginBottom="10dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginStart="5dp"
+    app:iconID="@drawable/ic_storage_24dp"
+    app:colorForeground="@color/colorHDDFg"
+    app:colorBackground="@color/colorHDDBg"
+    app:units="@string/os_scheduler_HDDUnits"/>
+
+  <TextView
+    android:id="@+id/tvCPUUseTitle"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/vCenter"
+    android:layout_toRightOf="@id/vbRAM"
+    android:layout_toEndOf="@id/vbRAM"
+    android:layout_toLeftOf="@id/hCenter"
+    android:layout_toStartOf="@id/hCenter"
+    android:text="@string/os_scheduler_CPUUsage"
+    android:textSize="@dimen/textSize_main"
+    android:gravity="center"/>
+
+  <com.jjoe64.graphview.GraphView
+    android:id="@+id/graphCPU"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/tvCPUUseTitle"
+    android:layout_alignParentBottom="true"
+    android:layout_alignLeft="@id/tvCPUUseTitle"
+    android:layout_alignStart="@id/tvCPUUseTitle"
+    android:layout_alignRight="@id/tvCPUUseTitle"
+    android:layout_alignEnd="@id/tvCPUUseTitle"
+    android:layout_marginLeft="6dp"
+    android:layout_marginStart="6dp"/>
+
+  <TextView
+    android:id="@+id/tvCPURegTitle"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:layout_alignRight="@id/tvCPURegValues"
+    android:layout_alignEnd="@id/tvCPURegValues"
+    android:layout_alignLeft="@id/tvCPURegNames"
+    android:layout_alignStart="@id/tvCPURegNames"
+    android:text="@string/os_scheduler_cpuContext"
+    android:textSize="@dimen/textSize_main"
+    android:textColor="@color/colorAccent"
+    android:gravity="center"/>
+
+  <TextView
+    android:id="@+id/tvCPURegNames"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/tvCPURegTitle"
+    android:layout_toLeftOf="@id/tvCPURegValues"
+    android:layout_toStartOf="@id/tvCPURegValues"
+    android:text="@string/os_scheduler_cpuRegNames"
+    android:textColor="@color/dirPicker_textActive"
+    android:textSize="@dimen/textSize_main"
+    android:typeface="monospace"
+    android:gravity="end"/>
+
+  <TextView
+    android:id="@+id/tvCPURegValues"
+    android:layout_width="150dp"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/tvCPURegTitle"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"
+    android:layout_marginLeft="@dimen/layoutPadding"
+    android:layout_marginStart="@dimen/layoutPadding"
+    android:layout_marginRight="@dimen/layoutPaddingLarge"
+    android:layout_marginEnd="@dimen/layoutPaddingLarge"
+    android:textSize="@dimen/textSize_main"
+    android:typeface="monospace"/>
+
+  <TableLayout
+    android:id="@+id/processDetails"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:layout_toLeftOf="@id/tvCPURegTitle"
+    android:layout_toStartOf="@id/tvCPURegTitle"
+    android:layout_toRightOf="@id/hCenter"
+    android:layout_toEndOf="@id/hCenter"
+    android:layout_marginRight="@dimen/layoutPaddingLarge"
+    android:layout_marginEnd="@dimen/layoutPaddingLarge"
+    android:layout_marginLeft="@dimen/layoutPadding"
+    android:layout_marginStart="@dimen/layoutPadding">
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/os_scheduler_currentProcess"
+      android:textSize="@dimen/textSize_main"
+      android:textColor="@color/colorAccent"
+      android:gravity="center"/>
+
+    <TableRow>
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/os_scheduler_processID"
+        android:textColor="@color/dirPicker_textActive"
+        android:textSize="@dimen/textSize_main"
+        android:gravity="end"/>
+
+      <TextView
+        android:id="@+id/tvProcessID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/layoutPadding"
+        android:layout_marginStart="@dimen/layoutPadding"
+        android:textSize="@dimen/textSize_main"
+        android:typeface="monospace"/>
+    </TableRow>
+
+    <TableRow>
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/os_scheduler_processName"
+        android:textColor="@color/dirPicker_textActive"
+        android:textSize="@dimen/textSize_main"
+        android:gravity="end"/>
+
+      <TextView
+        android:id="@+id/tvProcessName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/layoutPadding"
+        android:layout_marginStart="@dimen/layoutPadding"
+        android:textSize="@dimen/textSize_main"/>
+    </TableRow>
+
+    <TableRow>
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/os_scheduler_processTime"
+        android:textColor="@color/dirPicker_textActive"
+        android:textSize="@dimen/textSize_main"
+        android:gravity="end"/>
+
+      <TextView
+        android:id="@+id/tvProcessTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/layoutPadding"
+        android:layout_marginStart="@dimen/layoutPadding"
+        android:textSize="@dimen/textSize_main"
+        android:typeface="monospace"/>
+    </TableRow>
+
+    <TableRow>
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/os_scheduler_processRAM"
+        android:textColor="@color/dirPicker_textActive"
+        android:textSize="@dimen/textSize_main"
+        android:gravity="end"/>
+
+      <TextView
+        android:id="@+id/tvProcessRAM"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/layoutPadding"
+        android:layout_marginStart="@dimen/layoutPadding"
+        android:textSize="@dimen/textSize_main"
+        android:typeface="monospace"/>
+    </TableRow>
+
+    <TextView
+      android:id="@+id/tvProcessState"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="@dimen/layoutPadding"
+      android:textSize="@dimen/textSize_main"
+      android:gravity="center"/>
+
+    <ProgressBar
+      android:id="@+id/pbProcessState"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="@dimen/layoutPadding"
+      android:text="@string/os_scheduler_IOController"
+      android:textSize="@dimen/textSize_main"
+      android:textColor="@color/colorAccent"
+      android:gravity="center"/>
+
+    <TableRow>
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/os_scheduler_IOQueue"
+        android:textColor="@color/dirPicker_textActive"
+        android:textSize="@dimen/textSize_main"
+        android:gravity="end"/>
+
+      <TextView
+        android:id="@+id/tvIOQueue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/layoutPadding"
+        android:layout_marginStart="@dimen/layoutPadding"
+        android:textSize="@dimen/textSize_main"
+        android:typeface="monospace"/>
+    </TableRow>
+
+    <TableRow>
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/os_scheduler_IOSector"
+        android:textColor="@color/dirPicker_textActive"
+        android:textSize="@dimen/textSize_main"
+        android:gravity="end"/>
+
+      <TextView
+        android:id="@+id/tvIOSector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/layoutPadding"
+        android:layout_marginStart="@dimen/layoutPadding"
+        android:textSize="@dimen/textSize_main"
+        android:typeface="monospace"/>
+    </TableRow>
+
+    <TableRow>
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/os_scheduler_IOBytes"
+        android:textColor="@color/dirPicker_textActive"
+        android:textSize="@dimen/textSize_main"
+        android:gravity="end"/>
+
+      <TextView
+        android:id="@+id/tvIOBytes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/layoutPadding"
+        android:layout_marginStart="@dimen/layoutPadding"
+        android:textSize="@dimen/textSize_main"
+        android:typeface="monospace"/>
+    </TableRow>
+
+    <TextView
+      android:id="@+id/tvIOState"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="@dimen/layoutPadding"
+      android:textSize="@dimen/textSize_main"
+      android:gravity="center"/>
+
+    <ProgressBar
+      android:id="@+id/pbIOState"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
+  </TableLayout>
+
+  <TextView
+    android:id="@+id/tvLogTitle"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/processDetails"
+    android:layout_alignLeft="@id/processDetails"
+    android:layout_alignStart="@id/processDetails"
+    android:layout_alignRight="@id/processDetails"
+    android:layout_alignEnd="@id/processDetails"
+    android:text="@string/os_scheduler_syslog"
+    android:textSize="@dimen/textSize_main"
+    android:textColor="@color/colorAccent"
+    android:gravity="center"/>
+
+  <ScrollView
+    android:id="@+id/logWrapper"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/tvLogTitle"
+    android:layout_alignLeft="@id/tvLogTitle"
+    android:layout_alignStart="@id/tvLogTitle"
+    android:layout_alignRight="@id/tvLogTitle"
+    android:layout_alignEnd="@id/tvLogTitle"
+    android:layout_alignParentBottom="true"
+    android:layout_marginTop="@dimen/layoutPadding"
+    android:layout_marginBottom="@dimen/layoutPadding"
+    android:scrollbars="vertical">
+
+    <TextView
+      android:id="@+id/tvLog"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textSize="@dimen/textSize_main"/>
+  </ScrollView>
+
+  <TextView
+    android:id="@+id/tvIntTitle"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignTop="@id/tvLogTitle"
+    android:layout_toRightOf="@id/tvLogTitle"
+    android:layout_toEndOf="@id/tvLogTitle"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"
+    android:text="@string/os_scheduler_interrupts"
+    android:textSize="@dimen/textSize_main"
+    android:textColor="@color/colorAccent"
+    android:gravity="center"/>
+
+  <CheckBox
+    android:id="@+id/cbIntManual"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/tvIntTitle"
+    android:layout_alignLeft="@id/tvIntTitle"
+    android:layout_alignStart="@id/tvIntTitle"
+    android:layout_alignRight="@id/tvIntTitle"
+    android:layout_alignEnd="@id/tvIntTitle"
+    android:layout_margin="6dp"
+    android:text="@string/os_scheduler_intManual"
+    android:textSize="@dimen/textSize_main"/>
+
+  <Button
+    android:id="@+id/btnTimer"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/cbIntManual"
+    android:layout_alignLeft="@id/tvIntTitle"
+    android:layout_alignStart="@id/tvIntTitle"
+    android:layout_alignRight="@id/tvIntTitle"
+    android:layout_alignEnd="@id/tvIntTitle"
+    android:text="@string/os_scheduler_intTimer"/>
+
+  <Button
+    android:id="@+id/btnExternal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/btnTimer"
+    android:layout_alignLeft="@id/tvIntTitle"
+    android:layout_alignStart="@id/tvIntTitle"
+    android:layout_alignRight="@id/tvIntTitle"
+    android:layout_alignEnd="@id/tvIntTitle"
+    android:text="@string/os_scheduler_intExternal"/>
+
+  <TextView
+    android:id="@+id/tvClkTitle"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_toRightOf="@id/tvLogTitle"
+    android:layout_toEndOf="@id/tvLogTitle"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"
+    android:layout_above="@id/clkControlWrapper"
+    android:text="@string/os_scheduler_clock"
+    android:textSize="@dimen/textSize_main"
+    android:textColor="@color/colorAccent"
+    android:gravity="center"/>
+
+  <LinearLayout
+    android:id="@+id/clkControlWrapper"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"
+    android:layout_alignBottom="@id/graphCPU"
+    android:layout_toRightOf="@id/logWrapper"
+    android:layout_toEndOf="@id/logWrapper"
+    android:orientation="horizontal"
+    tools:ignore="ContentDescription">
+
+    <ImageButton
+      android:id="@+id/btnClkStart"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      app:srcCompat="@drawable/ic_play_24dp"/>
+
+    <ImageButton
+      android:id="@+id/btnClkPause"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      app:srcCompat="@drawable/is_pause_24dp"/>
+  </LinearLayout>
+
+</RelativeLayout>

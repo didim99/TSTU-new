@@ -8,11 +8,19 @@
   <string name="startRV2">Двумерные случайные величины</string>
   <string name="startCA">Корреляционный анализ</string>
   <string name="startGraphics">Графика</string>
+  <!-- Custom views -->
+  <string name="valueBar_ratio" translatable="false">%.2f</string>
+  <string name="valueBar_percentage" translatable="false">%d%%</string>
+  <string name="valueBar_valueFloat" translatable="false">%.1f / %.0f</string>
+  <string name="valueBar_valueInteger" translatable="false">%d / %d</string>
+  <string name="valueBar_valueFloatUnits" translatable="false">%.2f %s</string>
+  <string name="valueBar_valueIntegerUnits" translatable="false">%d %s</string>
   <!-- Generic -->
   <string name="help">Справка</string>
   <string name="config">Настройки</string>
   <string name="switchType">Сменить тип задачи</string>
   <string name="dialogButtonOk">OK</string>
+  <string name="dialogButtonSave">Сохранить</string>
   <string name="dialogButtonCancel">Отмена</string>
   <string name="dialogButtonDelete">Удалить</string>
   <string name="buttonStart">Старт</string>
@@ -146,6 +154,20 @@
   <string name="errExpanse_invalidH">Некорректно задана высота поля</string>
   <string name="errExpanse_tooManyPlayers">Слишком много игроков</string>
   <string name="errExpanse_spawnFailed">Не удалось разместить игроков на поле. попробуйте уменьшить дистанцию и повторить инициализацию еще раз.</string>
+  <string name="errScheduler_emptyTicks">Не задана длительность кванта</string>
+  <string name="errScheduler_incorrectTicks">Некорректно задана длительность кванта</string>
+  <string name="errScheduler_emptyRAM">Не задан объем ОЗУ</string>
+  <string name="errScheduler_incorrectRAM">Некорректно задан объем ОЗУ</string>
+  <string name="errScheduler_emptyHDD">Не задана максимальная скорость диска</string>
+  <string name="errScheduler_incorrectHDD">Некорректно задаа максимальная скорость диска</string>
+  <string name="errScheduler_emptyPName">Не задано имя процесса</string>
+  <string name="errScheduler_incorrectTime">Некорректно задано время выполнения задачи</string>
+  <string name="errScheduler_emptyBRAM">Не задан начальный объем ОЗУ</string>
+  <string name="errScheduler_incorrectBRAM">Некорректно задан начальный объем ОЗУ</string>
+  <string name="errScheduler_emptyDRAM">Не задан динамический объем ОЗУ</string>
+  <string name="errScheduler_incorrectDRAM">Некорректно задан динамический объем ОЗУ</string>
+  <string name="errScheduler_incorrectIO">Некорректно задан интервал обращения к диску</string>
+  <string name="errScheduler_noMemory">Недостаточно памяти для создания процесса</string>
   <!-- MathStat -->
   <string-array name="math_taskTypes">
     <item>@string/startMathStat</item>
@@ -463,11 +485,13 @@
   <string name="sectionOS">Операционные системы</string>
   <string name="os_processlist">Информация о процессах</string>
   <string name="os_expanse">Многопоточность</string>
-  <string name="os_proc_subtitle">Всего процессов: %d, потоков: %d, выполняется: %d</string>
+  <string name="os_scheduler">Планировщик</string>
   <string-array name="os_taskTypes">
     <item>@string/os_processlist</item>
     <item>@string/os_expanse</item>
+    <item>@string/os_scheduler</item>
   </string-array>
+  <string name="os_proc_subtitle">Всего процессов: %d, потоков: %d, выполняется: %d</string>
   <string name="os_position">#</string>
   <string name="os_pid">PID</string>
   <string name="os_tid">TID</string>
@@ -498,6 +522,50 @@
   <string name="os_expanse_progress">Захвачено %d/%d (%.1f%%)</string>
   <string name="os_expanse_interrupted">Игра прервана</string>
   <string name="os_expanse_gameOver">Игра окончена</string>
+  <string name="os_scheduler_cpuContext">Регистры ЦП</string>
+  <string name="os_scheduler_cpuRegNames">RTDSC\nFLAGS\nEAX\nEBX\nECX\nEDX\nESP\nEBP\nSC\nDS</string>
+  <string name="os_scheduler_currentProcess">Текущий процесс</string>
+  <string name="os_scheduler_processID">ID процесса</string>
+  <string name="os_scheduler_processTime">Время ЦП (тактов)</string>
+  <string name="os_scheduler_processRAM">ОЗУ (kiB)</string>
+  <string name="os_scheduler_hwConfig">Системные настройки</string>
+  <string name="os_scheduler_addProcess">Добавить процесс</string>
+  <string name="os_scheduler_createProcess">Создать новый процесс</string>
+  <string name="os_scheduler_ready">В состоянии готовности</string>
+  <string name="os_scheduler_waiting">В состоянии ожидания</string>
+  <string name="os_scheduler_CPUUsage">Использование ЦП (%)</string>
+  <string name="os_scheduler_RAMUnits">MiB</string>
+  <string name="os_scheduler_HDDUnits">MB/s</string>
+  <string name="os_scheduler_timeUnits">тактов</string>
+  <string name="os_scheduler_cycleUnits">квантов</string>
+  <string name="os_scheduler_ticks">Длительность кванта</string>
+  <string name="os_scheduler_totalRAM">Объем ОЗУ</string>
+  <string name="os_scheduler_hddSpeed">Макс. скорость диска</string>
+  <string name="os_scheduler_processName">Имя процесса</string>
+  <string name="os_scheduler_ticksCount">Тактов на выполнение</string>
+  <string name="os_scheduler_resident">(резидентный)</string>
+  <string name="os_scheduler_baseRAM">Статическая память</string>
+  <string name="os_scheduler_maxDRAM">Макс. выделяемая память</string>
+  <string name="os_scheduler_maxHDD">Интервал обращения к диску</string>
+  <string name="os_scheduler_defaultIORate">(нет)</string>
+  <string name="os_scheduler_progress">Завершено: %.2f%%</string>
+  <string name="os_scheduler_IOController">Контроллер ввода-вывода</string>
+  <string name="os_scheduler_IOQueue">Длина очеерди</string>
+  <string name="os_scheduler_IOSector">Текущий сектор</string>
+  <string name="os_scheduler_IOBytes">Обработано</string>
+  <string name="os_scheduler_IOIdle">Простаивает</string>
+  <string name="os_scheduler_syslog">Журнал событий</string>
+  <string name="os_scheduler_interrupts">Прерывания</string>
+  <string name="os_scheduler_intManual">Ручное управление</string>
+  <string name="os_scheduler_intTimer">Прерывание таймера</string>
+  <string name="os_scheduler_intExternal">Внешнее прерывание</string>
+  <string name="os_scheduler_clock">Тактовый генератор</string>
+  <string name="os_scheduler_logAdded">Добавлен новый процесс: %d [%s]</string>
+  <string name="os_scheduler_intAdded">Сгенерировано внешнее прерывание [%d]</string>
+  <string name="os_scheduler_logExecuting">%d: процесс поставлен на выполнение</string>
+  <string name="os_scheduler_logFinished">%d: процесс завершил выполнение</string>
+  <string name="os_scheduler_logIOStarted">%d: запрос операции ввода-вывода</string>
+  <string name="os_scheduler_logIOFinished">%d: завершена операция ввода-вывода</string>
   <!-- IS -->
   <string name="startIS">ИБ</string>
   <string name="sectionIS">Информационная безопасность</string>

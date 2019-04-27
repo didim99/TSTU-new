@@ -2,7 +2,6 @@ package ru.didim99.tstu;
 
 import android.app.Application;
 import ru.didim99.tstu.utils.InputValidator;
-import ru.didim99.tstu.utils.RootShell;
 
 /**
  * Root Application class

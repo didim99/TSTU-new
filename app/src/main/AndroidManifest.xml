@@ -180,6 +180,9 @@
     <activity
       android:name=".ui.os.expanse.ExpanseActivity"
       android:label="@string/os_expanse"/>
+    <activity
+      android:name=".ui.os.scheduler.SchedulerActivity"
+      android:label="@string/os_scheduler"/>
 
     <activity
       android:name=".ui.dirpicker.DirPickerActivity"
