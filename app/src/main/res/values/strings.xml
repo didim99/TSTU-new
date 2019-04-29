@@ -573,6 +573,24 @@
   <string-array name="is_taskTypes">
     <item>@string/is_dataTransmission</item>
   </string-array>
+  <string-array name="is_dt_codeTypes">
+    <item>1 из m</item>
+    <item>CRC</item>
+    <item>(n,k)-Хэмминга</item>
+  </string-array>
+  <string name="is_dt_coding">Кодирование</string>
+  <string name="is_dt_codeType">Метод кодирования</string>
+  <string name="is_dt_transmitter">Передатчик</string>
+  <string name="is_dt_receiver">Приемник</string>
+  <string name="is_dt_channel">Передача информации</string>
+  <string name="is_dt_start">Начать</string>
+  <string name="is_dt_stop">Остановить</string>
+  <string name="is_dt_pause">Приостановить</string>
+  <string name="is_dt_unPause">Возобновить</string>
+  <string name="is_dt_enableErrors">Вносить ошибки</string>
+  <string name="is_dt_messageLength">Длина сообщения: %d</string>
+  <string name="is_dt_errorRateTotal">Ошибочных блоков: %d</string>
+  <string name="is_dt_errorRateBlock">Ошибочных бит на блок: %d</string>
   <!-- Содержимое текстовых полей и подписей кнопок (Layout: act_dir_picker) -->
   <string name="actLabel_filePicker">Выбор файла</string>
   <string name="actLabel_dirPicker">Выбор каталога</string>

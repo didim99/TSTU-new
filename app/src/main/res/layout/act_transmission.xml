@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:layout_margin="@dimen/layoutPadding">
+
+  <View
+    android:id="@+id/hCenter"
+    android:layout_width="5dp"
+    android:layout_height="match_parent"
+    android:layout_centerHorizontal="true" />
+
+  <View
+    android:id="@+id/vCenter"
+    android:layout_width="match_parent"
+    android:layout_height="5dp"
+    android:layout_centerVertical="true" />
+
+  <TextView
+    android:id="@+id/tvTitleConfig"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_toLeftOf="@id/hCenter"
+    android:layout_toStartOf="@id/hCenter"
+    android:layout_marginBottom="@dimen/layoutPadding"
+    android:text="@string/is_dt_coding"
+    android:textSize="@dimen/textSize_large"
+    android:textColor="@color/dirPicker_textActive"
+    android:gravity="center"/>
+
+  <LinearLayout
+    android:id="@+id/typeLayout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/tvTitleConfig"
+    android:layout_alignLeft="@id/tvTitleConfig"
+    android:layout_alignStart="@id/tvTitleConfig"
+    android:layout_alignRight="@id/tvTitleConfig"
+    android:layout_alignEnd="@id/tvTitleConfig"
+    android:layout_marginBottom="5dp">
+
+    <TextView
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:layout_marginRight="10dp"
+      android:layout_marginEnd="10dp"
+      android:text="@string/is_dt_codeType"
+      android:textSize="@dimen/textSize_main"
+      android:gravity="end"/>
+
+    <Spinner
+      android:id="@+id/spCodeType"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:entries="@array/is_dt_codeTypes"/>
+  </LinearLayout>
+
+  <TextView
+    android:id="@+id/tvConfig"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/typeLayout"
+    android:layout_above="@id/vCenter"
+    android:layout_alignLeft="@id/tvTitleConfig"
+    android:layout_alignStart="@id/tvTitleConfig"
+    android:layout_alignRight="@id/tvTitleConfig"
+    android:layout_alignEnd="@id/tvTitleConfig"
+    android:scrollbars="vertical"
+    android:textSize="@dimen/textSize_main"
+    android:typeface="monospace"/>
+
+  <TextView
+    android:id="@+id/tvTitleChannel"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"
+    android:layout_toRightOf="@id/hCenter"
+    android:layout_toEndOf="@id/hCenter"
+    android:layout_marginBottom="@dimen/layoutPadding"
+    android:text="@string/is_dt_channel"
+    android:textSize="@dimen/textSize_large"
+    android:textColor="@color/dirPicker_textActive"
+    android:gravity="center"/>
+
+  <ru.didim99.tstu.ui.view.RangeBar
+    android:id="@+id/rbMsgLength"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/tvTitleChannel"
+    android:layout_alignLeft="@id/tvTitleChannel"
+    android:layout_alignStart="@id/tvTitleChannel"
+    android:layout_alignRight="@id/tvTitleChannel"
+    android:layout_alignEnd="@id/tvTitleChannel"
+    android:layout_marginBottom="@dimen/layoutPadding"
+    app:title="@string/is_dt_messageLength"/>
+
+  <CheckBox
+    android:id="@+id/cbUseNoise"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/rbMsgLength"
+    android:layout_alignLeft="@id/tvTitleChannel"
+    android:layout_alignStart="@id/tvTitleChannel"
+    android:layout_alignRight="@id/tvTitleChannel"
+    android:layout_alignEnd="@id/tvTitleChannel"
+    android:text="@string/is_dt_enableErrors"/>
+
+  <ru.didim99.tstu.ui.view.RangeBar
+    android:id="@+id/rbBrokenBlocks"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/cbUseNoise"
+    android:layout_alignLeft="@id/tvTitleChannel"
+    android:layout_alignStart="@id/tvTitleChannel"
+    android:layout_alignRight="@id/tvTitleChannel"
+    android:layout_alignEnd="@id/tvTitleChannel"
+    app:title="@string/is_dt_errorRateTotal"/>
+
+  <ru.didim99.tstu.ui.view.RangeBar
+    android:id="@+id/rbBrokenBits"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/rbBrokenBlocks"
+    android:layout_alignLeft="@id/tvTitleChannel"
+    android:layout_alignStart="@id/tvTitleChannel"
+    android:layout_alignRight="@id/tvTitleChannel"
+    android:layout_alignEnd="@id/tvTitleChannel"
+    app:title="@string/is_dt_errorRateBlock"/>
+
+  <LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_above="@id/vCenter"
+    android:layout_alignLeft="@id/tvTitleChannel"
+    android:layout_alignStart="@id/tvTitleChannel"
+    android:layout_alignRight="@id/tvTitleChannel"
+    android:layout_alignEnd="@id/tvTitleChannel"
+    android:orientation="horizontal"
+    tools:ignore="ButtonStyle">
+
+    <Button
+      android:id="@+id/btnStart"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:text="@string/is_dt_start"/>
+
+    <Button
+      android:id="@+id/btnPause"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:text="@string/is_dt_pause"/>
+  </LinearLayout>
+
+  <TextView
+    android:id="@+id/tvTitleTransmitter"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/vCenter"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_toLeftOf="@id/hCenter"
+    android:layout_toStartOf="@id/hCenter"
+    android:layout_marginBottom="@dimen/layoutPadding"
+    android:text="@string/is_dt_transmitter"
+    android:textSize="@dimen/textSize_large"
+    android:textColor="@color/dirPicker_textActive"
+    android:gravity="center"/>
+
+  <TextView
+    android:id="@+id/tvTitleReceiver"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/vCenter"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"
+    android:layout_toRightOf="@id/hCenter"
+    android:layout_toEndOf="@id/hCenter"
+    android:layout_marginBottom="@dimen/layoutPadding"
+    android:text="@string/is_dt_receiver"
+    android:textSize="@dimen/textSize_large"
+    android:textColor="@color/dirPicker_textActive"
+    android:gravity="center"/>
+
+  <ScrollView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/tvTitleTransmitter"
+    android:layout_alignLeft="@id/tvTitleTransmitter"
+    android:layout_alignStart="@id/tvTitleTransmitter"
+    android:layout_alignRight="@id/tvTitleReceiver"
+    android:layout_alignEnd="@id/tvTitleReceiver"
+    android:layout_alignParentBottom="true"
+    android:layout_marginBottom="5dp"
+    android:scrollbars="vertical">
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+      <TextView
+        android:id="@+id/tvTransmitter"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="@dimen/textSize_main"
+        android:typeface="monospace"/>
+
+      <View
+        android:layout_width="5dp"
+        android:layout_height="match_parent"/>
+
+      <TextView
+        android:id="@+id/tvReceiver"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="@dimen/textSize_main"
+        android:typeface="monospace"/>
+    </LinearLayout>
+  </ScrollView>
+</RelativeLayout>

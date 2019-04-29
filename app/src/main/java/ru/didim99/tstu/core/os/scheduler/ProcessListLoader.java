@@ -14,7 +14,7 @@ import ru.didim99.tstu.utils.Utils;
 class ProcessListLoader extends CallbackTask<String, ArrayList<Process.Info>> {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_PLLoader";
 
-  public ProcessListLoader(Context context) {
+  ProcessListLoader(Context context) {
     super(context);
   }
 
@@ -26,8 +26,8 @@ class ProcessListLoader extends CallbackTask<String, ArrayList<Process.Info>> {
 
     try {
       ArrayList<String> data = Utils.readFile(path);
-      for (String lise : data)
-        result.add(parser.fromJson(lise, Process.Info.class));
+      for (String line : data)
+        result.add(parser.fromJson(line, Process.Info.class));
       return result;
     } catch (IOException e) {
       MyLog.e(LOG_TAG, "Can't read file: " + e);

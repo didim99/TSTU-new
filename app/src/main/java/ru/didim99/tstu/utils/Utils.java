@@ -14,6 +14,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -58,6 +59,10 @@ public class Utils {
   }
 
   /* ======== MATH UTILS ======== */
+
+  public static BigInteger dec2bin(int n) {
+    return new BigInteger(Integer.toBinaryString(n));
+  }
 
   public static int randInRange(Random random, int min, int max) {
     return min + random.nextInt(max - min);

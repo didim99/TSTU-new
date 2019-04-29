@@ -185,6 +185,10 @@
       android:label="@string/os_scheduler"/>
 
     <activity
+      android:name=".ui.TransmitActivity"
+      android:label="@string/is_dataTransmission"/>
+
+    <activity
       android:name=".ui.dirpicker.DirPickerActivity"
       android:label="@string/actLabel_dirPicker"
       android:launchMode="singleTop"

@@ -41,6 +41,8 @@ public class StartActivity extends AppCompatActivity {
     { LinesActivity.class, HorizonActivity.class,
       TransformActivity.class, TexturesActivity.class,
       ShadingActivity.class };
+  private static final Class[] IS_TARGET =
+    { TransmitActivity.class };
   private static final Class[] OS_TARGET =
     { ProcessActivity.class, ExpanseActivity.class,
       SchedulerActivity.class };
@@ -64,6 +66,8 @@ public class StartActivity extends AppCompatActivity {
       R.string.graphics_selectType, R.array.graphics_taskTypes, GRAPH_TARGET));
     findViewById(R.id.startOS).setOnClickListener(v -> activityTypeDialog(
       R.string.sectionOS, R.array.os_taskTypes, OS_TARGET));
+    findViewById(R.id.startIS).setOnClickListener(v -> activityTypeDialog(
+      R.string.sectionIS, R.array.is_taskTypes, IS_TARGET));
 
     MyLog.d(LOG_TAG, "StartActivity created");
   }
