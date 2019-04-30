@@ -89,22 +89,12 @@ public class HammingEncoder implements Encoder {
   public String codeInfo() {
     StringBuilder sb = new StringBuilder();
     int[] rank = new int[CRC_BITS];
-
     int offset = 0;
-    for (int i = 1; i <= FRAME_BITS; i++) {
-      if (i == 1 << offset)
-        sb.append(++offset);
-      else sb.append("-");
 
-      for (int r = 0; r < CRC_BITS; r++) {
-        int base = 1 << r;
-        if (i >= base) {
-          int k = i - base;
-          int b = base << 1;
-          if ((k - k / b * b) < base)
-            rank[r] |= 1 << (i - 1);
-        }
-      }
+    for (int i = 1; i <= FRAME_BITS; i++) {
+      sb.append(i == 1 << offset ? ++offset : "-");
+      for (int r = 0; r < CRC_BITS; r++)
+        rank[r] |= (i & (1 << r)) << (i - r - 1);
     }
 
     sb.reverse();
