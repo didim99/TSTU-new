@@ -8,6 +8,7 @@ import android.graphics.PointF;
 public class Vertex {
   private Vec4 world, transformed;
   public PointF rastered;
+  public double light;
 
   Vertex(double x, double y, double z) {
     world = new Vec4(x, y, z);
@@ -21,12 +22,17 @@ public class Vertex {
     transformed = world.multiply(transform);
   }
 
+  void calcLight(Vec4 lamp, double kd) {
+    light = kd * transformed.calcAngle(lamp);
+    if (light < 0) light = 0;
+  }
+
   void render(Mat4 transform, Projection p) {
     transform(transform);
     rastered = p.project(transformed);
   }
 
-  public Vec4 world() {
+  Vec4 world() {
     return world;
   }
 

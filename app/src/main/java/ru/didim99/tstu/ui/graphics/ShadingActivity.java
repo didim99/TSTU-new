@@ -3,6 +3,7 @@ package ru.didim99.tstu.ui.graphics;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Toast;
@@ -24,8 +25,9 @@ public class ShadingActivity extends AnimationActivity {
   // View-elements
   private RangeBar rbScale;
   private RangeBar rbRotateX, rbRotateY, rbRotateZ;
-  private CheckBox cbVNormals;
+  private CheckBox cbVNormals, cbUseLamp;
   private Button btnLoad;
+  private View lightLayout;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +37,15 @@ public class ShadingActivity extends AnimationActivity {
 
     MyLog.d(LOG_TAG, "View components init...");
     DrawerView targetView = findViewById(R.id.view);
+    lightLayout = findViewById(R.id.lightLayout);
     btnLoad = findViewById(R.id.btnLoad);
     rbScale = findViewById(R.id.rbScale);
     rbRotateX = findViewById(R.id.rbRotateX);
     rbRotateY = findViewById(R.id.rbRotateY);
     rbRotateZ = findViewById(R.id.rbRotateZ);
     cbVNormals = findViewById(R.id.cbVNormals);
+    cbUseLamp = findViewById(R.id.cbUseLamp);
+    RangeBar rbKd = findViewById(R.id.rbKd);
     btnLoad.setOnClickListener(v -> openFile());
     findViewById(R.id.btnClear).setOnClickListener(
       v -> ((ModelRenderer) renderer).clearScene());
@@ -76,6 +81,19 @@ public class ShadingActivity extends AnimationActivity {
     rbRotateZ.setValue((int) config.getRotate().z());
     rbRotateZ.setOnValueChangedListener(value ->
       ((ModelRenderer) renderer).setRotateZ(value));
+    // Light configuration
+    cbUseLamp.setChecked(config.isUseLamp());
+    cbUseLamp.setOnCheckedChangeListener((v, c) -> {
+      lightLayout.setVisibility(c ? View.VISIBLE : View.GONE);
+      ((ModelRenderer) renderer).setUseLamp(c);
+    });
+    rbKd.setFactor(ModelRenderer.KD_FACTOR);
+    rbKd.setBounds(ModelRenderer.KD_MIN, ModelRenderer.KD_MAX);
+    rbKd.setValue(config.getKd());
+    rbKd.setOnScaledValueChangedListener(value ->
+      ((ModelRenderer) renderer).setKd(value));
+    lightLayout.setVisibility(config.isUseLamp()
+      ? View.VISIBLE : View.GONE);
 
     MyLog.d(LOG_TAG, "ShadingActivity started");
   }
@@ -119,6 +137,7 @@ public class ShadingActivity extends AnimationActivity {
     btnLoad.setText(lock ? R.string.graphics_loading
       : R.string.graphics_loadModel);
     cbVNormals.setEnabled(!lock);
+    cbUseLamp.setEnabled(!lock);
     btnLoad.setEnabled(!lock);
   }
 

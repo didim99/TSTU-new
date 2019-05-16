@@ -13,7 +13,7 @@ public class Vec4 {
   private static final int Y = 1;
   private static final int Z = 2;
 
-  private double data[];
+  private double[] data;
 
   Vec4(Vec4 src) {
     data = Arrays.copyOf(src.data, src.data.length);
@@ -37,6 +37,12 @@ public class Vec4 {
     data[Z] += v.data[Z];
   }
 
+  private void sub(Vec4 v) {
+    data[X] -= v.data[X];
+    data[Y] -= v.data[Y];
+    data[Z] -= v.data[Z];
+  }
+
   void div(double f) {
     data[X] /= f;
     data[Y] /= f;
@@ -52,6 +58,25 @@ public class Vec4 {
       r.data[i] = tmp;
     }
     return r;
+  }
+
+  private double length() {
+    return Math.sqrt(data[X] * data[X]
+      + data[Y] * data[Y]
+      + data[Z] * data[Z]);
+  }
+
+  private double multiplyScalar(Vec4 v) {
+    return data[X] * v.data[X]
+      + data[Y] * v.data[Y]
+      + data[Z] * v.data[Z];
+  }
+
+  double calcAngle(Vec4 v) {
+    v = new Vec4(v);
+    v.sub(this);
+    return multiplyScalar(v)
+      / (length() * v.length());
   }
 
   @Override

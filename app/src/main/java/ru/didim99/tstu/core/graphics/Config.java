@@ -65,6 +65,10 @@ public class Config {
   Vec4 translate, scale, rotate;
   boolean syncScale, useVNormals;
   Texture texture;
+  // Lighting
+  boolean useLamp;
+  Vec4 lampPos;
+  double kd;
 
   public boolean isDrawAxis() {
     return drawAxis;
@@ -92,6 +96,14 @@ public class Config {
 
   public boolean isUseVNormals() {
     return useVNormals;
+  }
+
+  public boolean isUseLamp() {
+    return useLamp;
+  }
+
+  public double getKd() {
+    return kd;
   }
 
   public boolean hasTexture() {

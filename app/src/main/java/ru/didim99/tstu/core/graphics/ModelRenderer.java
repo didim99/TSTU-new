@@ -29,16 +29,22 @@ public class ModelRenderer extends AsyncRenderer implements Scene {
   public static final int SCL_MAX = 500;
   public static final int ROT_MIN = -360;
   public static final int ROT_MAX = 360;
+  public static final int KD_MIN = 0;
+  public static final int KD_MAX = 100;
   public static final double TRN_FACTOR = 0.1;
   public static final double SCL_FACTOR = 0.01;
+  public static final double KD_FACTOR = 0.01;
   // Default parameters values
   private static final boolean DEFAULT_DRAW_AXIS = true;
   private static final boolean DEFAULT_NEGATIVE_AXIS = false;
   private static final boolean DEFAULT_SYNC_SCALE = true;
   private static final boolean DEFAULT_VNORMALS = true;
+  private static final boolean DEFAULT_USE_LAMP = false;
   private static final double DEFAULT_TRN = 0;
   private static final double DEFAULT_SCL = 1.0;
   private static final int DEFAULT_ROT = 0;
+  private static final double DEFAULT_KD = 1.0;
+  private static final double DEFAULT_LP = 10d;
   // Internal constants
   private static final int DSS = 50;
   private static final int DEFAULT_WIDTH = 500;
@@ -79,6 +85,9 @@ public class ModelRenderer extends AsyncRenderer implements Scene {
       this.config.drawAxis = DEFAULT_DRAW_AXIS;
       this.config.negativeAxis = DEFAULT_NEGATIVE_AXIS;
       this.config.useVNormals = DEFAULT_VNORMALS;
+      this.config.useLamp = DEFAULT_USE_LAMP;
+      this.config.lampPos = new Vec4(DEFAULT_LP, DEFAULT_LP, -DEFAULT_LP);
+      this.config.kd = DEFAULT_KD;
       clearTransform();
     }
 
@@ -164,8 +173,21 @@ public class ModelRenderer extends AsyncRenderer implements Scene {
     onSceneChanged();
   }
 
+  public void setUseLamp(boolean useLamp) {
+    config.useLamp = useLamp;
+    onSceneChanged();
+  }
+
+  public void setKd(double kd) {
+    config.kd = kd;
+    for (Model model : config.models)
+      model.setKd(kd);
+    onSceneChanged();
+  }
+
   public void onModelLoaded(Model model) {
     if (model != null) {
+      model.setKd(config.kd);
       model.useVNormals(config.useVNormals);
       config.models.add(model);
       onSceneChanged();
@@ -217,8 +239,11 @@ public class ModelRenderer extends AsyncRenderer implements Scene {
       axis.render(sceneTransform, projection);
     for (Model model : config.models) {
       model.render(modelTransform, projection);
-      if (model.getType() == Model.Type.FACE)
+      if (model.getType() == Model.Type.FACE) {
         model.rotateNormals(normalTransform);
+        if (config.useLamp) model.calcLight(config.lampPos);
+      }
+
       for (Vertex v : model.getVertices()) {
         v.rastered.x += config.width;
         v.rastered.y = config.height - v.rastered.y;
@@ -270,6 +295,17 @@ public class ModelRenderer extends AsyncRenderer implements Scene {
       b = new VertexHolder(face.v2.rastered(), face.n2.transformed());
       c = new VertexHolder(face.v3.rastered(), face.n3.transformed());
 
+      // считаем освещенность в вершинах
+      if (config.useLamp) {
+        a.c = (float) face.n1.light;
+        b.c = (float) face.n2.light;
+        c.c = (float) face.n3.light;
+      } else {
+        a.c = a.nz < 0 ? -a.nz : 0;
+        b.c = b.nz < 0 ? -b.nz : 0;
+        c.c = c.nz < 0 ? -c.nz : 0;
+      }
+
       // отсортируем вершины грани по y
       if (a.y > b.y) { vtmp = a; a = b; b = vtmp; }
       if (a.y > c.y) { vtmp = a; a = c; c = vtmp; }
@@ -278,11 +314,6 @@ public class ModelRenderer extends AsyncRenderer implements Scene {
       by = ceil(b.y); iby = (int) by;
       icy = (int) ceil(c.y);
       if (icy == iay) continue;
-
-      // считаем освещенность в вершинах
-      a.c = a.nz < 0 ? -a.nz : 0;
-      b.c = b.nz < 0 ? -b.nz : 0;
-      c.c = c.nz < 0 ? -c.nz : 0;
 
       // посчитаем du/dsx и dv/dsx
       // считаем по самой длинной линии (т.е. проходящей через вершину B)

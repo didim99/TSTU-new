@@ -41,6 +41,7 @@ public class Model {
   private float[] rastered;
   private float width;
   private int color;
+  private double kd;
 
   private Model() {
     this(Type.EDGE, null, DEFAULT_WIDTH, DEFAULT_COLOR);
@@ -90,6 +91,10 @@ public class Model {
     return faces;
   }
 
+  public void setKd(double kd) {
+    this.kd = kd;
+  }
+
   public void render(Mat4 transform, Projection p) {
     for (Vertex v : vertices)
       v.render(transform, p);
@@ -110,6 +115,11 @@ public class Model {
   public void rotateNormals(Mat4 transform) {
     ArrayList<Vertex> list = useVNormals ? vNormals : normals;
     for (Vertex n : list) n.transform(transform);
+  }
+
+  public void calcLight(Vec4 lamp) {
+    ArrayList<Vertex> list = useVNormals ? vNormals : normals;
+    for (Vertex n : list) n.calcLight(lamp, kd);
   }
 
   public void useVNormals(boolean state) {

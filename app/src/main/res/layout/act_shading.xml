@@ -115,6 +115,27 @@
       android:layout_marginBottom="@dimen/layoutPadding"
       app:srcCompat="@color/dirPicker_divider"
       tools:ignore="ContentDescription"/>
+
+    <CheckBox
+      android:id="@+id/cbUseLamp"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="@dimen/layoutPadding"
+      android:text="@string/graphics_useLamp"/>
+
+    <LinearLayout
+      android:id="@+id/lightLayout"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical">
+
+      <ru.didim99.tstu.ui.view.RangeBar
+        android:id="@+id/rbKd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/graphics_kd"
+        app:scaled="true"/>
+    </LinearLayout>
   </LinearLayout>
 
   <ru.didim99.tstu.ui.view.DrawerView
