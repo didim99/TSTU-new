@@ -90,6 +90,7 @@
   <string name="errGeneric_cantRead">Не удалось прочитать файл:\n%s</string>
   <string name="errGeneric_cantWrite">Не удалось записать файл:\n%s</string>
   <string name="errGeneric_unsupportedScheme">Не удалось загрузить файл.\nПопробуйте использовать другой файловый менеджер</string>
+  <string name="errGeneric_inputFormat">Исходный файл имеет неверный формат</string>
   <string name="errGeneric_inputFileNotReadable">Невозможно прочитать исходный файл</string>
   <string name="errNumeric_nothingToSave">Сохранять нечего</string>
   <string name="errLexical_invalidStatement">Ошибка лексического анализа в строке %d.\n%s</string>

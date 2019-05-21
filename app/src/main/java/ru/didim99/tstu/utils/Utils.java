@@ -7,6 +7,7 @@ import android.content.pm.ResolveInfo;
 import android.support.annotation.RawRes;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -127,6 +128,17 @@ public class Utils {
     }
     writer.close();
     MyLog.d(LOG_TAG, "Writing completed (" + file.length() + ")");
+  }
+
+  public static void writeFile(String fileName, byte[] data)
+    throws IOException {
+    MyLog.d(LOG_TAG, "Writing: " + fileName);
+    File file = new File(fileName);
+    DataOutputStream src = new DataOutputStream(new FileOutputStream(file));
+    src.write(data);
+    src.flush();
+    src.close();
+    MyLog.d(LOG_TAG, "Writing completed");
   }
 
   /* ======== ANDROID UTILS ======== */

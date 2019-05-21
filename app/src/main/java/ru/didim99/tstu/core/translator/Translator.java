@@ -15,6 +15,8 @@ import ru.didim99.tstu.utils.Utils;
 public class Translator {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_Translator";
   private static final String BASEDIR = "/translator";
+  private static final String EXT_SRC = ".pas";
+  private static final String EXT_DST = ".f90";
   private final String ROOTDIR;
 
   public static final class Mode {
@@ -50,6 +52,12 @@ public class Translator {
     LexicalAnalyzer.Result laResult = null;
     SyntaxAnalyzer.Result saResult = null;
     SyntaxAnalyzer sa;
+
+    if (!config.inputFilename.endsWith(EXT_SRC)) {
+      MyLog.e(LOG_TAG, "Incorrect input file format");
+      result.inputErr = context.getString(R.string.errGeneric_inputFormat);
+      return result;
+    }
 
     try {
       srcList = Utils.readFile(config.inputFilename);
@@ -109,6 +117,13 @@ public class Translator {
     } else if (config.mode == Mode.FULL) {
       CodeGenerator cg = new FortranGenerator();
       result.outputCode = cg.generate(saResult);
+
+      try {
+        String outName = config.inputFilename.replace(EXT_SRC, EXT_DST);
+        Utils.writeFile(outName, result.outputCode.getBytes());
+      } catch (IOException e) {
+        MyLog.e(LOG_TAG, "Can't write output file\n  " + e.toString());
+      }
     }
 
     return result;
