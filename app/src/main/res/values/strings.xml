@@ -36,6 +36,7 @@
   <string name="loadedFromFile">Загружено из:\n%s</string>
   <string name="cantWriteFile">Не удалось записать файл:\n%s</string>
   <string name="rootUnavailable">На вашем устройстве не получен Root-доступ</string>
+  <string name="copiedToClipboard">Скопировано в буфер обмена</string>
   <!-- FilePicker -->
   <string name="filePicker_emptyPath">Не указаны путь и имя файла</string>
   <string name="filePicker_fileNotExist">Такого файла не существует</string>

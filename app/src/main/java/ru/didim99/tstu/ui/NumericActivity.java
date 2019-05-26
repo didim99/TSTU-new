@@ -36,7 +36,7 @@ import ru.didim99.tstu.utils.Utils;
 import static ru.didim99.tstu.core.numeric.Config.TaskType;
 
 public class NumericActivity extends BaseActivity
-  implements NumericTask.EventListener<ArrayList<Result>> {
+  implements CallbackTask.EventListener<ArrayList<Result>> {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_NumericAct";
   private static final String DIRNAME = "/numeric";
 

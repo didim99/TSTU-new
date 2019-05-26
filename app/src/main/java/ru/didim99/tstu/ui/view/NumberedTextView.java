@@ -2,7 +2,6 @@ package ru.didim99.tstu.ui.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.annotation.Dimension;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -63,5 +62,9 @@ public class NumberedTextView extends LinearLayout {
     String[] strNumbers = Utils.intArrayToStringArray(numbers);
     lines.setText(Utils.joinStr(NEWLINE, strNumbers));
     content.setText(text);
+  }
+
+  public CharSequence getText() {
+    return content.getText();
   }
 }

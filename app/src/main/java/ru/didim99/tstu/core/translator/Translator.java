@@ -137,7 +137,7 @@ public class Translator {
         String olFile = ROOTDIR + "/fortranStruct.txt";
         ls.initStatic(ilFile, olFile);
       } catch (IOException e) {
-        MyLog.w(LOG_TAG, "Can't load input language structure: " + e);
+        MyLog.w(LOG_TAG, "Can't load language structure: " + e);
         result.processErr = e.toString();
         return false;
       }
