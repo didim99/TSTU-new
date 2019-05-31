@@ -115,7 +115,7 @@
             android:id="@+id/tvSrc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:lineNumColor="@color/dirPicker_textActive"
+            app:lineNumColor="?colorActive"
             app:textSize="@dimen/textSize_main"/>
         </LinearLayout>
 

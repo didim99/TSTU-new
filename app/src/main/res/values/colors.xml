@@ -33,4 +33,6 @@
   <color name="dirPicker_divider">#606060</color>
   <color name="dirPicker_textActive">#ffffff</color>
   <color name="dirPicker_textInactive">#b0b0b0</color>
+  <color name="dirPicker_textActiveLight">#000000</color>
+  <color name="dirPicker_textInactiveLight">#262626</color>
 </resources>

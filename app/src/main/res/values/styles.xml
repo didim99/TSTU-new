@@ -8,6 +8,8 @@
 
     <item name="actionModeBackground">@color/colorPrimary</item>
     <item name="android:actionModeCloseDrawable">@drawable/ic_cross_24dp</item>
+
+    <item name="colorActive">@color/dirPicker_textActive</item>
   </style>
 
   <style name="AppThemePrint" parent="Theme.AppCompat.Light">
@@ -15,6 +17,8 @@
     <item name="colorPrimaryDark">@color/colorPrimary</item>
     <item name="colorAccent">@color/colorPrimaryDark</item>
     <item name="android:textColorHighlight">@color/textSelectionBg</item>
+
+    <item name="colorActive">@color/dirPicker_textActiveLight</item>
   </style>
 
   <style name="AppThemeDialog" parent="Theme.AppCompat.Dialog">
