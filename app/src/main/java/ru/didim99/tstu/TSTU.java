@@ -34,8 +34,8 @@ public class TSTU extends Application {
           if (e == CallbackTask.Event.FINISH) {
             Toast.makeText(this, s ? R.string.resourcesUnpacked :
               R.string.errGeneric_resUnpackFailed, Toast.LENGTH_LONG).show();
-            if (s) DirPickerActivity.setDefaultPath(
-              this, examples.getAbsolutePath());
+            if (s) DirPickerActivity.setDefaultPath(this,
+              examples.getAbsolutePath().concat(File.separator));
           }
         });
         task.execute(cache);

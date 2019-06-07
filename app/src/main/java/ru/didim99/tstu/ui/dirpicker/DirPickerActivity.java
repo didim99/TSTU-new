@@ -52,8 +52,6 @@ public class DirPickerActivity extends AppCompatActivity
     MyLog.d(LOG_TAG, "DirPickerActivity starting...");
     super.onCreate(savedInstanceState);
     setContentView(R.layout.act_dir_picker);
-    SharedPreferences settings = PreferenceManager
-      .getDefaultSharedPreferences(appContext);
     appContext = getApplicationContext();
     arrayDir = new ArrayList<>();
 
@@ -79,8 +77,9 @@ public class DirPickerActivity extends AppCompatActivity
       btnGo.setOnClickListener(null);
     }
 
-    if (path == null)
-      path = settings.getString(KEY_LAST_PATH, SEP);
+    SharedPreferences settings = PreferenceManager
+      .getDefaultSharedPreferences(appContext);
+    if (path == null) path = settings.getString(KEY_LAST_PATH, SEP);
     // Checking access to file system root directory
     if (path.equals(SEP) && !isDirOpened(path)) {
       Toast.makeText(appContext,
