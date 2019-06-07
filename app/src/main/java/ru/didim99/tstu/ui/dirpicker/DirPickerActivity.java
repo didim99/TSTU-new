@@ -40,7 +40,6 @@ public class DirPickerActivity extends AppCompatActivity
   private static final String SEP = File.separator;
 
   private Context appContext;
-  private SharedPreferences settings;
   private TextView tvPath, tvEmpty;
   private Button btnGo;
   private RecyclerView listDir;
@@ -53,8 +52,9 @@ public class DirPickerActivity extends AppCompatActivity
     MyLog.d(LOG_TAG, "DirPickerActivity starting...");
     super.onCreate(savedInstanceState);
     setContentView(R.layout.act_dir_picker);
+    SharedPreferences settings = PreferenceManager
+      .getDefaultSharedPreferences(appContext);
     appContext = getApplicationContext();
-    settings = PreferenceManager.getDefaultSharedPreferences(appContext);
     arrayDir = new ArrayList<>();
 
     //loading saved instance
@@ -124,8 +124,7 @@ public class DirPickerActivity extends AppCompatActivity
   }
 
   private void onClickGo(String fileName) {
-    //save last picked path in SharedPreferences
-    settings.edit().putString(KEY_LAST_PATH, path).apply();
+    setDefaultPath(appContext, path);
     Intent intent = new Intent();
     if (fileName != null) path = path.concat(fileName);
     intent.setData(Uri.parse("file://".concat(path)));
@@ -176,6 +175,11 @@ public class DirPickerActivity extends AppCompatActivity
     } catch (Exception e) {
       return false;
     }
+  }
+
+  public static void setDefaultPath(Context context, String path) {
+    PreferenceManager.getDefaultSharedPreferences(context)
+      .edit().putString(KEY_LAST_PATH, path).apply();
   }
 
   private static class State {

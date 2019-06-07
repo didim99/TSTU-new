@@ -8,6 +8,7 @@
   <string name="startRV2">Двумерные случайные величины</string>
   <string name="startCA">Корреляционный анализ</string>
   <string name="startGraphics">Графика</string>
+  <string name="copyright">Created by didim99, 2018 &#8211; 2019</string>
   <!-- Custom views -->
   <string name="valueBar_ratio" translatable="false">%.2f</string>
   <string name="valueBar_percentage" translatable="false">%d%%</string>
@@ -37,6 +38,7 @@
   <string name="cantWriteFile">Не удалось записать файл:\n%s</string>
   <string name="rootUnavailable">На вашем устройстве не получен Root-доступ</string>
   <string name="copiedToClipboard">Скопировано в буфер обмена</string>
+  <string name="resourcesUnpacked">Распаковка ресурсов завершена</string>
   <!-- FilePicker -->
   <string name="filePicker_emptyPath">Не указаны путь и имя файла</string>
   <string name="filePicker_fileNotExist">Такого файла не существует</string>
@@ -93,6 +95,8 @@
   <string name="errGeneric_unsupportedScheme">Не удалось загрузить файл.\nПопробуйте использовать другой файловый менеджер</string>
   <string name="errGeneric_inputFormat">Исходный файл имеет неверный формат</string>
   <string name="errGeneric_inputFileNotReadable">Невозможно прочитать исходный файл</string>
+  <string name="errGeneric_cacheUnavailable">Каталог для внешнего кэша недоступен</string>
+  <string name="errGeneric_resUnpackFailed">Не удалось распаковать ресурсы</string>
   <string name="errNumeric_nothingToSave">Сохранять нечего</string>
   <string name="errLexical_invalidStatement">Ошибка лексического анализа в строке %d.\n%s</string>
   <string name="errSyntax">Ошибка синтаксического анализа в строке %d.\n%s</string>

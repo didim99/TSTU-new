@@ -1,74 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout
+<RelativeLayout
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
   xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:tools="http://schemas.android.com/tools"
-  android:layout_width="wrap_content"
-  android:layout_height="wrap_content"
-  android:layout_gravity="center"
-  tools:ignore="ButtonStyle">
+  xmlns:tools="http://schemas.android.com/tools">
 
-  <TableRow>
-    <Button
-      android:id="@+id/startMathStat"
-      android:layout_width="250dp"
-      android:layout_height="wrap_content"
-      android:padding="@dimen/actStart_btnPadding"
-      android:text="@string/startMath"/>
+  <TableLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    tools:ignore="ButtonStyle">
 
-    <Button
-      android:id="@+id/startNumeric"
-      android:layout_width="250dp"
-      android:layout_height="wrap_content"
-      android:padding="@dimen/actStart_btnPadding"
-      android:text="@string/startNumeric"/>
-  </TableRow>
+    <TableRow>
+      <Button
+        android:id="@+id/startMathStat"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/actStart_btnPadding"
+        android:text="@string/startMath"/>
 
-  <TableRow>
-    <Button
-      android:id="@+id/startTranslator"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:padding="@dimen/actStart_btnPadding"
-      android:text="@string/startTranslator"/>
+      <Button
+        android:id="@+id/startNumeric"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/actStart_btnPadding"
+        android:text="@string/startNumeric"/>
+    </TableRow>
 
-    <Button
-      android:id="@+id/startGraphics"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:padding="@dimen/actStart_btnPadding"
-      android:text="@string/startGraphics"/>
-  </TableRow>
+    <TableRow>
+      <Button
+        android:id="@+id/startTranslator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/actStart_btnPadding"
+        android:text="@string/startTranslator"/>
 
-  <TableRow>
-    <Button
-      android:id="@+id/startMP"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:padding="@dimen/actStart_btnPadding"
-      android:text="@string/startMP"/>
+      <Button
+        android:id="@+id/startGraphics"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/actStart_btnPadding"
+        android:text="@string/startGraphics"/>
+    </TableRow>
 
-    <Button
-      android:id="@+id/startOOP"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:padding="@dimen/actStart_btnPadding"
-      android:text="@string/startOOP"/>
-  </TableRow>
+    <TableRow>
+      <Button
+        android:id="@+id/startMP"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/actStart_btnPadding"
+        android:text="@string/startMP"/>
 
-  <TableRow>
-    <Button
-      android:id="@+id/startOS"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:padding="@dimen/actStart_btnPadding"
-      android:text="@string/startOS"/>
+      <Button
+        android:id="@+id/startOOP"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/actStart_btnPadding"
+        android:text="@string/startOOP"/>
+    </TableRow>
 
-    <Button
-      android:id="@+id/startIS"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:padding="@dimen/actStart_btnPadding"
-      android:text="@string/startIS"/>
-  </TableRow>
+    <TableRow>
+      <Button
+        android:id="@+id/startOS"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/actStart_btnPadding"
+        android:text="@string/startOS"/>
 
-</TableLayout>
+      <Button
+        android:id="@+id/startIS"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/actStart_btnPadding"
+        android:text="@string/startIS"/>
+    </TableRow>
+  </TableLayout>
+
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_centerHorizontal="true"
+    android:layout_marginBottom="15dp"
+    android:text="@string/copyright"/>
+</RelativeLayout>
