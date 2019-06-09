@@ -100,9 +100,11 @@ class FortranGenerator implements Translator.CodeGenerator {
   }
 
   private void generateMultiplier(Multiplier expr) {
-    if (expr instanceof Expression)
+    if (expr instanceof Expression) {
+      builder.appendToken(DIVIDER.LBR);
       generateExpression((Expression) expr);
-    else if (expr instanceof Identifier)
+      builder.appendToken(DIVIDER.RBR);
+    } else if (expr instanceof Identifier)
       builder.appendSymbol((Identifier) expr);
     else if (expr instanceof Literal)
       builder.appendLiteral((Literal) expr);
