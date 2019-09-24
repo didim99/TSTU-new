@@ -189,6 +189,10 @@
       android:label="@string/is_dataTransmission"/>
 
     <activity
+      android:name=".ui.OptimizationActivity"
+      android:label="@string/sectionOpt"/>
+
+    <activity
       android:name=".ui.dirpicker.DirPickerActivity"
       android:label="@string/actLabel_dirPicker"
       android:launchMode="singleTop"

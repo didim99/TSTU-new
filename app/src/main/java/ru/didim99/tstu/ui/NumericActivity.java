@@ -1,15 +1,11 @@
 package ru.didim99.tstu.ui;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -41,7 +37,7 @@ public class NumericActivity extends BaseActivity
   private static final String DIRNAME = "/numeric";
 
   //view-elements
-  private OutListAdapter adapter;
+  private TextListAdapter adapter;
   private Button btnStart, btnSave;
   private CheckBox cbTConst;
   private View pbMain;
@@ -88,7 +84,7 @@ public class NumericActivity extends BaseActivity
 
     RecyclerView rvOut = findViewById(R.id.rvOut);
     if (rvOut != null) {
-      adapter = new OutListAdapter(this);
+      adapter = new TextListAdapter(this);
       rvOut.setAdapter(adapter);
     }
 
@@ -315,45 +311,6 @@ public class NumericActivity extends BaseActivity
       MyLog.w(LOG_TAG, "Unable to write output file: " + e.toString());
       Toast.makeText(this, getString(R.string.cantWriteFile, e.toString()),
         Toast.LENGTH_LONG).show();
-    }
-  }
-
-  static class OutListAdapter extends RecyclerView.Adapter<OutListAdapter.ViewHolder> {
-    private ArrayList<String> data;
-    private LayoutInflater inflater;
-
-    OutListAdapter(Context context) {
-      this.inflater = LayoutInflater.from(context);
-    }
-
-    @NonNull
-    @Override
-    public OutListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-      return new ViewHolder(inflater.inflate(R.layout.item_out_data, parent, false));
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull OutListAdapter.ViewHolder holder, int position) {
-      holder.tvOut.setText(data.get(position));
-    }
-
-    @Override
-    public int getItemCount() {
-      return data == null ? 0 : data.size();
-    }
-
-    void refreshData(ArrayList<String> data) {
-      this.data = data;
-      notifyDataSetChanged();
-    }
-
-    class ViewHolder extends RecyclerView.ViewHolder {
-      final TextView tvOut;
-
-      ViewHolder(View itemView) {
-        super(itemView);
-        this.tvOut = itemView.findViewById(R.id.tvOut);
-      }
     }
   }
 }

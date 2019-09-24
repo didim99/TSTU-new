@@ -49,10 +49,11 @@ public abstract class CallbackTask<Config, Result> extends AsyncTask<Config, Voi
 
   @Override
   @SafeVarargs
-  protected final Void doInBackground(Config... configs) {
-    if (configs == null) return null;
+  protected final Void doInBackground(Config... params) {
+    if (params == null) return null;
     MyLog.d(LOG_TAG, "Executing...");
-    result = doInBackgroundInternal(configs[0]);
+    result = doInBackgroundInternal(
+      params.length > 0 ? params[0] : null);
     return null;
   }
 

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:padding="@dimen/layoutPadding">
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+      android:id="@+id/tvTitle"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="6"
+      android:textSize="@dimen/textSize_large"
+      android:textAlignment="center"/>
+
+    <Button
+      android:id="@+id/btnStart"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="2"
+      android:text="@string/buttonStart"/>
+  </LinearLayout>
+
+  <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/layoutPadding">
+
+    <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:visibility="visible">
+
+      <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvOut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    </ScrollView>
+
+    <ProgressBar
+      android:id="@+id/pbMain"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerInParent="true"
+      style="?android:attr/progressBarStyleLarge"
+      android:visibility="invisible"/>
+  </RelativeLayout>
+
+</LinearLayout>

@@ -14,7 +14,7 @@
 
   <style name="AppThemePrint" parent="Theme.AppCompat.Light">
     <item name="colorPrimary">@color/colorAccent</item>
-    <item name="colorPrimaryDark">@color/colorPrimary</item>
+    <item name="colorPrimaryDark">@color/colorAccentDark</item>
     <item name="colorAccent">@color/colorPrimaryDark</item>
     <item name="android:textColorHighlight">@color/textSelectionBg</item>
 

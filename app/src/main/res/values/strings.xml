@@ -599,6 +599,20 @@
   <string name="is_dt_messageLength">Длина сообщения: %d</string>
   <string name="is_dt_errorRateTotal">Ошибочных блоков: %d</string>
   <string name="is_dt_errorRateBlock">Ошибочных бит на блок: %d</string>
+  <!-- Optimization -->
+  <string name="startOpt">Оптимизация</string>
+  <string name="sectionOpt">Методы оптимизации</string>
+  <string name="opt_localExtrema">Минимум функции одной переменной</string>
+  <string-array name="opt_taskTypes">
+    <item>@string/opt_localExtrema</item>
+  </string-array>
+  <string name="opt_localExtrema_function">Функция: x^3 + 1.5x^2 – 6x – 12 на отрезке [%.1f; %.1f]</string>
+  <string name="opt_localExtrema_typeBinary">Метод половинного деления</string>
+  <string name="opt_localExtrema_typeGoldSec">Метод золотого сечения</string>
+  <string name="opt_localExtrema_typeFibonacci">Метод Фибоначчи</string>
+  <string name="opt_solution">Решение: x:%.4f y:%.4f</string>
+  <string name="opt_fCalcCount">Вычисленй f(x): %3d (%d)</string>
+  <string name="opt_iterations">Итераций: %9d</string>
   <!-- Содержимое текстовых полей и подписей кнопок (Layout: act_dir_picker) -->
   <string name="actLabel_filePicker">Выбор файла</string>
   <string name="actLabel_dirPicker">Выбор каталога</string>
