@@ -6,10 +6,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.ArrayList;
 import ru.didim99.tstu.R;
+import ru.didim99.tstu.TSTU;
 import ru.didim99.tstu.core.CallbackTask;
+import ru.didim99.tstu.core.optimization.Config;
 import ru.didim99.tstu.core.optimization.ExtremaFinder;
 import ru.didim99.tstu.core.optimization.OptTask;
 import ru.didim99.tstu.core.optimization.Result;
@@ -23,33 +26,48 @@ public class OptimizationActivity extends BaseActivity
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_OptAct";
 
   //view-elements
+  private ImageView plotView;
   private TextListAdapter adapter;
   private Button btnStart;
   private View pbMain;
   //main workflow
+  private int type;
   private OptTask task;
   private ArrayList<Result> taskResult;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     MyLog.d(LOG_TAG, "OptimizationActivity starting...");
+    type = getIntent().getIntExtra(TSTU.EXTRA_TYPE, Config.TaskType.UNDEFINED);
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.act_optimization);
+    if (type == Config.TaskType.SINGLE_ARG) {
+      setContentView(R.layout.act_optimization);
+    } else {
+      setContentView(R.layout.act_optimization_graph);
+    }
 
     MyLog.d(LOG_TAG, "View components init...");
     TextView title = findViewById(R.id.tvTitle);
+    RecyclerView rvOut = findViewById(R.id.rvOut);
+    plotView = findViewById(R.id.plotView);
     btnStart = findViewById(R.id.btnStart);
     pbMain = findViewById(R.id.pbMain);
     btnStart.setOnClickListener(v -> startTask());
 
-    RecyclerView rvOut = findViewById(R.id.rvOut);
-    adapter = new TextListAdapter(this);
-    rvOut.setAdapter(adapter);
+    switch (type) {
+      case Config.TaskType.SINGLE_ARG:
+        title.setText(getString(R.string.opt_localExtrema_function,
+          ExtremaFinder.DEF_START, ExtremaFinder.DEF_END));
+        adapter = new TextListAdapter(this);
+        rvOut.setLayoutManager(new LinearLayoutManager(
+          this, RecyclerView.HORIZONTAL, false));
+        rvOut.setAdapter(adapter);
+        break;
+      case Config.TaskType.ZERO_ORDER:
 
-    title.setText(getString(R.string.opt_localExtrema_function,
-      ExtremaFinder.DEF_START, ExtremaFinder.DEF_END));
-    rvOut.setLayoutManager(new LinearLayoutManager(
-      this, RecyclerView.HORIZONTAL, false));
+        break;
+    }
+
     MyLog.d(LOG_TAG, "View components init completed");
 
     MyLog.d(LOG_TAG, "Trying to connect with background task...");
@@ -87,13 +105,20 @@ public class OptimizationActivity extends BaseActivity
 
   @Override
   protected void onSetupActionBar(ActionBar bar) {
-    bar.setTitle(R.string.opt_localExtrema);
+    switch (type) {
+      case Config.TaskType.SINGLE_ARG:
+        bar.setTitle(R.string.opt_localExtrema);
+        break;
+      case Config.TaskType.ZERO_ORDER:
+        bar.setTitle(R.string.opt_localExtremaR2Zero);
+        break;
+    }
   }
 
   private void startTask() {
     task = new OptTask(getApplicationContext());
     task.registerEventListener(this);
-    task.execute();
+    task.execute(new Config(type));
   }
 
   private void uiLock(boolean state) {
@@ -122,8 +147,16 @@ public class OptimizationActivity extends BaseActivity
     MyLog.d(LOG_TAG, "Setting up UI");
     ArrayList<String> data = new ArrayList<>();
 
-    for (Result res : taskResult)
-      data.add(ExtremaFinder.getTextResult(this, res));
+    switch (type) {
+      case Config.TaskType.SINGLE_ARG:
+        for (Result res : taskResult)
+          data.add(ExtremaFinder.getTextResult(this, res));
+        break;
+      case Config.TaskType.ZERO_ORDER:
+        Result result = taskResult.get(0);
+        plotView.setImageBitmap(result.getBitmap());
+        break;
+    }
 
     if (adapter != null)
       adapter.refreshData(data);

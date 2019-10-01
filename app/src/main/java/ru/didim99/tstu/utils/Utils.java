@@ -77,6 +77,10 @@ public class Utils {
     return d < 0 ? 0 : (d > max ? max : d);
   }
 
+  public static double norm(double v, double min, double max) {
+    return (v - min) / (max - min);
+  }
+
   /* ======== ARRAY UTILS =========== */
 
   public static double[] stringArrayToDoubleArray(String... args) {

@@ -46,8 +46,6 @@ public class StartActivity extends AppCompatActivity {
       SchedulerActivity.class };
   private static final Class[] IS_TARGET =
     { TransmitActivity.class };
-  private static final Class[] OPT_TARGET =
-    { OptimizationActivity.class };
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +55,8 @@ public class StartActivity extends AppCompatActivity {
 
     findViewById(R.id.startTranslator).setOnClickListener(v ->
       startActivity(new Intent(this, TranslatorActivity.class)));
-    findViewById(R.id.startNumeric).setOnClickListener(v -> numericTypeDialog());
+    findViewById(R.id.startNumeric).setOnClickListener(v -> taskTypeDialog(
+      R.string.numeric_selectType, R.array.numeric_taskTypes, NumericActivity.class));
     findViewById(R.id.startMathStat).setOnClickListener(v -> activityTypeDialog(
       R.string.numeric_selectType, R.array.math_taskTypes, MATH_TARGET));
     findViewById(R.id.startMP).setOnClickListener(v -> activityTypeDialog(
@@ -70,32 +69,32 @@ public class StartActivity extends AppCompatActivity {
       R.string.sectionOS, R.array.os_taskTypes, OS_TARGET));
     findViewById(R.id.startIS).setOnClickListener(v -> activityTypeDialog(
       R.string.sectionIS, R.array.is_taskTypes, IS_TARGET));
-    findViewById(R.id.startOpt).setOnClickListener(v -> activityTypeDialog(
-      R.string.sectionOpt, R.array.opt_taskTypes, OPT_TARGET));
+    findViewById(R.id.startOpt).setOnClickListener(v -> taskTypeDialog(
+      R.string.sectionOpt, R.array.opt_taskTypes, OptimizationActivity.class));
 
     MyLog.d(LOG_TAG, "StartActivity created");
   }
 
   private void activityTypeDialog(@StringRes int titleId, @ArrayRes int listId,
                                   Class[] targetList) {
-    MyLog.d(LOG_TAG, "Type dialog called");
+    MyLog.d(LOG_TAG, "Activity type dialog called");
     AlertDialog.Builder adb = new AlertDialog.Builder(this);
     adb.setTitle(titleId).setItems(listId, (dialog, pos) ->
       startActivity(new Intent(this, targetList[pos])));
-    MyLog.d(LOG_TAG, "Type dialog created");
+    MyLog.d(LOG_TAG, "Activity type dialog created");
     adb.create().show();
   }
 
-  private void numericTypeDialog() {
-    MyLog.d(LOG_TAG, "Type dialog called");
+  private void taskTypeDialog(@StringRes int titleId,
+                              @ArrayRes int listId, Class target) {
+    MyLog.d(LOG_TAG, "Task type dialog called");
     AlertDialog.Builder adb = new AlertDialog.Builder(this);
-    adb.setTitle(R.string.numeric_selectType);
-    adb.setItems(R.array.numeric_taskTypes, (dialog, pos) -> {
-      Intent intent = new Intent(this, NumericActivity.class);
+    adb.setTitle(titleId).setItems(listId, (dialog, pos) -> {
+      Intent intent = new Intent(this, target);
       intent.putExtra(TSTU.EXTRA_TYPE, pos + 1);
       startActivity(intent);
     });
-    MyLog.d(LOG_TAG, "Type dialog created");
+    MyLog.d(LOG_TAG, "Task tialog created");
     adb.create().show();
   }
 }

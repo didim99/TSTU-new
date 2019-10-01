@@ -603,8 +603,10 @@
   <string name="startOpt">Оптимизация</string>
   <string name="sectionOpt">Методы оптимизации</string>
   <string name="opt_localExtrema">Минимум функции одной переменной</string>
+  <string name="opt_localExtremaR2Zero">Минимум функции нескольких переменных: методы нулевого подядка</string>
   <string-array name="opt_taskTypes">
     <item>@string/opt_localExtrema</item>
+    <item>@string/opt_localExtremaR2Zero</item>
   </string-array>
   <string name="opt_localExtrema_function">Функция: x^3 + 1.5x^2 – 6x – 12 на отрезке [%.1f; %.1f]</string>
   <string name="opt_localExtrema_typeBinary">Метод половинного деления</string>
