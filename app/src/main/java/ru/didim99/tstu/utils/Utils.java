@@ -69,6 +69,10 @@ public class Utils {
     return min + random.nextInt(max - min);
   }
 
+  public static double randInRangeD(Random random, double min, double max) {
+    return min + random.nextDouble() * (max - min);
+  }
+
   public static int bound(int i, int max) {
     return i < 0 ? 0 : (i > max ? max : i);
   }

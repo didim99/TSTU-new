@@ -24,8 +24,8 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
         return results;
       case Config.TaskType.ZERO_ORDER:
         IsolinePlotter plotter = new IsolinePlotter();
-        plotter.setBounds(new RectD(-1, 2, -1, 2));
-        plotter.plot((x, y) -> x*x+y*y);
+        plotter.setBounds(new RectD(-2, 2, -2, 2));
+        plotter.plot(resenbrok);
         Result result = new Result();
         result.setBitmap(plotter.getBitmap());
         results.add(result);
@@ -33,5 +33,22 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
       default:
         return null;
     }
+  }
+
+  private static double PA = -4;
+  private static double PB = -5;
+  private static double PC = -3;
+  private static double PD = -5;
+  private static double PALPHA = Math.toRadians(115);
+
+  private FunctionR2 porabola = (x, y) ->
+    Math.pow((x - PA) * Math.cos(PALPHA) + (y - PB) * Math.sin(PALPHA), 2) / (PC * PC)
+      + Math.pow((y - PB) * Math.cos(PALPHA) - (x - PA) * Math.sin(PALPHA), 2) / (PD * PD);
+
+  private FunctionR2 resenbrok = (x, y) ->
+    100 * Math.pow(y - x*x, 2) + Math.pow(1 - x, 2);
+
+  interface ExtremaFinderR2 {
+    Result find(FunctionR2 fun);
   }
 }

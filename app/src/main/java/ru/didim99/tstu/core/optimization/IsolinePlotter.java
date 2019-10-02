@@ -77,9 +77,4 @@ class IsolinePlotter {
   Bitmap getBitmap() {
     return bitmap;
   }
-
-  @FunctionalInterface
-  interface FunctionR2 {
-    double f(double x, double y);
-  }
 }
