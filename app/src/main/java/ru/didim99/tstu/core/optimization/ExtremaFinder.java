@@ -242,7 +242,7 @@ public class ExtremaFinder {
 
     sb.append("\n\n");
     sb.append(context.getString(
-      R.string.opt_solution, s.getX(), s.getY()));
+      R.string.opt_solution, s.get(0), s.get(1)));
     sb.append("\n").append(context.getString(
       R.string.numeric_solveTime, result.getSolutionTime()));
     sb.append("\n").append(context.getString(

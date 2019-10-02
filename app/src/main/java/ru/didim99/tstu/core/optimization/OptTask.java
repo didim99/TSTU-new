@@ -24,10 +24,15 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
         return results;
       case Config.TaskType.ZERO_ORDER:
         IsolinePlotter plotter = new IsolinePlotter();
-        plotter.setBounds(new RectD(-2, 2, -2, 2));
-        plotter.plot(resenbrok);
+        //plotter.setBounds(new RectD(-0, 2, -0, 2));
+        plotter.setBounds(new RectD(-10, 10, -10, 10));
+        //plotter.plot(parabola);
         Result result = new Result();
         result.setBitmap(plotter.getBitmap());
+
+        ExtremaFinderR2 finderR2 = new PaulMethod();
+        finderR2.find(parabola);
+
         results.add(result);
         return results;
       default:
@@ -41,7 +46,7 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
   private static double PD = -5;
   private static double PALPHA = Math.toRadians(115);
 
-  private FunctionR2 porabola = (x, y) ->
+  private FunctionR2 parabola = (x, y) ->
     Math.pow((x - PA) * Math.cos(PALPHA) + (y - PB) * Math.sin(PALPHA), 2) / (PC * PC)
       + Math.pow((y - PB) * Math.cos(PALPHA) - (x - PA) * Math.sin(PALPHA), 2) / (PD * PD);
 

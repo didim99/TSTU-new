@@ -1,6 +1,7 @@
 package ru.didim99.tstu.core.optimization;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import ru.didim99.tstu.utils.MyLog;
 import ru.didim99.tstu.utils.Utils;
 
@@ -12,6 +13,8 @@ class IsolinePlotter {
   private static final int DEFAULT_WIDTH = 2000;
   private static final int DEFAULT_HEIGHT = 2000;
   private static final int LEVEL_COUNT = 20;
+  private static final int LINES_AREA = 200;
+  private static final int LINES_ITER = 5;
   private static final double EPS_F = 0.005;
   // Colors
   private static final int CLR_CLEAR  = 0x00000000;
@@ -22,19 +25,22 @@ class IsolinePlotter {
   private int width, height;
   private double xStep, yStep;
   private double[][] buffer;
-  private Bitmap bitmap;
+  private Bitmap bmpBase, bmpLines;
   private RectD bounds;
+  private int minPoints;
 
   IsolinePlotter() {
     this(DEFAULT_WIDTH, DEFAULT_HEIGHT);
   }
 
   IsolinePlotter(int width, int height) {
-    this.buffer = new double[width][height];
-    this.bitmap = Bitmap.createBitmap(
-      width, height, Bitmap.Config.ARGB_8888);
     this.width = width;
     this.height = height;
+    this.buffer = new double[width][height];
+    this.bmpBase = Bitmap.createBitmap(
+      width, height, Bitmap.Config.ARGB_8888);
+    this.bmpLines = Bitmap.createBitmap(bmpBase);
+    this.minPoints = width * height / LINES_AREA;
   }
 
   void setBounds(RectD bounds) {
@@ -44,9 +50,10 @@ class IsolinePlotter {
   }
 
   void plot(FunctionR2 fun) {
-    double x = bounds.xMin, y = bounds.yMin, f;
+    double x = bounds.xMin, y = bounds.yMin, f = 0;
     double fMin = Double.MAX_VALUE, fMax = -Double.MAX_VALUE;
 
+    MyLog.d(LOG_TAG, "Calculating function values...");
     for (int xi = 0; xi < width; xi++, x += xStep, y = bounds.yMin) {
       for (int yi = 0; yi < height; yi++, y += yStep) {
         buffer[xi][yi] = f = fun.f(x, y);
@@ -55,26 +62,58 @@ class IsolinePlotter {
       }
     }
 
-    double fStep = (fMax - fMin) / LEVEL_COUNT;
+    MyLog.d(LOG_TAG, "Drawing base...");
+    Canvas canvas = new Canvas(bmpBase);
 
-    bitmap.eraseColor(CLR_CLEAR);
     for (int xi = 0; xi < width; xi++) {
       for (int yi = 0; yi < height; yi++) {
-        f = buffer[xi][yi];
+        double factor = Utils.norm(buffer[xi][yi], fMin, fMax);
+        int color = Utils.lerp(CLR_MIN, CLR_MAX, 1 - factor);
+        bmpBase.setPixel(xi, height - (yi + 1), color);
+      }
+    }
+
+    int linePoints = 0, retry = 0;
+    double fStep = (fMax - fMin) / LEVEL_COUNT;
+    double eps = EPS_F;
+
+    MyLog.d(LOG_TAG, "Drawing lines...");
+    while (linePoints < minPoints) {
+      linePoints = drawLines(fMin, fStep, eps);
+      MyLog.v(LOG_TAG, "Found line points: "
+        + linePoints + " step: " + fStep + " eps: " + eps);
+      if (retry++ >= LINES_ITER) {
+        fStep = (fMax - fMin) / LEVEL_COUNT;
+        eps *= 2;
+        retry = 0;
+      } else
+        fStep /= 2;
+    }
+
+    MyLog.d(LOG_TAG, "Merging layers...");
+    canvas.drawBitmap(bmpLines, 0, 0, null);
+  }
+
+  private int drawLines(double fMin, double fStep, double eps) {
+    int linePoints = 0;
+
+    bmpLines.eraseColor(CLR_CLEAR);
+    for (int xi = 0; xi < width; xi++) {
+      for (int yi = 0; yi < height; yi++) {
+        double f = buffer[xi][yi];
         double di = f - (fMin + fStep * Math.floor((f - fMin) / fStep));
 
-        if (Math.abs(di) < EPS_F) {
-          bitmap.setPixel(xi, height - (yi + 1), CLR_LINE);
-        } else {
-          double factor = Utils.norm(f, fMin, fMax);
-          int color = Utils.lerp(CLR_MIN, CLR_MAX, 1 - factor);
-          bitmap.setPixel(xi, height - (yi + 1), color);
+        if (Math.abs(di) < eps) {
+          bmpLines.setPixel(xi, height - (yi + 1), CLR_LINE);
+          linePoints++;
         }
       }
     }
+
+    return linePoints;
   }
 
   Bitmap getBitmap() {
-    return bitmap;
+    return bmpBase;
   }
 }
