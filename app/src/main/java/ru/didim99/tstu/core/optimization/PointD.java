@@ -34,15 +34,23 @@ public class PointD {
   }
 
   PointD add(PointD v) {
+    PointD newPoint = new PointD(data);
     for (int i = 0; i < data.length; i++)
-      data[i] += v.data[i];
-    return this;
+      newPoint.data[i] += v.data[i];
+    return newPoint;
   }
 
   PointD sub(PointD v) {
+    PointD newPoint = new PointD(data);
     for (int i = 0; i < data.length; i++)
-      data[i] -= v.data[i];
-    return this;
+      newPoint.data[i] -= v.data[i];
+    return newPoint;
+  }
+
+  boolean isZero(double eps) {
+    for (int i = 0; i < data.length; i++)
+      if (Math.abs(data[i]) > eps) return false;
+    return true;
   }
 
   @Override
