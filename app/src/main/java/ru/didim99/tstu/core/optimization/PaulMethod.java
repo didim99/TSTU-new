@@ -42,6 +42,7 @@ class PaulMethod implements OptTask.ExtremaFinderR2 {
       }
     }
 
+    result.setSolution(start);
     return result;
   }
 
