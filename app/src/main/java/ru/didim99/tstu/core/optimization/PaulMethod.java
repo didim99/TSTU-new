@@ -1,5 +1,9 @@
 package ru.didim99.tstu.core.optimization;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import java.util.ArrayList;
 import java.util.Random;
 import ru.didim99.tstu.utils.MyLog;
 import ru.didim99.tstu.utils.Utils;
@@ -16,10 +20,11 @@ class PaulMethod implements OptTask.ExtremaFinderR2 {
   private static final double DEFAULT_STEP = 0.1;
 
   private double step = DEFAULT_STEP;
+  private ArrayList<PointD> series;
 
   @Override
-  public Result find(FunctionR2 fun) {
-    Result result = new Result();
+  public PointD find(FunctionR2 fun) {
+    series = new ArrayList<>();
     Random random = new Random();
 
     PointD start = new PointD(
@@ -30,6 +35,7 @@ class PaulMethod implements OptTask.ExtremaFinderR2 {
     boolean done = false;
     while (!done) {
       try {
+        series.add(new PointD(start));
         PointD next = step(fun, start);
         MyLog.d(LOG_TAG, "start: " + start
           + " next: " + next + " d: " + next.sub(start));
@@ -42,8 +48,45 @@ class PaulMethod implements OptTask.ExtremaFinderR2 {
       }
     }
 
-    result.setSolution(start);
-    return result;
+    series.add(new PointD(start));
+    MyLog.d(LOG_TAG, "Solved in " + series.size() + " iterations");
+    return start;
+  }
+
+  @Override
+  public RectD getRange() {
+    RectD rect = new RectD(
+      Double.MAX_VALUE, -Double.MAX_VALUE,
+      Double.MAX_VALUE, -Double.MAX_VALUE);
+
+    for (PointD point : series) {
+      if (point.get(0) < rect.xMin)
+        rect.xMin = point.get(0);
+      if (point.get(0) > rect.xMax)
+        rect.xMax = point.get(0);
+      if (point.get(1) < rect.yMin)
+        rect.yMin = point.get(1);
+      if (point.get(1) > rect.yMax)
+        rect.yMax = point.get(1);
+    }
+
+    return rect;
+  }
+
+  @Override
+  public void drawSteps(Bitmap bitmap, RectD range, Paint paint) {
+    Canvas canvas = new Canvas(bitmap);
+
+    for (PointD point : series) {
+      point.set(0, Utils.map(point.get(0), range.xMin, range.xMax, 0, canvas.getWidth()));
+      point.set(1, Utils.map(point.get(1), range.yMin, range.yMax, canvas.getHeight(), 0));
+    }
+
+    for (int i = 0; i < series.size() - 1; i++) {
+      PointD p1 = series.get(i), p2 = series.get(i + 1);
+      canvas.drawLine((float) p1.get(0), (float) p1.get(1),
+        (float) p2.get(0), (float) p2.get(1), paint);
+    }
   }
 
   private PointD step(FunctionR2 fun, PointD start) {

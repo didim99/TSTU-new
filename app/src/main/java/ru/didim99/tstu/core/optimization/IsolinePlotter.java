@@ -116,4 +116,12 @@ class IsolinePlotter {
   Bitmap getBitmap() {
     return bmpBase;
   }
+
+  int getWidth() {
+    return width;
+  }
+
+  int getHeight() {
+    return height;
+  }
 }

@@ -1,7 +1,6 @@
 package ru.didim99.tstu.core.optimization;
 
 import android.graphics.Bitmap;
-
 import java.util.ArrayList;
 
 /**
@@ -61,8 +60,6 @@ public class Result {
   void setTFCalcCount(int tFCalcCount) {
     this.tFCalcCount = tFCalcCount;
   }
-
-
 
   private Bitmap bitmap;
 

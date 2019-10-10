@@ -85,6 +85,14 @@ public class Utils {
     return (v - min) / (max - min);
   }
 
+  public static double deNorm(double v, double min, double max) {
+    return min + v * (max - min);
+  }
+
+  public static double map(double v, double fromMin, double fromMax, double toMin, double toMax) {
+    return deNorm(norm(v, fromMin, fromMax), toMin, toMax);
+  }
+
   /* ======== ARRAY UTILS =========== */
 
   public static double[] stringArrayToDoubleArray(String... args) {

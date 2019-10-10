@@ -47,11 +47,29 @@ public class PointD {
     return newPoint;
   }
 
-  boolean isZero(double eps) {
+  PointD mult(double v) {
+    PointD newPoint = new PointD(data);
     for (int i = 0; i < data.length; i++)
-      if (Math.abs(data[i]) > eps) return false;
-    return true;
+      newPoint.data[i] *= v;
+    return newPoint;
   }
+
+  PointD div(double v) {
+    PointD newPoint = new PointD(data);
+    for (int i = 0; i < data.length; i++)
+      newPoint.data[i] /= v;
+    return newPoint;
+  }
+
+  boolean isZero(double eps) {
+    double len = 0;
+    for (double v : data)
+      len += v * v;
+    len = Math.sqrt(len);
+    return len < eps;
+  }
+
+  int size() { return data.length; }
 
   @Override
   public String toString() {

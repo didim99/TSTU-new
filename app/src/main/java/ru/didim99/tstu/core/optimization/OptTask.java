@@ -1,13 +1,21 @@
 package ru.didim99.tstu.core.optimization;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Paint;
 import java.util.ArrayList;
 import ru.didim99.tstu.core.CallbackTask;
+import ru.didim99.tstu.utils.MyLog;
 
 /**
  * Created by didim99 on 15.09.18.
  */
 public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
+  private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_OptTask";
+
+  private static final double VIEW_MARGIN = 0.1;
+  private static final int STEPS_CLR = 0xfffaca40;
+  private static final float STEPS_W = 2.5f;
 
   public OptTask(Context context) {
     super(context);
@@ -23,16 +31,27 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
           results.add(finder.solve(method));
         return results;
       case Config.TaskType.ZERO_ORDER:
-        IsolinePlotter plotter = new IsolinePlotter();
-        //plotter.setBounds(new RectD(-0, 2, -0, 2));
-        plotter.setBounds(new RectD(-10, 10, -10, 10));
-        //plotter.plot(parabola);
         Result result = new Result();
-        result.setBitmap(plotter.getBitmap());
+        IsolinePlotter plotter = new IsolinePlotter();
 
+        FunctionR2 function = resenbrok;
         ExtremaFinderR2 finderR2 = new PaulMethod();
-        finderR2.find(parabola);
 
+        PointD solution = finderR2.find(function);
+        MyLog.d(LOG_TAG, "Solution: " + solution);
+        RectD vRange = finderR2.getRange().margin(VIEW_MARGIN)
+          .coverRelative(plotter.getWidth(), plotter.getHeight());
+
+        plotter.setBounds(vRange);
+        plotter.plot(function);
+
+        Paint paint = new Paint();
+        paint.setColor(STEPS_CLR);
+        paint.setStrokeWidth(STEPS_W);
+        finderR2.drawSteps(plotter.getBitmap(), vRange, paint);
+
+        result.setSolution(solution);
+        result.setBitmap(plotter.getBitmap());
         results.add(result);
         return results;
       default:
@@ -54,6 +73,8 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
     100 * Math.pow(y - x*x, 2) + Math.pow(1 - x, 2);
 
   interface ExtremaFinderR2 {
-    Result find(FunctionR2 fun);
+    PointD find(FunctionR2 fun);
+    void drawSteps(Bitmap bitmap, RectD range, Paint paint);
+    RectD getRange();
   }
 }
