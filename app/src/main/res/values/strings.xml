@@ -615,6 +615,19 @@
   <string name="opt_solution">Решение: x:%.4f y:%.4f</string>
   <string name="opt_fCalcCount">Вычисленй f(x): %3d (%d)</string>
   <string name="opt_iterations">Итераций: %9d</string>
+  <string name="opt_solutionR2">Решение: x1:%.4f x2:%.4f</string>
+  <string name="opt_valueR2">Значение f: %.4f</string>
+  <string name="opt_iterationsR2">Итераций: %d</string>
+  <string name="opt_solveMethod">Метод</string>
+  <string name="opt_function">Функция</string>
+  <string-array name="opt_functions">
+    <item>Параболоид</item>
+    <item>Резенброка</item>
+  </string-array>
+  <string-array name="opt_methods">
+    <item>Пауэлла</item>
+    <item>Симплекс-метод</item>
+  </string-array>
   <!-- Содержимое текстовых полей и подписей кнопок (Layout: act_dir_picker) -->
   <string name="actLabel_filePicker">Выбор файла</string>
   <string name="actLabel_dirPicker">Выбор каталога</string>

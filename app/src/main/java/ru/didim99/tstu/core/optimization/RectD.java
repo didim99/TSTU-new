@@ -7,7 +7,7 @@ public class RectD {
   public double xMin, xMax;
   public double yMin, yMax;
 
-  RectD(double xMin, double xMax, double yMin, double yMax) {
+  public RectD(double xMin, double xMax, double yMin, double yMax) {
     this.xMin = xMin;
     this.xMax = xMax;
     this.yMin = yMin;

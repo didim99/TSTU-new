@@ -1,10 +1,11 @@
 package ru.didim99.tstu.core.optimization;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Paint;
 import java.util.ArrayList;
 import ru.didim99.tstu.core.CallbackTask;
+import ru.didim99.tstu.core.optimization.methods.PaulMethod;
+import ru.didim99.tstu.core.optimization.methods.SimplexMethod;
 import ru.didim99.tstu.utils.MyLog;
 
 /**
@@ -33,15 +34,26 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
       case Config.TaskType.ZERO_ORDER:
         Result result = new Result();
         IsolinePlotter plotter = new IsolinePlotter();
+        ExtremaFinderR2 finderR2;
+        FunctionR2 function;
 
-        FunctionR2 function = resenbrok;
-        ExtremaFinderR2 finderR2 = new PaulMethod();
+        switch (config.getMethod()) {
+          case Config.Method.PAUL: finderR2 = new PaulMethod(); break;
+          case Config.Method.SIMPLEX: finderR2 = new SimplexMethod(); break;
+          default: throw new IllegalArgumentException("Unknown solve method");
+        }
 
-        PointD solution = finderR2.find(function);
-        MyLog.d(LOG_TAG, "Solution: " + solution);
+        switch (config.getFunction()) {
+          case Config.Function.PARABOLA: function = parabola; break;
+          case Config.Function.RESENBROK: function = resenbrok; break;
+          default: throw new IllegalArgumentException("Unknown function");
+        }
+
+        result.setSolution(finderR2.find(function));
+        result.setDescription(finderR2.getDescription(appContext.get()));
+        MyLog.d(LOG_TAG, "Solution: " + result.getSolution());
         RectD vRange = finderR2.getRange().margin(VIEW_MARGIN)
           .coverRelative(plotter.getWidth(), plotter.getHeight());
-
         plotter.setBounds(vRange);
         plotter.plot(function);
 
@@ -49,9 +61,8 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
         paint.setColor(STEPS_CLR);
         paint.setStrokeWidth(STEPS_W);
         finderR2.drawSteps(plotter.getBitmap(), vRange, paint);
-
-        result.setSolution(solution);
         result.setBitmap(plotter.getBitmap());
+
         results.add(result);
         return results;
       default:
@@ -71,10 +82,4 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
 
   private FunctionR2 resenbrok = (x, y) ->
     100 * Math.pow(y - x*x, 2) + Math.pow(1 - x, 2);
-
-  interface ExtremaFinderR2 {
-    PointD find(FunctionR2 fun);
-    void drawSteps(Bitmap bitmap, RectD range, Paint paint);
-    RectD getRange();
-  }
 }

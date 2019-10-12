@@ -8,60 +8,60 @@ import java.util.Arrays;
 public class PointD {
   private double[] data;
 
-  PointD(double... v) {
+  public PointD(double... v) {
     data = new double[v.length];
     System.arraycopy(v, 0, data, 0, v.length);
   }
 
-  PointD(PointD src) {
+  public PointD(PointD src) {
     this(src.data);
   }
 
-  void set(PointD src) {
+  public void set(PointD src) {
     System.arraycopy(src.data, 0, data, 0, data.length);
   }
 
-  void set(int pos, double val) {
+  public void set(int pos, double val) {
     data[pos] = val;
   }
 
-  double get(int pos) {
+  public double get(int pos) {
     return data[pos];
   }
 
-  void add(int pos, double val) {
+  public void add(int pos, double val) {
     data[pos] += val;
   }
 
-  PointD add(PointD v) {
+  public PointD add(PointD v) {
     PointD newPoint = new PointD(data);
     for (int i = 0; i < data.length; i++)
       newPoint.data[i] += v.data[i];
     return newPoint;
   }
 
-  PointD sub(PointD v) {
+  public PointD sub(PointD v) {
     PointD newPoint = new PointD(data);
     for (int i = 0; i < data.length; i++)
       newPoint.data[i] -= v.data[i];
     return newPoint;
   }
 
-  PointD mult(double v) {
+  public PointD mult(double v) {
     PointD newPoint = new PointD(data);
     for (int i = 0; i < data.length; i++)
       newPoint.data[i] *= v;
     return newPoint;
   }
 
-  PointD div(double v) {
+  public PointD div(double v) {
     PointD newPoint = new PointD(data);
     for (int i = 0; i < data.length; i++)
       newPoint.data[i] /= v;
     return newPoint;
   }
 
-  boolean isZero(double eps) {
+  public boolean isZero(double eps) {
     double len = 0;
     for (double v : data)
       len += v * v;
@@ -69,7 +69,7 @@ public class PointD {
     return len < eps;
   }
 
-  int size() { return data.length; }
+  public int size() { return data.length; }
 
   @Override
   public String toString() {

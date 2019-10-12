@@ -5,8 +5,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import java.util.ArrayList;
 import ru.didim99.tstu.R;
@@ -28,7 +30,9 @@ public class OptimizationActivity extends BaseActivity
   //view-elements
   private ImageView plotView;
   private TextListAdapter adapter;
+  private Spinner spMethod, spFunction;
   private Button btnStart;
+  private TextView tvOut;
   private View pbMain;
   //main workflow
   private int type;
@@ -49,9 +53,12 @@ public class OptimizationActivity extends BaseActivity
     MyLog.d(LOG_TAG, "View components init...");
     TextView title = findViewById(R.id.tvTitle);
     RecyclerView rvOut = findViewById(R.id.rvOut);
+    spMethod = findViewById(R.id.spMethod);
+    spFunction = findViewById(R.id.spFunction);
     plotView = findViewById(R.id.plotView);
     btnStart = findViewById(R.id.btnStart);
     pbMain = findViewById(R.id.pbMain);
+    tvOut = findViewById(R.id.tvOut);
     btnStart.setOnClickListener(v -> startTask());
 
     switch (type) {
@@ -64,7 +71,12 @@ public class OptimizationActivity extends BaseActivity
         rvOut.setAdapter(adapter);
         break;
       case Config.TaskType.ZERO_ORDER:
-
+        spMethod.setAdapter(new ArrayAdapter<>(
+          this, android.R.layout.simple_list_item_1,
+          getResources().getStringArray(R.array.opt_methods)));
+        spFunction.setAdapter(new ArrayAdapter<>(
+          this, android.R.layout.simple_list_item_1,
+          getResources().getStringArray(R.array.opt_functions)));
         break;
     }
 
@@ -116,9 +128,16 @@ public class OptimizationActivity extends BaseActivity
   }
 
   private void startTask() {
+    Config config = new Config(type);
+
+    if (type == Config.TaskType.ZERO_ORDER) {
+      config.setMethod(spMethod.getSelectedItemPosition());
+      config.setFunction(spFunction.getSelectedItemPosition());
+    }
+
     task = new OptTask(getApplicationContext());
     task.registerEventListener(this);
-    task.execute(new Config(type));
+    task.execute(config);
   }
 
   private void uiLock(boolean state) {
@@ -127,11 +146,19 @@ public class OptimizationActivity extends BaseActivity
 
     uiLocked = state;
     btnStart.setEnabled(!state);
+    if (spMethod != null)
+      spMethod.setEnabled(!state);
+    if (spFunction != null)
+      spFunction.setEnabled(!state);
 
     if (state) {
       MyLog.d(LOG_TAG, "Clearing UI...");
       if (adapter != null)
         adapter.refreshData(null);
+      if (plotView != null)
+        plotView.setImageBitmap(null);
+      if (tvOut != null)
+        tvOut.setText(null);
 
       MyLog.d(LOG_TAG, "UI cleared");
       pbMain.setVisibility(View.VISIBLE);
@@ -155,6 +182,7 @@ public class OptimizationActivity extends BaseActivity
       case Config.TaskType.ZERO_ORDER:
         Result result = taskResult.get(0);
         plotView.setImageBitmap(result.getBitmap());
+        tvOut.setText(result.getDescription());
         break;
     }
 

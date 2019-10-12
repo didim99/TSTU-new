@@ -62,12 +62,21 @@ public class Result {
   }
 
   private Bitmap bitmap;
+  private String description;
 
   public Bitmap getBitmap() {
     return bitmap;
   }
 
-  public void setBitmap(Bitmap bitmap) {
+  public String getDescription() {
+    return description;
+  }
+
+  void setBitmap(Bitmap bitmap) {
     this.bitmap = bitmap;
+  }
+
+  void setDescription(String description) {
+    this.description = description;
   }
 }

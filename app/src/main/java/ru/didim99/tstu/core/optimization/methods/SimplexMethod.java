@@ -1,20 +1,25 @@
-package ru.didim99.tstu.core.optimization;
+package ru.didim99.tstu.core.optimization.methods;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Random;
+import ru.didim99.tstu.core.optimization.ExtremaFinderR2;
+import ru.didim99.tstu.core.optimization.FunctionR2;
+import ru.didim99.tstu.core.optimization.PointD;
+import ru.didim99.tstu.core.optimization.RectD;
 import ru.didim99.tstu.utils.MyLog;
 import ru.didim99.tstu.utils.Utils;
 
 /**
  * Created by didim99 on 03.10.19.
  */
-class SimplexMethod implements OptTask.ExtremaFinderR2 {
+public class SimplexMethod extends ExtremaFinderR2 {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_Simplex";
 
-  private static final double EPSILON = 0.0005;
+  private static final double EPSILON = 0.0001;
   private static final double START_MIN = -10.0;
   private static final double START_MAX = 10.0;
   private static final double START_RANGE = 1.0;
@@ -76,6 +81,8 @@ class SimplexMethod implements OptTask.ExtremaFinderR2 {
     }
 
     MyLog.d(LOG_TAG, "Solved in " + series.size() + " iterations");
+    solutionSteps = series.size();
+    solution = min;
     return min;
   }
 
@@ -125,6 +132,18 @@ class SimplexMethod implements OptTask.ExtremaFinderR2 {
     }
 
     canvas.drawLines(points, paint);
+  }
+
+  @Override
+  public void describeSteps(StringBuilder sb) {
+    for (PointD[] simplex : series) {
+      for (PointD point : simplex) {
+        sb.append(String.format(Locale.US, "%7.4f %7.4f\n",
+          point.get(0), point.get(1)));
+      }
+
+      sb.append("\n");
+    }
   }
 
   private PointD[] step(PointD[] simplex) {
