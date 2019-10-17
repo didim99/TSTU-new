@@ -183,7 +183,7 @@ public class SimplexMethod extends ExtremaFinderR2 {
   }
 
   private void calcF(PointD p) {
-    p.set(2, fun.f(p.get(0), p.get(1)));
+    p.set(2, fun.f(p));
   }
 
   private void log(PointD[] simplex) {

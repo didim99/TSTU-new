@@ -33,7 +33,7 @@ class IsolinePlotter {
     this(DEFAULT_WIDTH, DEFAULT_HEIGHT);
   }
 
-  IsolinePlotter(int width, int height) {
+  private IsolinePlotter(int width, int height) {
     this.width = width;
     this.height = height;
     this.buffer = new double[width][height];
@@ -50,13 +50,13 @@ class IsolinePlotter {
   }
 
   void plot(FunctionR2 fun) {
-    double x = bounds.xMin, y = bounds.yMin, f = 0;
-    double fMin = Double.MAX_VALUE, fMax = -Double.MAX_VALUE;
+    PointD p = new PointD(bounds.xMin, bounds.yMin);
+    double f, fMin = Double.MAX_VALUE, fMax = -Double.MAX_VALUE;
 
     MyLog.d(LOG_TAG, "Calculating function values...");
-    for (int xi = 0; xi < width; xi++, x += xStep, y = bounds.yMin) {
-      for (int yi = 0; yi < height; yi++, y += yStep) {
-        buffer[xi][yi] = f = fun.f(x, y);
+    for (int xi = 0; xi < width; xi++, p.add(0, xStep), p.set(1, bounds.yMin)) {
+      for (int yi = 0; yi < height; yi++, p.add(1, yStep)) {
+        buffer[xi][yi] = f = fun.f(p);
         if (f < fMin) fMin = f;
         if (f > fMax) fMax = f;
       }

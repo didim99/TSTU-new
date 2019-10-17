@@ -53,7 +53,7 @@ public class PaulMethod extends ExtremaFinderR2 {
 
     series.add(new PointD(start));
     MyLog.d(LOG_TAG, "Solved in " + series.size() + " iterations");
-    start = new PointD(start.get(0), start.get(1), fun.f(start.get(0), start.get(1)));
+    start = new PointD(start.get(0), start.get(1), fun.f(start));
     solutionSteps = series.size();
     solution = start;
     return start;
@@ -104,7 +104,7 @@ public class PaulMethod extends ExtremaFinderR2 {
   }
 
   private PointD step(FunctionR2 fun, PointD start) {
-    double f1 = fun.f(start.get(0), start.get(1)), fs = f1, f2;
+    double f1 = fun.f(start), fs = f1, f2;
     PointD vec = findVector(fun, start).sub(start);
     PointD p1 = new PointD(start);
     PointD p2 = new PointD(start);
@@ -113,7 +113,7 @@ public class PaulMethod extends ExtremaFinderR2 {
     double df = -1;
     while (df < 0) {
       p2 = p2.add(vec);
-      f2 = fun.f(p2.get(0), p2.get(1));
+      f2 = fun.f(p2);
       df = f2 - f1;
       if (df < 0) {
         p1.set(p2);
@@ -133,7 +133,7 @@ public class PaulMethod extends ExtremaFinderR2 {
   }
 
   private PointD findVector(FunctionR2 fun, PointD start) {
-    double f1 = fun.f(start.get(0), start.get(1)), fs = f1, f2;
+    double f1 = fun.f(start), fs = f1, f2;
     PointD p1 = new PointD(start);
     PointD p2 = new PointD(start);
     int totalSteps = 0;
@@ -147,7 +147,7 @@ public class PaulMethod extends ExtremaFinderR2 {
 
       while (df < 0) {
         p2.add(i, step);
-        f2 = fun.f(p2.get(0), p2.get(1));
+        f2 = fun.f(p2);
         df = f2 - f1;
 
         if (df < 0) {

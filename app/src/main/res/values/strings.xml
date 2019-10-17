@@ -627,6 +627,8 @@
   <string-array name="opt_methods">
     <item>Пауэлла</item>
     <item>Симплекс-метод</item>
+    <item>Наискорейшего спуска</item>
+    <item>Сопряженных градиентов</item>
   </string-array>
   <!-- Содержимое текстовых полей и подписей кнопок (Layout: act_dir_picker) -->
   <string name="actLabel_filePicker">Выбор файла</string>

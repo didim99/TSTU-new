@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Paint;
 import java.util.ArrayList;
 import ru.didim99.tstu.core.CallbackTask;
+import ru.didim99.tstu.core.optimization.methods.FastDescentMethod;
+import ru.didim99.tstu.core.optimization.methods.GradientMethod;
 import ru.didim99.tstu.core.optimization.methods.PaulMethod;
 import ru.didim99.tstu.core.optimization.methods.SimplexMethod;
 import ru.didim99.tstu.utils.MyLog;
@@ -40,6 +42,8 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
         switch (config.getMethod()) {
           case Config.Method.PAUL: finderR2 = new PaulMethod(); break;
           case Config.Method.SIMPLEX: finderR2 = new SimplexMethod(); break;
+          case Config.Method.FDESCENT: finderR2 = new FastDescentMethod(); break;
+          case Config.Method.GRADIENT: finderR2 = new GradientMethod(); break;
           default: throw new IllegalArgumentException("Unknown solve method");
         }
 
@@ -70,16 +74,20 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
     }
   }
 
-  private static double PA = -4;
-  private static double PB = -5;
-  private static double PC = -3;
-  private static double PD = -5;
-  private static double PALPHA = Math.toRadians(115);
+  private static final double PA = -4;
+  private static final double PB = -5;
+  private static final double PC = -3;
+  private static final double PD = -5;
+  private static final double PALPHA = Math.toRadians(115);
 
-  private FunctionR2 parabola = (x, y) ->
-    Math.pow((x - PA) * Math.cos(PALPHA) + (y - PB) * Math.sin(PALPHA), 2) / (PC * PC)
+  private FunctionR2 parabola = (p) -> {
+    double x = p.get(0), y = p.get(1);
+    return Math.pow((x - PA) * Math.cos(PALPHA) + (y - PB) * Math.sin(PALPHA), 2) / (PC * PC)
       + Math.pow((y - PB) * Math.cos(PALPHA) - (x - PA) * Math.sin(PALPHA), 2) / (PD * PD);
+  };
 
-  private FunctionR2 resenbrok = (x, y) ->
-    100 * Math.pow(y - x*x, 2) + Math.pow(1 - x, 2);
+  private FunctionR2 resenbrok = (p) -> {
+    double x = p.get(0), y = p.get(1);
+    return 100 * Math.pow(y - x * x, 2) + Math.pow(1 - x, 2);
+  };
 }

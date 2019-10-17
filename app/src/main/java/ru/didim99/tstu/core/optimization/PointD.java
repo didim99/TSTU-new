@@ -17,16 +17,17 @@ public class PointD {
     this(src.data);
   }
 
-  public void set(PointD src) {
+  public PointD set(PointD src) {
     System.arraycopy(src.data, 0, data, 0, data.length);
-  }
-
-  public void set(int pos, double val) {
-    data[pos] = val;
+    return this;
   }
 
   public double get(int pos) {
     return data[pos];
+  }
+
+  public void set(int pos, double val) {
+    data[pos] = val;
   }
 
   public void add(int pos, double val) {
