@@ -1,15 +1,10 @@
 package ru.didim99.tstu.core.optimization.methods;
 
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Random;
 import ru.didim99.tstu.core.optimization.ExtremaFinderR2;
 import ru.didim99.tstu.core.optimization.FunctionR2;
 import ru.didim99.tstu.core.optimization.PointD;
-import ru.didim99.tstu.core.optimization.RectD;
 import ru.didim99.tstu.utils.MyLog;
 import ru.didim99.tstu.utils.Utils;
 
@@ -25,7 +20,6 @@ public class PaulMethod extends ExtremaFinderR2 {
   private static final double DEFAULT_STEP = 0.1;
 
   private double step = DEFAULT_STEP;
-  private ArrayList<PointD> series;
 
   @Override
   public PointD find(FunctionR2 fun) {
@@ -52,55 +46,10 @@ public class PaulMethod extends ExtremaFinderR2 {
     }
 
     series.add(new PointD(start));
-    MyLog.d(LOG_TAG, "Solved in " + series.size() + " iterations");
-    start = new PointD(start.get(0), start.get(1), fun.f(start));
-    solutionSteps = series.size();
-    solution = start;
-    return start;
-  }
-
-  @Override
-  public RectD getRange() {
-    RectD rect = new RectD(
-      Double.MAX_VALUE, -Double.MAX_VALUE,
-      Double.MAX_VALUE, -Double.MAX_VALUE);
-
-    for (PointD point : series) {
-      if (point.get(0) < rect.xMin)
-        rect.xMin = point.get(0);
-      if (point.get(0) > rect.xMax)
-        rect.xMax = point.get(0);
-      if (point.get(1) < rect.yMin)
-        rect.yMin = point.get(1);
-      if (point.get(1) > rect.yMax)
-        rect.yMax = point.get(1);
-    }
-
-    return rect;
-  }
-
-  @Override
-  public void drawSteps(Bitmap bitmap, RectD range, Paint paint) {
-    Canvas canvas = new Canvas(bitmap);
-
-    for (PointD point : series) {
-      point.set(0, Utils.map(point.get(0), range.xMin, range.xMax, 0, canvas.getWidth()));
-      point.set(1, Utils.map(point.get(1), range.yMin, range.yMax, canvas.getHeight(), 0));
-    }
-
-    for (int i = 0; i < series.size() - 1; i++) {
-      PointD p1 = series.get(i), p2 = series.get(i + 1);
-      canvas.drawLine((float) p1.get(0), (float) p1.get(1),
-        (float) p2.get(0), (float) p2.get(1), paint);
-    }
-  }
-
-  @Override
-  public void describeSteps(StringBuilder sb) {
-    for (PointD point : series) {
-      sb.append(String.format(Locale.US, "%7.4f %7.4f\n",
-        point.get(0), point.get(1)));
-    }
+    solution = new PointD(start.get(0), start.get(1), fun.f(start));
+    solutionSteps = series.size() - 1;
+    MyLog.d(LOG_TAG, "Solved in " + solutionSteps + " iterations");
+    return solution;
   }
 
   private PointD step(FunctionR2 fun, PointD start) {

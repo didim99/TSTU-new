@@ -13,6 +13,8 @@ import ru.didim99.tstu.core.optimization.RectD;
 import ru.didim99.tstu.utils.MyLog;
 import ru.didim99.tstu.utils.Utils;
 
+import static ru.didim99.tstu.core.optimization.methods.MathUtils.calcF;
+
 /**
  * Created by didim99 on 03.10.19.
  */
@@ -49,9 +51,9 @@ public class SimplexMethod extends ExtremaFinderR2 {
       Utils.randInRangeD(random,
         startH.get(1) - START_RANGE, startH.get(1) + START_RANGE), 0);
 
-    calcF(startH);
-    calcF(startG);
-    calcF(startL);
+    calcF(fun, startH);
+    calcF(fun, startG);
+    calcF(fun, startL);
 
     PointD[] simplex = new PointD[] {startH, startG, startL};
 
@@ -80,9 +82,9 @@ public class SimplexMethod extends ExtremaFinderR2 {
         min = point;
     }
 
-    MyLog.d(LOG_TAG, "Solved in " + series.size() + " iterations");
-    solutionSteps = series.size();
     solution = min;
+    solutionSteps = series.size();
+    MyLog.d(LOG_TAG, "Solved in " + solutionSteps + " iterations");
     return min;
   }
 
@@ -155,7 +157,7 @@ public class SimplexMethod extends ExtremaFinderR2 {
     if (pG.get(2) < pL.get(2)) { tmp = pG; pG = pL; pL = tmp; }
 
     PointD pC = pG.add(pL).div(2.0);
-    calcF(pC);
+    calcF(fun, pC);
     PointD p0 = flip(pH, pC, ALPHA);
 
     if (p0.get(2) < pL.get(2)) {
@@ -178,12 +180,8 @@ public class SimplexMethod extends ExtremaFinderR2 {
 
   private PointD flip(PointD p, PointD base, double factor) {
     PointD r = p.add(base.sub(p).mult(1.0 + factor));
-    calcF(r);
+    calcF(fun, r);
     return r;
-  }
-
-  private void calcF(PointD p) {
-    p.set(2, fun.f(p));
   }
 
   private void log(PointD[] simplex) {

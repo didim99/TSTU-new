@@ -116,7 +116,7 @@ public class ExtremaFinder {
         fCalc++;
       }
 
-      delta = (end - start) * 0.38;
+      delta = (end - start) * 0.382;
       if (f1 > f2) {
         f1 = f2;
         newStart = newEnd;

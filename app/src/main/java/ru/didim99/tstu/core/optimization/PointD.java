@@ -8,6 +8,11 @@ import java.util.Arrays;
 public class PointD {
   private double[] data;
 
+  public PointD(int size) {
+    data = new double[size];
+    Arrays.fill(data, 0);
+  }
+
   public PointD(double... v) {
     data = new double[v.length];
     System.arraycopy(v, 0, data, 0, v.length);
@@ -62,18 +67,50 @@ public class PointD {
     return newPoint;
   }
 
-  public boolean isZero(double eps) {
-    double len = 0;
-    for (double v : data)
-      len += v * v;
-    len = Math.sqrt(len);
-    return len < eps;
+  public PointD negative() {
+    PointD newPoint = new PointD(size());
+    for (int i = 0; i < data.length; i++)
+      newPoint.data[i] = -data[i];
+    return newPoint;
   }
 
-  public int size() { return data.length; }
+  public PointD abs() {
+    PointD newPoint = new PointD(size());
+    for (int i = 0; i < data.length; i++)
+      newPoint.data[i] = Math.abs(data[i]);
+    return newPoint;
+  }
+
+  public double length(int r) {
+    return Math.sqrt(length2(r));
+  }
+
+  public double length2(int r) {
+    double len = 0;
+    if (r > size()) r = size();
+    for (int i = 0; i < r; i++)
+      len += data[i] * data[i];
+    return len;
+  }
+
+  public boolean isZero(double eps) {
+    return length(size()) < eps;
+  }
+
+  public int size() {
+    return data.length;
+  }
 
   @Override
   public String toString() {
     return "Point: " + Arrays.toString(data);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (!(obj instanceof PointD)) return false;
+    return Arrays.equals(data, ((PointD) obj).data);
   }
 }

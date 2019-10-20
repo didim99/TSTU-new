@@ -71,6 +71,10 @@ public class Matrix {
     return name;
   }
 
+  public void setName(String name) {
+    this.name = name;
+  }
+
   public boolean isSquare() {
     return getRowCount() == getColumnCount();
   }
@@ -191,6 +195,19 @@ public class Matrix {
       return result;
     } else
       return element * matrix[0][0];
+  }
+
+  public Matrix transpose() {
+    Matrix res = new Matrix(String.format(
+      Locale.US, "%s_t", name),
+      getColumnCount(), getRowCount());
+    for (int i = 0; i < getRowCount(); i++) {
+      for (int j = 0; j < getColumnCount(); j++) {
+        res.set(j, i, get(i, j));
+      }
+    }
+
+    return res;
   }
 
   boolean isZero() {

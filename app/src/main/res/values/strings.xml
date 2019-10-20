@@ -603,7 +603,7 @@
   <string name="startOpt">Оптимизация</string>
   <string name="sectionOpt">Методы оптимизации</string>
   <string name="opt_localExtrema">Функция одной переменной</string>
-  <string name="opt_localExtremaR2Zero">Методы нулевого подядка</string>
+  <string name="opt_localExtremaR2Zero">Функция нескольких переменных</string>
   <string-array name="opt_taskTypes">
     <item>@string/opt_localExtrema</item>
     <item>@string/opt_localExtremaR2Zero</item>
