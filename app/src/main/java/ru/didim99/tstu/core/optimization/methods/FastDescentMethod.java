@@ -17,8 +17,8 @@ public class FastDescentMethod extends ExtremaFinderR2 {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_FDM";
 
   private static final double EPSILON = 0.001;
-  private static final double START_MIN = -2.0;
-  private static final double START_MAX = 2.0;
+  private static final double START_MIN = -5.0;
+  private static final double START_MAX = 5.0;
   private static final double G_STEP = 10E-8;
 
   @Override

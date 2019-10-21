@@ -81,6 +81,10 @@ public class PointD {
     return newPoint;
   }
 
+  public PointD norm(int r) {
+    return div(length(r));
+  }
+
   public double length(int r) {
     return Math.sqrt(length2(r));
   }

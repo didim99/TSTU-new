@@ -9,8 +9,7 @@ import ru.didim99.tstu.utils.MyLog;
  */
 class MathUtils {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_MUtils";
-
-  private static final double GOLD_FACTOR = 0.382;
+  
   private static final double EPSILON = 0.001;
   private static final double STEP = 1.0;
 
@@ -27,66 +26,12 @@ class MathUtils {
     return g;
   }
 
-  static PointD minimize(FunctionR2 fun, PointD start, PointD dir) {
-    PointD test = minimize2(fun, start, dir);
-    PointD end = new PointD(start);
-    PointD tmp = new PointD(start);
-
-    double df = -1;
-    boolean first = true;
-    while (df < 0) {
-      start.set(tmp);
-      tmp.set(end);
-      end = end.add(dir);
-      calcF(fun, end);
-      df = end.get(2) - tmp.get(2);
-
-      if (first) {
-        first = false;
-        if (df > 0) {
-          start.set(end);
-          tmp.set(end);
-          dir = dir.negative();
-          df = -df;
-        }
-      }
-    }
-
-    PointD delta = end.sub(start).mult(GOLD_FACTOR);
-    PointD newStart = start.add(delta);
-    PointD newEnd = end.sub(delta);
-    calcF(fun, newStart);
-    calcF(fun, newEnd);
-
-    while (end.sub(start).length2(2) > EPSILON) {
-      if (newStart.get(2) > newEnd.get(2))
-        start.set(newStart);
-      else
-        end.set(newEnd);
-
-      delta = end.sub(start).mult(GOLD_FACTOR);
-      if (newStart.get(2) > newEnd.get(2)) {
-        newStart.set(newEnd);
-        newEnd = end.sub(delta);
-        calcF(fun, newEnd);
-      } else {
-        newEnd.set(newStart);
-        newStart = start.add(delta);
-        calcF(fun, newStart);
-      }
-    }
-
-    PointD min = start.add(end).div(2);
-    calcF(fun, min);
-
-    MyLog.v(LOG_TAG, " ===== delta: " + min.sub(test).length(2)
-      + " df: " + (min.get(2) - test.get(2)));
-    return test;
-  }
-
-  static PointD minimize2(FunctionR2 function, PointD start, PointD dir) {
+  static PointD minimize(FunctionR2 function, PointD start, PointD dir) {
+    calcF(function, start);
     double factor = STEP, delta = EPSILON, df;
     PointD prev = new PointD(start);
+    if (dir.length(2) > 1.0)
+      dir = dir.norm(2);
 
     int steps = 0, totalSteps = 0;
     while (delta > EPSILON * EPSILON) {
