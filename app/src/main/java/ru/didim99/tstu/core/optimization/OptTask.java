@@ -48,8 +48,9 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
         }
 
         switch (config.getFunction()) {
-          case Config.Function.PARABOLA: function = parabola; break;
-          case Config.Function.RESENBROK: function = resenbrok; break;
+          case Config.Function.PARABOLA: function = Functions.parabola; break;
+          case Config.Function.PARABOLA2: function = Functions.parabola2; break;
+          case Config.Function.RESENBROK: function = Functions.resenbrok; break;
           default: throw new IllegalArgumentException("Unknown function");
         }
 
@@ -73,21 +74,4 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
         return null;
     }
   }
-
-  private static final double PA = -4;
-  private static final double PB = -5;
-  private static final double PC = -3;
-  private static final double PD = -5;
-  private static final double PALPHA = Math.toRadians(115);
-
-  private FunctionR2 parabola = (p) -> {
-    double x = p.get(0), y = p.get(1);
-    return Math.pow((x - PA) * Math.cos(PALPHA) + (y - PB) * Math.sin(PALPHA), 2) / (PC * PC)
-      + Math.pow((y - PB) * Math.cos(PALPHA) - (x - PA) * Math.sin(PALPHA), 2) / (PD * PD);
-  };
-
-  private FunctionR2 resenbrok = (p) -> {
-    double x = p.get(0), y = p.get(1);
-    return 100 * Math.pow(y - x * x, 2) + Math.pow(1 - x, 2);
-  };
 }

@@ -19,7 +19,8 @@ public class Config {
 
   public static final class Function {
     public static final int PARABOLA  = 0;
-    public static final int RESENBROK = 1;
+    public static final int PARABOLA2 = 1;
+    public static final int RESENBROK = 2;
   }
 
   private int taskType;

@@ -9,7 +9,7 @@ import ru.didim99.tstu.utils.MyLog;
  */
 class MathUtils {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_MUtils";
-  
+
   private static final double EPSILON = 0.001;
   private static final double STEP = 1.0;
 
