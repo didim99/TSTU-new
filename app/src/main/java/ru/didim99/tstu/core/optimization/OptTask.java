@@ -33,7 +33,7 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
         for (int method : ExtremaFinder.Method.ALL)
           results.add(finder.solve(method));
         return results;
-      case Config.TaskType.ZERO_ORDER:
+      case Config.TaskType.MULTI_ARG:
         Result result = new Result();
         IsolinePlotter plotter = new IsolinePlotter();
         ExtremaFinderR2 finderR2;

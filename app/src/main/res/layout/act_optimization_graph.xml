@@ -51,6 +51,29 @@
           android:layout_marginStart="5dp"/>
       </TableRow>
 
+      <CheckBox
+        android:id="@+id/cbUseLimits"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:text="@string/opt_useLimits"
+        android:textSize="@dimen/textSize_main"/>
+
+      <TableRow android:id="@+id/rowLimits">
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/opt_solveMethod"
+          android:textSize="@dimen/textSize_large"
+          android:gravity="end"/>
+
+        <Spinner
+          android:id="@+id/spLimitMethod"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="5dp"
+          android:layout_marginStart="5dp"/>
+      </TableRow>
     </TableLayout>
 
     <Button

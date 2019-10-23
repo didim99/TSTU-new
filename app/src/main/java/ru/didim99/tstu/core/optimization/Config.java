@@ -7,7 +7,7 @@ public class Config {
   public static final class TaskType {
     public static final int UNDEFINED   = 0;
     public static final int SINGLE_ARG  = 1;
-    public static final int ZERO_ORDER  = 2;
+    public static final int MULTI_ARG   = 2;
   }
 
   public static final class Method {
@@ -25,6 +25,8 @@ public class Config {
 
   private int taskType;
   private int method, function;
+  private boolean useLimits;
+  private int limitMethod;
 
   public Config(int taskType) {
     this.taskType = taskType;
@@ -38,6 +40,14 @@ public class Config {
     this.function = function;
   }
 
+  public void setUseLimits(boolean useLimits) {
+    this.useLimits = useLimits;
+  }
+
+  public void setLimitMethod(int limitMethod) {
+    this.limitMethod = limitMethod;
+  }
+
   int getTaskType() {
     return taskType;
   }
@@ -48,5 +58,13 @@ public class Config {
 
   int getFunction() {
     return function;
+  }
+
+  boolean isUseLimits() {
+    return useLimits;
+  }
+
+  int getLimitMethod() {
+    return limitMethod;
   }
 }

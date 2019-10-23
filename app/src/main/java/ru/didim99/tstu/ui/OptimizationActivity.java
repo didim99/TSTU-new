@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -33,7 +34,9 @@ public class OptimizationActivity extends BaseActivity
   private Spinner spMethod, spFunction;
   private Button btnStart;
   private TextView tvOut;
-  private View pbMain;
+  private View pbMain, rowLimits;
+  private CheckBox cbLimits;
+  private Spinner spLimitMethod;
   //main workflow
   private int type;
   private OptTask task;
@@ -59,6 +62,9 @@ public class OptimizationActivity extends BaseActivity
     btnStart = findViewById(R.id.btnStart);
     pbMain = findViewById(R.id.pbMain);
     tvOut = findViewById(R.id.tvOut);
+    cbLimits = findViewById(R.id.cbUseLimits);
+    rowLimits = findViewById(R.id.rowLimits);
+    spLimitMethod = findViewById(R.id.spLimitMethod);
     btnStart.setOnClickListener(v -> startTask());
 
     switch (type) {
@@ -70,13 +76,18 @@ public class OptimizationActivity extends BaseActivity
           this, RecyclerView.HORIZONTAL, false));
         rvOut.setAdapter(adapter);
         break;
-      case Config.TaskType.ZERO_ORDER:
+      case Config.TaskType.MULTI_ARG:
         spMethod.setAdapter(new ArrayAdapter<>(
           this, android.R.layout.simple_list_item_1,
           getResources().getStringArray(R.array.opt_methods)));
         spFunction.setAdapter(new ArrayAdapter<>(
           this, android.R.layout.simple_list_item_1,
           getResources().getStringArray(R.array.opt_functions)));
+        spLimitMethod.setAdapter(new ArrayAdapter<>(
+          this, android.R.layout.simple_list_item_1,
+          getResources().getStringArray(R.array.opt_limitMethods)));
+        cbLimits.setOnCheckedChangeListener((v, c) ->
+          rowLimits.setVisibility(c ? View.VISIBLE : View.GONE));
         break;
     }
 
@@ -121,7 +132,7 @@ public class OptimizationActivity extends BaseActivity
       case Config.TaskType.SINGLE_ARG:
         bar.setTitle(R.string.opt_localExtrema);
         break;
-      case Config.TaskType.ZERO_ORDER:
+      case Config.TaskType.MULTI_ARG:
         bar.setTitle(R.string.opt_localExtremaR2Zero);
         break;
     }
@@ -130,9 +141,11 @@ public class OptimizationActivity extends BaseActivity
   private void startTask() {
     Config config = new Config(type);
 
-    if (type == Config.TaskType.ZERO_ORDER) {
+    if (type == Config.TaskType.MULTI_ARG) {
       config.setMethod(spMethod.getSelectedItemPosition());
       config.setFunction(spFunction.getSelectedItemPosition());
+      config.setLimitMethod(spLimitMethod.getSelectedItemPosition());
+      config.setUseLimits(cbLimits.isChecked());
     }
 
     task = new OptTask(getApplicationContext());
@@ -150,6 +163,10 @@ public class OptimizationActivity extends BaseActivity
       spMethod.setEnabled(!state);
     if (spFunction != null)
       spFunction.setEnabled(!state);
+    if (spLimitMethod != null)
+      spLimitMethod.setEnabled(!state);
+    if (cbLimits != null)
+      cbLimits.setEnabled(!state);
 
     if (state) {
       MyLog.d(LOG_TAG, "Clearing UI...");
@@ -179,7 +196,7 @@ public class OptimizationActivity extends BaseActivity
         for (Result res : taskResult)
           data.add(ExtremaFinder.getTextResult(this, res));
         break;
-      case Config.TaskType.ZERO_ORDER:
+      case Config.TaskType.MULTI_ARG:
         Result result = taskResult.get(0);
         plotView.setImageBitmap(result.getBitmap());
         tvOut.setText(result.getDescription());
