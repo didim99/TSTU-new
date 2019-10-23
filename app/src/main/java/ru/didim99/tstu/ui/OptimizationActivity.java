@@ -88,6 +88,7 @@ public class OptimizationActivity extends BaseActivity
           getResources().getStringArray(R.array.opt_limitMethods)));
         cbLimits.setOnCheckedChangeListener((v, c) ->
           rowLimits.setVisibility(c ? View.VISIBLE : View.GONE));
+        rowLimits.setVisibility(cbLimits.isChecked() ? View.VISIBLE : View.GONE);
         break;
     }
 

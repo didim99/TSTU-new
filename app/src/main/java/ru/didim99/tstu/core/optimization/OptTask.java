@@ -62,6 +62,9 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
         plotter.setBounds(vRange);
         plotter.plot(function);
 
+        if (config.isUseLimits())
+          plotter.drawLimits(Functions.limits);
+
         Paint paint = new Paint();
         paint.setColor(STEPS_CLR);
         paint.setStrokeWidth(STEPS_W);

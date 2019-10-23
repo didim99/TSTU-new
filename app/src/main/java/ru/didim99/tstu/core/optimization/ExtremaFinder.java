@@ -12,8 +12,8 @@ import ru.didim99.tstu.utils.Timer;
 public class ExtremaFinder {
   private static final int ITERATIONS   = 10000;
   private static final double EPSILON   = 0.01;
-  public static final double DEF_START = -1.5;
-  public static final double DEF_END   = 7.0;
+  public static final double DEF_START  = -1.5;
+  public static final double DEF_END    = 7.0;
 
   static final class Method {
     static final int BINARY     = 1;

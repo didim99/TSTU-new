@@ -622,7 +622,8 @@
   <string name="opt_function">Функция</string>
   <string name="opt_useLimits">Добавить ограничения</string>
   <string-array name="opt_functions">
-    <item>Параболоид</item>
+    <item>Параболоид 1</item>
+    <item>Параболоид 2</item>
     <item>Резенброка</item>
   </string-array>
   <string-array name="opt_methods">

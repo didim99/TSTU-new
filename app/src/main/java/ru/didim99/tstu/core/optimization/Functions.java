@@ -24,6 +24,11 @@ class Functions {
     return 100 * Math.pow(y - x * x, 2) + Math.pow(1 - x, 2);
   };
 
+  static Limit[] limits = {
+    new Limit(p -> p.get(0) - 4 / p.get(1), Limit.Mode.LE),
+    new Limit(p -> p.get(0), Limit.Mode.GE)
+  };
+
   private static double paraboloid(PointD p, double a, double b,
                                    double c, double d, double alpha) {
     double x = p.get(0), y = p.get(1);
