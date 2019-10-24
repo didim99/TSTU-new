@@ -1,4 +1,4 @@
-package ru.didim99.tstu.core.optimization;
+package ru.didim99.tstu.core.optimization.math;
 
 /**
  * Created by didim99 on 23.10.19.

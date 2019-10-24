@@ -1,4 +1,4 @@
-package ru.didim99.tstu.core.optimization;
+package ru.didim99.tstu.core.optimization.methods;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -7,15 +7,18 @@ import android.graphics.Paint;
 import java.util.ArrayList;
 import java.util.Locale;
 import ru.didim99.tstu.R;
+import ru.didim99.tstu.core.optimization.math.FunctionRN;
+import ru.didim99.tstu.core.optimization.math.PointD;
+import ru.didim99.tstu.core.optimization.math.RectD;
 import ru.didim99.tstu.utils.Utils;
 
 /**
  * Created by didim99 on 11.10.19.
  */
 public abstract class ExtremaFinderRN {
-  protected ArrayList<PointD> series;
-  protected PointD solution;
-  protected int solutionSteps;
+  ArrayList<PointD> series;
+  PointD solution;
+  int solutionSteps;
 
   public abstract PointD find(FunctionRN fun);
 
@@ -60,7 +63,7 @@ public abstract class ExtremaFinderRN {
     }
   }
 
-  String getDescription(Context context) {
+  public String getDescription(Context context) {
     StringBuilder sb = new StringBuilder();
 
     sb.append(context.getString(

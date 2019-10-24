@@ -3,6 +3,8 @@ package ru.didim99.tstu.core.optimization;
 import android.graphics.Bitmap;
 import java.util.ArrayList;
 
+import ru.didim99.tstu.core.optimization.math.PointD;
+
 /**
  * Created by didim99 on 05.09.19.
  */

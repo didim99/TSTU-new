@@ -2,6 +2,11 @@ package ru.didim99.tstu.core.optimization;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+
+import ru.didim99.tstu.core.optimization.math.FunctionRN;
+import ru.didim99.tstu.core.optimization.math.Limit;
+import ru.didim99.tstu.core.optimization.math.PointD;
+import ru.didim99.tstu.core.optimization.math.RectD;
 import ru.didim99.tstu.utils.MyLog;
 import ru.didim99.tstu.utils.Utils;
 

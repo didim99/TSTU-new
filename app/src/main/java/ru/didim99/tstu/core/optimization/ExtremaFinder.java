@@ -4,6 +4,7 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.Locale;
 import ru.didim99.tstu.R;
+import ru.didim99.tstu.core.optimization.math.PointD;
 import ru.didim99.tstu.utils.Timer;
 
 /**

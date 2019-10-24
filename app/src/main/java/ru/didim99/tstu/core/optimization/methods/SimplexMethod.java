@@ -6,10 +6,10 @@ import android.graphics.Paint;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
-import ru.didim99.tstu.core.optimization.ExtremaFinderRN;
-import ru.didim99.tstu.core.optimization.FunctionRN;
-import ru.didim99.tstu.core.optimization.PointD;
-import ru.didim99.tstu.core.optimization.RectD;
+
+import ru.didim99.tstu.core.optimization.math.FunctionRN;
+import ru.didim99.tstu.core.optimization.math.PointD;
+import ru.didim99.tstu.core.optimization.math.RectD;
 import ru.didim99.tstu.utils.MyLog;
 import ru.didim99.tstu.utils.Utils;
 

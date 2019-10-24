@@ -1,5 +1,9 @@
 package ru.didim99.tstu.core.optimization;
 
+import ru.didim99.tstu.core.optimization.math.FunctionRN;
+import ru.didim99.tstu.core.optimization.math.Limit;
+import ru.didim99.tstu.core.optimization.math.PointD;
+
 /**
  * Created by didim99 on 21.10.19.
  */

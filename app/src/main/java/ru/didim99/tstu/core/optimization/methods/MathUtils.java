@@ -1,7 +1,7 @@
 package ru.didim99.tstu.core.optimization.methods;
 
-import ru.didim99.tstu.core.optimization.FunctionRN;
-import ru.didim99.tstu.core.optimization.PointD;
+import ru.didim99.tstu.core.optimization.math.FunctionRN;
+import ru.didim99.tstu.core.optimization.math.PointD;
 import ru.didim99.tstu.utils.MyLog;
 
 /**

@@ -1,4 +1,4 @@
-package ru.didim99.tstu.core.optimization;
+package ru.didim99.tstu.core.optimization.math;
 
 /**
  * Created by didim99 on 29.09.19.
@@ -14,11 +14,11 @@ public class RectD {
     this.yMax = yMax;
   }
 
-  RectD(RectD src) {
+  public RectD(RectD src) {
     this(src.xMin, src.xMax, src.yMin, src.yMax);
   }
 
-  RectD margin(double factor) {
+  public RectD margin(double factor) {
     RectD r = new RectD(this);
     double dx = Math.abs(xMax - xMin) * factor / 2;
     double dy = Math.abs(yMax - yMin) * factor / 2;
@@ -27,7 +27,7 @@ public class RectD {
     return r;
   }
 
-  RectD coverRelative(double width, double height) {
+  public RectD coverRelative(double width, double height) {
     RectD r = new RectD(this);
     double dx = Math.abs(xMax - xMin);
     double dy = Math.abs(yMax - yMin);

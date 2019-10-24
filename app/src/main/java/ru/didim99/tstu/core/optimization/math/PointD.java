@@ -1,4 +1,4 @@
-package ru.didim99.tstu.core.optimization;
+package ru.didim99.tstu.core.optimization.math;
 
 import java.util.Arrays;
 
