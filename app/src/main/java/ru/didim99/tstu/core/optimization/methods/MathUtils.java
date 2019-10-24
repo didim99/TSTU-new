@@ -11,16 +11,17 @@ class MathUtils {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_MUtils";
 
   private static final double EPSILON = 0.001;
+  private static final double G_STEP = 10E-8;
   private static final double STEP = 1.0;
 
-  static PointD gradient(FunctionRN fun, PointD p, double gStep) {
+  static PointD gradient(FunctionRN fun, PointD p) {
     PointD g = new PointD(3);
     PointD p2 = new PointD(p);
     calcF(fun, p);
 
     for (int i = 0; i < p.size() - 1; i++) {
-      p2.set(p).add(i, gStep);
-      g.set(i, (fun.f(p2) - p.get(2)) / gStep);
+      p2.set(p).add(i, G_STEP);
+      g.set(i, (fun.f(p2) - p.get(2)) / G_STEP);
     }
 
     return g;

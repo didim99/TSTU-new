@@ -19,7 +19,6 @@ public class GradientMethod extends ExtremaFinderRN {
   private static final double EPSILON = 0.001;
   private static final double START_MIN = -10;
   private static final double START_MAX = 10;
-  private static final double G_STEP = 10E-8;
 
   @Override
   public PointD find(FunctionRN fun) {
@@ -37,7 +36,7 @@ public class GradientMethod extends ExtremaFinderRN {
 
     while (true) {
       series.add(new PointD(start));
-      gNext = gradient(fun, start, G_STEP);
+      gNext = gradient(fun, start);
       sNext = gNext.negative();
       if (sPrev != null) {
         beta = gNext.length2(2) / gPrev.length2(2);

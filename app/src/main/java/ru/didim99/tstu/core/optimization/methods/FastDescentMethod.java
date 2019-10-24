@@ -19,7 +19,6 @@ public class FastDescentMethod extends ExtremaFinderRN {
   private static final double EPSILON = 0.001;
   private static final double START_MIN = -5.0;
   private static final double START_MAX = 5.0;
-  private static final double G_STEP = 10E-8;
 
   @Override
   public PointD find(FunctionRN function) {
@@ -33,7 +32,7 @@ public class FastDescentMethod extends ExtremaFinderRN {
 
     while (true) {
       series.add(new PointD(start));
-      PointD g = gradient(function, start, G_STEP).negative();
+      PointD g = gradient(function, start).negative();
       double delta = g.length(2);
       MyLog.v(LOG_TAG, "Point: " + start + " gradient: " + g + " delta: " + delta);
       if (delta < EPSILON) break;

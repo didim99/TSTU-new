@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import java.util.ArrayList;
 import java.util.Locale;
 import ru.didim99.tstu.R;
+import ru.didim99.tstu.core.optimization.math.Fine;
 import ru.didim99.tstu.core.optimization.math.FunctionRN;
 import ru.didim99.tstu.core.optimization.math.PointD;
 import ru.didim99.tstu.core.optimization.math.RectD;
@@ -21,6 +22,10 @@ public abstract class ExtremaFinderRN {
   int solutionSteps;
 
   public abstract PointD find(FunctionRN fun);
+
+  public PointD find(FunctionRN function, Fine fine) {
+    return null;
+  }
 
   public RectD getRange() {
     RectD rect = new RectD(

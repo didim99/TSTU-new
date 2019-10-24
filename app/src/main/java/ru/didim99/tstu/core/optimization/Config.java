@@ -17,10 +17,15 @@ public class Config {
     public static final int GRADIENT  = 3;
   }
 
-  public static final class Function {
+  public static final class FunctionType {
     public static final int PARABOLA  = 0;
     public static final int PARABOLA2 = 1;
     public static final int RESENBROK = 2;
+  }
+
+  public static final class FineType {
+    public static final int INTERNAL  = 0;
+    public static final int EXTERNAL  = 1;
   }
 
   private int taskType;
