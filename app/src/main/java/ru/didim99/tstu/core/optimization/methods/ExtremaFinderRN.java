@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Random;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.optimization.math.Fine;
 import ru.didim99.tstu.core.optimization.math.FunctionRN;
@@ -17,13 +18,34 @@ import ru.didim99.tstu.utils.Utils;
  * Created by didim99 on 11.10.19.
  */
 public abstract class ExtremaFinderRN {
+  private static final double START_MIN = -10.0;
+  private static final double START_MAX = 10.0;
+
+  Config config;
   ArrayList<PointD> series;
   PointD solution;
   int solutionSteps;
 
-  public abstract PointD find(FunctionRN fun);
+  ExtremaFinderRN() {
+    config = new Config();
+    config.startMin = START_MIN;
+    config.startMax = START_MAX;
+  }
+
+  public abstract PointD find(FunctionRN fun, PointD start);
+
+  public PointD find(FunctionRN function) {
+    Random random = new Random();
+    PointD start = new PointD(
+      Utils.randInRangeD(random, config.startMin, config.startMax),
+      Utils.randInRangeD(random, config.startMin, config.startMax), 0);
+    return find(function, start);
+  }
 
   public PointD find(FunctionRN function, Fine fine) {
+
+
+
     return null;
   }
 
@@ -83,5 +105,9 @@ public abstract class ExtremaFinderRN {
     describeSteps(sb);
 
     return sb.toString();
+  }
+
+  static class Config {
+    double startMin, startMax;
   }
 }

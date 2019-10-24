@@ -97,10 +97,6 @@ public class PointD {
     return len;
   }
 
-  public boolean isZero(double eps) {
-    return length(size()) < eps;
-  }
-
   public int size() {
     return data.length;
   }

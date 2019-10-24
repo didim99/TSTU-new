@@ -1,12 +1,9 @@
 package ru.didim99.tstu.core.optimization.methods;
 
 import java.util.ArrayList;
-import java.util.Random;
-
 import ru.didim99.tstu.core.optimization.math.FunctionRN;
 import ru.didim99.tstu.core.optimization.math.PointD;
 import ru.didim99.tstu.utils.MyLog;
-import ru.didim99.tstu.utils.Utils;
 
 import static ru.didim99.tstu.core.optimization.methods.MathUtils.*;
 
@@ -17,17 +14,10 @@ public class GradientMethod extends ExtremaFinderRN {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_CGM";
 
   private static final double EPSILON = 0.001;
-  private static final double START_MIN = -10;
-  private static final double START_MAX = 10;
 
   @Override
-  public PointD find(FunctionRN fun) {
+  public PointD find(FunctionRN fun, PointD start) {
     series = new ArrayList<>();
-    Random random = new Random();
-
-    PointD start = new PointD(
-      Utils.randInRangeD(random, START_MIN, START_MAX),
-      Utils.randInRangeD(random, START_MIN, START_MAX), 0);
     calcF(fun, start);
 
     PointD gPrev = null, gNext;
