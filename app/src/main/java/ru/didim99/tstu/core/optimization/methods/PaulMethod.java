@@ -2,8 +2,8 @@ package ru.didim99.tstu.core.optimization.methods;
 
 import java.util.ArrayList;
 import java.util.Random;
-import ru.didim99.tstu.core.optimization.ExtremaFinderR2;
-import ru.didim99.tstu.core.optimization.FunctionR2;
+import ru.didim99.tstu.core.optimization.ExtremaFinderRN;
+import ru.didim99.tstu.core.optimization.FunctionRN;
 import ru.didim99.tstu.core.optimization.PointD;
 import ru.didim99.tstu.utils.MyLog;
 import ru.didim99.tstu.utils.Utils;
@@ -11,7 +11,7 @@ import ru.didim99.tstu.utils.Utils;
 /**
  * Created by didim99 on 02.10.19.
  */
-public class PaulMethod extends ExtremaFinderR2 {
+public class PaulMethod extends ExtremaFinderRN {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_Paul";
 
   private static final double EPSILON = 0.0001;
@@ -22,7 +22,7 @@ public class PaulMethod extends ExtremaFinderR2 {
   private double step = DEFAULT_STEP;
 
   @Override
-  public PointD find(FunctionR2 fun) {
+  public PointD find(FunctionRN fun) {
     series = new ArrayList<>();
     Random random = new Random();
 
@@ -52,7 +52,7 @@ public class PaulMethod extends ExtremaFinderR2 {
     return solution;
   }
 
-  private PointD step(FunctionR2 fun, PointD start) {
+  private PointD step(FunctionRN fun, PointD start) {
     double f1 = fun.f(start), fs = f1, f2;
     PointD vec = findVector(fun, start).sub(start);
     PointD p1 = new PointD(start);
@@ -81,7 +81,7 @@ public class PaulMethod extends ExtremaFinderR2 {
     return p1;
   }
 
-  private PointD findVector(FunctionR2 fun, PointD start) {
+  private PointD findVector(FunctionRN fun, PointD start) {
     double f1 = fun.f(start), fs = f1, f2;
     PointD p1 = new PointD(start);
     PointD p2 = new PointD(start);

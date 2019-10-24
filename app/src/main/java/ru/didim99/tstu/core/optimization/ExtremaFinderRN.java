@@ -12,12 +12,12 @@ import ru.didim99.tstu.utils.Utils;
 /**
  * Created by didim99 on 11.10.19.
  */
-public abstract class ExtremaFinderR2 {
+public abstract class ExtremaFinderRN {
   protected ArrayList<PointD> series;
   protected PointD solution;
   protected int solutionSteps;
 
-  public abstract PointD find(FunctionR2 fun);
+  public abstract PointD find(FunctionRN fun);
 
   public RectD getRange() {
     RectD rect = new RectD(

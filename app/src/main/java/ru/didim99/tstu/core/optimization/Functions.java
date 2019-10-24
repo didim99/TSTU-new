@@ -16,10 +16,10 @@ class Functions {
   private static final double PD2 = 3;
   private static final double PALPHA2 = Math.toRadians(55);
 
-  static FunctionR2 parabola = (p) -> paraboloid(p, PA, PB, PC, PD, PALPHA);
-  static FunctionR2 parabola2 = (p) -> paraboloid(p, PA2, PB2, PC2, PD2, PALPHA2);
+  static FunctionRN parabola = (p) -> paraboloid(p, PA, PB, PC, PD, PALPHA);
+  static FunctionRN parabola2 = (p) -> paraboloid(p, PA2, PB2, PC2, PD2, PALPHA2);
 
-  static FunctionR2 resenbrok = (p) -> {
+  static FunctionRN resenbrok = (p) -> {
     double x = p.get(0), y = p.get(1);
     return 100 * Math.pow(y - x * x, 2) + Math.pow(1 - x, 2);
   };

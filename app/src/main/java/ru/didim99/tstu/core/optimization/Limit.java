@@ -3,14 +3,14 @@ package ru.didim99.tstu.core.optimization;
 /**
  * Created by didim99 on 23.10.19.
  */
-public class Limit implements FunctionR2 {
+public class Limit implements FunctionRN {
 
   public enum Mode { LT, LE, GE, GT }
 
-  private FunctionR2 function;
+  private FunctionRN function;
   private Mode mode;
 
-  public Limit(FunctionR2 function, Mode mode) {
+  public Limit(FunctionRN function, Mode mode) {
     this.function = function;
     this.mode = mode;
   }

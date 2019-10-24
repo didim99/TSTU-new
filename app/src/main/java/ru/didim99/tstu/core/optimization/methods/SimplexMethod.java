@@ -6,8 +6,8 @@ import android.graphics.Paint;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
-import ru.didim99.tstu.core.optimization.ExtremaFinderR2;
-import ru.didim99.tstu.core.optimization.FunctionR2;
+import ru.didim99.tstu.core.optimization.ExtremaFinderRN;
+import ru.didim99.tstu.core.optimization.FunctionRN;
 import ru.didim99.tstu.core.optimization.PointD;
 import ru.didim99.tstu.core.optimization.RectD;
 import ru.didim99.tstu.utils.MyLog;
@@ -18,7 +18,7 @@ import static ru.didim99.tstu.core.optimization.methods.MathUtils.calcF;
 /**
  * Created by didim99 on 03.10.19.
  */
-public class SimplexMethod extends ExtremaFinderR2 {
+public class SimplexMethod extends ExtremaFinderRN {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_Simplex";
 
   private static final double EPSILON = 0.0001;
@@ -28,11 +28,11 @@ public class SimplexMethod extends ExtremaFinderR2 {
   private static final double ALPHA = 1.0;
   private static final double GAMMA = -0.5;
 
-  private FunctionR2 fun;
+  private FunctionRN fun;
   private ArrayList<PointD[]> series;
 
   @Override
-  public PointD find(FunctionR2 function) {
+  public PointD find(FunctionRN function) {
     fun = function;
     series = new ArrayList<>();
     Random random = new Random();

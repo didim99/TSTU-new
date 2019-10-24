@@ -36,8 +36,8 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
       case Config.TaskType.MULTI_ARG:
         Result result = new Result();
         IsolinePlotter plotter = new IsolinePlotter();
-        ExtremaFinderR2 finderR2;
-        FunctionR2 function;
+        ExtremaFinderRN finderR2;
+        FunctionRN function;
 
         switch (config.getMethod()) {
           case Config.Method.PAUL: finderR2 = new PaulMethod(); break;

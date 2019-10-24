@@ -1,6 +1,6 @@
 package ru.didim99.tstu.core.optimization.methods;
 
-import ru.didim99.tstu.core.optimization.FunctionR2;
+import ru.didim99.tstu.core.optimization.FunctionRN;
 import ru.didim99.tstu.core.optimization.PointD;
 import ru.didim99.tstu.utils.MyLog;
 
@@ -13,7 +13,7 @@ class MathUtils {
   private static final double EPSILON = 0.001;
   private static final double STEP = 1.0;
 
-  static PointD gradient(FunctionR2 fun, PointD p, double gStep) {
+  static PointD gradient(FunctionRN fun, PointD p, double gStep) {
     PointD g = new PointD(3);
     PointD p2 = new PointD(p);
     calcF(fun, p);
@@ -26,7 +26,7 @@ class MathUtils {
     return g;
   }
 
-  static PointD minimize(FunctionR2 function, PointD start, PointD dir) {
+  static PointD minimize(FunctionRN function, PointD start, PointD dir) {
     calcF(function, start);
     double factor = STEP, delta = EPSILON, df;
     PointD prev = new PointD(start);
@@ -61,7 +61,7 @@ class MathUtils {
     return prev;
   }
 
-  static void calcF(FunctionR2 fun, PointD p) {
+  static void calcF(FunctionRN fun, PointD p) {
     p.set(2, fun.f(p));
   }
 }

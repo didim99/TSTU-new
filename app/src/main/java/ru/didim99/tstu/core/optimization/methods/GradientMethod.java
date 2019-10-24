@@ -2,8 +2,8 @@ package ru.didim99.tstu.core.optimization.methods;
 
 import java.util.ArrayList;
 import java.util.Random;
-import ru.didim99.tstu.core.optimization.ExtremaFinderR2;
-import ru.didim99.tstu.core.optimization.FunctionR2;
+import ru.didim99.tstu.core.optimization.ExtremaFinderRN;
+import ru.didim99.tstu.core.optimization.FunctionRN;
 import ru.didim99.tstu.core.optimization.PointD;
 import ru.didim99.tstu.utils.MyLog;
 import ru.didim99.tstu.utils.Utils;
@@ -13,7 +13,7 @@ import static ru.didim99.tstu.core.optimization.methods.MathUtils.*;
 /**
  * Created by didim99 on 17.10.19.
  */
-public class GradientMethod extends ExtremaFinderR2 {
+public class GradientMethod extends ExtremaFinderRN {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_CGM";
 
   private static final double EPSILON = 0.001;
@@ -22,7 +22,7 @@ public class GradientMethod extends ExtremaFinderR2 {
   private static final double G_STEP = 10E-8;
 
   @Override
-  public PointD find(FunctionR2 fun) {
+  public PointD find(FunctionRN fun) {
     series = new ArrayList<>();
     Random random = new Random();
 

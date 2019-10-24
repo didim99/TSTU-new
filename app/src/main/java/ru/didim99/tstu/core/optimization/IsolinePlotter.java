@@ -50,7 +50,7 @@ class IsolinePlotter {
     this.bounds = bounds;
   }
 
-  void plot(FunctionR2 fun) {
+  void plot(FunctionRN fun) {
     PointD p = new PointD(bounds.xMin, bounds.yMin);
     double f, fMin = Double.MAX_VALUE, fMax = -Double.MAX_VALUE;
 
