@@ -618,6 +618,7 @@
   <string name="opt_solutionR2">Решение: x1:%.4f x2:%.4f</string>
   <string name="opt_valueR2">Значение f: %.4f</string>
   <string name="opt_iterationsR2">Итераций: %d</string>
+  <string name="opt_globalIterationsR2">(%d)</string>
   <string name="opt_solveMethod">Метод</string>
   <string name="opt_function">Функция</string>
   <string name="opt_useLimits">Добавить ограничения</string>

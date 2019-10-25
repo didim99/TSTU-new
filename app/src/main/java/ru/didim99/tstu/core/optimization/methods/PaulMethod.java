@@ -1,6 +1,5 @@
 package ru.didim99.tstu.core.optimization.methods;
 
-import java.util.ArrayList;
 import ru.didim99.tstu.core.optimization.math.FunctionRN;
 import ru.didim99.tstu.core.optimization.math.PointD;
 import ru.didim99.tstu.utils.MyLog;
@@ -20,8 +19,6 @@ public class PaulMethod extends ExtremaFinderRN {
 
   @Override
   public PointD find(FunctionRN fun, PointD start) {
-    series = new ArrayList<>();
-
     boolean done = false;
     while (!done) {
       try {

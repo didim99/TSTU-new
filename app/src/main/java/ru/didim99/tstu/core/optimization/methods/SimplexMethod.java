@@ -28,11 +28,14 @@ public class SimplexMethod extends ExtremaFinderRN {
   private FunctionRN fun;
   private ArrayList<PointD[]> series;
 
+  public SimplexMethod() {
+    series = new ArrayList<>();
+  }
+
   @Override
   public PointD find(FunctionRN function, PointD startH) {
-    fun = function;
-    series = new ArrayList<>();
     Random random = new Random();
+    fun = function;
 
     PointD startG = new PointD(
       Utils.randInRangeD(random,

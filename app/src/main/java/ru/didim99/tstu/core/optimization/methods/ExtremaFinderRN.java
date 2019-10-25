@@ -12,41 +12,75 @@ import ru.didim99.tstu.core.optimization.math.Fine;
 import ru.didim99.tstu.core.optimization.math.FunctionRN;
 import ru.didim99.tstu.core.optimization.math.PointD;
 import ru.didim99.tstu.core.optimization.math.RectD;
+import ru.didim99.tstu.utils.MyLog;
 import ru.didim99.tstu.utils.Utils;
+
+import static ru.didim99.tstu.core.optimization.methods.MathUtils.*;
 
 /**
  * Created by didim99 on 11.10.19.
  */
 public abstract class ExtremaFinderRN {
+  private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_EFRN";
+
   private static final double START_MIN = -10.0;
   private static final double START_MAX = 10.0;
 
-  Config config;
+  private Random random;
+  private ArrayList<PointD> globalSeries;
+  private int globalSolutionSteps;
+
   ArrayList<PointD> series;
-  PointD solution;
   int solutionSteps;
+  PointD solution;
+  Config config;
 
   ExtremaFinderRN() {
+    random = new Random();
     config = new Config();
     config.startMin = START_MIN;
     config.startMax = START_MAX;
+    series = new ArrayList<>();
   }
 
   public abstract PointD find(FunctionRN fun, PointD start);
 
   public PointD find(FunctionRN function) {
-    Random random = new Random();
-    PointD start = new PointD(
-      Utils.randInRangeD(random, config.startMin, config.startMax),
-      Utils.randInRangeD(random, config.startMin, config.startMax), 0);
-    return find(function, start);
+    return find(function, randPoint());
   }
 
   public PointD find(FunctionRN function, Fine fine) {
+    globalSeries = new ArrayList<>();
+    globalSolutionSteps = 0;
 
+    PointD start = randPoint();
+    if (!fine.check(start)) {
+      while (!fine.check(start))
+        start = randPoint();
+    }
 
+    PointD xPrev = new PointD(start), xNext;
+    PointD delta = new PointD(1, 1, 0);
 
-    return null;
+    while (delta.length(2) > EPSILON) {
+      xNext = find(p -> function.f(p) + fine.f(p), new PointD(xPrev));
+      MyLog.d(LOG_TAG, "xPrev: " + xPrev + " xNext: " + xNext);
+      globalSolutionSteps += solutionSteps;
+      globalSeries.add(new PointD(xNext));
+      delta = xNext.sub(xPrev);
+      fine.increaseFactor();
+      xPrev.set(xNext);
+    }
+
+    this.solutionSteps = globalSolutionSteps;
+    this.globalSolutionSteps = globalSeries.size() - 1;
+    return xPrev;
+  }
+
+  private PointD randPoint() {
+    return new PointD(
+      Utils.randInRangeD(random, config.startMin, config.startMax),
+      Utils.randInRangeD(random, config.startMin, config.startMax), 0);
   }
 
   public RectD getRange() {
@@ -70,16 +104,32 @@ public abstract class ExtremaFinderRN {
 
   public void drawSteps(Bitmap bitmap, RectD range, Paint paint) {
     Canvas canvas = new Canvas(bitmap);
+    int w = canvas.getWidth();
+    int h = canvas.getHeight();
 
     for (PointD point : series) {
-      point.set(0, Utils.map(point.get(0), range.xMin, range.xMax, 0, canvas.getWidth()));
-      point.set(1, Utils.map(point.get(1), range.yMin, range.yMax, canvas.getHeight(), 0));
+      point.set(0, Utils.map(point.get(0), range.xMin, range.xMax, 0, w));
+      point.set(1, Utils.map(point.get(1), range.yMin, range.yMax, h, 0));
     }
 
     for (int i = 0; i < series.size() - 1; i++) {
       PointD p1 = series.get(i), p2 = series.get(i + 1);
+      if (p1.equals(p2)) continue;
+
       canvas.drawLine((float) p1.get(0), (float) p1.get(1),
         (float) p2.get(0), (float) p2.get(1), paint);
+    }
+  }
+
+  public void drawGlobalSteps(Bitmap bitmap, RectD range, Paint paint) {
+    Canvas canvas = new Canvas(bitmap);
+    int w = canvas.getWidth();
+    int h = canvas.getHeight();
+
+    for (PointD point : globalSeries) {
+      canvas.drawPoint(
+        (float) Utils.map(point.get(0), range.xMin, range.xMax, 0, w),
+        (float) Utils.map(point.get(1), range.yMin, range.yMax, h, 0), paint);
     }
   }
 
@@ -99,6 +149,9 @@ public abstract class ExtremaFinderRN {
       R.string.opt_valueR2, solution.get(2)));
     sb.append("\n").append(context.getString(
       R.string.opt_iterationsR2, solutionSteps));
+    if (globalSolutionSteps > 0)
+      sb.append(" ").append(context.getString(
+        R.string.opt_globalIterationsR2, globalSolutionSteps));
     sb.append("\n\n").append(context.getString(
       R.string.numeric_solutionSteps));
     sb.append("\n");

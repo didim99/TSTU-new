@@ -20,11 +20,11 @@ import ru.didim99.tstu.utils.MyLog;
 public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_OptTask";
 
-  private static final double FINE_START = 1;
-  private static final double FINE_FACTOR = 10;
   private static final double VIEW_MARGIN = 0.1;
   private static final int STEPS_CLR = 0xfffaca40;
+  private static final int STEPS_CLR2 = 0xfffa4c40;
   private static final float STEPS_W = 2.5f;
+  private static final float STEPS_W2 = 20f;
 
   public OptTask(Context context) {
     super(context);
@@ -63,9 +63,9 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
 
         switch (config.getLimitMethod()) {
           case Config.FineType.INTERNAL: fine = new Fine(
-            Fine.Type.INTERNAL, FINE_START, Functions.limits); break;
+            Fine.Type.INTERNAL, Functions.limits); break;
           case Config.FineType.EXTERNAL: fine = new Fine(
-            Fine.Type.EXTERNAL, FINE_START, Functions.limits); break;
+            Fine.Type.EXTERNAL, Functions.limits); break;
           default: throw new IllegalArgumentException("Unknown fine type");
         }
 
@@ -85,8 +85,15 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
         paint.setColor(STEPS_CLR);
         paint.setStrokeWidth(STEPS_W);
         finderRN.drawSteps(plotter.getBitmap(), vRange, paint);
-        result.setBitmap(plotter.getBitmap());
 
+        if (config.isUseLimits()) {
+          paint.setColor(STEPS_CLR2);
+          paint.setStrokeWidth(STEPS_W2);
+          paint.setStrokeCap(Paint.Cap.ROUND);
+          finderRN.drawGlobalSteps(plotter.getBitmap(), vRange, paint);
+        }
+
+        result.setBitmap(plotter.getBitmap());
         results.add(result);
         return results;
       default:

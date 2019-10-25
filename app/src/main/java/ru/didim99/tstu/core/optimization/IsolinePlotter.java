@@ -2,7 +2,6 @@ package ru.didim99.tstu.core.optimization;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-
 import ru.didim99.tstu.core.optimization.math.FunctionRN;
 import ru.didim99.tstu.core.optimization.math.Limit;
 import ru.didim99.tstu.core.optimization.math.PointD;
@@ -20,6 +19,7 @@ class IsolinePlotter {
   private static final int LEVEL_COUNT = 20;
   private static final int LINES_AREA = 200;
   private static final int LINES_ITER = 5;
+  private static final int LINES_ITER_MAX = 100;
   private static final double EPS_F = 0.005;
   // Colors
   private static final int CLR_CLEAR  = 0x00000000;
@@ -33,7 +33,7 @@ class IsolinePlotter {
   private double[][] buffer;
   private Bitmap bmpBase, bmpOverlay;
   private RectD bounds;
-  private int minPoints;
+  private int minPoints, maxPoints;
 
   IsolinePlotter() {
     this(DEFAULT_WIDTH, DEFAULT_HEIGHT);
@@ -47,6 +47,7 @@ class IsolinePlotter {
       width, height, Bitmap.Config.ARGB_8888);
     this.bmpOverlay = Bitmap.createBitmap(bmpBase);
     this.minPoints = width * height / LINES_AREA;
+    this.maxPoints = width * height / LINES_AREA * 10;
   }
 
   void setBounds(RectD bounds) {
@@ -63,11 +64,14 @@ class IsolinePlotter {
     for (int xi = 0; xi < width; xi++, p.add(0, xStep), p.set(1, bounds.yMin)) {
       for (int yi = 0; yi < height; yi++, p.add(1, yStep)) {
         buffer[xi][yi] = f = fun.f(p);
-        if (f < fMin) fMin = f;
-        if (f > fMax) fMax = f;
+        if (!Double.isInfinite(f)) {
+          if (f < fMin) fMin = f;
+          if (f > fMax) fMax = f;
+        }
       }
     }
 
+    MyLog.v(LOG_TAG, "Function min/max: " + fMin + " / " + fMax);
     MyLog.d(LOG_TAG, "Drawing base...");
     Canvas canvas = new Canvas(bmpBase);
 
@@ -79,16 +83,25 @@ class IsolinePlotter {
       }
     }
 
-    int linePoints = 0, retry = 0;
+    int linePoints = 0, retry = 0, totalRetry = 0;
     double fStep = (fMax - fMin) / LEVEL_COUNT;
     double eps = EPS_F;
 
     MyLog.d(LOG_TAG, "Drawing lines...");
-    while (linePoints < minPoints) {
+    while (linePoints < minPoints || linePoints > maxPoints) {
       linePoints = drawLines(fMin, fStep, eps);
       MyLog.v(LOG_TAG, "Found line points: "
         + linePoints + " step: " + fStep + " eps: " + eps);
-      if (retry++ >= LINES_ITER) {
+
+      if (totalRetry++ > LINES_ITER_MAX) {
+        MyLog.e(LOG_TAG, "Unable to draw lines correctly");
+        break;
+      }
+
+      retry++;
+      if (linePoints > maxPoints) {
+        eps /= 2;
+      } else if (retry >= LINES_ITER) {
         fStep = (fMax - fMin) / LEVEL_COUNT;
         eps *= 2;
         retry = 0;

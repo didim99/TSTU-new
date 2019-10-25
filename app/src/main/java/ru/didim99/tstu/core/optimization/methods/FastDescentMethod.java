@@ -1,6 +1,5 @@
 package ru.didim99.tstu.core.optimization.methods;
 
-import java.util.ArrayList;
 import ru.didim99.tstu.core.optimization.math.FunctionRN;
 import ru.didim99.tstu.core.optimization.math.PointD;
 import ru.didim99.tstu.utils.MyLog;
@@ -13,7 +12,6 @@ import static ru.didim99.tstu.core.optimization.methods.MathUtils.*;
 public class FastDescentMethod extends ExtremaFinderRN {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_FDM";
 
-  private static final double EPSILON = 0.001;
   private static final double START_MIN = -5.0;
   private static final double START_MAX = 5.0;
 
@@ -24,7 +22,6 @@ public class FastDescentMethod extends ExtremaFinderRN {
 
   @Override
   public PointD find(FunctionRN function, PointD start) {
-    series = new ArrayList<>();
     calcF(function, start);
 
     while (true) {
