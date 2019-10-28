@@ -23,16 +23,26 @@ public class FastDescentMethod extends ExtremaFinderRN {
   @Override
   public PointD find(FunctionRN function, PointD start) {
     calcF(function, start);
+    PointD xPrev = new PointD(start), xNext;
 
     while (true) {
-      series.add(new PointD(start));
-      PointD g = gradient(function, start).negative();
+      series.add(new PointD(xPrev));
+      PointD g = gradient(function, xPrev).negative();
       double delta = g.length(2);
-      MyLog.v(LOG_TAG, "Point: " + start + " gradient: " + g + " delta: " + delta);
-      if (delta < EPSILON) break;
+      MyLog.v(LOG_TAG, "Point: " + xPrev + " gradient: " + g + " delta: " + delta);
+      if (delta < EPSILON) {
+        MyLog.d(LOG_TAG, "Stopped by gradient delta");
+        break;
+      }
 
       try {
-        start = minimize(function, start, g);
+        xNext = minimize(function, xPrev, g);
+        if (xNext.sub(xPrev).length(2) < EPSILON / 10) {
+          MyLog.d(LOG_TAG, "Stopped by position delta");
+          break;
+        }
+
+        xPrev.set(xNext);
       } catch (IllegalStateException e) {
         MyLog.v(LOG_TAG, e.getMessage());
         break;
@@ -40,9 +50,9 @@ public class FastDescentMethod extends ExtremaFinderRN {
     }
 
 
-    solution = start;
+    solution = xPrev;
     solutionSteps = series.size() - 1;
     MyLog.d(LOG_TAG, "Solved in " + solutionSteps + " iterations");
-    return start;
+    return xPrev;
   }
 }

@@ -61,6 +61,7 @@ public abstract class ExtremaFinderRN {
 
     PointD xPrev = new PointD(start), xNext;
     PointD delta = new PointD(1, 1, 0);
+    globalSeries.add(new PointD(start));
 
     while (delta.length(2) > EPSILON) {
       xNext = find(p -> function.f(p) + fine.f(p), new PointD(xPrev));

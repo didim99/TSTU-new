@@ -13,7 +13,7 @@ public class PaulMethod extends ExtremaFinderRN {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_Paul";
 
   private static final double EPSILON = 0.0001;
-  private static final double DEFAULT_STEP = 0.1;
+  private static final double DEFAULT_STEP = 0.01;
 
   private double step = DEFAULT_STEP;
 

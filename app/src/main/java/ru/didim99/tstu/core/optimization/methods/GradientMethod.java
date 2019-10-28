@@ -13,15 +13,16 @@ public class GradientMethod extends ExtremaFinderRN {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_CGM";
 
   @Override
-  public PointD find(FunctionRN fun, PointD start) {
-    calcF(fun, start);
+  public PointD find(FunctionRN function, PointD start) {
+    calcF(function, start);
+    PointD xPrev = new PointD(start), xNext;
     PointD gPrev = null, gNext;
     PointD sPrev = null, sNext;
     double beta;
 
     while (true) {
-      series.add(new PointD(start));
-      gNext = gradient(fun, start);
+      series.add(new PointD(xPrev));
+      gNext = gradient(function, xPrev);
       sNext = gNext.negative();
       if (sPrev != null) {
         beta = gNext.length2(2) / gPrev.length2(2);
@@ -29,11 +30,20 @@ public class GradientMethod extends ExtremaFinderRN {
       }
 
       double delta = gNext.length(2);
-      MyLog.v(LOG_TAG, "Point: " + start + " gradient: " + gNext + " delta: " + delta);
-      if (delta < EPSILON) break;
+      MyLog.v(LOG_TAG, "Point: " + xPrev + " gradient: " + gNext + " delta: " + delta);
+      if (delta < EPSILON) {
+        MyLog.d(LOG_TAG, "Stopped by gradient delta");
+        break;
+      }
 
       try {
-        start = minimize(fun, start, sNext);
+        xNext = minimize(function, xPrev, sNext);
+        if (xNext.sub(xPrev).length(2) < EPSILON / 10) {
+          MyLog.d(LOG_TAG, "Stopped by position delta");
+          break;
+        }
+
+        xPrev.set(xNext);
       } catch (IllegalStateException e) {
         MyLog.v(LOG_TAG, e.getMessage());
         break;
@@ -43,9 +53,9 @@ public class GradientMethod extends ExtremaFinderRN {
       sPrev = sNext;
     }
 
-    solution = start;
+    solution = xPrev;
     solutionSteps = series.size() - 1;
     MyLog.d(LOG_TAG, "Solved in " + solutionSteps + " iterations");
-    return start;
+    return xPrev;
   }
 }
