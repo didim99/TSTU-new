@@ -12,7 +12,10 @@ class MathUtils {
 
   static final double EPSILON = 0.001;
   private static final double G_STEP = 10E-8;
-  private static final double STEP = 1.0;
+  private static final double STEP = 0.1;
+  private static final double STEP_FACTOR = 0.1;
+
+  private static double simpleStep = STEP;
 
   static PointD gradient(FunctionRN fun, PointD p) {
     PointD g = new PointD(3);
@@ -29,7 +32,7 @@ class MathUtils {
 
   static PointD minimize(FunctionRN function, PointD start, PointD dir) {
     calcF(function, start);
-    double factor = STEP, delta = EPSILON, df;
+    double factor = simpleStep, delta = EPSILON, df;
     PointD prev = new PointD(start);
     if (dir.length(2) > 1.0)
       dir = dir.norm(2);
@@ -64,5 +67,13 @@ class MathUtils {
 
   static void calcF(FunctionRN fun, PointD p) {
     p.set(2, fun.f(p));
+  }
+
+  static void resetStep() {
+    simpleStep = STEP;
+  }
+
+  static void correctStep() {
+    simpleStep *= STEP_FACTOR;
   }
 }

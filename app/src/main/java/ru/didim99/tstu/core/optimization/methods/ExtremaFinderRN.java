@@ -59,6 +59,7 @@ public abstract class ExtremaFinderRN {
         start = randPoint();
     }
 
+    MathUtils.resetStep();
     PointD xPrev = new PointD(start), xNext;
     PointD delta = new PointD(1, 1, 0);
     globalSeries.add(new PointD(start));
@@ -69,10 +70,12 @@ public abstract class ExtremaFinderRN {
       globalSolutionSteps += solutionSteps;
       globalSeries.add(new PointD(xNext));
       delta = xNext.sub(xPrev);
+      MathUtils.correctStep();
       fine.increaseFactor();
       xPrev.set(xNext);
     }
 
+    MathUtils.resetStep();
     this.solutionSteps = globalSolutionSteps;
     this.globalSolutionSteps = globalSeries.size() - 1;
     return xPrev;
