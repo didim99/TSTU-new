@@ -5,7 +5,7 @@ package ru.didim99.tstu.core.optimization.math;
  */
 public class Fine implements FunctionRN {
   private static final double FACTOR_START = 1;
-  private static final double FACTOR_STEP = 10;
+  private static final double FACTOR_STEP = 5;
 
   public enum Type { INTERNAL, EXTERNAL }
 

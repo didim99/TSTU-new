@@ -32,17 +32,18 @@ class MathUtils {
 
   static PointD minimize(FunctionRN function, PointD start, PointD dir) {
     calcF(function, start);
-    double factor = simpleStep, delta = EPSILON, df;
+    double factor = simpleStep, df;
     PointD prev = new PointD(start);
     if (dir.length(2) > 1.0)
       dir = dir.norm(2);
 
+    boolean done = false, reversed = false;
     int steps = 0, totalSteps = 0;
-    while (delta > EPSILON * EPSILON) {
+    while (!done) {
       PointD next = prev.add(dir.mult(factor));
       calcF(function, next);
-      delta = next.sub(prev).length(2);
       df = next.get(2) - prev.get(2);
+      done = next.sub(prev).length(2) < EPSILON * EPSILON;
       /*MyLog.v(LOG_TAG, "steps: " + steps + " delta: " + delta
         + " f: " + next.get(2) + " df: " + df);*/
       if (df < 0) {
@@ -50,12 +51,15 @@ class MathUtils {
         steps++;
       } else {
         factor /= 2;
-        if (steps > 0) {
-          prev.set(next);
+        if (done && steps == 0) {
+          factor = simpleStep;
           dir = dir.negative();
-          totalSteps += steps;
-          steps = 0;
+          done = reversed;
+          reversed = true;
         }
+
+        totalSteps += steps;
+        steps = 0;
       }
     }
 
