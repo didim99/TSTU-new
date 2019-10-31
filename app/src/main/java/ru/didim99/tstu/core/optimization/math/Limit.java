@@ -4,7 +4,7 @@ package ru.didim99.tstu.core.optimization.math;
  * Created by didim99 on 23.10.19.
  */
 public class Limit implements FunctionRN {
-  private static final double EPSILON = 10E-8;
+  private static final double EPSILON = 10E-3;
 
   public enum Mode { LT, LE, EQ, GE, GT }
 
@@ -19,15 +19,16 @@ public class Limit implements FunctionRN {
   @Override
   public double f(PointD p) {
     switch (mode) {
-      case LE:
-      case LT: return -function.f(p);
+      case LT:
+      case LE: return -function.f(p);
+      case EQ:
       case GE:
       case GT: return function.f(p);
       default: return 0;
     }
   }
 
-  public boolean check(PointD p) {
+  boolean check(PointD p) {
     switch (mode) {
       case LT: return function.f(p) < 0;
       case LE: return !(function.f(p) > 0);
@@ -36,5 +37,14 @@ public class Limit implements FunctionRN {
       case GT: return function.f(p) > 0;
       default: return true;
     }
+  }
+
+  public boolean checkVisibility(PointD p) {
+    if (mode == Mode.EQ) return check(p);
+    return !check(p);
+  }
+
+  public boolean isEquality() {
+    return mode == Mode.EQ;
   }
 }

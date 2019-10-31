@@ -22,10 +22,11 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_OptTask";
 
   private static final double VIEW_MARGIN = 0.1;
-  private static final int STEPS_CLR = 0xfffaca40;
-  private static final int STEPS_CLR2 = 0xfffa4c40;
-  private static final float STEPS_W = 2.5f;
-  private static final float STEPS_W2 = 20f;
+  private static final int CLR_STEPS = 0xfffaca40;
+  private static final int CLR_GSTEPS = 0xfffa4c40;
+  private static final int CLR_FINISH = 0xff40fa46;
+  private static final float W_STEPS = 2.5f;
+  private static final float W_GSTEPS = 20f;
 
   public OptTask(Context context) {
     super(context);
@@ -75,6 +76,8 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
             new Fine(Fine.Type.INTERNAL, limits); break;
           case Config.FineMethod.EXTERNAL: fine =
             new Fine(Fine.Type.EXTERNAL, limits); break;
+          case Config.FineMethod.COMBINED: fine =
+            new Fine(Fine.Type.COMBINED, limits); break;
           default: throw new IllegalArgumentException("Unknown fine type");
         }
 
@@ -88,18 +91,20 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
         plotter.setBounds(vRange);
         plotter.plot(function);
         if (config.isUseLimits())
-          plotter.drawLimits(Functions.limitsInEq);
+          plotter.drawLimits(limits);
 
         Paint paint = new Paint();
-        paint.setColor(STEPS_CLR);
-        paint.setStrokeWidth(STEPS_W);
+        paint.setColor(CLR_STEPS);
+        paint.setStrokeWidth(W_STEPS);
         finderRN.drawSteps(plotter.getBitmap(), vRange, paint);
 
         if (config.isUseLimits()) {
-          paint.setColor(STEPS_CLR2);
-          paint.setStrokeWidth(STEPS_W2);
+          paint.setColor(CLR_GSTEPS);
+          paint.setStrokeWidth(W_GSTEPS);
           paint.setStrokeCap(Paint.Cap.ROUND);
           finderRN.drawGlobalSteps(plotter.getBitmap(), vRange, paint);
+          paint.setColor(CLR_FINISH);
+          finderRN.drawSolution(plotter.getBitmap(), vRange, paint);
         }
 
         result.setBitmap(plotter.getBitmap());

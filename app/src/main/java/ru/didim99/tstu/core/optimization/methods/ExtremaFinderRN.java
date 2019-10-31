@@ -54,8 +54,8 @@ public abstract class ExtremaFinderRN {
     globalSolutionSteps = 0;
 
     PointD start = randPoint();
-    if (!fine.check(start)) {
-      while (!fine.check(start))
+    if (!fine.checkStartPoint(start)) {
+      while (!fine.checkStartPoint(start))
         start = randPoint();
     }
 
@@ -135,6 +135,15 @@ public abstract class ExtremaFinderRN {
         (float) Utils.map(point.get(0), range.xMin, range.xMax, 0, w),
         (float) Utils.map(point.get(1), range.yMin, range.yMax, h, 0), paint);
     }
+  }
+
+  public void drawSolution(Bitmap bitmap, RectD range, Paint paint) {
+    Canvas canvas = new Canvas(bitmap);
+    canvas.drawPoint(
+      (float) Utils.map(solution.get(0), range.xMin,
+        range.xMax, 0, canvas.getWidth()),
+      (float) Utils.map(solution.get(1), range.yMin,
+        range.yMax, canvas.getHeight(), 0), paint);
   }
 
   public void describeSteps(StringBuilder sb) {

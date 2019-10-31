@@ -27,6 +27,7 @@ class IsolinePlotter {
   private static final int CLR_MAX    = 0xffa0a0a0;
   private static final int CLR_LINE   = 0xff3f51b5;
   private static final int CLR_LIMIT  = 0x206aa4f5;
+  private static final int CLR_LIM_EQ = 0xff6aa4f5;
 
   private int width, height;
   private double xStep, yStep;
@@ -118,13 +119,14 @@ class IsolinePlotter {
     Canvas canvas = new Canvas(bmpBase);
 
     for (Limit limit : limits) {
+      int color = limit.isEquality() ? CLR_LIM_EQ : CLR_LIMIT;
       PointD p = new PointD(bounds.xMin, bounds.yMin);
       bmpOverlay.eraseColor(CLR_CLEAR);
 
       for (int xi = 0; xi < width; xi++, p.add(0, xStep), p.set(1, bounds.yMin)) {
         for (int yi = 0; yi < height; yi++, p.add(1, yStep)) {
-          if (!limit.check(p))
-            bmpOverlay.setPixel(xi, height - (yi + 1), CLR_LIMIT);
+          if (limit.checkVisibility(p))
+            bmpOverlay.setPixel(xi, height - (yi + 1), color);
         }
       }
 

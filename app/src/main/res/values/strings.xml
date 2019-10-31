@@ -642,6 +642,7 @@
   <string-array name="opt_limitMethods">
     <item>Внутренних штрафов</item>
     <item>Внешних штрафов</item>
+    <item>Комбинированный</item>
   </string-array>
   <!-- Содержимое текстовых полей и подписей кнопок (Layout: act_dir_picker) -->
   <string name="actLabel_filePicker">Выбор файла</string>

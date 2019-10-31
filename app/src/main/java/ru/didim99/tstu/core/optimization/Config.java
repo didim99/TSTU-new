@@ -32,6 +32,7 @@ public class Config {
   public static final class FineMethod {
     public static final int INTERNAL  = 0;
     public static final int EXTERNAL  = 1;
+    public static final int COMBINED  = 2;
   }
 
   private int taskType;

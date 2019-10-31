@@ -93,9 +93,10 @@ public class OptimizationActivity extends BaseActivity
         spLimitMethod.setAdapter(new ArrayAdapter<>(
           this, android.R.layout.simple_list_item_1,
           getResources().getStringArray(R.array.opt_limitMethods)));
-        cbLimits.setOnCheckedChangeListener((v, c) ->
-          rowLimits.setVisibility(c ? View.VISIBLE : View.GONE));
-        rowLimits.setVisibility(cbLimits.isChecked() ? View.VISIBLE : View.GONE);
+        cbLimits.setOnCheckedChangeListener((v, c) -> onUseLimitsChanged(c));
+        spLimitType.setOnItemSelectedListener(
+          new SpinnerAdapter(this::onLimitTypeChanged));
+        onUseLimitsChanged(cbLimits.isChecked());
         break;
     }
 
@@ -146,6 +147,19 @@ public class OptimizationActivity extends BaseActivity
     }
   }
 
+  private void onLimitTypeChanged(int limitType) {
+    MyLog.v(LOG_TAG, "Limit type changed: " + limitType);
+    boolean combined = limitType == Config.LimitType.EQUALITY;
+    if (combined) spLimitMethod.setSelection(Config.FineMethod.COMBINED);
+    spLimitMethod.setEnabled(!combined);
+  }
+
+  private void onUseLimitsChanged(boolean state) {
+    MyLog.v(LOG_TAG, "UseLimits state changed: " + state);
+    rowLimits.setVisibility(state ? View.VISIBLE : View.GONE);
+    rowLimits2.setVisibility(state ? View.VISIBLE : View.GONE);
+  }
+
   private void startTask() {
     Config config = new Config(type);
 
@@ -173,7 +187,7 @@ public class OptimizationActivity extends BaseActivity
     if (spFunction != null)
       spFunction.setEnabled(!state);
     if (spLimitType != null)
-      spLimitMethod.setEnabled(!state);
+      spLimitType.setEnabled(!state);
     if (spLimitMethod != null)
       spLimitMethod.setEnabled(!state);
     if (cbLimits != null)
@@ -211,6 +225,8 @@ public class OptimizationActivity extends BaseActivity
         Result result = taskResult.get(0);
         plotView.setImageBitmap(result.getBitmap());
         tvOut.setText(result.getDescription());
+        onLimitTypeChanged(spLimitType.getSelectedItemPosition());
+        onUseLimitsChanged(cbLimits.isChecked());
         break;
     }
 

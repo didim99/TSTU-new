@@ -9,12 +9,12 @@ import ru.didim99.tstu.core.optimization.math.PointD;
  */
 class Functions {
   static final FunctionRN[] parabola = new FunctionRN[] {
-    (p) -> paraboloid(p, -4, -5, -3, -5, 115),
-    (p) -> paraboloid(p, 4, 4, 2, 3, 55),
-    (p) -> paraboloid(p, -2, -1, 2, 3, 125)
+    p -> paraboloid(p, -4, -5, 3, 5, Math.toRadians(115)),
+    p -> paraboloid(p, 4, 4, 2, 3, Math.toRadians(55)),
+    p -> paraboloid(p, -2, -1, 2, 3, Math.toRadians(125))
   };
 
-  static final FunctionRN resenbrok = (p) -> {
+  static final FunctionRN resenbrok = p -> {
     double x = p.get(0), y = p.get(1);
     return 100 * Math.pow(y - x * x, 2) + Math.pow(1 - x, 2);
   };
