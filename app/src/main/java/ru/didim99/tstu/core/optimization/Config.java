@@ -20,10 +20,16 @@ public class Config {
   public static final class FunctionType {
     public static final int PARABOLA  = 0;
     public static final int PARABOLA2 = 1;
-    public static final int RESENBROK = 2;
+    public static final int PARABOLA3 = 2;
+    public static final int RESENBROK = 3;
   }
 
-  public static final class FineType {
+  public static final class LimitType {
+    public static final int INEQUALITY  = 0;
+    public static final int EQUALITY    = 1;
+  }
+
+  public static final class FineMethod {
     public static final int INTERNAL  = 0;
     public static final int EXTERNAL  = 1;
   }
@@ -31,7 +37,7 @@ public class Config {
   private int taskType;
   private int method, function;
   private boolean useLimits;
-  private int limitMethod;
+  private int limitType, limitMethod;
 
   public Config(int taskType) {
     this.taskType = taskType;
@@ -47,6 +53,10 @@ public class Config {
 
   public void setUseLimits(boolean useLimits) {
     this.useLimits = useLimits;
+  }
+
+  public void setLimitType(int limitType) {
+    this.limitType = limitType;
   }
 
   public void setLimitMethod(int limitMethod) {
@@ -67,6 +77,10 @@ public class Config {
 
   boolean isUseLimits() {
     return useLimits;
+  }
+
+  int getLimitType() {
+    return limitType;
   }
 
   int getLimitMethod() {

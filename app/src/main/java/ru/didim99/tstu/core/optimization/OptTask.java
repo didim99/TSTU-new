@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import ru.didim99.tstu.core.CallbackTask;
 import ru.didim99.tstu.core.optimization.math.Fine;
 import ru.didim99.tstu.core.optimization.math.FunctionRN;
+import ru.didim99.tstu.core.optimization.math.Limit;
 import ru.didim99.tstu.core.optimization.math.RectD;
 import ru.didim99.tstu.core.optimization.methods.ExtremaFinderRN;
 import ru.didim99.tstu.core.optimization.methods.FastDescentMethod;
@@ -44,6 +45,7 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
         IsolinePlotter plotter = new IsolinePlotter();
         ExtremaFinderRN finderRN;
         FunctionRN function;
+        Limit[] limits;
         Fine fine;
 
         switch (config.getMethod()) {
@@ -55,17 +57,24 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
         }
 
         switch (config.getFunction()) {
-          case Config.FunctionType.PARABOLA: function = Functions.parabola; break;
-          case Config.FunctionType.PARABOLA2: function = Functions.parabola2; break;
+          case Config.FunctionType.PARABOLA: function = Functions.parabola[0]; break;
+          case Config.FunctionType.PARABOLA2: function = Functions.parabola[1]; break;
+          case Config.FunctionType.PARABOLA3: function = Functions.parabola[2]; break;
           case Config.FunctionType.RESENBROK: function = Functions.resenbrok; break;
           default: throw new IllegalArgumentException("Unknown function");
         }
 
+        switch (config.getLimitType()) {
+          case Config.LimitType.INEQUALITY: limits = Functions.limitsInEq; break;
+          case Config.LimitType.EQUALITY: limits = Functions.limitsEq; break;
+          default: throw new IllegalArgumentException("Unknown Limit type");
+        }
+
         switch (config.getLimitMethod()) {
-          case Config.FineType.INTERNAL: fine = new Fine(
-            Fine.Type.INTERNAL, Functions.limits); break;
-          case Config.FineType.EXTERNAL: fine = new Fine(
-            Fine.Type.EXTERNAL, Functions.limits); break;
+          case Config.FineMethod.INTERNAL: fine =
+            new Fine(Fine.Type.INTERNAL, limits); break;
+          case Config.FineMethod.EXTERNAL: fine =
+            new Fine(Fine.Type.EXTERNAL, limits); break;
           default: throw new IllegalArgumentException("Unknown fine type");
         }
 
@@ -79,7 +88,7 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
         plotter.setBounds(vRange);
         plotter.plot(function);
         if (config.isUseLimits())
-          plotter.drawLimits(Functions.limits);
+          plotter.drawLimits(Functions.limitsInEq);
 
         Paint paint = new Paint();
         paint.setColor(STEPS_CLR);

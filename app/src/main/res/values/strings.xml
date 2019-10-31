@@ -622,9 +622,11 @@
   <string name="opt_solveMethod">Метод</string>
   <string name="opt_function">Функция</string>
   <string name="opt_useLimits">Добавить ограничения</string>
+  <string name="opt_limitType">Тип</string>
   <string-array name="opt_functions">
-    <item>Параболоид 1</item>
-    <item>Параболоид 2</item>
+    <item>Параболоид (-4, -5)</item>
+    <item>Параболоид (4, 4)</item>
+    <item>Параболоид (-2, -1)</item>
     <item>Резенброка</item>
   </string-array>
   <string-array name="opt_methods">
@@ -632,6 +634,10 @@
     <item>Симплекс-метод</item>
     <item>Наискорейшего спуска</item>
     <item>Сопряженных градиентов</item>
+  </string-array>
+  <string-array name="opt_limitTypes">
+    <item>Только неравенства</item>
+    <item>Неравенства и равенства</item>
   </string-array>
   <string-array name="opt_limitMethods">
     <item>Внутренних штрафов</item>

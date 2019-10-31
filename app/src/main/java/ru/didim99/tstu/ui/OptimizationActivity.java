@@ -34,9 +34,11 @@ public class OptimizationActivity extends BaseActivity
   private Spinner spMethod, spFunction;
   private Button btnStart;
   private TextView tvOut;
-  private View pbMain, rowLimits;
+  private View pbMain;
   private CheckBox cbLimits;
+  private Spinner spLimitType;
   private Spinner spLimitMethod;
+  private View rowLimits, rowLimits2;
   //main workflow
   private int type;
   private OptTask task;
@@ -64,6 +66,8 @@ public class OptimizationActivity extends BaseActivity
     tvOut = findViewById(R.id.tvOut);
     cbLimits = findViewById(R.id.cbUseLimits);
     rowLimits = findViewById(R.id.rowLimits);
+    rowLimits2 = findViewById(R.id.rowLimits2);
+    spLimitType = findViewById(R.id.spLimitType);
     spLimitMethod = findViewById(R.id.spLimitMethod);
     btnStart.setOnClickListener(v -> startTask());
 
@@ -83,6 +87,9 @@ public class OptimizationActivity extends BaseActivity
         spFunction.setAdapter(new ArrayAdapter<>(
           this, android.R.layout.simple_list_item_1,
           getResources().getStringArray(R.array.opt_functions)));
+        spLimitType.setAdapter(new ArrayAdapter<>(
+          this, android.R.layout.simple_list_item_1,
+          getResources().getStringArray(R.array.opt_limitTypes)));
         spLimitMethod.setAdapter(new ArrayAdapter<>(
           this, android.R.layout.simple_list_item_1,
           getResources().getStringArray(R.array.opt_limitMethods)));
@@ -145,6 +152,7 @@ public class OptimizationActivity extends BaseActivity
     if (type == Config.TaskType.MULTI_ARG) {
       config.setMethod(spMethod.getSelectedItemPosition());
       config.setFunction(spFunction.getSelectedItemPosition());
+      config.setLimitType(spLimitType.getSelectedItemPosition());
       config.setLimitMethod(spLimitMethod.getSelectedItemPosition());
       config.setUseLimits(cbLimits.isChecked());
     }
@@ -164,6 +172,8 @@ public class OptimizationActivity extends BaseActivity
       spMethod.setEnabled(!state);
     if (spFunction != null)
       spFunction.setEnabled(!state);
+    if (spLimitType != null)
+      spLimitMethod.setEnabled(!state);
     if (spLimitMethod != null)
       spLimitMethod.setEnabled(!state);
     if (cbLimits != null)

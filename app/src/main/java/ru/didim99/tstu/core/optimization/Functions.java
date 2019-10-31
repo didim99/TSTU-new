@@ -8,29 +8,26 @@ import ru.didim99.tstu.core.optimization.math.PointD;
  * Created by didim99 on 21.10.19.
  */
 class Functions {
-  private static final double PA = -4;
-  private static final double PB = -5;
-  private static final double PC = -3;
-  private static final double PD = -5;
-  private static final double PALPHA = Math.toRadians(115);
+  static final FunctionRN[] parabola = new FunctionRN[] {
+    (p) -> paraboloid(p, -4, -5, -3, -5, 115),
+    (p) -> paraboloid(p, 4, 4, 2, 3, 55),
+    (p) -> paraboloid(p, -2, -1, 2, 3, 125)
+  };
 
-  private static final double PA2 = 4;
-  private static final double PB2 = 4;
-  private static final double PC2 = 2;
-  private static final double PD2 = 3;
-  private static final double PALPHA2 = Math.toRadians(55);
-
-  static FunctionRN parabola = (p) -> paraboloid(p, PA, PB, PC, PD, PALPHA);
-  static FunctionRN parabola2 = (p) -> paraboloid(p, PA2, PB2, PC2, PD2, PALPHA2);
-
-  static FunctionRN resenbrok = (p) -> {
+  static final FunctionRN resenbrok = (p) -> {
     double x = p.get(0), y = p.get(1);
     return 100 * Math.pow(y - x * x, 2) + Math.pow(1 - x, 2);
   };
 
-  static Limit[] limits = {
+  static final Limit[] limitsInEq = {
     new Limit(p -> p.get(0) - 4 / p.get(1), Limit.Mode.LE),
     new Limit(p -> p.get(0), Limit.Mode.GE)
+  };
+
+  static final Limit[] limitsEq = {
+    new Limit(p -> p.get(1) * p.get(1) - p.get(0), Limit.Mode.EQ),
+    new Limit(p -> Math.pow(p.get(1), 5) + 3 * p.get(0) * p.get(0)
+      - 2 * p.get(0) - 5, Limit.Mode.LE)
   };
 
   private static double paraboloid(PointD p, double a, double b,

@@ -63,6 +63,22 @@
         <TextView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
+          android:text="@string/opt_limitType"
+          android:textSize="@dimen/textSize_large"
+          android:gravity="end"/>
+
+        <Spinner
+          android:id="@+id/spLimitType"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="5dp"
+          android:layout_marginStart="5dp"/>
+      </TableRow>
+
+      <TableRow android:id="@+id/rowLimits2">
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
           android:text="@string/opt_solveMethod"
           android:textSize="@dimen/textSize_large"
           android:gravity="end"/>
