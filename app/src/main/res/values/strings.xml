@@ -644,6 +644,11 @@
     <item>Внешних штрафов</item>
     <item>Комбинированный</item>
   </string-array>
+  <string name="opt_taskState_init">Инициализация</string>
+  <string name="opt_taskState_solve">Решение задачи</string>
+  <string name="opt_taskState_drawBase">Отрисовка: график функции</string>
+  <string name="opt_taskState_drawSteps">Отрисовка: итерации решения</string>
+  <string name="opt_taskState_drawLimits">Отрисовка: ограничения</string>
   <!-- Содержимое текстовых полей и подписей кнопок (Layout: act_dir_picker) -->
   <string name="actLabel_filePicker">Выбор файла</string>
   <string name="actLabel_dirPicker">Выбор каталога</string>

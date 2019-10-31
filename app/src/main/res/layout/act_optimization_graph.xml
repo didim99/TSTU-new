@@ -132,6 +132,14 @@
       android:layout_centerInParent="true"
       style="?android:attr/progressBarStyleLarge"
       android:visibility="invisible"/>
-  </RelativeLayout>
 
+    <TextView
+      android:id="@+id/tvTaskState"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_below="@id/pbMain"
+      android:layout_centerHorizontal="true"
+      android:textSize="@dimen/textSize_large"
+      android:gravity="center"/>
+  </RelativeLayout>
 </LinearLayout>

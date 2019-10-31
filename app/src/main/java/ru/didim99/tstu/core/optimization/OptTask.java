@@ -3,6 +3,7 @@ package ru.didim99.tstu.core.optimization;
 import android.content.Context;
 import android.graphics.Paint;
 import java.util.ArrayList;
+import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.CallbackTask;
 import ru.didim99.tstu.core.optimization.math.Fine;
 import ru.didim99.tstu.core.optimization.math.FunctionRN;
@@ -28,8 +29,20 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
   private static final float W_STEPS = 2.5f;
   private static final float W_GSTEPS = 20f;
 
+  private enum State { PENDING, INIT, SOLVE, DRAW_BASE,
+    DRAW_LIMITS, DRAW_STEPS, COMPLETED }
+
+  private State state;
+  private StateChangeListener listener;
+
   public OptTask(Context context) {
     super(context);
+    state = State.PENDING;
+  }
+
+  public void setStateChangeListener(StateChangeListener listener) {
+    this.listener = listener;
+    publishProgress();
   }
 
   @Override
@@ -42,6 +55,7 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
           results.add(finder.solve(method));
         return results;
       case Config.TaskType.MULTI_ARG:
+        applyState(State.INIT);
         Result result = new Result();
         IsolinePlotter plotter = new IsolinePlotter();
         ExtremaFinderRN finderRN;
@@ -81,18 +95,24 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
           default: throw new IllegalArgumentException("Unknown fine type");
         }
 
+        applyState(State.SOLVE);
         result.setSolution(config.isUseLimits() ?
           finderRN.find(function, fine) : finderRN.find(function));
         result.setDescription(finderRN.getDescription(appContext.get()));
 
+        applyState(State.DRAW_BASE);
         MyLog.d(LOG_TAG, "Solution: " + result.getSolution());
         RectD vRange = finderRN.getRange().margin(VIEW_MARGIN)
           .coverRelative(plotter.getWidth(), plotter.getHeight());
         plotter.setBounds(vRange);
         plotter.plot(function);
-        if (config.isUseLimits())
-          plotter.drawLimits(limits);
 
+        if (config.isUseLimits()) {
+          applyState(State.DRAW_LIMITS);
+          plotter.drawLimits(limits);
+        }
+
+        applyState(State.DRAW_STEPS);
         Paint paint = new Paint();
         paint.setColor(CLR_STEPS);
         paint.setStrokeWidth(W_STEPS);
@@ -108,10 +128,39 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
         }
 
         result.setBitmap(plotter.getBitmap());
+        applyState(State.COMPLETED);
         results.add(result);
         return results;
       default:
         return null;
     }
+  }
+
+  private void applyState(State newState) {
+    this.state = newState;
+    publishProgress();
+  }
+
+  @Override
+  protected void onProgressUpdate(Void... values) {
+    if (listener == null) return;
+    String textState = null;
+    int msgId = 0;
+
+    switch (state) {
+      case INIT: msgId = R.string.opt_taskState_init; break;
+      case SOLVE: msgId = R.string.opt_taskState_solve; break;
+      case DRAW_BASE: msgId = R.string.opt_taskState_drawBase; break;
+      case DRAW_STEPS: msgId = R.string.opt_taskState_drawSteps; break;
+      case DRAW_LIMITS: msgId = R.string.opt_taskState_drawLimits; break;
+    }
+
+    if (msgId != 0)
+      textState = appContext.get().getString(msgId);
+    listener.onTaskStateChanged(textState);
+  }
+
+  public interface StateChangeListener {
+    void onTaskStateChanged(String newState);
   }
 }

@@ -25,13 +25,14 @@ import ru.didim99.tstu.utils.MyLog;
  * Created by didim99 on 05.09.19.
  */
 public class OptimizationActivity extends BaseActivity
-  implements CallbackTask.EventListener<ArrayList<Result>> {
+  implements CallbackTask.EventListener<ArrayList<Result>>, OptTask.StateChangeListener {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_OptAct";
 
   //view-elements
   private ImageView plotView;
   private TextListAdapter adapter;
   private Spinner spMethod, spFunction;
+  private TextView tvTaskState;
   private Button btnStart;
   private TextView tvOut;
   private View pbMain;
@@ -61,6 +62,7 @@ public class OptimizationActivity extends BaseActivity
     spMethod = findViewById(R.id.spMethod);
     spFunction = findViewById(R.id.spFunction);
     plotView = findViewById(R.id.plotView);
+    tvTaskState = findViewById(R.id.tvTaskState);
     btnStart = findViewById(R.id.btnStart);
     pbMain = findViewById(R.id.pbMain);
     tvOut = findViewById(R.id.tvOut);
@@ -108,6 +110,7 @@ public class OptimizationActivity extends BaseActivity
       MyLog.d(LOG_TAG, "No existing background task found");
     } else {
       task.registerEventListener(this);
+      task.setStateChangeListener(this);
       MyLog.d(LOG_TAG, "Connecting to background task completed "
         + "(" + task.hashCode() + ")");
     }
@@ -116,10 +119,23 @@ public class OptimizationActivity extends BaseActivity
   @Override
   public OptTask onRetainCustomNonConfigurationInstance() {
     if (task != null) {
+      task.setStateChangeListener(null);
       task.unregisterEventListener();
       return task;
     } else
       return null;
+  }
+
+  @Override
+  protected void onSetupActionBar(ActionBar bar) {
+    switch (type) {
+      case Config.TaskType.SINGLE_ARG:
+        bar.setTitle(R.string.opt_localExtrema);
+        break;
+      case Config.TaskType.MULTI_ARG:
+        bar.setTitle(R.string.opt_localExtremaR2Zero);
+        break;
+    }
   }
 
   @Override
@@ -136,15 +152,9 @@ public class OptimizationActivity extends BaseActivity
   }
 
   @Override
-  protected void onSetupActionBar(ActionBar bar) {
-    switch (type) {
-      case Config.TaskType.SINGLE_ARG:
-        bar.setTitle(R.string.opt_localExtrema);
-        break;
-      case Config.TaskType.MULTI_ARG:
-        bar.setTitle(R.string.opt_localExtremaR2Zero);
-        break;
-    }
+  public void onTaskStateChanged(String taskState) {
+    if (type == Config.TaskType.MULTI_ARG)
+      tvTaskState.setText(taskState);
   }
 
   private void onLimitTypeChanged(int limitType) {
@@ -172,6 +182,7 @@ public class OptimizationActivity extends BaseActivity
     }
 
     task = new OptTask(getApplicationContext());
+    task.setStateChangeListener(this);
     task.registerEventListener(this);
     task.execute(config);
   }
@@ -222,6 +233,7 @@ public class OptimizationActivity extends BaseActivity
           data.add(ExtremaFinder.getTextResult(this, res));
         break;
       case Config.TaskType.MULTI_ARG:
+        tvTaskState.setText(null);
         Result result = taskResult.get(0);
         plotView.setImageBitmap(result.getBitmap());
         tvOut.setText(result.getDescription());
