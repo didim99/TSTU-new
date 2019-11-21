@@ -1,5 +1,6 @@
 package ru.didim99.tstu.core.optimization;
 
+import ru.didim99.tstu.core.optimization.math.Function;
 import ru.didim99.tstu.core.optimization.math.FunctionRN;
 import ru.didim99.tstu.core.optimization.math.Limit;
 import ru.didim99.tstu.core.optimization.math.PointD;
@@ -29,6 +30,11 @@ class Functions {
     new Limit(p -> Math.pow(p.get(1), 5) + 3 * p.get(0) * p.get(0)
       - 2 * p.get(0) - 5, Limit.Mode.LE)
   };
+
+  static final PointD eulerStart = new PointD(1.0, 1.0);
+  static final PointD eulerEnd = new PointD(2.0, 0.0);
+
+  static final Function checkEuler = x -> Math.sinh(2 - x) / Math.sinh(1);
 
   private static double paraboloid(PointD p, double a, double b,
                                    double c, double d, double alpha) {

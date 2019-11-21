@@ -11,6 +11,9 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.jjoe64.graphview.GraphView;
+
 import java.util.ArrayList;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.TSTU;
@@ -30,6 +33,7 @@ public class OptimizationActivity extends BaseActivity
 
   //view-elements
   private ImageView plotView;
+  private GraphView graphView;
   private TextListAdapter adapter;
   private Spinner spMethod, spFunction;
   private TextView tvTaskState;
@@ -50,10 +54,16 @@ public class OptimizationActivity extends BaseActivity
     MyLog.d(LOG_TAG, "OptimizationActivity starting...");
     type = getIntent().getIntExtra(TSTU.EXTRA_TYPE, Config.TaskType.UNDEFINED);
     super.onCreate(savedInstanceState);
-    if (type == Config.TaskType.SINGLE_ARG) {
-      setContentView(R.layout.act_optimization);
-    } else {
-      setContentView(R.layout.act_optimization_graph);
+    switch (type) {
+      case Config.TaskType.SINGLE_ARG:
+        setContentView(R.layout.act_optimization);
+        break;
+      case Config.TaskType.MULTI_ARG:
+        setContentView(R.layout.act_optimization_graph_r2);
+        break;
+      case Config.TaskType.VARIATION:
+        setContentView(R.layout.act_optimization_graph);
+        break;
     }
 
     MyLog.d(LOG_TAG, "View components init...");
@@ -62,6 +72,7 @@ public class OptimizationActivity extends BaseActivity
     spMethod = findViewById(R.id.spMethod);
     spFunction = findViewById(R.id.spFunction);
     plotView = findViewById(R.id.plotView);
+    graphView = findViewById(R.id.graphView);
     tvTaskState = findViewById(R.id.tvTaskState);
     btnStart = findViewById(R.id.btnStart);
     pbMain = findViewById(R.id.pbMain);
@@ -133,7 +144,10 @@ public class OptimizationActivity extends BaseActivity
         bar.setTitle(R.string.opt_localExtrema);
         break;
       case Config.TaskType.MULTI_ARG:
-        bar.setTitle(R.string.opt_localExtremaR2Zero);
+        bar.setTitle(R.string.opt_localExtremaRN);
+        break;
+      case Config.TaskType.VARIATION:
+        bar.setTitle(R.string.opt_variation);
         break;
     }
   }
@@ -210,6 +224,8 @@ public class OptimizationActivity extends BaseActivity
         adapter.refreshData(null);
       if (plotView != null)
         plotView.setImageBitmap(null);
+      if (graphView != null)
+        graphView.removeAllSeries();
       if (tvOut != null)
         tvOut.setText(null);
 
@@ -239,6 +255,9 @@ public class OptimizationActivity extends BaseActivity
         tvOut.setText(result.getDescription());
         onLimitTypeChanged(spLimitType.getSelectedItemPosition());
         onUseLimitsChanged(cbLimits.isChecked());
+        break;
+      case Config.TaskType.VARIATION:
+
         break;
     }
 

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="horizontal"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:padding="@dimen/layoutPadding"
+  android:baselineAligned="false">
+
+  <LinearLayout
+    android:orientation="vertical"
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="48">
+
+    <TableLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="5dp"
+      android:layout_marginStart="5dp">
+
+      <TableRow>
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/opt_solveMethod"
+          android:textSize="@dimen/textSize_large"
+          android:gravity="end"/>
+
+        <Spinner
+          android:id="@+id/spMethod"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="5dp"
+          android:layout_marginStart="5dp"/>
+      </TableRow>
+
+      <TableRow>
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/opt_function"
+          android:textSize="@dimen/textSize_large"
+          android:gravity="end"/>
+
+        <Spinner
+          android:id="@+id/spFunction"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="5dp"
+          android:layout_marginStart="5dp"/>
+      </TableRow>
+
+      <CheckBox
+        android:id="@+id/cbUseLimits"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:text="@string/opt_useLimits"
+        android:textSize="@dimen/textSize_main"/>
+
+      <TableRow android:id="@+id/rowLimits">
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/opt_limitType"
+          android:textSize="@dimen/textSize_large"
+          android:gravity="end"/>
+
+        <Spinner
+          android:id="@+id/spLimitType"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="5dp"
+          android:layout_marginStart="5dp"/>
+      </TableRow>
+
+      <TableRow android:id="@+id/rowLimits2">
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/opt_solveMethod"
+          android:textSize="@dimen/textSize_large"
+          android:gravity="end"/>
+
+        <Spinner
+          android:id="@+id/spLimitMethod"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="5dp"
+          android:layout_marginStart="5dp"/>
+      </TableRow>
+    </TableLayout>
+
+    <Button
+      android:id="@+id/btnStart"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="5dp"
+      android:text="@string/buttonStart"/>
+
+    <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_marginTop="5dp"
+      android:layout_marginLeft="5dp"
+      android:layout_marginRight="5dp">
+
+      <TextView
+        android:id="@+id/tvOut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/textSize_large"
+        android:typeface="monospace"/>
+    </ScrollView>
+  </LinearLayout>
+
+  <RelativeLayout
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="52">
+
+    <ImageView
+      android:id="@+id/plotView"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"/>
+
+    <ProgressBar
+      android:id="@+id/pbMain"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerInParent="true"
+      style="?android:attr/progressBarStyleLarge"
+      android:visibility="invisible"/>
+
+    <TextView
+      android:id="@+id/tvTaskState"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_below="@id/pbMain"
+      android:layout_centerHorizontal="true"
+      android:textSize="@dimen/textSize_large"
+      android:gravity="center"/>
+  </RelativeLayout>
+</LinearLayout>

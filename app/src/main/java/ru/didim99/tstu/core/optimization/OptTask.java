@@ -131,6 +131,10 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
         applyState(State.COMPLETED);
         results.add(result);
         return results;
+      case Config.TaskType.VARIATION:
+        DiffSolver diffSolver = new DiffSolver();
+        diffSolver.solve(Functions.eulerStart, Functions.eulerEnd);
+        return results;
       default:
         return null;
     }

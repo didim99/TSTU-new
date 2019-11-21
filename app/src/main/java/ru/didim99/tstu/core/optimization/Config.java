@@ -8,6 +8,7 @@ public class Config {
     public static final int UNDEFINED   = 0;
     public static final int SINGLE_ARG  = 1;
     public static final int MULTI_ARG   = 2;
+    public static final int VARIATION   = 3;
   }
 
   public static final class Method {
