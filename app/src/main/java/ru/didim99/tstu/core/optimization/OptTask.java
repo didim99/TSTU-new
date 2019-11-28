@@ -48,6 +48,8 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
   @Override
   protected ArrayList<Result> doInBackgroundInternal(Config config) {
     ArrayList<Result> results = new ArrayList<>();
+    Result result = new Result();
+
     switch (config.getTaskType()) {
       case Config.TaskType.SINGLE_ARG:
         ExtremaFinder finder = new ExtremaFinder();
@@ -56,7 +58,6 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
         return results;
       case Config.TaskType.MULTI_ARG:
         applyState(State.INIT);
-        Result result = new Result();
         IsolinePlotter plotter = new IsolinePlotter();
         ExtremaFinderRN finderRN;
         FunctionRN function;
@@ -133,7 +134,11 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
         return results;
       case Config.TaskType.VARIATION:
         DiffSolver diffSolver = new DiffSolver();
-        diffSolver.solve(Functions.eulerStart, Functions.eulerEnd);
+        diffSolver.solve(Functions.eulerP, Functions.eulerF,
+          Functions.eulerStart, Functions.eulerEnd);
+
+        result.setDescription(diffSolver.getDescription(appContext.get()));
+        results.add(result);
         return results;
       default:
         return null;

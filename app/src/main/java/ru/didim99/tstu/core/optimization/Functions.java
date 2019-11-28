@@ -33,6 +33,8 @@ class Functions {
 
   static final PointD eulerStart = new PointD(1.0, 1.0);
   static final PointD eulerEnd = new PointD(2.0, 0.0);
+  static Function eulerP = x -> 1;
+  static Function eulerF = x -> 0;
 
   static final Function checkEuler = x -> Math.sinh(2 - x) / Math.sinh(1);
 
