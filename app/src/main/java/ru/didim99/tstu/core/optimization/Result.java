@@ -81,4 +81,23 @@ public class Result {
   void setDescription(String description) {
     this.description = description;
   }
+
+  private ArrayList<PointD> solutionSeries;
+  private ArrayList<PointD> reference;
+
+  public ArrayList<PointD> getSolutionSeries() {
+    return solutionSeries;
+  }
+
+  public ArrayList<PointD> getReference() {
+    return reference;
+  }
+
+  void setSolutionSeries(ArrayList<PointD> solutionSeries) {
+    this.solutionSeries = solutionSeries;
+  }
+
+  void setReference(ArrayList<PointD> reference) {
+    this.reference = reference;
+  }
 }

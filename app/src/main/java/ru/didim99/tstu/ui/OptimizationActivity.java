@@ -11,14 +11,14 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import com.jjoe64.graphview.GraphView;
-
+import com.jjoe64.graphview.LegendRenderer;
 import java.util.ArrayList;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.TSTU;
 import ru.didim99.tstu.core.CallbackTask;
 import ru.didim99.tstu.core.optimization.Config;
+import ru.didim99.tstu.core.optimization.variation.SweepMethod;
 import ru.didim99.tstu.core.optimization.ExtremaFinder;
 import ru.didim99.tstu.core.optimization.OptTask;
 import ru.didim99.tstu.core.optimization.Result;
@@ -110,6 +110,10 @@ public class OptimizationActivity extends BaseActivity
         spLimitType.setOnItemSelectedListener(
           new SpinnerAdapter(this::onLimitTypeChanged));
         onUseLimitsChanged(cbLimits.isChecked());
+        break;
+      case Config.TaskType.VARIATION:
+        LegendRenderer legend = graphView.getLegendRenderer();
+        legend.setAlign(LegendRenderer.LegendAlign.TOP);
         break;
     }
 
@@ -224,15 +228,19 @@ public class OptimizationActivity extends BaseActivity
         adapter.refreshData(null);
       if (plotView != null)
         plotView.setImageBitmap(null);
-      if (graphView != null)
-        graphView.removeAllSeries();
       if (tvOut != null)
         tvOut.setText(null);
+      if (graphView != null) {
+        graphView.removeAllSeries();
+        graphView.setVisibility(View.INVISIBLE);
+      }
 
       MyLog.d(LOG_TAG, "UI cleared");
       pbMain.setVisibility(View.VISIBLE);
       MyLog.d(LOG_TAG, "UI locked");
     } else {
+      if (graphView != null)
+        graphView.setVisibility(View.VISIBLE);
       pbMain.setVisibility(View.INVISIBLE);
       MyLog.d(LOG_TAG, "UI unlocked");
       uiSet();
@@ -242,6 +250,7 @@ public class OptimizationActivity extends BaseActivity
   private void uiSet() {
     MyLog.d(LOG_TAG, "Setting up UI");
     ArrayList<String> data = new ArrayList<>();
+    Result result;
 
     switch (type) {
       case Config.TaskType.SINGLE_ARG:
@@ -250,14 +259,16 @@ public class OptimizationActivity extends BaseActivity
         break;
       case Config.TaskType.MULTI_ARG:
         tvTaskState.setText(null);
-        Result result = taskResult.get(0);
+        result = taskResult.get(0);
         plotView.setImageBitmap(result.getBitmap());
         tvOut.setText(result.getDescription());
         onLimitTypeChanged(spLimitType.getSelectedItemPosition());
         onUseLimitsChanged(cbLimits.isChecked());
         break;
       case Config.TaskType.VARIATION:
-
+        result = taskResult.get(0);
+        tvOut.setText(result.getDescription());
+        SweepMethod.drawGraph(this, result, graphView);
         break;
     }
 

@@ -14,6 +14,7 @@ import ru.didim99.tstu.core.optimization.methods.FastDescentMethod;
 import ru.didim99.tstu.core.optimization.methods.GradientMethod;
 import ru.didim99.tstu.core.optimization.methods.PaulMethod;
 import ru.didim99.tstu.core.optimization.methods.SimplexMethod;
+import ru.didim99.tstu.core.optimization.variation.SweepMethod;
 import ru.didim99.tstu.utils.MyLog;
 
 /**
@@ -133,10 +134,13 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
         results.add(result);
         return results;
       case Config.TaskType.VARIATION:
-        DiffSolver diffSolver = new DiffSolver();
+        SweepMethod diffSolver = new SweepMethod();
         diffSolver.solve(Functions.eulerP, Functions.eulerF,
           Functions.eulerStart, Functions.eulerEnd);
 
+        result.setSolutionSeries(diffSolver.getSolution());
+        result.setReference(diffSolver.getReference(
+          Functions.checkEuler, Functions.eulerStart, Functions.eulerEnd));
         result.setDescription(diffSolver.getDescription(appContext.get()));
         results.add(result);
         return results;
