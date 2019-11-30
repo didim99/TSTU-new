@@ -1,4 +1,4 @@
-package ru.didim99.tstu.core.optimization.methods;
+package ru.didim99.tstu.core.optimization.multidim;
 
 import ru.didim99.tstu.core.optimization.math.FunctionRN;
 import ru.didim99.tstu.core.optimization.math.PointD;

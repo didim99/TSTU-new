@@ -1,21 +1,21 @@
-package ru.didim99.tstu.core.optimization.methods;
+package ru.didim99.tstu.core.optimization.multidim;
 
 import ru.didim99.tstu.core.optimization.math.FunctionRN;
 import ru.didim99.tstu.core.optimization.math.PointD;
 import ru.didim99.tstu.utils.MyLog;
 
-import static ru.didim99.tstu.core.optimization.methods.MathUtils.*;
+import static ru.didim99.tstu.core.optimization.multidim.MathUtils.*;
 
 /**
  * Created by didim99 on 17.10.19.
  */
-public class FastDescentMethod extends ExtremaFinderRN {
+public class DownhillMethod extends ExtremaFinderRN {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_FDM";
 
   private static final double START_MIN = -5.0;
   private static final double START_MAX = 5.0;
 
-  public FastDescentMethod() {
+  public DownhillMethod() {
     config.startMin = START_MIN;
     config.startMax = START_MAX;
   }

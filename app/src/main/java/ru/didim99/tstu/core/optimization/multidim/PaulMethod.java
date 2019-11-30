@@ -1,10 +1,10 @@
-package ru.didim99.tstu.core.optimization.methods;
+package ru.didim99.tstu.core.optimization.multidim;
 
 import ru.didim99.tstu.core.optimization.math.FunctionRN;
 import ru.didim99.tstu.core.optimization.math.PointD;
 import ru.didim99.tstu.utils.MyLog;
 
-import static ru.didim99.tstu.core.optimization.methods.MathUtils.calcF;
+import static ru.didim99.tstu.core.optimization.multidim.MathUtils.calcF;
 
 /**
  * Created by didim99 on 02.10.19.

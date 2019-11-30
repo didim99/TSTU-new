@@ -9,11 +9,11 @@ import ru.didim99.tstu.core.optimization.math.Fine;
 import ru.didim99.tstu.core.optimization.math.FunctionRN;
 import ru.didim99.tstu.core.optimization.math.Limit;
 import ru.didim99.tstu.core.optimization.math.RectD;
-import ru.didim99.tstu.core.optimization.methods.ExtremaFinderRN;
-import ru.didim99.tstu.core.optimization.methods.FastDescentMethod;
-import ru.didim99.tstu.core.optimization.methods.GradientMethod;
-import ru.didim99.tstu.core.optimization.methods.PaulMethod;
-import ru.didim99.tstu.core.optimization.methods.SimplexMethod;
+import ru.didim99.tstu.core.optimization.multidim.DownhillMethod;
+import ru.didim99.tstu.core.optimization.multidim.ExtremaFinderRN;
+import ru.didim99.tstu.core.optimization.multidim.GradientMethod;
+import ru.didim99.tstu.core.optimization.multidim.PaulMethod;
+import ru.didim99.tstu.core.optimization.multidim.SimplexMethod;
 import ru.didim99.tstu.core.optimization.variation.SweepMethod;
 import ru.didim99.tstu.utils.MyLog;
 
@@ -68,7 +68,7 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
         switch (config.getMethod()) {
           case Config.Method.PAUL: finderRN = new PaulMethod(); break;
           case Config.Method.SIMPLEX: finderRN = new SimplexMethod(); break;
-          case Config.Method.FDESCENT: finderRN = new FastDescentMethod(); break;
+          case Config.Method.FDESCENT: finderRN = new DownhillMethod(); break;
           case Config.Method.GRADIENT: finderRN = new GradientMethod(); break;
           default: throw new IllegalArgumentException("Unknown solve method");
         }

@@ -1,4 +1,4 @@
-package ru.didim99.tstu.core.optimization.methods;
+package ru.didim99.tstu.core.optimization.multidim;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -15,7 +15,7 @@ import ru.didim99.tstu.core.optimization.math.RectD;
 import ru.didim99.tstu.utils.MyLog;
 import ru.didim99.tstu.utils.Utils;
 
-import static ru.didim99.tstu.core.optimization.methods.MathUtils.*;
+import static ru.didim99.tstu.core.optimization.multidim.MathUtils.*;
 
 /**
  * Created by didim99 on 11.10.19.
