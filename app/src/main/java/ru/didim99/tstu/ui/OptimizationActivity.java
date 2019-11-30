@@ -18,10 +18,10 @@ import ru.didim99.tstu.R;
 import ru.didim99.tstu.TSTU;
 import ru.didim99.tstu.core.CallbackTask;
 import ru.didim99.tstu.core.optimization.Config;
-import ru.didim99.tstu.core.optimization.variation.SweepMethod;
 import ru.didim99.tstu.core.optimization.ExtremaFinder;
 import ru.didim99.tstu.core.optimization.OptTask;
 import ru.didim99.tstu.core.optimization.Result;
+import ru.didim99.tstu.core.optimization.variation.SweepMethod;
 import ru.didim99.tstu.utils.MyLog;
 
 /**
@@ -44,6 +44,7 @@ public class OptimizationActivity extends BaseActivity
   private Spinner spLimitType;
   private Spinner spLimitMethod;
   private View rowLimits, rowLimits2;
+  private CheckBox cbCalcDelta;
   //main workflow
   private int type;
   private OptTask task;
@@ -82,6 +83,7 @@ public class OptimizationActivity extends BaseActivity
     rowLimits2 = findViewById(R.id.rowLimits2);
     spLimitType = findViewById(R.id.spLimitType);
     spLimitMethod = findViewById(R.id.spLimitMethod);
+    cbCalcDelta = findViewById(R.id.cbCalcDelta);
     btnStart.setOnClickListener(v -> startTask());
 
     switch (type) {
@@ -114,6 +116,9 @@ public class OptimizationActivity extends BaseActivity
       case Config.TaskType.VARIATION:
         LegendRenderer legend = graphView.getLegendRenderer();
         legend.setAlign(LegendRenderer.LegendAlign.TOP);
+        spMethod.setAdapter(new ArrayAdapter<>(
+          this, android.R.layout.simple_list_item_1,
+          getResources().getStringArray(R.array.opt_varMethods)));
         break;
     }
 
@@ -191,12 +196,18 @@ public class OptimizationActivity extends BaseActivity
   private void startTask() {
     Config config = new Config(type);
 
-    if (type == Config.TaskType.MULTI_ARG) {
-      config.setMethod(spMethod.getSelectedItemPosition());
-      config.setFunction(spFunction.getSelectedItemPosition());
-      config.setLimitType(spLimitType.getSelectedItemPosition());
-      config.setLimitMethod(spLimitMethod.getSelectedItemPosition());
-      config.setUseLimits(cbLimits.isChecked());
+    switch (type) {
+      case Config.TaskType.MULTI_ARG:
+        config.setMethod(spMethod.getSelectedItemPosition());
+        config.setFunction(spFunction.getSelectedItemPosition());
+        config.setLimitType(spLimitType.getSelectedItemPosition());
+        config.setLimitMethod(spLimitMethod.getSelectedItemPosition());
+        config.setUseLimits(cbLimits.isChecked());
+        break;
+      case Config.TaskType.VARIATION:
+        config.setMethod(spMethod.getSelectedItemPosition());
+        config.setCalcDelta(cbCalcDelta.isChecked());
+        break;
     }
 
     task = new OptTask(getApplicationContext());
@@ -221,6 +232,8 @@ public class OptimizationActivity extends BaseActivity
       spLimitMethod.setEnabled(!state);
     if (cbLimits != null)
       cbLimits.setEnabled(!state);
+    if (cbCalcDelta != null)
+      cbCalcDelta.setEnabled(!state);
 
     if (state) {
       MyLog.d(LOG_TAG, "Clearing UI...");

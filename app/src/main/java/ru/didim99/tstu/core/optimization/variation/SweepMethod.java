@@ -56,6 +56,10 @@ public class SweepMethod {
     Collections.reverse(solution);
   }
 
+  public ArrayList<PointD> getSolution() {
+    return solution;
+  }
+
   public ArrayList<PointD> getReference(Function fun, PointD start, PointD end) {
     ArrayList<PointD> series = new ArrayList<>();
     double x = start.get(0);
@@ -68,14 +72,44 @@ public class SweepMethod {
     return series;
   }
 
-  public ArrayList<PointD> getSolution() {
-    return solution;
+  public ArrayList<PointD> getDelta(ArrayList<PointD> reference) {
+    int size = Math.min(reference.size(), solution.size());
+    ArrayList<PointD> delta = new ArrayList<>(size);
+
+    for (int i = 0; i < size; i++) {
+      delta.add(new PointD(reference.get(i).get(T),
+        solution.get(i).get(X) - reference.get(i).get(X)));
+    }
+
+    return delta;
   }
 
-  public String getDescription(Context context) {
+  public String getDescription(Context context, Result result) {
+    ArrayList<PointD> solution = result.getSolutionSeries();
     StringBuilder sb = new StringBuilder();
 
-    sb.append(String.format(Locale.US, " %-6s  %-6s\n", "t", "x(t)"));
+    if (result.getDelta() != null) {
+      PointD pMin = new PointD(0, Double.MAX_VALUE);
+      PointD pMax = new PointD(0, -Double.MAX_VALUE);
+      for (PointD p : result.getDelta()) {
+        if (p.get(X) < pMin.get(X)) pMin.set(p);
+        if (p.get(X) > pMax.get(X)) pMax.set(p);
+      }
+
+      sb.append(context.getString(R.string.opt_calcDelta));
+      sb.append("\n").append(context.getString(
+        R.string.opt_minDelta, pMin.get(X), pMin.get(T)));
+      sb.append("\n").append(context.getString(
+        R.string.opt_maxDelta, pMax.get(X), pMax.get(T)));
+      sb.append("\n\n");
+    }
+
+    sb.append(context.getString(
+      R.string.opt_points, solution.size()));
+    sb.append("\n\n").append(String.format(Locale.US,
+      " %-6s  %-6s", "t", "x(t)"));
+
+    sb.append("\n");
     for (PointD point : solution) {
       sb.append(String.format(Locale.US, "%7.4f %7.4f\n",
         point.get(0), point.get(1)));
@@ -85,15 +119,22 @@ public class SweepMethod {
   }
 
   public static void drawGraph(Context ctx, Result result, GraphView view) {
-    LineGraphSeries<PointD> reference = makeSeries(result.getReference());
-    reference.setColor(ctx.getResources().getColor(R.color.graph1));
-    reference.setTitle("reference");
-    view.addSeries(reference);
+    if (result.getDelta() != null) {
+      LineGraphSeries<PointD> delta = makeSeries(result.getDelta());
+      delta.setColor(ctx.getResources().getColor(R.color.graph2));
+      delta.setTitle("delta");
+      view.addSeries(delta);
+    } else {
+      LineGraphSeries<PointD> reference = makeSeries(result.getReference());
+      reference.setColor(ctx.getResources().getColor(R.color.graph1));
+      reference.setTitle("ref");
+      view.addSeries(reference);
 
-    LineGraphSeries<PointD> solution = makeSeries(result.getSolutionSeries());
-    solution.setColor(ctx.getResources().getColor(R.color.colorAccent));
-    solution.setTitle("x(t)");
-    view.addSeries(solution);
+      LineGraphSeries<PointD> solution = makeSeries(result.getSolutionSeries());
+      solution.setColor(ctx.getResources().getColor(R.color.colorAccent));
+      solution.setTitle("x(t)");
+      view.addSeries(solution);
+    }
 
     view.getLegendRenderer().setVisible(true);
     view.getViewport().setScalable(true);
@@ -105,7 +146,7 @@ public class SweepMethod {
     if (data.size() <= 500) {
       series.resetData(data.toArray(new PointD[0]));
     } else {
-      int step = (int) Math.round(data.size() / 500f);
+      int step = Math.round(data.size() / 500f);
       for (int pos = 0; pos < data.size(); pos += step) {
         series.appendData(data.get(pos),
           false, 500);

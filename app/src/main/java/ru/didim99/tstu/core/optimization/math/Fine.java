@@ -12,8 +12,8 @@ public class Fine implements FunctionRN {
   public enum Type { INTERNAL, EXTERNAL, COMBINED }
 
   private final Type type;
-  private final Function[] functions;
   private final Limit[] limits;
+  private final Function[] functions;
   private final double[] factors;
 
   public Fine(Type type, Limit... limits) {

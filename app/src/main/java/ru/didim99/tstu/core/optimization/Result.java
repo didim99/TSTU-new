@@ -84,6 +84,7 @@ public class Result {
 
   private ArrayList<PointD> solutionSeries;
   private ArrayList<PointD> reference;
+  private ArrayList<PointD> delta;
 
   public ArrayList<PointD> getSolutionSeries() {
     return solutionSeries;
@@ -93,11 +94,19 @@ public class Result {
     return reference;
   }
 
+  public ArrayList<PointD> getDelta() {
+    return delta;
+  }
+
   void setSolutionSeries(ArrayList<PointD> solutionSeries) {
     this.solutionSeries = solutionSeries;
   }
 
   void setReference(ArrayList<PointD> reference) {
     this.reference = reference;
+  }
+
+  void setDelta(ArrayList<PointD> delta) {
+    this.delta = delta;
   }
 }

@@ -141,7 +141,9 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
         result.setSolutionSeries(diffSolver.getSolution());
         result.setReference(diffSolver.getReference(
           Functions.checkEuler, Functions.eulerStart, Functions.eulerEnd));
-        result.setDescription(diffSolver.getDescription(appContext.get()));
+        if (config.isCalcDelta())
+          result.setDelta(diffSolver.getDelta(result.getReference()));
+        result.setDescription(diffSolver.getDescription(appContext.get(), result));
         results.add(result);
         return results;
       default:

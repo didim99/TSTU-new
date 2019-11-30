@@ -651,6 +651,13 @@
   <string name="opt_taskState_drawBase">Отрисовка: график функции</string>
   <string name="opt_taskState_drawSteps">Отрисовка: итерации решения</string>
   <string name="opt_taskState_drawLimits">Отрисовка: ограничения</string>
+  <string name="opt_calcDelta">Расхождение</string>
+  <string-array name="opt_varMethods">
+    <item>Прогонки</item>
+  </string-array>
+  <string name="opt_minDelta">Мин: %8.5f при t = %.3f</string>
+  <string name="opt_maxDelta">Макс: %7.5f при t = %.3f</string>
+  <string name="opt_points">Точек: %d</string>
   <!-- Содержимое текстовых полей и подписей кнопок (Layout: act_dir_picker) -->
   <string name="actLabel_filePicker">Выбор файла</string>
   <string name="actLabel_dirPicker">Выбор каталога</string>

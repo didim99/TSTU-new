@@ -36,10 +36,15 @@ public class Config {
     public static final int COMBINED  = 2;
   }
 
+  public static final class VarMethod {
+    public static final int SWEEP = 0;
+  }
+
   private int taskType;
   private int method, function;
   private boolean useLimits;
   private int limitType, limitMethod;
+  private boolean calcDelta;
 
   public Config(int taskType) {
     this.taskType = taskType;
@@ -65,6 +70,10 @@ public class Config {
     this.limitMethod = limitMethod;
   }
 
+  public void setCalcDelta(boolean calcDelta) {
+    this.calcDelta = calcDelta;
+  }
+
   int getTaskType() {
     return taskType;
   }
@@ -87,5 +96,9 @@ public class Config {
 
   int getLimitMethod() {
     return limitMethod;
+  }
+
+  boolean isCalcDelta() {
+    return calcDelta;
   }
 }
