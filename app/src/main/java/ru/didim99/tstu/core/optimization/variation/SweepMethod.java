@@ -14,7 +14,7 @@ import ru.didim99.tstu.core.optimization.math.PointD;
 /**
  * Created by didim99 on 21.11.19.
  */
-public class SweepMethod {
+public class SweepMethod extends ExtremaFinderFunc {
   private static final double STEP = 1E-4;
   private static final double STEP2 = STEP * STEP;
 
@@ -23,8 +23,7 @@ public class SweepMethod {
   private static final int C = 0;
   private static final int PHI = 1;
 
-  private ArrayList<PointD> solution;
-
+  @Override
   public void solve(Function p, Function f, PointD start, PointD end) {
     ArrayList<PointD> factors = new ArrayList<>();
     PointD fPrev = new PointD(0.0, start.get(X));
@@ -56,22 +55,20 @@ public class SweepMethod {
     Collections.reverse(solution);
   }
 
-  public ArrayList<PointD> getSolution() {
-    return solution;
-  }
-
-  public ArrayList<PointD> getReference(Function fun, PointD start, PointD end) {
+  @Override
+  public ArrayList<PointD> getReference(Function ref, PointD start, PointD end) {
     ArrayList<PointD> series = new ArrayList<>();
     double x = start.get(0);
 
     while (x < end.get(0)) {
-      series.add(new PointD(x, fun.f(x)));
+      series.add(new PointD(x, ref.f(x)));
       x += STEP;
     }
 
     return series;
   }
 
+  @Override
   public ArrayList<PointD> getDelta(ArrayList<PointD> reference) {
     int size = Math.min(reference.size(), solution.size());
     ArrayList<PointD> delta = new ArrayList<>(size);
@@ -84,6 +81,7 @@ public class SweepMethod {
     return delta;
   }
 
+  @Override
   public String getDescription(Context context, Result result) {
     ArrayList<PointD> solution = result.getSolutionSeries();
     StringBuilder sb = new StringBuilder();

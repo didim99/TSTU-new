@@ -14,6 +14,8 @@ import ru.didim99.tstu.core.optimization.multidim.ExtremaFinderRN;
 import ru.didim99.tstu.core.optimization.multidim.GradientMethod;
 import ru.didim99.tstu.core.optimization.multidim.PaulMethod;
 import ru.didim99.tstu.core.optimization.multidim.SimplexMethod;
+import ru.didim99.tstu.core.optimization.variation.EulerMethod;
+import ru.didim99.tstu.core.optimization.variation.ExtremaFinderFunc;
 import ru.didim99.tstu.core.optimization.variation.SweepMethod;
 import ru.didim99.tstu.utils.MyLog;
 
@@ -134,16 +136,23 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
         results.add(result);
         return results;
       case Config.TaskType.VARIATION:
-        SweepMethod diffSolver = new SweepMethod();
-        diffSolver.solve(Functions.eulerP, Functions.eulerF,
+        ExtremaFinderFunc finderFunc;
+
+        switch (config.getMethod()) {
+          case Config.VarMethod.SWEEP: finderFunc = new SweepMethod(); break;
+          case Config.VarMethod.EULER: finderFunc = new EulerMethod(); break;
+          default: throw new IllegalArgumentException("Unknown solve method");
+        }
+
+        finderFunc.solve(Functions.eulerP, Functions.eulerF,
           Functions.eulerStart, Functions.eulerEnd);
 
-        result.setSolutionSeries(diffSolver.getSolution());
-        result.setReference(diffSolver.getReference(
-          Functions.checkEuler, Functions.eulerStart, Functions.eulerEnd));
+        result.setSolutionSeries(finderFunc.getSolution());
+        result.setReference(finderFunc.getReference(
+          Functions.functionalRef, Functions.eulerStart, Functions.eulerEnd));
         if (config.isCalcDelta())
-          result.setDelta(diffSolver.getDelta(result.getReference()));
-        result.setDescription(diffSolver.getDescription(appContext.get(), result));
+          result.setDelta(finderFunc.getDelta(result.getReference()));
+        result.setDescription(finderFunc.getDescription(appContext.get(), result));
         results.add(result);
         return results;
       default:

@@ -38,6 +38,7 @@ public class Config {
 
   public static final class VarMethod {
     public static final int SWEEP = 0;
+    public static final int EULER = 1;
   }
 
   private int taskType;
