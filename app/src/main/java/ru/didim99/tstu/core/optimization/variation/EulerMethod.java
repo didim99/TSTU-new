@@ -1,33 +1,48 @@
 package ru.didim99.tstu.core.optimization.variation;
 
-import android.content.Context;
-import java.util.ArrayList;
-import ru.didim99.tstu.core.optimization.Result;
-import ru.didim99.tstu.core.optimization.math.Function;
+import ru.didim99.tstu.core.optimization.math.FunctionRN;
+import ru.didim99.tstu.core.optimization.math.Functional;
 import ru.didim99.tstu.core.optimization.math.PointD;
+import ru.didim99.tstu.core.optimization.multidim.DownhillMethod;
+import ru.didim99.tstu.core.optimization.multidim.ExtremaFinderRN;
+import ru.didim99.tstu.utils.MyLog;
 
 /**
  * Created by didim99 on 30.11.19.
  */
 public class EulerMethod extends ExtremaFinderFunc {
+  private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_EDM";
+  private static final double EPSILON = 1E-3;
+  private static final int R_START = 2;
 
-  @Override
-  public void solve(Function p, Function f, PointD start, PointD end) {
+  private Functional j;
 
+  public EulerMethod(FunctionRN j) {
+    this.j = new Functional(j);
   }
 
   @Override
-  public ArrayList<PointD> getReference(Function ref, PointD start, PointD end) {
-    return new ArrayList<>();
-  }
+  public void solve(PointD start, PointD end) {
+    ExtremaFinderRN finder = new DownhillMethod();
+    int resolution = R_START;
+    double delta = 1.0;
 
-  @Override
-  public ArrayList<PointD> getDelta(ArrayList<PointD> reference) {
-    return new ArrayList<>();
-  }
+    j.setBounds(start, end);
+    j.setResolution(resolution++);
+    PointD jStart = j.getStartValues();
+    PointD jPrev = finder.find(j, jStart), jNext;
 
-  @Override
-  public String getDescription(Context context, Result result) {
-    return null;
+    while (delta > EPSILON) {
+      MyLog.d(LOG_TAG, "Solving with resolution: " + resolution);
+      j.setResolution(resolution);
+      jStart = j.getStartValues();
+      jNext = finder.find(j, jStart);
+      delta = jNext.get(resolution) - jPrev.get(resolution - 1);
+      MyLog.d(LOG_TAG, "Functional delta: " + delta);
+      jPrev = jNext;
+      resolution++;
+    }
+
+    solution = j.getSeries(jPrev);
   }
 }

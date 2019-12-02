@@ -21,7 +21,7 @@ import ru.didim99.tstu.core.optimization.Config;
 import ru.didim99.tstu.core.optimization.ExtremaFinder;
 import ru.didim99.tstu.core.optimization.OptTask;
 import ru.didim99.tstu.core.optimization.Result;
-import ru.didim99.tstu.core.optimization.variation.SweepMethod;
+import ru.didim99.tstu.core.optimization.variation.ExtremaFinderFunc;
 import ru.didim99.tstu.utils.MyLog;
 
 /**
@@ -281,7 +281,7 @@ public class OptimizationActivity extends BaseActivity
       case Config.TaskType.VARIATION:
         result = taskResult.get(0);
         tvOut.setText(result.getDescription());
-        SweepMethod.drawGraph(this, result, graphView);
+        ExtremaFinderFunc.drawGraph(this, result, graphView);
         break;
     }
 

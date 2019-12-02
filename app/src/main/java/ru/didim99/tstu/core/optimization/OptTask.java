@@ -139,13 +139,16 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
         ExtremaFinderFunc finderFunc;
 
         switch (config.getMethod()) {
-          case Config.VarMethod.SWEEP: finderFunc = new SweepMethod(); break;
-          case Config.VarMethod.EULER: finderFunc = new EulerMethod(); break;
+          case Config.VarMethod.SWEEP:
+            finderFunc = new SweepMethod(Functions.eulerP, Functions.eulerF);
+            break;
+          case Config.VarMethod.EULER:
+            finderFunc = new EulerMethod(Functions.functional);
+            break;
           default: throw new IllegalArgumentException("Unknown solve method");
         }
 
-        finderFunc.solve(Functions.eulerP, Functions.eulerF,
-          Functions.eulerStart, Functions.eulerEnd);
+        finderFunc.solve(Functions.eulerStart, Functions.eulerEnd);
 
         result.setSolutionSeries(finderFunc.getSolution());
         result.setReference(finderFunc.getReference(
