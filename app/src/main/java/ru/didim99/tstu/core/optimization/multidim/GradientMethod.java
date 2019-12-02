@@ -14,6 +14,7 @@ public class GradientMethod extends ExtremaFinderRN {
 
   @Override
   public PointD find(FunctionRN function, PointD start) {
+    int r = start.size() - 1;
     calcF(function, start);
     PointD xPrev = new PointD(start), xNext;
     PointD gPrev = null, gNext;
@@ -25,11 +26,11 @@ public class GradientMethod extends ExtremaFinderRN {
       gNext = gradient(function, xPrev);
       sNext = gNext.negative();
       if (sPrev != null) {
-        beta = gNext.length2(2) / gPrev.length2(2);
+        beta = gNext.length2(r) / gPrev.length2(r);
         sNext = sNext.add(sPrev.mult(beta));
       }
 
-      double delta = gNext.length(2);
+      double delta = gNext.length(r);
       MyLog.v(LOG_TAG, "Point: " + xPrev + " gradient: " + gNext + " delta: " + delta);
       if (delta < EPSILON) {
         MyLog.d(LOG_TAG, "Stopped by gradient delta");
@@ -38,7 +39,7 @@ public class GradientMethod extends ExtremaFinderRN {
 
       try {
         xNext = minimize(function, xPrev, sNext);
-        if (xNext.sub(xPrev).length(2) < EPSILON / 10) {
+        if (xNext.sub(xPrev).length(r) < EPSILON / 10) {
           MyLog.d(LOG_TAG, "Stopped by position delta");
           break;
         }

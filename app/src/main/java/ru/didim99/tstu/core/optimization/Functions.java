@@ -2,7 +2,6 @@ package ru.didim99.tstu.core.optimization;
 
 import ru.didim99.tstu.core.optimization.math.Function;
 import ru.didim99.tstu.core.optimization.math.FunctionRN;
-import ru.didim99.tstu.core.optimization.math.MultiFunction;
 import ru.didim99.tstu.core.optimization.math.Limit;
 import ru.didim99.tstu.core.optimization.math.PointD;
 
@@ -32,7 +31,7 @@ class Functions {
       - 2 * p.get(0) - 5, Limit.Mode.LE)
   };
 
-  static final MultiFunction functional = (t, x) -> Math.pow(x[1].f(t) + x[0].f(t), 2);
+  static final FunctionRN functional = x -> Math.pow(x.get(1) + x.get(0), 2);
   static final Function functionalRef = x -> Math.sinh(2 - x) / Math.sinh(1);
 
   static final PointD eulerStart = new PointD(1.0, 1.0);

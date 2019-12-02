@@ -10,7 +10,7 @@ import static ru.didim99.tstu.core.optimization.multidim.MathUtils.*;
  * Created by didim99 on 17.10.19.
  */
 public class DownhillMethod extends ExtremaFinderRN {
-  private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_FDM";
+  private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_DHM";
 
   private static final double START_MIN = -5.0;
   private static final double START_MAX = 5.0;
@@ -22,13 +22,14 @@ public class DownhillMethod extends ExtremaFinderRN {
 
   @Override
   public PointD find(FunctionRN function, PointD start) {
+    int r = start.size() - 1;
     calcF(function, start);
     PointD xPrev = new PointD(start), xNext;
 
     while (true) {
       series.add(new PointD(xPrev));
       PointD g = gradient(function, xPrev).negative();
-      double delta = g.length(2);
+      double delta = g.length(r);
       MyLog.v(LOG_TAG, "Point: " + xPrev + " gradient: " + g + " delta: " + delta);
       if (delta < EPSILON) {
         MyLog.d(LOG_TAG, "Stopped by gradient delta");
@@ -37,7 +38,7 @@ public class DownhillMethod extends ExtremaFinderRN {
 
       try {
         xNext = minimize(function, xPrev, g);
-        if (xNext.sub(xPrev).length(2) < EPSILON / 10) {
+        if (xNext.sub(xPrev).length(r) < EPSILON / 10) {
           MyLog.d(LOG_TAG, "Stopped by position delta");
           break;
         }

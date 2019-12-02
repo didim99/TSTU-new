@@ -656,8 +656,8 @@
     <item>Прогонки</item>
     <item>Конечно-разностный Эйлера</item>
   </string-array>
-  <string name="opt_minDelta">Мин: %8.5f при t = %.3f</string>
-  <string name="opt_maxDelta">Макс: %7.5f при t = %.3f</string>
+  <string name="opt_minDelta">Мин: %8.5f (t = %.3f)</string>
+  <string name="opt_maxDelta">Макс: %7.5f (t = %.3f)</string>
   <string name="opt_points">Точек: %d</string>
   <!-- Содержимое текстовых полей и подписей кнопок (Layout: act_dir_picker) -->
   <string name="actLabel_filePicker">Выбор файла</string>

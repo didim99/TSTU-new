@@ -61,7 +61,7 @@ public abstract class ExtremaFinderRN {
 
     MathUtils.resetStep();
     PointD xPrev = new PointD(start), xNext;
-    PointD delta = new PointD(1, 1, 0);
+    PointD delta = new PointD(3, 1.0);
     globalSeries.add(new PointD(start));
 
     while (delta.length(2) > EPSILON) {

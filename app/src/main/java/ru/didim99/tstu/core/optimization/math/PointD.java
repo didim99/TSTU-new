@@ -10,8 +10,12 @@ public class PointD implements DataPointInterface {
   private double[] data;
 
   public PointD(int size) {
+    this(size, 0);
+  }
+
+  public PointD(int size, double v) {
     data = new double[size];
-    Arrays.fill(data, 0);
+    Arrays.fill(data, v);
   }
 
   public PointD(double... v) {
