@@ -42,12 +42,13 @@ public class Functional implements FunctionRN {
       p2.set(i, p.get(i - 1));
     p2.set(resolution + 1, end.get(X));
 
-    double res = 0;
+    double res = 0, t = start.get(T);
     for (int i = 0; i <= resolution; i++) {
-      tmp.set(i, j.f(new PointD(p2.get(i),
+      tmp.set(i, j.f(new PointD(t, p2.get(i),
         (p2.get(i + 1) - p2.get(i)) / dt)));
       if (i > 0) res += (tmp.get(i - 1)
         + tmp.get(i)) / 2 * dt;
+      t += dt;
     }
 
     return res;

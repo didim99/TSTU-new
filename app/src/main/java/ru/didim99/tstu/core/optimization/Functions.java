@@ -31,7 +31,9 @@ class Functions {
       - 2 * p.get(0) - 5, Limit.Mode.LE)
   };
 
-  static final FunctionRN functional = x -> Math.pow(x.get(1) + x.get(0), 2);
+  /* 0 -> t, 1 -> x(t), 2 -> x'(t) */
+  static final FunctionRN functional = x -> Math.pow(x.get(2) + x.get(1), 2);
+  
   static final Function functionalRef = x -> Math.sinh(2 - x) / Math.sinh(1);
 
   static final PointD eulerStart = new PointD(1.0, 1.0);
