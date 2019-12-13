@@ -68,6 +68,10 @@
       android:name=".ui.graphics.ShadingActivity"
       android:label="@string/graphics_shading"
       android:theme="@style/AppThemePrint"/>
+    <activity
+      android:name=".ui.graphics.FractalActivity"
+      android:label="@string/graphics_fractals"
+      android:theme="@style/AppThemePrint"/>
 
     <activity
       android:name=".ui.mp.lab1.L1ActMain"

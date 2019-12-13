@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.TSTU;
+import ru.didim99.tstu.ui.graphics.FractalActivity;
 import ru.didim99.tstu.ui.graphics.HorizonActivity;
 import ru.didim99.tstu.ui.graphics.LinesActivity;
 import ru.didim99.tstu.ui.graphics.ShadingActivity;
@@ -40,7 +41,7 @@ public class StartActivity extends AppCompatActivity {
   private static final Class[] GRAPH_TARGET =
     { LinesActivity.class, HorizonActivity.class,
       TransformActivity.class, TexturesActivity.class,
-      ShadingActivity.class };
+      ShadingActivity.class, FractalActivity.class };
   private static final Class[] OS_TARGET =
     { ProcessActivity.class, ExpanseActivity.class,
       SchedulerActivity.class };

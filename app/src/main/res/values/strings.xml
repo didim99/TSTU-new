@@ -270,12 +270,14 @@
   <string name="graphics_transform">Афинные преобразования</string>
   <string name="graphics_textures">Текстурирование</string>
   <string name="graphics_shading">Затенение</string>
+  <string name="graphics_fractals">Фрактальная графика</string>
   <string-array name="graphics_taskTypes">
     <item>@string/graphics_bresenham</item>
     <item>@string/graphics_horizon</item>
     <item>@string/graphics_transform</item>
     <item>@string/graphics_textures</item>
     <item>@string/graphics_shading</item>
+    <item>@string/graphics_fractals</item>
   </string-array>
   <string name="graphics_loading">Загрузка…</string>
   <string name="graphics_loadModel">Загрузить модель</string>
