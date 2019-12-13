@@ -3,6 +3,7 @@ package ru.didim99.tstu.core.graphics;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.support.annotation.CallSuper;
 import java.lang.ref.WeakReference;
 import ru.didim99.tstu.ui.view.DrawerView;
 
@@ -15,10 +16,14 @@ public class AsyncRenderer extends AsyncTask<Void, Void, Void> {
   private static final int DEFAULT_FPS = 1;
   private static final int IDLE = 1000;
 
+  public enum AnimationEvent { START, FINISH }
+
+  private AnimationEventListener listener;
   private WeakReference<DrawerView> target;
   private boolean running, paused;
+  private boolean animationFinish;
+  private boolean animating;
   private int frameSleep;
-  boolean animating;
   Config config;
   Bitmap bitmap;
 
@@ -44,6 +49,10 @@ public class AsyncRenderer extends AsyncTask<Void, Void, Void> {
 
   void onSceneCreated(Scene scene) {
     target.get().setSource(scene);
+  }
+
+  public void setEventListener(AnimationEventListener listener) {
+    this.listener = listener;
   }
 
   public void start() {
@@ -74,13 +83,22 @@ public class AsyncRenderer extends AsyncTask<Void, Void, Void> {
   protected void onProgressUpdate(Void... values) {
     DrawerView v = target.get();
     if (v != null) v.invalidate();
+    if (animationFinish) {
+      if (listener != null)
+        listener.onAnimationEvent(AnimationEvent.FINISH);
+      animationFinish = false;
+      animating = false;
+      paused = true;
+    }
   }
 
   public void pause(boolean paused) {
-    this.paused = paused;
+    if (animating) this.paused = paused;
   }
 
   public void finish() {
+    if (listener != null)
+      listener.onAnimationEvent(AnimationEvent.FINISH);
     running = false;
     target.clear();
   }
@@ -90,9 +108,17 @@ public class AsyncRenderer extends AsyncTask<Void, Void, Void> {
       bitmap.eraseColor(config.colorBg);
   }
 
+  @CallSuper
   public void animate() {
+    if (listener != null)
+      listener.onAnimationEvent(AnimationEvent.START);
+    animationFinish = false;
     animating = true;
     paused = false;
+  }
+
+  void onAnimationFinish() {
+    animationFinish = true;
   }
 
   public Config getConfig() {
@@ -107,5 +133,11 @@ public class AsyncRenderer extends AsyncTask<Void, Void, Void> {
     frameSleep = 1000 / fps;
   }
 
-  void frame() {}
+  void frame() {
+    onAnimationFinish();
+  }
+
+  public interface AnimationEventListener {
+    void onAnimationEvent(AnimationEvent event);
+  }
 }

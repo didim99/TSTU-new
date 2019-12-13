@@ -3,6 +3,8 @@ package ru.didim99.tstu.core.graphics;
 import android.graphics.Color;
 import ru.didim99.tstu.ui.view.DrawerView;
 
+import static ru.didim99.tstu.utils.Utils.lerp;
+
 /**
  * Created by didim99 on 13.02.19.
  */
@@ -32,12 +34,7 @@ public class LineRenderer extends AsyncRenderer {
   @Override
   protected void onPreExecute() {
     super.onPreExecute();
-    if (!animating) draw();
-  }
-
-  @Override
-  public void pause(boolean paused) {
-    if (animating) super.pause(paused);
+    draw();
   }
 
   @Override
@@ -66,10 +63,7 @@ public class LineRenderer extends AsyncRenderer {
 
     if (xi < xMax) {
       drawPixel(++xi, yi, colorPositive);
-    } else {
-      pause(true);
-      animating = false;
-    }
+    } else onAnimationFinish();
   }
 
   private void prepareDraw() {
@@ -128,22 +122,13 @@ public class LineRenderer extends AsyncRenderer {
     return config.height - (realYZero + y) - 1;
   }
 
-  private int lerp(int bg, int fg, double alpha) {
-    double gamma = 1 - alpha;
-    int res = (int) ((bg & 0xff) * alpha + (fg & 0xff) * gamma);
-    res |= (int) (((bg >> 8) & 0xff) * alpha + ((fg >> 8) & 0xff) * gamma) << 8;
-    res |= (int) (((bg >> 16) & 0xff) * alpha + ((fg >> 16) & 0xff) * gamma) << 16;
-    res |= 0xff000000;
-    return res;
-  }
-
   public void setAntiAlias(boolean antiAlias) {
     config.antiAlias = antiAlias;
-    if (!animating) draw();
+    draw();
   }
 
   public void setAngle(int angle) {
     config.angle = angle;
-    if (!animating) draw();
+    draw();
   }
 }

@@ -1,5 +1,6 @@
 package ru.didim99.tstu.ui.graphics;
 
+import android.support.annotation.CallSuper;
 import ru.didim99.tstu.core.graphics.AsyncRenderer;
 import ru.didim99.tstu.ui.BaseActivity;
 
@@ -11,7 +12,9 @@ public abstract class AnimationActivity extends BaseActivity {
   AsyncRenderer renderer;
 
   @Override
+  @CallSuper
   public Object onRetainCustomNonConfigurationInstance() {
+    renderer.setEventListener(null);
     return renderer.getConfig();
   }
 

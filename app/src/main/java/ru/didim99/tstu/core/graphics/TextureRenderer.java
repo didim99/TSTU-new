@@ -115,10 +115,8 @@ public class TextureRenderer extends AsyncRenderer {
   }
 
   private void onSceneChanged() {
-    if (!animating) {
-      prepareDraw();
-      draw(plane);
-    }
+    prepareDraw();
+    draw(plane);
   }
 
   private void prepareDraw() {

@@ -70,12 +70,7 @@ public class HorizonRenderer extends AsyncRenderer {
   @Override
   protected void onPreExecute() {
     super.onPreExecute();
-    if (!animating) draw();
-  }
-
-  @Override
-  public void pause(boolean paused) {
-    if (animating) super.pause(paused);
+    draw();
   }
 
   @Override
@@ -90,16 +85,20 @@ public class HorizonRenderer extends AsyncRenderer {
     if (zi < F_MAX) {
       drawLayer(zi);
       zi += Z_STEP / ANIM_Z_FACTOR;
-    } else {
-      pause(true);
-      animating = false;
+    } else onAnimationFinish();
+  }
+
+  @Override
+  public void clear() {
+    super.clear();
+    if (maxHorizon != null) {
+      Arrays.fill(maxHorizon, 0);
+      Arrays.fill(minHorizon, VP_HEIGHT);
     }
   }
 
   private void prepareDraw() {
     clear();
-    Arrays.fill(maxHorizon, 0);
-    Arrays.fill(minHorizon, VP_HEIGHT);
     config.angleP = Math.toRadians(config.intAngleP);
     config.angleZ = Math.toRadians(90 + config.intAngleZ);
     xFactor = Math.cos(config.angleZ) * VP_Z_FACTOR;
@@ -160,26 +159,26 @@ public class HorizonRenderer extends AsyncRenderer {
 
   public void setProjectionAngle(int angle) {
     config.intAngleZ = angle;
-    if (!animating) draw();
+    draw();
   }
 
   public void setPitchAngle(int angle) {
     config.intAngleP = angle;
-    if (!animating) draw();
+    draw();
   }
 
   public void setAlpha(double alpha) {
     config.alpha = alpha;
-    if (!animating) draw();
+    draw();
   }
 
   public void setBeta(double beta) {
     config.beta = beta;
-    if (!animating) draw();
+    draw();
   }
 
   public void setGamma(double gamma) {
     config.gamma = gamma;
-    if (!animating) draw();
+    draw();
   }
 }
