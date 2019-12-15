@@ -71,9 +71,8 @@ public class TransformActivity extends AnimationActivity {
     rbRotateZ = findViewById(R.id.rbRotateZ);
     Spinner spPType = findViewById(R.id.spProjectionType);
     Spinner spTType = findViewById(R.id.spTransformType);
-    findViewById(R.id.btnClear).setOnClickListener(
-      v -> ((ModelRenderer) renderer).clearScene());
     findViewById(R.id.btnLoad).setOnClickListener(v -> openFile());
+    findViewById(R.id.btnClear).setOnClickListener(v -> renderer.clear());
     findViewById(R.id.btnReset).setOnClickListener(v -> clearTransform());
     MyLog.d(LOG_TAG, "View components init competed");
 

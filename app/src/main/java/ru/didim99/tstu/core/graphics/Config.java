@@ -109,4 +109,38 @@ public class Config {
   public boolean hasTexture() {
     return texture != null;
   }
+
+  // ModelRenderer
+  int maxLevel, branchCount;
+  boolean centralBranch;
+  double branchL, branchAngle;
+  double branchLF, branchAF;
+
+  public boolean useCentralBranch() {
+    return centralBranch;
+  }
+
+  public int getMaxLevel() {
+    return maxLevel;
+  }
+
+  public int getBranchCount() {
+    return branchCount;
+  }
+
+  public double getBranchL() {
+    return branchL;
+  }
+
+  public double getBranchAngle() {
+    return branchAngle;
+  }
+
+  public double getBranchLF() {
+    return branchLF;
+  }
+
+  public double getBranchAF() {
+    return branchAF;
+  }
 }

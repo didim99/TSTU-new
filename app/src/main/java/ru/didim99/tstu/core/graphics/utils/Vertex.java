@@ -10,11 +10,11 @@ public class Vertex {
   public PointF rastered;
   public double light;
 
-  Vertex(double x, double y, double z) {
+  public Vertex(double x, double y, double z) {
     world = new Vec4(x, y, z);
   }
 
-  Vertex(Vec4 v) {
+  public Vertex(Vec4 v) {
     world = new Vec4(v);
   }
 
@@ -32,7 +32,7 @@ public class Vertex {
     rastered = p.project(transformed);
   }
 
-  Vec4 world() {
+  public Vec4 world() {
     return world;
   }
 

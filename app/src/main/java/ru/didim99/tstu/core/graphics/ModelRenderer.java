@@ -194,23 +194,28 @@ public class ModelRenderer extends AsyncRenderer implements Scene {
     }
   }
 
-  public void clearScene() {
+  @Override
+  public void clear() {
     if (config.models != null) {
       config.models.clear();
-      onSceneChanged();
+      publishProgress();
     }
   }
 
   public Config clearTransform() {
-    config.translate = new Vec4(DEFAULT_TRN, DEFAULT_TRN, DEFAULT_TRN);
-    config.scale = new Vec4(DEFAULT_SCL, DEFAULT_SCL, DEFAULT_SCL);
-    config.rotate = new Vec4(DEFAULT_ROT, DEFAULT_ROT, DEFAULT_ROT);
-    config.syncScale = DEFAULT_SYNC_SCALE;
+    onClearTransform();
     onSceneChanged();
     return config;
   }
 
-  private void onSceneChanged() {
+  void onClearTransform() {
+    config.translate = new Vec4(DEFAULT_TRN, DEFAULT_TRN, DEFAULT_TRN);
+    config.scale = new Vec4(DEFAULT_SCL, DEFAULT_SCL, DEFAULT_SCL);
+    config.rotate = new Vec4(DEFAULT_ROT, DEFAULT_ROT, DEFAULT_ROT);
+    config.syncScale = DEFAULT_SYNC_SCALE;
+  }
+
+  void onSceneChanged() {
     axis = new Axis(AXIS_LENGTH, config.negativeAxis);
     modelTransform.loadIdentity();
     modelTransform.rotate(config.rotate);

@@ -47,8 +47,7 @@ public class ShadingActivity extends AnimationActivity {
     cbUseLamp = findViewById(R.id.cbUseLamp);
     RangeBar rbKd = findViewById(R.id.rbKd);
     btnLoad.setOnClickListener(v -> openFile());
-    findViewById(R.id.btnClear).setOnClickListener(
-      v -> ((ModelRenderer) renderer).clearScene());
+    findViewById(R.id.btnClear).setOnClickListener(v -> renderer.clear());
     findViewById(R.id.btnReset).setOnClickListener(v -> clearTransform());
     MyLog.d(LOG_TAG, "View components init competed");
 

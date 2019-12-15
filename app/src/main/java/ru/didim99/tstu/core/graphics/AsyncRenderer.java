@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.annotation.CallSuper;
+import android.support.annotation.WorkerThread;
 import java.lang.ref.WeakReference;
 import ru.didim99.tstu.ui.view.DrawerView;
 
@@ -20,9 +21,9 @@ public class AsyncRenderer extends AsyncTask<Void, Void, Void> {
 
   private AnimationEventListener listener;
   private WeakReference<DrawerView> target;
-  private boolean running, paused;
-  private boolean animationFinish;
-  private boolean animating;
+  private volatile boolean running, paused;
+  private volatile boolean animationFinish;
+  private volatile boolean animating;
   private int frameSleep;
   Config config;
   Bitmap bitmap;
@@ -70,10 +71,11 @@ public class AsyncRenderer extends AsyncTask<Void, Void, Void> {
   protected Void doInBackground(Void... voids) {
     while (running) {
       try {
-        if (paused) { Thread.sleep(IDLE); continue; }
-        frame();
-        publishProgress();
-        Thread.sleep(frameSleep);
+        if (animating && !paused) {
+          animateInternal();
+          animationFinish = true;
+          onFrame();
+        } else Thread.sleep(IDLE);
       } catch (InterruptedException ignored) {}
     }
     return null;
@@ -90,6 +92,12 @@ public class AsyncRenderer extends AsyncTask<Void, Void, Void> {
       animating = false;
       paused = true;
     }
+  }
+
+  @WorkerThread
+  void onFrame() throws InterruptedException {
+    publishProgress();
+    Thread.sleep(frameSleep);
   }
 
   public void pause(boolean paused) {
@@ -117,10 +125,6 @@ public class AsyncRenderer extends AsyncTask<Void, Void, Void> {
     paused = false;
   }
 
-  void onAnimationFinish() {
-    animationFinish = true;
-  }
-
   public Config getConfig() {
     return config;
   }
@@ -133,8 +137,10 @@ public class AsyncRenderer extends AsyncTask<Void, Void, Void> {
     frameSleep = 1000 / fps;
   }
 
-  void frame() {
-    onAnimationFinish();
+  void animateInternal() throws InterruptedException {}
+
+  boolean isAnimating() {
+    return animating;
   }
 
   public interface AnimationEventListener {

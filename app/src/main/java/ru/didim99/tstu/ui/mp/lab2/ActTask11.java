@@ -25,7 +25,7 @@ public class ActTask11 extends BaseActivity {
     findViewById(R.id.mp_btnView).setOnClickListener(v ->
       startActivity(new Intent(this, ActTask12.class)));
     findViewById(R.id.mp_btnAdd).setOnClickListener(v -> inputFieldDialog(
-      R.string.mp_enterName, R.layout.dia_mp_single_field, this::addStudent));
+      R.string.mp_enterName, R.layout.dia_sf_text, this::addStudent));
     findViewById(R.id.mp_btnReplace).setOnClickListener(v -> replaceTask());
     toast = Toast.makeText(this, "", Toast.LENGTH_LONG);
   }

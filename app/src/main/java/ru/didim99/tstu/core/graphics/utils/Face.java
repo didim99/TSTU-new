@@ -50,6 +50,18 @@ public class Face {
     t3 = texels.get(it3);
   }
 
+  int[] vertices() {
+    return new int[] {iv1 + 1, iv2 + 1, iv3 + 1};
+  }
+
+  int[] normals() {
+    return new int[] {in1 + 1, in2 + 1, in3 + 1};
+  }
+
+  int[] texels() {
+    return new int[] {it1 + 1, it2 + 1, it3 + 1};
+  }
+
   boolean useVertex(int v) {
     return iv1 == v || iv2 == v || iv3 == v;
   }

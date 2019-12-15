@@ -154,6 +154,8 @@
   <string name="errGraphics_unableLoadInternal">Невозможно Загрузить ресурс: %s</string>
   <string name="errGraphics_invalidFormat">Некорректный формат данных</string>
   <string name="errGraphics_ioError">Ошибка ввода-вывода</string>
+  <string name="errGraphics_emptyName">Не задано название модели</string>
+  <string name="errGraphics_saveModel">Не удалось сохранить модель:\n%s</string>
   <string name="errExpanse_emptyW">Не задана ширина поля</string>
   <string name="errExpanse_emptyH">Не задана высота поля</string>
   <string name="errExpanse_invalidW">Некорректно задана ширина поля</string>
@@ -279,12 +281,15 @@
     <item>@string/graphics_shading</item>
     <item>@string/graphics_fractals</item>
   </string-array>
+  <string name="graphics_modelSaved">Модель успешно сохранена в: %s</string>
+  <string name="graphics_modelName">Название модели</string>
   <string name="graphics_loading">Загрузка…</string>
   <string name="graphics_loadModel">Загрузить модель</string>
   <string name="graphics_loadTexture">Загрузить текстуру</string>
   <string name="graphics_animate">Анимировать</string>
   <string name="graphics_clear">Очистить</string>
-  <string name="graphics_reset">Сбросить трансформации</string>
+  <string name="graphics_resetScene">Сбросить трансформации</string>
+  <string name="graphics_resetBuilder">По умолчанию</string>
   <string name="graphics_useAA">Использовать сглаживание</string>
   <string name="graphics_parameters">Параметры функции</string>
   <string name="graphics_angle">Угол наклона: %d&#176;</string>
@@ -326,6 +331,15 @@
   <string name="graphics_textureFiltering">Билинейная фильтрация текстур</string>
   <string name="graphics_useVNormals">Использовать нормали к вершинам</string>
   <string name="graphics_useLamp">Динамическое освещение</string>
+  <string name="graphics_buildConfig">Настройка алгоритма</string>
+  <string name="graphics_sceneConfig">Настройка сцены</string>
+  <string name="graphics_maxLevel">Глубина рекурсии: %d</string>
+  <string name="graphics_branchCount">Ветвей на уровень: %d</string>
+  <string name="graphics_centralBranch">Добвалять центральную ветку</string>
+  <string name="graphics_branchL">Начальная длина ветки: %.2f</string>
+  <string name="graphics_branchAngle">Угол отклонения ветки: %d&#176;</string>
+  <string name="graphics_rbBranchLF">Коэф. коррекции длины: %.2f</string>
+  <string name="graphics_rbBranchAF">Коэф. коррекции угла: %.2f</string>
   <!-- Mobile platforms -->
   <string name="startMP">МВП</string>
   <string name="mp_selectType">Мобильные платформы</string>

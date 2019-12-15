@@ -17,7 +17,7 @@ public class LineRenderer extends AsyncRenderer {
   private static final int colorPositive = Color.GREEN;
 
   private int realXZero, xMin, xMax, realYZero, yMin, yMax;
-  private int dx, dy, di, xi, yi;
+  private int dx, dy, di, yi;
   private boolean reverse, swap;
 
   public LineRenderer(DrawerView target, Config config) {
@@ -29,41 +29,33 @@ public class LineRenderer extends AsyncRenderer {
     yMax = realYZero - 1;
     xMin = -realXZero;
     yMin = -realYZero;
-  }
-
-  @Override
-  protected void onPreExecute() {
-    super.onPreExecute();
     draw();
   }
 
   @Override
-  public void animate() {
-    super.animate();
+  public void animateInternal() throws InterruptedException {
     prepareDraw();
-    xi = xMin;
-  }
+    int xi = xMin;
+    while (xi <= xMax) {
+      if (yi < yMax) drawPixel(xi, yi+1, config.colorBg);
+      if (yi > yMin) drawPixel(xi, yi-1, config.colorBg);
+      drawPixel(xi, yi, config.colorFg);
 
-  @Override
-  public void frame() {
-    if (yi < yMax) drawPixel(xi, yi+1, config.colorBg);
-    if (yi > yMin) drawPixel(xi, yi-1, config.colorBg);
-    drawPixel(xi, yi, config.colorFg);
+      if (di > 0) {
+        di += 2 * (dy - dx);
+        if (xi < xMax)
+          drawPixel(xi+1, yi, colorNegative);
+        yi++;
+      } else {
+        di += 2 * dy;
+        if (xi < xMax && yi < yMax)
+          drawPixel(xi+1, yi+1, colorNegative);
+      }
 
-    if (di > 0) {
-      di += 2 * (dy - dx);
       if (xi < xMax)
-        drawPixel(xi+1, yi, colorNegative);
-      yi++;
-    } else {
-      di += 2 * dy;
-      if (xi < xMax && yi < yMax)
-        drawPixel(xi+1, yi+1, colorNegative);
+        drawPixel(++xi, yi, colorPositive);
+      onFrame();
     }
-
-    if (xi < xMax) {
-      drawPixel(++xi, yi, colorPositive);
-    } else onAnimationFinish();
   }
 
   private void prepareDraw() {

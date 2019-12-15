@@ -49,7 +49,6 @@ public class HorizonRenderer extends AsyncRenderer {
   private int[] maxHorizon;
   private double xFactor, yFactor;
   private int offsetX, offsetY;
-  private double zi;
 
   public HorizonRenderer(DrawerView target, Config config) {
     super(target, Config.Type.BITMAP, config,
@@ -65,27 +64,19 @@ public class HorizonRenderer extends AsyncRenderer {
       this.config.beta = DEFAULT_BETA * B_FACTOR;
       this.config.gamma = DEFAULT_GAMMA * G_FACTOR;
     }
-  }
 
-  @Override
-  protected void onPreExecute() {
-    super.onPreExecute();
     draw();
   }
 
   @Override
-  public void animate() {
-    super.animate();
+  public void animateInternal() throws InterruptedException {
     prepareDraw();
-    zi = F_MIN;
-  }
-
-  @Override
-  public void frame() {
-    if (zi < F_MAX) {
+    double zi = F_MIN;
+    while (zi < F_MAX) {
       drawLayer(zi);
       zi += Z_STEP / ANIM_Z_FACTOR;
-    } else onAnimationFinish();
+      onFrame();
+    }
   }
 
   @Override

@@ -9,7 +9,7 @@ import java.util.Locale;
 public class Mat4 {
   private static final int N = 4;
 
-  private double data[];
+  private double[] data;
 
   public Mat4() {
     data = new double[16];
@@ -78,7 +78,7 @@ public class Mat4 {
     data[10] = scale.z();
   }
 
-  private void loadRotate(Vec4 rotate) {
+  public void loadRotate(Vec4 rotate) {
     double rx = Math.toRadians(rotate.x());
     double ry = Math.toRadians(rotate.y());
     double rz = Math.toRadians(rotate.z());

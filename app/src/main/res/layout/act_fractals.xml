@@ -40,9 +40,203 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="2"
-        android:text="@string/graphics_reset"/>
+        android:text="@string/graphics_resetScene"/>
     </LinearLayout>
 
+    <ImageView
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/dirPicker_divHeight"
+      android:layout_marginLeft="@dimen/dirPicker_divHMargin"
+      android:layout_marginRight="@dimen/dirPicker_divHMargin"
+      android:layout_marginTop="@dimen/layoutPadding"
+      android:layout_marginBottom="@dimen/layoutPadding"
+      app:srcCompat="@color/dirPicker_divider"
+      tools:ignore="ContentDescription"/>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal">
+
+      <Button
+        android:id="@+id/btnBuild"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/graphics_buildConfig"
+        style="?android:attr/buttonBarButtonStyle"/>
+
+      <Button
+        android:id="@+id/btnScene"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/graphics_sceneConfig"
+        style="?android:attr/buttonBarButtonStyle"/>
+    </LinearLayout>
+
+    <ImageView
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/dirPicker_divHeight"
+      android:layout_marginLeft="@dimen/dirPicker_divHMargin"
+      android:layout_marginRight="@dimen/dirPicker_divHMargin"
+      android:layout_marginTop="@dimen/layoutPadding"
+      android:layout_marginBottom="@dimen/layoutPadding"
+      app:srcCompat="@color/dirPicker_divider"
+      tools:ignore="ContentDescription"/>
+
+    <LinearLayout
+      android:id="@+id/buildLayout"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical">
+
+      <ru.didim99.tstu.ui.view.RangeBar
+        android:id="@+id/rbMaxLevel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/graphics_maxLevel"/>
+
+      <ru.didim99.tstu.ui.view.RangeBar
+        android:id="@+id/rbBranchCount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/graphics_branchCount"/>
+
+      <CheckBox
+        android:id="@+id/cbCentralBranch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/layoutPadding"
+        android:text="@string/graphics_centralBranch"/>
+
+      <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dirPicker_divHeight"
+        android:layout_marginLeft="@dimen/dirPicker_divHMargin"
+        android:layout_marginRight="@dimen/dirPicker_divHMargin"
+        android:layout_marginTop="@dimen/layoutPadding"
+        android:layout_marginBottom="@dimen/layoutPadding"
+        app:srcCompat="@color/dirPicker_divider"
+        tools:ignore="ContentDescription"/>
+
+      <ru.didim99.tstu.ui.view.RangeBar
+        android:id="@+id/rbBranchL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/graphics_branchL"
+        app:scaled="true"/>
+
+      <ru.didim99.tstu.ui.view.RangeBar
+        android:id="@+id/rbBranchAngle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/graphics_branchAngle"/>
+
+      <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dirPicker_divHeight"
+        android:layout_marginLeft="@dimen/dirPicker_divHMargin"
+        android:layout_marginRight="@dimen/dirPicker_divHMargin"
+        android:layout_marginTop="@dimen/layoutPadding"
+        android:layout_marginBottom="@dimen/layoutPadding"
+        app:srcCompat="@color/dirPicker_divider"
+        tools:ignore="ContentDescription"/>
+
+      <ru.didim99.tstu.ui.view.RangeBar
+        android:id="@+id/rbBranchLF"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/graphics_rbBranchLF"
+        app:scaled="true"/>
+
+      <ru.didim99.tstu.ui.view.RangeBar
+        android:id="@+id/rbBranchAF"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/graphics_rbBranchAF"
+        app:scaled="true"/>
+
+      <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dirPicker_divHeight"
+        android:layout_marginLeft="@dimen/dirPicker_divHMargin"
+        android:layout_marginRight="@dimen/dirPicker_divHMargin"
+        android:layout_marginTop="@dimen/layoutPadding"
+        android:layout_marginBottom="@dimen/layoutPadding"
+        app:srcCompat="@color/dirPicker_divider"
+        tools:ignore="ContentDescription"/>
+    </LinearLayout>
+
+    <LinearLayout
+      android:id="@+id/sceneLayout"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:visibility="gone">
+
+      <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dirPicker_divHeight"
+        android:layout_marginLeft="@dimen/dirPicker_divHMargin"
+        android:layout_marginRight="@dimen/dirPicker_divHMargin"
+        android:layout_marginTop="@dimen/layoutPadding"
+        android:layout_marginBottom="@dimen/layoutPadding"
+        app:srcCompat="@color/dirPicker_divider"
+        tools:ignore="ContentDescription"/>
+
+      <CheckBox
+        android:id="@+id/cbDrawAxis"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/layoutPadding"
+        android:text="@string/graphics_drawAxis"/>
+
+      <ru.didim99.tstu.ui.view.RangeBar
+        android:id="@+id/rbScale"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/graphics_scale"
+        app:scaled="true"/>
+
+      <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dirPicker_divHeight"
+        android:layout_marginLeft="@dimen/dirPicker_divHMargin"
+        android:layout_marginRight="@dimen/dirPicker_divHMargin"
+        android:layout_marginTop="@dimen/layoutPadding"
+        android:layout_marginBottom="@dimen/layoutPadding"
+        app:srcCompat="@color/dirPicker_divider"
+        tools:ignore="ContentDescription"/>
+
+      <ru.didim99.tstu.ui.view.RangeBar
+        android:id="@+id/rbRotateX"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/graphics_rotateX"/>
+
+      <ru.didim99.tstu.ui.view.RangeBar
+        android:id="@+id/rbRotateY"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/graphics_rotateY"/>
+
+      <ru.didim99.tstu.ui.view.RangeBar
+        android:id="@+id/rbRotateZ"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/graphics_rotateZ"/>
+
+      <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dirPicker_divHeight"
+        android:layout_marginLeft="@dimen/dirPicker_divHMargin"
+        android:layout_marginRight="@dimen/dirPicker_divHMargin"
+        android:layout_marginTop="@dimen/layoutPadding"
+        android:layout_marginBottom="@dimen/layoutPadding"
+        app:srcCompat="@color/dirPicker_divider"
+        tools:ignore="ContentDescription"/>
+    </LinearLayout>
   </LinearLayout>
 
   <ru.didim99.tstu.ui.view.DrawerView
