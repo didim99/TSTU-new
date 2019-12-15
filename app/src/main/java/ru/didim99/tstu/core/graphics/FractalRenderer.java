@@ -170,7 +170,38 @@ public class FractalRenderer extends ModelRenderer {
     branch(0, 0, 0, config.branchL, config.branchAngle);
   }
 
-  private void branch(int rootId, int level, int n, double l, double a) {
+  private void branch(int rootId, int level, int n, double l, double a)
+    throws InterruptedException {
+    if (level > config.maxLevel) return;
+    int nextLevel = level + 1;
 
+    double lNext = l * config.branchLF, aNext = a * config.branchAF;
+    Vec4 root = new Vec4(vertices.get(rootId).world());
+    Vec4 grow = new Vec4(0, l, 0);
+
+    Mat4 transform = new Mat4();
+    transform.loadRotate(new Vec4(a, zGap * n, 0));
+    grow.multiply(transform);
+
+    if (config.centralBranch)
+      addBranch(rootId, nextLevel, 0, new Vec4(root).add(grow), lNext, aNext);
+
+
+    for (int i = 0; i < config.branchCount; i++) {
+      /*transform.rotate(rotate);
+
+      addBranch(rootId, nextLevel, i, new Vec4(root).add(newBase),
+        new Vec4(newBase).multiply(lf), newAngle);*/
+    }
+  }
+
+  private void addBranch(int level, int rootId, int n,
+                         Vec4 p, double l, double a)
+    throws InterruptedException {
+    int newRootId = vertices.size();
+    edges.add(new Edge(rootId, newRootId));
+    vertices.add(new Vertex(p));
+    if (isAnimating()) onFrame();
+    branch(newRootId, level, n, l, a);
   }
 }
