@@ -26,6 +26,7 @@ public class Model {
   private static final String L_NORMAL = "vn";
   private static final String L_TEXEL = "vt";
   private static final String L_SOLID = "s";
+  private static final String L_EDGE = "l";
   private static final String L_FACE = "f";
   private static final String V_OFF = "off";
 
@@ -297,17 +298,16 @@ public class Model {
         L_NORMAL, v.x(), v.y(), v.z()));
     }
 
-    data.add(String.format("%s %s", L_SOLID, V_OFF));
+    for (Edge edge : edges) {
+      data.add(String.format("%s %d %d",
+        L_EDGE, edge.v1 + 1, edge.v2 + 1));
+    }
 
-    if (faces.isEmpty()) {
-      for (Edge edge : edges) {
-        data.add(String.format("%s %d %d",
-          L_FACE, edge.v1 + 1, edge.v2 + 1));
-      }
-    } else {
-      int[] v, n, t;
+    if (!faces.isEmpty()) {
+      data.add(String.format("%s %s", L_SOLID, V_OFF));
       boolean useTexels = !texels.isEmpty();
       boolean useNormals = !normals.isEmpty();
+      int[] v, n, t;
 
       for (Face face : faces) {
         v = face.vertices();
