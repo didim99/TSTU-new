@@ -18,4 +18,9 @@ public class Edge {
     return e.v1 == v1 && e.v2 == v2
       || e.v1 == v2 && e.v2 == v1;
   }
+
+  @Override
+  public String toString() {
+    return "[" + v1 + " " + v2 + "]";
+  }
 }

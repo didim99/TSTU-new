@@ -12,7 +12,7 @@ import ru.didim99.tstu.ui.view.DrawerView;
  * Created by didim99 on 13.12.19.
  */
 public class FractalRenderer extends ModelRenderer {
-  private static final int FPS = 2;
+  private static final int FPS = 10;
   // Scene configuration
   public static final int SCL_MIN = 20;
   public static final int SCL_MAX = 300;
@@ -37,8 +37,8 @@ public class FractalRenderer extends ModelRenderer {
   public static final double BL_FACTOR = 0.01;
   public static final double BLF_FACTOR = 0.01;
   public static final double BAF_FACTOR = 0.01;
-  private static final int DEFAULT_LEVEL = 3;
-  private static final int DEFAULT_BCOUNT = 4;
+  private static final int DEFAULT_LEVEL = 2;
+  private static final int DEFAULT_BCOUNT = 2;
   private static final int DEFAULT_ANGLE = 90;
   private static final double DEFAULT_L = 1.0;
   private static final double DEFAULT_LF = 0.5;
@@ -126,16 +126,10 @@ public class FractalRenderer extends ModelRenderer {
   }
 
   @Override
-  void onFrame() throws InterruptedException {
-    model.configure();
-    super.onFrame();
-  }
-
-  @Override
   public void clear() {
     if (model != null) {
       model.clearData();
-      publishProgress();
+      onSceneChanged();
     }
   }
 
@@ -165,43 +159,43 @@ public class FractalRenderer extends ModelRenderer {
     vertices.add(new Vertex(ROOT));
     vertices.add(new Vertex(new Vec4(ROOT)
       .sub(new Vec4(0, config.branchL * 2, 0))));
-    model.configure();
     // Add all other branches
-    branch(0, 0, 0, config.branchL, config.branchAngle);
+    branch(0, 0, config.branchL, config.branchAngle, new Mat4());
   }
 
-  private void branch(int rootId, int level, int n, double l, double a)
+  private void branch(int level, int rootId, double l, double a, Mat4 basis)
     throws InterruptedException {
-    if (level > config.maxLevel) return;
+    if (level >= config.maxLevel) return;
     int nextLevel = level + 1;
 
     double lNext = l * config.branchLF, aNext = a * config.branchAF;
     Vec4 root = new Vec4(vertices.get(rootId).world());
     Vec4 grow = new Vec4(0, l, 0);
 
-    Mat4 transform = new Mat4();
-    transform.loadRotate(new Vec4(a, zGap * n, 0));
-    grow.multiply(transform);
-
     if (config.centralBranch)
-      addBranch(rootId, nextLevel, 0, new Vec4(root).add(grow), lNext, aNext);
+      addBranch(nextLevel, rootId, lNext, aNext, basis, root, grow);
 
+    Mat4 migrate = new Mat4();
+    migrate.loadRotate(new Vec4(0, 0, a));
+    Mat4 newBasis = new Mat4(migrate);
+    newBasis.multiply(basis);
 
     for (int i = 0; i < config.branchCount; i++) {
-      /*transform.rotate(rotate);
-
-      addBranch(rootId, nextLevel, i, new Vec4(root).add(newBase),
-        new Vec4(newBase).multiply(lf), newAngle);*/
+      addBranch(nextLevel, rootId, lNext, aNext, newBasis, root, grow);
+      migrate.rotate(new Vec4(0, zGap, 0));
+      newBasis.load(migrate);
+      newBasis.multiply(basis);
     }
   }
 
-  private void addBranch(int level, int rootId, int n,
-                         Vec4 p, double l, double a)
+  private void addBranch(int level, int rootId, double l, double a,
+                         Mat4 basis, Vec4 root, Vec4 grow)
     throws InterruptedException {
     int newRootId = vertices.size();
     edges.add(new Edge(rootId, newRootId));
-    vertices.add(new Vertex(p));
+    grow = new Vec4(root).add(grow.multiply(basis));
+    vertices.add(new Vertex(grow));
     if (isAnimating()) onFrame();
-    branch(newRootId, level, n, l, a);
+    branch(level, newRootId, l, a, basis);
   }
 }

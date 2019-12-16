@@ -73,8 +73,10 @@ public class Model {
     configure();
   }
 
-  public void configure() {
-    this.rastered = new float[edges.size() * 4];
+  private void configure() {
+    int size = edges.size() * 4;
+    if (rastered.length < size)
+      rastered = new float[size];
   }
 
   public void clearData() {
@@ -124,6 +126,7 @@ public class Model {
 
     int i = 0;
     PointF p1, p2;
+    configure();
     for (Edge e : edges) {
       p1 = vertices.get(e.v1).rastered;
       p2 = vertices.get(e.v2).rastered;

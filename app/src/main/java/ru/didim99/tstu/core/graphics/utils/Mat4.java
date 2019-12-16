@@ -16,6 +16,11 @@ public class Mat4 {
     loadIdentity();
   }
 
+  public Mat4(Mat4 src) {
+    data = new double[16];
+    load(src);
+  }
+
   public double get(int i, int j) {
     return data[i*4 + j];
   }

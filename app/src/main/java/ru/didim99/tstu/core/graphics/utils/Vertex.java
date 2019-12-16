@@ -10,7 +10,7 @@ public class Vertex {
   public PointF rastered;
   public double light;
 
-  public Vertex(double x, double y, double z) {
+  Vertex(double x, double y, double z) {
     world = new Vec4(x, y, z);
   }
 
@@ -42,5 +42,10 @@ public class Vertex {
 
   public Vec4 rastered() {
     return new Vec4(rastered.x, rastered.y, transformed.z());
+  }
+
+  @Override
+  public String toString() {
+    return world.toString();
   }
 }

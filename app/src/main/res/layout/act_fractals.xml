@@ -175,16 +175,6 @@
       android:orientation="vertical"
       android:visibility="gone">
 
-      <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dirPicker_divHeight"
-        android:layout_marginLeft="@dimen/dirPicker_divHMargin"
-        android:layout_marginRight="@dimen/dirPicker_divHMargin"
-        android:layout_marginTop="@dimen/layoutPadding"
-        android:layout_marginBottom="@dimen/layoutPadding"
-        app:srcCompat="@color/dirPicker_divider"
-        tools:ignore="ContentDescription"/>
-
       <CheckBox
         android:id="@+id/cbDrawAxis"
         android:layout_width="match_parent"
