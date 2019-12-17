@@ -60,7 +60,9 @@ public class Projection {
     return config;
   }
 
-  public int getType() { return config.type; }
+  public int getType() {
+    return config.type;
+  }
 
   public int getPPAngle() {
     return config.ppAngle;

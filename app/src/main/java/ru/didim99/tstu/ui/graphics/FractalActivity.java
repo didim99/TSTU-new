@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.CallbackTask;
 import ru.didim99.tstu.core.graphics.AsyncRenderer;
