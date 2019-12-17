@@ -1,5 +1,6 @@
 package ru.didim99.tstu.core.graphics;
 
+import android.graphics.Point;
 import ru.didim99.tstu.core.graphics.utils.Face;
 import ru.didim99.tstu.core.graphics.utils.Mat4;
 import ru.didim99.tstu.core.graphics.utils.Model;
@@ -125,7 +126,7 @@ public class TextureRenderer extends AsyncRenderer {
     modelTransform.scale(config.scale);
     modelTransform.translate(config.translate);
     modelTransform.multiply(sceneTransform);
-    plane.render(modelTransform, projection);
+    plane.render(modelTransform, projection, null);
     clear();
   }
 

@@ -3,6 +3,7 @@ package ru.didim99.tstu.core.graphics;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Point;
 import java.util.ArrayList;
 import java.util.Arrays;
 import ru.didim99.tstu.core.graphics.utils.Axis;
@@ -11,7 +12,6 @@ import ru.didim99.tstu.core.graphics.utils.Mat4;
 import ru.didim99.tstu.core.graphics.utils.Model;
 import ru.didim99.tstu.core.graphics.utils.Projection;
 import ru.didim99.tstu.core.graphics.utils.Vec4;
-import ru.didim99.tstu.core.graphics.utils.Vertex;
 import ru.didim99.tstu.core.graphics.utils.VertexHolder;
 import ru.didim99.tstu.ui.view.DrawerView;
 
@@ -240,18 +240,14 @@ public class ModelRenderer extends AsyncRenderer implements Scene {
   }
 
   private void render() {
+    Point center = new Point(config.width, config.height);
     if (config.drawAxis)
-      axis.render(sceneTransform, projection);
+      axis.render(sceneTransform, projection, center);
     for (Model model : config.models) {
-      model.render(modelTransform, projection);
+      model.render(modelTransform, projection, center);
       if (model.getType() == Model.Type.FACE) {
         model.rotateNormals(normalTransform);
         if (config.useLamp) model.calcLight(config.lampPos);
-      }
-
-      for (Vertex v : model.getVertices()) {
-        v.rastered.x += config.width;
-        v.rastered.y = config.height - v.rastered.y;
       }
     }
   }
@@ -266,7 +262,9 @@ public class ModelRenderer extends AsyncRenderer implements Scene {
     if (config.drawAxis)
       drawModel(axis, canvas, paint);
     for (Model model : config.models) {
-      if (config.modelType == Model.Type.EDGE)
+      if (model.isEmpty()) continue;
+      if (config.modelType == Model.Type.EDGE
+        || model.getType() == Model.Type.EDGE)
         drawModel(model, canvas, paint);
       else if (model.getType() == Model.Type.FACE)
         drawModel(model, canvas);
@@ -274,15 +272,10 @@ public class ModelRenderer extends AsyncRenderer implements Scene {
   }
 
   private void drawModel(Model model, Canvas canvas, Paint paint) {
-    float[] rastered = model.getRastered();
-    for (int i = 0; i < rastered.length; i++) {
-      if (i % 2 == 0) rastered[i] += config.width;
-      else rastered[i] = (float) config.height - rastered[i];
-    }
-
     paint.setColor(model.getColor());
     paint.setStrokeWidth(model.getLineWidth());
-    canvas.drawLines(rastered, paint);
+    canvas.drawLines(model.getRastered(),
+      0, model.getRasteredSize(), paint);
   }
 
   private void drawModel(Model model, Canvas canvas) {

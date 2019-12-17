@@ -1,5 +1,6 @@
 package ru.didim99.tstu.core.graphics.utils;
 
+import android.graphics.Point;
 import android.graphics.PointF;
 
 /**
@@ -11,11 +12,12 @@ public class Vertex {
   public double light;
 
   Vertex(double x, double y, double z) {
-    world = new Vec4(x, y, z);
+    this(new Vec4(x, y, z));
   }
 
-  public Vertex(Vec4 v) {
+  Vertex(Vec4 v) {
     world = new Vec4(v);
+    rastered = new PointF();
   }
 
   void transform(Mat4 transform) {
@@ -27,9 +29,13 @@ public class Vertex {
     if (light < 0) light = 0;
   }
 
-  void render(Mat4 transform, Projection p) {
+  void render(Mat4 transform, Projection p, Point center) {
     transform(transform);
     rastered = p.project(transformed);
+    if (center != null) {
+      rastered.y = center.y - rastered.y;
+      rastered.x += center.x;
+    }
   }
 
   public Vec4 world() {

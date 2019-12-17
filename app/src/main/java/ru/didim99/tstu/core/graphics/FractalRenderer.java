@@ -1,7 +1,6 @@
 package ru.didim99.tstu.core.graphics;
 
 import java.util.ArrayList;
-import ru.didim99.tstu.core.graphics.utils.Edge;
 import ru.didim99.tstu.core.graphics.utils.Mat4;
 import ru.didim99.tstu.core.graphics.utils.Model;
 import ru.didim99.tstu.core.graphics.utils.Vec4;
@@ -19,11 +18,11 @@ public class FractalRenderer extends ModelRenderer {
   public static final int ROT_MIN = -180;
   public static final int ROT_MAX = 180;
   public static final double SCL_FACTOR = 0.05;
-  private static final double DEFAULT_SCL = 2.0;
+  private static final double DEFAULT_SCL = 4.0;
   private static final boolean DEFAULT_DRAW_AXIS = false;
   // Fractal algorithm configuration
   public static final int LEVEL_MIN = 2;
-  public static final int LEVEL_MAX = 8;
+  public static final int LEVEL_MAX = 10;
   public static final int BCOUNT_MIN = 1;
   public static final int BCOUNT_MAX = 10;
   public static final int BANGLE_MIN = 0;
@@ -37,9 +36,9 @@ public class FractalRenderer extends ModelRenderer {
   public static final double BL_FACTOR = 0.01;
   public static final double BLF_FACTOR = 0.01;
   public static final double BAF_FACTOR = 0.01;
-  private static final int DEFAULT_LEVEL = 2;
+  private static final int DEFAULT_LEVEL = 5;
   private static final int DEFAULT_BCOUNT = 2;
-  private static final int DEFAULT_ANGLE = 90;
+  private static final int DEFAULT_ANGLE = 120;
   private static final double DEFAULT_L = 1.0;
   private static final double DEFAULT_LF = 0.5;
   private static final double DEFAULT_AF = 1.0;
@@ -49,12 +48,10 @@ public class FractalRenderer extends ModelRenderer {
 
   private Model model;
   private ArrayList<Vertex> vertices;
-  private ArrayList<Edge> edges;
   private double zGap;
 
   public FractalRenderer(DrawerView target, Config config) {
     super(Model.Type.EDGE, target, config);
-    setFPS(FPS);
 
     if (config == null) {
       this.config.models.add(new Model());
@@ -64,7 +61,6 @@ public class FractalRenderer extends ModelRenderer {
 
     model = this.config.models.get(0);
     vertices = model.getVertices();
-    edges = model.getEdges();
     onBuilderChanged();
     onSceneChanged();
   }
@@ -74,7 +70,7 @@ public class FractalRenderer extends ModelRenderer {
   }
 
   public boolean hasModel() {
-    return !vertices.isEmpty() && !edges.isEmpty();
+    return !model.isEmpty();
   }
 
   public void setMaxLevel(int level) {
@@ -114,6 +110,7 @@ public class FractalRenderer extends ModelRenderer {
 
   private void onBuilderChanged() {
     try {
+      setFPS(FPS * config.maxLevel * config.branchCount / 4);
       zGap = 360.0 / config.branchCount;
       generateFractal();
       publishProgress();
@@ -155,10 +152,10 @@ public class FractalRenderer extends ModelRenderer {
     if (model == null) return;
     model.clearData();
     // Add initial branch
-    edges.add(new Edge(0, 1));
-    vertices.add(new Vertex(ROOT));
-    vertices.add(new Vertex(new Vec4(ROOT)
-      .sub(new Vec4(0, config.branchL * 2, 0))));
+    model.addVertex(ROOT);
+    model.addVertex(new Vec4(ROOT).sub(
+      new Vec4(0, config.branchL * 2, 0)));
+    model.addEdge(0, 1);
     // Add all other branches
     branch(0, 0, config.branchL, config.branchAngle, new Mat4());
   }
@@ -191,10 +188,10 @@ public class FractalRenderer extends ModelRenderer {
   private void addBranch(int level, int rootId, double l, double a,
                          Mat4 basis, Vec4 root, Vec4 grow)
     throws InterruptedException {
-    int newRootId = vertices.size();
-    edges.add(new Edge(rootId, newRootId));
     grow = new Vec4(root).add(grow.multiply(basis));
-    vertices.add(new Vertex(grow));
+    int newRootId = vertices.size();
+    model.addVertex(grow);
+    model.addEdge(rootId, newRootId);
     if (isAnimating()) onFrame();
     branch(level, newRootId, l, a, basis);
   }

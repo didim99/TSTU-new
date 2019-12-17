@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.annotation.CallSuper;
-import android.support.annotation.WorkerThread;
 import java.lang.ref.WeakReference;
 import ru.didim99.tstu.ui.view.DrawerView;
 
@@ -24,7 +23,7 @@ public class AsyncRenderer extends AsyncTask<Void, Void, Void> {
   private volatile boolean running, paused;
   private volatile boolean animationFinish;
   private volatile boolean animating;
-  private int frameSleep;
+  private volatile int frameSleep;
   Config config;
   Bitmap bitmap;
 
@@ -94,7 +93,6 @@ public class AsyncRenderer extends AsyncTask<Void, Void, Void> {
     }
   }
 
-  @WorkerThread
   void onFrame() throws InterruptedException {
     publishProgress();
     Thread.sleep(frameSleep);

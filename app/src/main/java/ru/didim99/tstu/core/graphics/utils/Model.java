@@ -1,5 +1,6 @@
 package ru.didim99.tstu.core.graphics.utils;
 
+import android.graphics.Point;
 import android.graphics.PointF;
 import java.io.File;
 import java.io.IOException;
@@ -37,12 +38,12 @@ public class Model {
 
   private int type;
   private String name;
-  private ArrayList<Vertex> vertices;
-  private ArrayList<Vertex> vNormals;
-  private ArrayList<Vertex> normals;
-  private ArrayList<PointF> texels;
-  private ArrayList<Edge> edges;
-  private ArrayList<Face> faces;
+  private final ArrayList<Vertex> vertices;
+  private final ArrayList<Vertex> vNormals;
+  private final ArrayList<Vertex> normals;
+  private final ArrayList<PointF> texels;
+  private final ArrayList<Edge> edges;
+  private final ArrayList<Face> faces;
   private boolean useVNormals;
   private float[] rastered;
   private float width;
@@ -67,14 +68,8 @@ public class Model {
     this.name = name;
   }
 
-  void load(ArrayList<Vertex> vertices, ArrayList<Edge> edges) {
-    this.vertices = vertices;
-    this.edges = edges;
-    configure();
-  }
-
   private void configure() {
-    int size = edges.size() * 4;
+    int size = getRasteredSize();
     if (rastered.length < size)
       rastered = new float[size];
   }
@@ -104,12 +99,12 @@ public class Model {
     return vertices;
   }
 
-  public ArrayList<Edge> getEdges() {
-    return edges;
-  }
-
   public ArrayList<Face> getFaces() {
     return faces;
+  }
+
+  public int getRasteredSize() {
+    return edges.size() * 4;
   }
 
   public void setName(String name) {
@@ -120,21 +115,26 @@ public class Model {
     this.kd = kd;
   }
 
-  public void render(Mat4 transform, Projection p) {
-    for (Vertex v : vertices)
-      v.render(transform, p);
+  public void render(Mat4 transform, Projection p, Point center) {
+    synchronized (vertices) {
+      for (Vertex v : vertices)
+        v.render(transform, p, center);
+    }
 
     int i = 0;
     PointF p1, p2;
     configure();
-    for (Edge e : edges) {
-      p1 = vertices.get(e.v1).rastered;
-      p2 = vertices.get(e.v2).rastered;
-      rastered[i]   = p1.x;
-      rastered[i+1] = p1.y;
-      rastered[i+2] = p2.x;
-      rastered[i+3] = p2.y;
-      i += 4;
+
+    synchronized (edges) {
+      for (Edge e : edges) {
+        p1 = vertices.get(e.v1).rastered;
+        p2 = vertices.get(e.v2).rastered;
+        rastered[i] = p1.x;
+        rastered[i + 1] = p1.y;
+        rastered[i + 2] = p2.x;
+        rastered[i + 3] = p2.y;
+        i += 4;
+      }
     }
   }
 
@@ -171,6 +171,86 @@ public class Model {
       tmp.div(count);
       vNormals.add(new Vertex(tmp));
     }
+  }
+
+  public boolean isEmpty() {
+    return vertices.isEmpty() || edges.isEmpty();
+  }
+
+  public void addVertex(Vec4 v) {
+    synchronized (vertices) {
+      vertices.add(new Vertex(v));
+    }
+  }
+
+  public void addEdge(int v1, int v2) {
+    synchronized (edges) {
+      edges.add(new Edge(v1, v2));
+    }
+  }
+
+  @SuppressWarnings("DefaultLocale")
+  public String save(String path) throws IOException {
+    String fileName = name.concat(FILE_MASK);
+    path = new File(path, fileName).getAbsolutePath();
+    ArrayList<String> data = new ArrayList<>(vertices.size());
+
+    data.add(FILE_CREATOR);
+    data.add(String.format(FILE_INFO, fileName));
+    data.add(String.format("%s %s", L_OBJECT, name));
+
+    for (Vertex vertex : vertices) {
+      Vec4 v = vertex.world();
+      data.add(String.format("%s %.6f %.6f %.6f",
+        L_VERTEX, v.x(), v.y(), v.z()));
+    }
+
+    for (PointF point : texels) {
+      data.add(String.format("%s %.6f %.6f",
+        L_TEXEL, point.x, point.y));
+    }
+
+    for (Vertex vertex : normals) {
+      Vec4 v = vertex.world();
+      data.add(String.format("%s %.4f %.4f %.4f",
+        L_NORMAL, v.x(), v.y(), v.z()));
+    }
+
+    for (Edge edge : edges) {
+      data.add(String.format("%s %d %d",
+        L_EDGE, edge.v1 + 1, edge.v2 + 1));
+    }
+
+    if (!faces.isEmpty()) {
+      data.add(String.format("%s %s", L_SOLID, V_OFF));
+      boolean useTexels = !texels.isEmpty();
+      boolean useNormals = !normals.isEmpty();
+      int[] v, n, t;
+
+      for (Face face : faces) {
+        v = face.vertices();
+        n = face.normals();
+        t = face.texels();
+
+        String[] line = new String[3];
+        for (int i = 0; i < 3; i++) {
+          if (useTexels && useNormals)
+            line[i] = String.format("%d/%d/%d", v[i], t[i], n[i]);
+          else if (useTexels)
+            line[i] = String.format("%d/%d", v[i], t[i]);
+          else if (useNormals)
+            line[i] = String.format("%d//%d", v[i], n[i]);
+          else
+            line[i] = Integer.toString(v[i]);
+        }
+
+        data.add(String.format("%s %s %s %s",
+          L_FACE, line[0], line[1], line[2]));
+      }
+    }
+
+    Utils.writeFile(path, data);
+    return path;
   }
 
   public static Model load(String path)
@@ -272,70 +352,6 @@ public class Model {
   private static void addEdge(ArrayList<Edge> data, int v1, int v2) {
     Edge e = new Edge(v1, v2);
     if (!data.contains(e)) data.add(e);
-  }
-
-  @SuppressWarnings("DefaultLocale")
-  public String save(String path) throws IOException {
-    String fileName = name.concat(FILE_MASK);
-    path = new File(path, fileName).getAbsolutePath();
-    ArrayList<String> data = new ArrayList<>(vertices.size());
-
-    data.add(FILE_CREATOR);
-    data.add(String.format(FILE_INFO, fileName));
-    data.add(String.format("%s %s", L_OBJECT, name));
-
-    for (Vertex vertex : vertices) {
-      Vec4 v = vertex.world();
-      data.add(String.format("%s %.6f %.6f %.6f",
-        L_VERTEX, v.x(), v.y(), v.z()));
-    }
-
-    for (PointF point : texels) {
-      data.add(String.format("%s %.6f %.6f",
-        L_TEXEL, point.x, point.y));
-    }
-
-    for (Vertex vertex : normals) {
-      Vec4 v = vertex.world();
-      data.add(String.format("%s %.4f %.4f %.4f",
-        L_NORMAL, v.x(), v.y(), v.z()));
-    }
-
-    for (Edge edge : edges) {
-      data.add(String.format("%s %d %d",
-        L_EDGE, edge.v1 + 1, edge.v2 + 1));
-    }
-
-    if (!faces.isEmpty()) {
-      data.add(String.format("%s %s", L_SOLID, V_OFF));
-      boolean useTexels = !texels.isEmpty();
-      boolean useNormals = !normals.isEmpty();
-      int[] v, n, t;
-
-      for (Face face : faces) {
-        v = face.vertices();
-        n = face.normals();
-        t = face.texels();
-
-        String[] line = new String[3];
-        for (int i = 0; i < 3; i++) {
-          if (useTexels && useNormals)
-            line[i] = String.format("%d/%d/%d", v[i], t[i], n[i]);
-          else if (useTexels)
-            line[i] = String.format("%d/%d", v[i], t[i]);
-          else if (useNormals)
-            line[i] = String.format("%d//%d", v[i], n[i]);
-          else
-            line[i] = Integer.toString(v[i]);
-        }
-
-        data.add(String.format("%s %s %s %s",
-          L_FACE, line[0], line[1], line[2]));
-      }
-    }
-
-    Utils.writeFile(path, data);
-    return path;
   }
 
   public static class ParserException extends Exception {
