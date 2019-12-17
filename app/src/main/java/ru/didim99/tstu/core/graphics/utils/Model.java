@@ -300,6 +300,8 @@ public class Model {
               Float.parseFloat(parts[1]),
               Float.parseFloat(parts[2])));
             break;
+          case L_EDGE:
+            addEdge(edges, parts[1], parts[2]);
           case L_FACE:
             count = parts.length - 1;
             if (useTextures || useNormals) {
