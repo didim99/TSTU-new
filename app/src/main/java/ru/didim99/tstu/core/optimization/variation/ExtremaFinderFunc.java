@@ -62,6 +62,7 @@ public abstract class ExtremaFinderFunc {
   public String getDescription(Context context, Result result) {
     ArrayList<PointD> solution = result.getSolutionSeries();
     StringBuilder sb = new StringBuilder();
+    int r = solution.get(0).size() - 1;
 
     if (result.getDelta() != null) {
       PointD pMin = new PointD(0d, Double.MAX_VALUE);
@@ -80,14 +81,17 @@ public abstract class ExtremaFinderFunc {
     }
 
     sb.append(context.getString(
-      R.string.opt_points, solution.size()));
-    sb.append("\n\n").append(String.format(Locale.US,
-      " %-6s  %-6s", "t", "x(t)"));
+      R.string.opt_points, solution.size() / r));
+    sb.append("\n\n").append(String.format("%8s", "t"));
+    for (int i = 0; i < r; i++)
+     sb.append(String.format(Locale.US, "   x%d(t)", i + 1));
 
     sb.append("\n");
     for (PointD point : solution) {
-      sb.append(String.format(Locale.US, "%7.4f %7.4f\n",
-        point.get(0), point.get(1)));
+      sb.append(' ');
+      for (int i = 0; i <= r; i++)
+        sb.append(String.format(Locale.US, "%7.4f ", point.get(i)));
+      sb.append('\n');
     }
 
     return sb.toString();

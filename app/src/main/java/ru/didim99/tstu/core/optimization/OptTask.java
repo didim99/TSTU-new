@@ -148,11 +148,11 @@ public class OptTask extends CallbackTask<Config, ArrayList<Result>> {
           default: throw new IllegalArgumentException("Unknown solve method");
         }
 
-        finderFunc.solve(Functions.eulerStart, Functions.eulerEnd);
+        finderFunc.solve(Functions.functionalStart, Functions.functionalEnd);
 
         result.setSolutionSeries(finderFunc.getSolution());
         result.setReference(finderFunc.getReference(
-          Functions.functionalRef, Functions.eulerStart, Functions.eulerEnd));
+          Functions.functionalRef, Functions.functionalStart, Functions.functionalEnd));
         if (config.isCalcDelta())
           result.setDelta(finderFunc.getDelta(result.getReference()));
         result.setDescription(finderFunc.getDescription(appContext.get(), result));
