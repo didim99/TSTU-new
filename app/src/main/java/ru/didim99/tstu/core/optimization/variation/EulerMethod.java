@@ -12,7 +12,7 @@ import ru.didim99.tstu.utils.MyLog;
  */
 public class EulerMethod extends ExtremaFinderFunc {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_EDM";
-  private static final double EPSILON = 1E-3;
+  private static final double EPSILON = 2E-3;
   private static final int R_START = 2;
 
   private Functional j;
@@ -37,7 +37,7 @@ public class EulerMethod extends ExtremaFinderFunc {
       j.setResolution(resolution);
       jStart = j.getStartValues();
       jNext = finder.find(j, jStart);
-      delta = jNext.get(resolution) - jPrev.get(resolution - 1);
+      delta = jNext.getLast() - jPrev.getLast();
       MyLog.d(LOG_TAG, "Functional delta: " + delta);
       jPrev = jNext;
       resolution++;

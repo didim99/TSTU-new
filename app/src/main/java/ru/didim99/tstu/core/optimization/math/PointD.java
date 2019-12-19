@@ -36,6 +36,10 @@ public class PointD implements DataPointInterface {
     return data[pos];
   }
 
+  public double getLast() {
+    return data[data.length - 1];
+  }
+
   public void set(int pos, double val) {
     data[pos] = val;
   }
