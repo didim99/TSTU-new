@@ -148,35 +148,55 @@ public class FractalRenderer extends ModelRenderer {
     return config;
   }
 
+  /**
+   * Build the fractal tree
+   */
   private void generateFractal() throws InterruptedException {
     if (model == null) return;
+    // Clear all previous data
     model.clearData();
     // Add initial branch
     model.addVertex(ROOT);
     model.addVertex(new Vec4(ROOT).sub(
       new Vec4(0, config.branchL * 2, 0)));
     model.addEdge(0, 1);
-    // Add all other branches
+    // Build all other branches
     branch(0, 0, config.branchL, config.branchAngle, new Mat4());
   }
 
+  /**
+   * Build one level of branches in the fractal tree
+   *
+   * @param level   current recursion level
+   * @param rootId  root vertex number
+   * @param l       branch length
+   * @param a       branch angle
+   * @param basis   n -> 1 basis transition matrix
+   */
   private void branch(int level, int rootId, double l, double a, Mat4 basis)
     throws InterruptedException {
     if (level >= config.maxLevel) return;
     int nextLevel = level + 1;
 
+    // Compute branch length and angle for next level
     double lNext = l * config.branchLF, aNext = a * config.branchAF;
+    // Get root vertex position
     Vec4 root = new Vec4(vertices.get(rootId).world());
+    // Initialize grow vector
     Vec4 grow = new Vec4(0, l, 0);
 
+    // Build central branch if necessary
     if (config.centralBranch)
       addBranch(nextLevel, rootId, lNext, aNext, basis, root, grow);
 
+    // Compute n+1 -> n basis transition matrix
     Mat4 migrate = new Mat4();
     migrate.loadRotate(new Vec4(0, 0, a));
+    // Compute n+1 -> 1 basis transition matrix
     Mat4 newBasis = new Mat4(migrate);
     newBasis.multiply(basis);
 
+    // Build all side branches
     for (int i = 0; i < config.branchCount; i++) {
       addBranch(nextLevel, rootId, lNext, aNext, newBasis, root, grow);
       migrate.rotate(new Vec4(0, zGap, 0));
@@ -185,14 +205,30 @@ public class FractalRenderer extends ModelRenderer {
     }
   }
 
+  /**
+   * Add single branch to the fractal tree
+   *
+   * @param level   current recursion level
+   * @param rootId  root vertex number
+   * @param l       branch length
+   * @param a       branch angle
+   * @param basis   n -> 1 basis transition matrix
+   * @param root    root vertex position
+   * @param grow    grow vector
+   */
   private void addBranch(int level, int rootId, double l, double a,
                          Mat4 basis, Vec4 root, Vec4 grow)
     throws InterruptedException {
+    // Compute new root vertex position in the Model space
     grow = new Vec4(root).add(grow.multiply(basis));
+    // Get new root vertex number
     int newRootId = vertices.size();
+    // Add branch into model
     model.addVertex(grow);
     model.addEdge(rootId, newRootId);
+    // Draw current frame if animation enabled
     if (isAnimating()) onFrame();
+    // Build next level of branches from new root vertex
     branch(level, newRootId, l, a, basis);
   }
 }
