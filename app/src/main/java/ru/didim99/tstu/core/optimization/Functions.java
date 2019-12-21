@@ -37,12 +37,14 @@ class Functions {
   private static final int Y  = 3; // y(t)
   private static final int DY = 4; // y'(t)
 
+  // Values definition: t, x1(t), x1'(t), x2(t), x2'(t), ...
   static final FunctionRN functional = x -> Math.pow(x.get(DX) + x.get(X), 2);
-  
-  static final Function functionalRef = x -> Math.sinh(2 - x) / Math.sinh(1);
 
+  // Values definition: t, x1(t), x2(t), ...
   static final PointD functionalStart = new PointD(1.0, 1.0);
   static final PointD functionalEnd = new PointD(2.0, 0.0);
+
+  static final Function functionalRef = x -> Math.sinh(2 - x) / Math.sinh(1);
 
   static final Function eulerP = x -> 1; // Function p(t) of Euler equation
   static final Function eulerF = x -> 0; // Function f(t) of Euler equation
