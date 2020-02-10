@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="horizontal"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:padding="@dimen/layoutPadding"
+  android:baselineAligned="false">
+
+  <LinearLayout
+    android:orientation="vertical"
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="3">
+
+    <Button
+      android:id="@+id/btnStart"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="5dp"
+      android:text="@string/buttonStart"/>
+
+    <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_marginTop="5dp"
+      android:layout_marginLeft="5dp"
+      android:layout_marginRight="5dp">
+
+      <TextView
+        android:id="@+id/tvOut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/textSize_large"
+        android:typeface="monospace"/>
+    </ScrollView>
+  </LinearLayout>
+
+  <RelativeLayout
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="7">
+
+    <com.jjoe64.graphview.GraphView
+      android:id="@+id/graphView"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"/>
+
+    <ProgressBar
+      android:id="@+id/pbMain"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerInParent="true"
+      style="?android:attr/progressBarStyleLarge"
+      android:visibility="invisible"/>
+  </RelativeLayout>
+</LinearLayout>

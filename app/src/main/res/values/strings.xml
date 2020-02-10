@@ -8,7 +8,7 @@
   <string name="startRV2">Двумерные случайные величины</string>
   <string name="startCA">Корреляционный анализ</string>
   <string name="startGraphics">Графика</string>
-  <string name="copyright">Created by didim99, 2018 &#8211; 2019</string>
+  <string name="copyright">Created by didim99, 2018 &#8211; 2020</string>
   <!-- Custom views -->
   <string name="valueBar_ratio" translatable="false">%.2f</string>
   <string name="valueBar_percentage" translatable="false">%d%%</string>
@@ -675,6 +675,14 @@
   <string name="opt_minDelta">Мин: %8.5f (t = %.3f)</string>
   <string name="opt_maxDelta">Макс: %7.5f (t = %.3f)</string>
   <string name="opt_points">Точек: %d</string>
+  <!-- Optimization -->
+  <string name="startModeling">Мат. моделирование</string>
+  <string name="sectionModeling">Модели и методы анализа проектных решений</string>
+  <string name="modeling_staticCurve">Статические характеристики</string>
+  <string name="modeling_dynamicCurve">Динамические характеристики</string>
+  <string-array name="modeling_taskTypes">
+    <item>@string/modeling_staticCurve</item>
+  </string-array>
   <!-- Содержимое текстовых полей и подписей кнопок (Layout: act_dir_picker) -->
   <string name="actLabel_filePicker">Выбор файла</string>
   <string name="actLabel_dirPicker">Выбор каталога</string>

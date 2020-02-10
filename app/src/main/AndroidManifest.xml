@@ -197,6 +197,10 @@
       android:label="@string/sectionOpt"/>
 
     <activity
+      android:name=".ui.ModelingActivity"
+      android:label="@string/sectionModeling"/>
+
+    <activity
       android:name=".ui.dirpicker.DirPickerActivity"
       android:label="@string/actLabel_dirPicker"
       android:launchMode="singleTop"

@@ -32,8 +32,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
   @Override
   public final void onBackPressed() {
-    if (!uiLocked)
-      super.onBackPressed();
+    if (!uiLocked) super.onBackPressed();
   }
 
   @Override
@@ -60,13 +59,12 @@ public abstract class BaseActivity extends AppCompatActivity {
   protected void inputFieldDialog(@StringRes int titleId, @LayoutRes int viewId,
                                   DialogEventListener listener) {
     MyLog.d(LOG_TAG, "Field dialog called");
-    AlertDialog.Builder adb = new AlertDialog.Builder(this);
-    adb.setTitle(titleId);
-    adb.setView(viewId);
-    adb.setPositiveButton(R.string.dialogButtonOk, null);
-    adb.setNegativeButton(R.string.dialogButtonCancel, null);
+    AlertDialog dialog = new AlertDialog.Builder(this)
+      .setTitle(titleId).setView(viewId)
+      .setPositiveButton(R.string.dialogButtonOk, null)
+      .setNegativeButton(R.string.dialogButtonCancel, null)
+      .create();
     MyLog.d(LOG_TAG, "Field dialog created");
-    AlertDialog dialog = adb.create();
     dialog.setOnShowListener((di) -> {
       AlertDialog d = (AlertDialog) di;
       d.getButton(AlertDialog.BUTTON_POSITIVE)

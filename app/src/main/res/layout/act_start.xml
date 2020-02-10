@@ -80,9 +80,15 @@
         android:id="@+id/startOpt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_span="2"
         android:padding="@dimen/actStart_btnPadding"
         android:text="@string/startOpt"/>
+
+      <Button
+        android:id="@+id/startModeling"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/actStart_btnPadding"
+        android:text="@string/startModeling"/>
     </TableRow>
   </TableLayout>
 

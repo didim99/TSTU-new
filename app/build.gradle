@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
   signingConfigs {
     tstuConfig {
-      storeFile file("${rootDir}/../keys/tstuKeystore.jks")
+      storeFile file("${rootDir}/../../keys/tstuKeystore.jks")
       storePassword 's3d6yBKvK6ART9dJrKDfDF6ygrGjJbwkraTe7UqgRC5vPeXk'
       keyAlias 'tstuDefault'
       keyPassword 'jzLVCQqUsJ4b6k3zVcTxguRGqc6awKEP'

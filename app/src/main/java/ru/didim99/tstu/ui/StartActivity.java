@@ -72,6 +72,8 @@ public class StartActivity extends AppCompatActivity {
       R.string.sectionIS, R.array.is_taskTypes, IS_TARGET));
     findViewById(R.id.startOpt).setOnClickListener(v -> taskTypeDialog(
       R.string.sectionOpt, R.array.opt_taskTypes, OptimizationActivity.class));
+    findViewById(R.id.startModeling).setOnClickListener(v -> taskTypeDialog(
+      R.string.sectionModeling, R.array.modeling_taskTypes, ModelingActivity.class));
 
     MyLog.d(LOG_TAG, "StartActivity created");
   }
