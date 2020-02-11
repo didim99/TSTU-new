@@ -3,15 +3,22 @@ package ru.didim99.tstu.ui;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.LegendRenderer;
+import com.jjoe64.graphview.series.Series;
+
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.TSTU;
 import ru.didim99.tstu.core.CallbackTask;
 import ru.didim99.tstu.core.modeling.Config;
 import ru.didim99.tstu.core.modeling.ModelingTask;
 import ru.didim99.tstu.core.modeling.Result;
+import ru.didim99.tstu.core.modeling.StaticProcessor;
+import ru.didim99.tstu.core.optimization.math.PointD;
 import ru.didim99.tstu.utils.MyLog;
 
 /**
@@ -22,6 +29,7 @@ public class ModelingActivity extends BaseActivity
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_ModelingAct";
 
   //view-elements
+  private Spinner spVariable;
   private Button btnStart;
   private TextView tvOut;
   private GraphView graphView;
@@ -34,16 +42,28 @@ public class ModelingActivity extends BaseActivity
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     MyLog.d(LOG_TAG, "ModelingActivity starting...");
-    type = getIntent().getIntExtra(TSTU.EXTRA_TYPE, -1);
+    type = getIntent().getIntExtra(TSTU.EXTRA_TYPE, Config.TaskType.UNDEFINED);
     super.onCreate(savedInstanceState);
     setContentView(R.layout.act_modeling);
 
     MyLog.d(LOG_TAG, "View components init...");
+    spVariable = findViewById(R.id.spVariable);
     btnStart = findViewById(R.id.btnStart);
     tvOut = findViewById(R.id.tvOut);
     graphView = findViewById(R.id.graphView);
     pbMain = findViewById(R.id.pbMain);
     btnStart.setOnClickListener(v -> startTask());
+
+    switch (type) {
+      case Config.TaskType.STATIC_CURVE:
+        LegendRenderer legend = graphView.getLegendRenderer();
+        legend.setAlign(LegendRenderer.LegendAlign.TOP);
+        spVariable.setAdapter(new ArrayAdapter<>(
+          this, android.R.layout.simple_list_item_1,
+          StaticProcessor.getVarList()));
+        break;
+    }
+
     MyLog.d(LOG_TAG, "View components init completed");
 
     MyLog.d(LOG_TAG, "Trying to connect with background task...");
@@ -93,6 +113,13 @@ public class ModelingActivity extends BaseActivity
 
   private void startTask() {
     Config config = new Config(type);
+
+    switch (type) {
+      case Config.TaskType.STATIC_CURVE:
+        config.setVariable(spVariable.getSelectedItemPosition());
+        break;
+    }
+
     task = new ModelingTask(getApplicationContext());
     task.registerEventListener(this);
     task.execute(config);
@@ -128,7 +155,17 @@ public class ModelingActivity extends BaseActivity
 
   private void uiSet() {
     MyLog.d(LOG_TAG, "Setting up UI");
-    tvOut.setText(taskResult.getDescription());
+
+    switch (type) {
+      case Config.TaskType.STATIC_CURVE:
+        tvOut.setText(taskResult.getDescription());
+        Series<PointD> series = taskResult.getSeries();
+        graphView.addSeries(taskResult.getSeries());
+        graphView.getLegendRenderer().setVisible(true);
+        graphView.getViewport().setScalable(true);
+        break;
+    }
+
     MyLog.d(LOG_TAG, "UI setup completed");
   }
 }

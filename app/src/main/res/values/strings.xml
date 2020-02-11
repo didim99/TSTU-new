@@ -677,12 +677,13 @@
   <string name="opt_points">Точек: %d</string>
   <!-- Optimization -->
   <string name="startModeling">Мат. моделирование</string>
-  <string name="sectionModeling">Модели и методы анализа проектных решений</string>
+  <string name="sectionModeling">Методы анализа проектных решений</string>
   <string name="modeling_staticCurve">Статические характеристики</string>
   <string name="modeling_dynamicCurve">Динамические характеристики</string>
   <string-array name="modeling_taskTypes">
     <item>@string/modeling_staticCurve</item>
   </string-array>
+  <string name="modeling_variable">Зависимость</string>
   <!-- Содержимое текстовых полей и подписей кнопок (Layout: act_dir_picker) -->
   <string name="actLabel_filePicker">Выбор файла</string>
   <string name="actLabel_dirPicker">Выбор каталога</string>

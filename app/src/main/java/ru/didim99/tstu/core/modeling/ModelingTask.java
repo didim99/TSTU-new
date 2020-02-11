@@ -19,6 +19,10 @@ public class ModelingTask extends CallbackTask<Config, Result> {
     Result result = new Result();
     switch (config.getTaskType()) {
       case Config.TaskType.STATIC_CURVE:
+        StaticProcessor sp = new StaticProcessor(config.getVariable());
+        sp.precess();
+        result.setSeries(sp.getSeries());
+        result.setDescription(sp.getDescription());
         return result;
       default:
         return null;
