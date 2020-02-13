@@ -15,6 +15,7 @@ import ru.didim99.tstu.ui.graphics.ShadingActivity;
 import ru.didim99.tstu.ui.graphics.TexturesActivity;
 import ru.didim99.tstu.ui.graphics.TransformActivity;
 import ru.didim99.tstu.ui.itheory.AlphabetActivity;
+import ru.didim99.tstu.ui.itheory.RLEActivity;
 import ru.didim99.tstu.ui.math.CAActivity;
 import ru.didim99.tstu.ui.math.MathStatActivity;
 import ru.didim99.tstu.ui.math.RV2Activity;
@@ -49,7 +50,7 @@ public class StartActivity extends AppCompatActivity {
   private static final Class[] IS_TARGET =
     { TransmitActivity.class };
   private static final Class[] ITHEORY_TARGET =
-    { AlphabetActivity.class };
+    { AlphabetActivity.class, RLEActivity.class};
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

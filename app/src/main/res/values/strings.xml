@@ -25,11 +25,18 @@
   <string name="dialogButtonCancel">Отмена</string>
   <string name="dialogButtonDelete">Удалить</string>
   <string name="buttonStart">Старт</string>
+  <string name="buttonTest">Тест</string>
+  <string name="buttonCreate">Создать</string>
   <string name="buttonAdd">Добавить</string>
   <string name="buttonOpen">Открыть</string>
   <string name="buttonSave">Сохранить</string>
   <string name="buttonMore">Дополнительно</string>
   <string name="buttonCalculate">Рассчитать</string>
+  <string name="buttonGenerate">Сгенерировать</string>
+  <string name="buttonClear">Очистить</string>
+  <string name="fieldSizeW">Ширина</string>
+  <string name="fieldSizeH">Высота</string>
+  <string name="fieldSizeCross">x</string>
   <string name="pathLayout_pickFile">Путь до исходного файла</string>
   <string name="pathLayout_openExplorer">…</string>
   <string name="inputData">Исходные данные</string>
@@ -178,6 +185,10 @@
   <string name="errScheduler_incorrectIO">Некорректно задан интервал обращения к диску</string>
   <string name="errScheduler_noMemory">Недостаточно памяти для создания процесса</string>
   <string name="errTI_emptyAlphabet">Алфавит не может быть пустым</string>
+  <string name="errTI_emptySizeX">Не задана ширина изображения</string>
+  <string name="errTI_emptySizeY">Не задана высота изображения</string>
+  <string name="errTI_incorrectSizeX">Некорректно задана ширина изображения</string>
+  <string name="errTI_incorrectSizeY">Некорректно задана высота изображения</string>
   <!-- MathStat -->
   <string-array name="math_taskTypes">
     <item>@string/startMathStat</item>
@@ -289,7 +300,6 @@
   <string name="graphics_loadModel">Загрузить модель</string>
   <string name="graphics_loadTexture">Загрузить текстуру</string>
   <string name="graphics_animate">Анимировать</string>
-  <string name="graphics_clear">Очистить</string>
   <string name="graphics_resetScene">Сбросить трансформации</string>
   <string name="graphics_resetBuilder">По умолчанию</string>
   <string name="graphics_useAA">Использовать сглаживание</string>
@@ -466,7 +476,6 @@
   <string name="oop_matrixB">Операнд B</string>
   <string name="oop_squareMatrix">Квадратная</string>
   <string name="oop_btnCreate">Исполльзовать</string>
-  <string name="oop_btnCreateRnd">Сгенерировать</string>
   <string name="oop_btnAdd">A + B</string>
   <string name="oop_btnMultiply">A × B</string>
   <string name="oop_btnTranspose">Транспонировать</string>
@@ -532,9 +541,6 @@
   <string name="os_executable">Файлы</string>
   <string name="os_executableFor">Файлы процесса %d</string>
   <string name="os_expanse_fieldSize">Размер игрового поля</string>
-  <string name="os_expanse_fieldSizeW">Ширина</string>
-  <string name="os_expanse_fieldSizeH">Высота</string>
-  <string name="os_expanse_cross">x</string>
   <string name="os_expanse_playerCount">Игроков</string>
   <string name="os_expanse_distance">Мин. дистанция: %d</string>
   <string name="os_expanse_initial">Не инициализирован</string>
@@ -710,6 +716,9 @@
   <string name="iTheory_alphabetPower">Мощность алфавита: %d</string>
   <string name="iTheory_alphabetSymbolWeight">Инф. объем символа (бит): %.3f</string>
   <string name="iTheory_messageInfoContent">Длина сообщения: %d\nИнформационных символов: %d\nОбъем информации (бит): %.3f</string>
+  <string name="iTheory_imageSize">Размер изображения</string>
+  <string name="iTheory_currentState">Состояние:</string>
+  <string name="iTheory_eventLog">Журнал операций</string>
   <!-- Geometry modeling -->
   <string name="startGeometry">Геом. моделирование</string>
   <string name="sectionGeometry">Геометрическое моделирование</string>

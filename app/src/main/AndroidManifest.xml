@@ -205,6 +205,10 @@
       android:label="@string/iTheory_informationCount"/>
 
     <activity
+      android:name=".ui.itheory.RLEActivity"
+      android:label="@string/iTheory_compRLE"/>
+
+    <activity
       android:name=".ui.dirpicker.DirPickerActivity"
       android:label="@string/actLabel_dirPicker"
       android:launchMode="singleTop"

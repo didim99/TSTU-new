@@ -15,14 +15,12 @@ import ru.didim99.tstu.core.graphics.ModelLoader;
 import ru.didim99.tstu.core.graphics.utils.Model;
 import ru.didim99.tstu.core.graphics.utils.Projection;
 import ru.didim99.tstu.ui.SpinnerAdapter;
-import ru.didim99.tstu.ui.dirpicker.DirPickerActivity;
 import ru.didim99.tstu.ui.view.DrawerView;
 import ru.didim99.tstu.ui.view.RangeBar;
 import ru.didim99.tstu.utils.MyLog;
 
 public class TransformActivity extends AnimationActivity {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_TransAct";
-  private static final int REQUEST_GET_FILE = 1;
 
   // View-elements
   private View ppConfigLayout;
@@ -265,12 +263,5 @@ public class TransformActivity extends AnimationActivity {
       else if (resultCode == RESULT_CANCELED)
         MyLog.d(LOG_TAG, "Choosing path aborted");
     }
-  }
-
-  private void openFile() {
-    MyLog.d(LOG_TAG, "Choose file from DirPicker...");
-    Intent intent = new Intent(this, DirPickerActivity.class);
-    intent.putExtra(DirPickerActivity.KEY_MODE, DirPickerActivity.Mode.FILE);
-    startActivityForResult(intent, REQUEST_GET_FILE);
   }
 }

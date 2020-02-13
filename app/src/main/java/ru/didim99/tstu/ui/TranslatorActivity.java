@@ -19,7 +19,6 @@ import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.CallbackTask;
 import ru.didim99.tstu.core.translator.Translator;
 import ru.didim99.tstu.core.translator.TranslatorTask;
-import ru.didim99.tstu.ui.dirpicker.DirPickerActivity;
 import ru.didim99.tstu.ui.view.NumberedTextView;
 import ru.didim99.tstu.utils.MyLog;
 import ru.didim99.tstu.utils.Utils;
@@ -27,7 +26,6 @@ import ru.didim99.tstu.utils.Utils;
 public class TranslatorActivity extends BaseActivity
   implements CallbackTask.EventListener<Translator.Result> {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_TransAct";
-  private static final int REQUEST_GET_FILE = 1;
 
   //view-elements
   private View dataLayout, pbMain;
@@ -71,7 +69,7 @@ public class TranslatorActivity extends BaseActivity
         + "(" + task.hashCode() + ")");
     }
 
-    btnPickFile.setOnClickListener(v -> openFileExp());
+    btnPickFile.setOnClickListener(v -> openFile());
     btnLexical.setOnClickListener(v -> startTask(Translator.Mode.LEXICAL));
     btnSyntax.setOnClickListener(v -> saTypeDialog());
     btnSymbol.setOnClickListener(v -> startTask(Translator.Mode.SYMBOLS));
@@ -179,13 +177,6 @@ public class TranslatorActivity extends BaseActivity
       startTask(Translator.Mode.SYNTAX, pos + 1));
     MyLog.d(LOG_TAG, "SA type dialog created");
     adb.create().show();
-  }
-
-  private void openFileExp() {
-    MyLog.d(LOG_TAG, "Choose file from DirPicker...");
-    Intent intent = new Intent(this, DirPickerActivity.class);
-    intent.putExtra(DirPickerActivity.KEY_MODE, DirPickerActivity.Mode.FILE);
-    startActivityForResult(intent, REQUEST_GET_FILE);
   }
 
   private void uiLock(boolean state) {

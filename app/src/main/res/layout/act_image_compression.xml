@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:orientation="horizontal"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:padding="@dimen/layoutPadding"
+  android:baselineAligned="false">
+
+  <LinearLayout
+    android:orientation="vertical"
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="3">
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal">
+
+      <Button
+        android:id="@+id/btnOpen"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/buttonOpen"/>
+
+      <Button
+        android:id="@+id/btnSave"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/buttonSave"/>
+    </LinearLayout>
+
+    <TextView
+      android:id="@+id/tvFieldSize"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/iTheory_imageSize"
+      android:textSize="@dimen/textSize_main"
+      android:gravity="center"/>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+      <EditText
+        android:id="@+id/etSizeX"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:inputType="number"
+        android:nextFocusDown="@id/etSizeY"
+        android:hint="@string/fieldSizeW"/>
+
+      <TextView
+        android:id="@+id/tvFieldSizeX"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:text="@string/fieldSizeCross"
+        android:textSize="@dimen/textSize_main"
+        android:gravity="center"/>
+
+      <EditText
+        android:id="@+id/etSizeY"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:inputType="number"
+        android:hint="@string/fieldSizeH"/>
+    </LinearLayout>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal">
+
+      <Button
+        android:id="@+id/btnCreate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/buttonCreate"/>
+
+      <Button
+        android:id="@+id/btnClear"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/buttonClear"/>
+    </LinearLayout>
+
+    <Button
+      android:id="@+id/btnGenerate"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/buttonGenerate"/>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal">
+
+      <Button
+        android:id="@+id/btnStart"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:text="@string/buttonStart"/>
+
+      <Button
+        android:id="@+id/btnTest"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/buttonTest"/>
+    </LinearLayout>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal">
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:text="@string/iTheory_currentState"
+        android:textSize="@dimen/textSize_main" />
+
+      <TextView
+        android:id="@+id/tvState"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:textSize="@dimen/textSize_main"
+        android:textColor="@color/dirPicker_textActive"/>
+    </LinearLayout>
+
+    <ImageView
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/dirPicker_divHeight"
+      android:layout_marginLeft="@dimen/dirPicker_divHMargin"
+      android:layout_marginRight="@dimen/dirPicker_divHMargin"
+      android:layout_marginTop="@dimen/layoutPadding"
+      android:layout_marginBottom="@dimen/layoutPadding"
+      app:srcCompat="@color/dirPicker_divider"
+      tools:ignore="ContentDescription"/>
+
+    <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/iTheory_eventLog"
+      android:textSize="@dimen/textSize_main"
+      android:gravity="center"/>
+
+    <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_marginTop="5dp">
+
+      <TextView
+        android:id="@+id/tvLog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/textSize_main" />
+    </ScrollView>
+  </LinearLayout>
+
+  <RelativeLayout
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="7">
+
+    <ru.didim99.tstu.ui.view.DrawerView
+      android:id="@+id/view"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"/>
+
+    <ProgressBar
+      android:id="@+id/pbMain"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerInParent="true"
+      style="?android:attr/progressBarStyleLarge"
+      android:visibility="invisible"/>
+  </RelativeLayout>
+</LinearLayout>

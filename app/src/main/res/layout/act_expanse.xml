@@ -31,7 +31,7 @@
         android:layout_weight="1"
         android:inputType="number"
         android:nextFocusDown="@id/etSizeY"
-        android:hint="@string/os_expanse_fieldSizeW"/>
+        android:hint="@string/fieldSizeW"/>
 
       <TextView
         android:id="@+id/tvFieldSizeX"
@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="6dp"
         android:layout_marginRight="6dp"
-        android:text="@string/os_expanse_cross"
+        android:text="@string/fieldSizeCross"
         android:textSize="@dimen/textSize_main"
         android:gravity="center"/>
 
@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:inputType="number"
-        android:hint="@string/os_expanse_fieldSizeH"/>
+        android:hint="@string/fieldSizeH"/>
     </LinearLayout>
 
     <LinearLayout

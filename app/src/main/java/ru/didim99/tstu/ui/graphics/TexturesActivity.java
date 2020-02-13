@@ -11,7 +11,6 @@ import ru.didim99.tstu.core.graphics.Config;
 import ru.didim99.tstu.core.graphics.ModelLoader;
 import ru.didim99.tstu.core.graphics.TextureLoader;
 import ru.didim99.tstu.core.graphics.TextureRenderer;
-import ru.didim99.tstu.ui.dirpicker.DirPickerActivity;
 import ru.didim99.tstu.ui.view.DrawerView;
 import ru.didim99.tstu.ui.view.RangeBar;
 import ru.didim99.tstu.utils.MyLog;
@@ -22,7 +21,6 @@ import ru.didim99.tstu.utils.Utils;
  */
 public class TexturesActivity extends AnimationActivity {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_TexAct";
-  private static final int REQUEST_GET_TEXTURE = 1;
 
   private CheckBox cbTextureFiltering;
   private RangeBar rbTranslateX, rbTranslateY;
@@ -104,7 +102,7 @@ public class TexturesActivity extends AnimationActivity {
 
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent i) {
-    if (requestCode == REQUEST_GET_TEXTURE && resultCode == RESULT_OK) {
+    if (requestCode == REQUEST_GET_FILE && resultCode == RESULT_OK) {
       Uri data = i.getData();
       if (data != null) {
         String path = data.getPath();
@@ -125,13 +123,6 @@ public class TexturesActivity extends AnimationActivity {
 
     else if (resultCode == RESULT_CANCELED)
       MyLog.d(LOG_TAG, "Choosing path aborted");
-  }
-
-  private void openFile() {
-    MyLog.d(LOG_TAG, "Choose file from DirPicker...");
-    Intent intent = new Intent(this, DirPickerActivity.class);
-    intent.putExtra(DirPickerActivity.KEY_MODE, DirPickerActivity.Mode.FILE);
-    startActivityForResult(intent, REQUEST_GET_TEXTURE);
   }
 
   private void clearTransform() {

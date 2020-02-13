@@ -1,5 +1,6 @@
 package ru.didim99.tstu.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
@@ -10,6 +11,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import ru.didim99.tstu.R;
+import ru.didim99.tstu.ui.dirpicker.DirPickerActivity;
 import ru.didim99.tstu.utils.MyLog;
 
 /**
@@ -18,6 +20,7 @@ import ru.didim99.tstu.utils.MyLog;
  */
 public abstract class BaseActivity extends AppCompatActivity {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_BaseAct";
+  protected static final int REQUEST_GET_FILE = 1;
 
   //main workflow
   protected boolean disableBackBtn = false;
@@ -71,5 +74,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         .setOnClickListener(v -> listener.onEvent(d));
     });
     dialog.show();
+  }
+
+  protected void openFile() {
+    MyLog.d(LOG_TAG, "Choose file from DirPicker...");
+    Intent intent = new Intent(this, DirPickerActivity.class);
+    intent.putExtra(DirPickerActivity.KEY_MODE, DirPickerActivity.Mode.FILE);
+    startActivityForResult(intent, REQUEST_GET_FILE);
   }
 }
