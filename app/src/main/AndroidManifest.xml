@@ -201,6 +201,10 @@
       android:label="@string/sectionModeling"/>
 
     <activity
+      android:name=".ui.itheory.AlphabetActivity"
+      android:label="@string/iTheory_informationCount"/>
+
+    <activity
       android:name=".ui.dirpicker.DirPickerActivity"
       android:label="@string/actLabel_dirPicker"
       android:launchMode="singleTop"

@@ -90,6 +90,22 @@
         android:padding="@dimen/actStart_btnPadding"
         android:text="@string/startModeling"/>
     </TableRow>
+
+    <TableRow>
+      <Button
+        android:id="@+id/startITheory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/actStart_btnPadding"
+        android:text="@string/startITheory"/>
+
+      <Button
+        android:id="@+id/startGeometry"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/actStart_btnPadding"
+        android:text="@string/startGeometry"/>
+    </TableRow>
   </TableLayout>
 
   <TextView

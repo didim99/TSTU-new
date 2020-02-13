@@ -14,6 +14,7 @@ import ru.didim99.tstu.ui.graphics.LinesActivity;
 import ru.didim99.tstu.ui.graphics.ShadingActivity;
 import ru.didim99.tstu.ui.graphics.TexturesActivity;
 import ru.didim99.tstu.ui.graphics.TransformActivity;
+import ru.didim99.tstu.ui.itheory.AlphabetActivity;
 import ru.didim99.tstu.ui.math.CAActivity;
 import ru.didim99.tstu.ui.math.MathStatActivity;
 import ru.didim99.tstu.ui.math.RV2Activity;
@@ -47,6 +48,8 @@ public class StartActivity extends AppCompatActivity {
       SchedulerActivity.class };
   private static final Class[] IS_TARGET =
     { TransmitActivity.class };
+  private static final Class[] ITHEORY_TARGET =
+    { AlphabetActivity.class };
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +77,8 @@ public class StartActivity extends AppCompatActivity {
       R.string.sectionOpt, R.array.opt_taskTypes, OptimizationActivity.class));
     findViewById(R.id.startModeling).setOnClickListener(v -> taskTypeDialog(
       R.string.sectionModeling, R.array.modeling_taskTypes, ModelingActivity.class));
+    findViewById(R.id.startITheory).setOnClickListener(v -> activityTypeDialog(
+      R.string.sectionITheory, R.array.iTheory_taskTypes, ITHEORY_TARGET));
 
     MyLog.d(LOG_TAG, "StartActivity created");
   }

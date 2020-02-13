@@ -29,6 +29,7 @@
   <string name="buttonOpen">Открыть</string>
   <string name="buttonSave">Сохранить</string>
   <string name="buttonMore">Дополнительно</string>
+  <string name="buttonCalculate">Рассчитать</string>
   <string name="pathLayout_pickFile">Путь до исходного файла</string>
   <string name="pathLayout_openExplorer">…</string>
   <string name="inputData">Исходные данные</string>
@@ -176,6 +177,7 @@
   <string name="errScheduler_incorrectDRAM">Некорректно задан динамический объем ОЗУ</string>
   <string name="errScheduler_incorrectIO">Некорректно задан интервал обращения к диску</string>
   <string name="errScheduler_noMemory">Недостаточно памяти для создания процесса</string>
+  <string name="errTI_emptyAlphabet">Алфавит не может быть пустым</string>
   <!-- MathStat -->
   <string-array name="math_taskTypes">
     <item>@string/startMathStat</item>
@@ -675,7 +677,7 @@
   <string name="opt_minDelta">Мин: %8.5f (t = %.3f)</string>
   <string name="opt_maxDelta">Макс: %7.5f (t = %.3f)</string>
   <string name="opt_points">Точек: %d</string>
-  <!-- Optimization -->
+  <!-- Math modeling -->
   <string name="startModeling">Мат. моделирование</string>
   <string name="sectionModeling">Методы анализа проектных решений</string>
   <string name="modeling_staticCurve">Статические характеристики</string>
@@ -684,6 +686,39 @@
     <item>@string/modeling_staticCurve</item>
   </string-array>
   <string name="modeling_variable">Зависимость</string>
+  <!-- Information theory -->
+  <string name="startITheory">Теория информации</string>
+  <string name="sectionITheory">Основы теории информации</string>
+  <string name="iTheory_informationCount">Измерение объема информации</string>
+  <string name="iTheory_compRLE">Алгоритм сжатия RLE</string>
+  <string-array name="iTheory_taskTypes">
+    <item>@string/iTheory_informationCount</item>
+    <item>@string/iTheory_compRLE</item>
+  </string-array>
+  <string name="iTheory_alphabetType">Алфавит</string>
+  <string name="iTheory_message">Сообщение</string>
+  <string name="iTheory_messageText">Введите текст сообщения</string>
+  <string-array name="iTheory_alphabetTypes">
+    <item>Латиница</item>
+    <item>Кириллица</item>
+    <item>Пользовательский</item>
+  </string-array>
+  <string name="iTheory_alphabetInfo">Сведения об алфавите</string>
+  <string name="iTheory_customAlphabet">Пользовательский алфавит</string>
+  <string name="iTheory_customAlphabetHelp">Определите пользовательский алфавит. Символы указываются без разделителей</string>
+  <string name="iTheory_alphabetSymbols">Символы:</string>
+  <string name="iTheory_alphabetPower">Мощность алфавита: %d</string>
+  <string name="iTheory_alphabetSymbolWeight">Инф. объем символа (бит): %.3f</string>
+  <string name="iTheory_messageInfoContent">Длина сообщения: %d\nИнформационных символов: %d\nОбъем информации (бит): %.3f</string>
+  <!-- Geometry modeling -->
+  <string name="startGeometry">Геом. моделирование</string>
+  <string name="sectionGeometry">Геометрическое моделирование</string>
+  <string name="geometry_lagrange">Кривые Лагранжа</string>
+  <string name="geometry_bezier">Кривые Безье</string>
+  <string-array name="geometry_taskTypes">
+    <item>@string/geometry_lagrange</item>
+    <item>@string/geometry_bezier</item>
+  </string-array>
   <!-- Содержимое текстовых полей и подписей кнопок (Layout: act_dir_picker) -->
   <string name="actLabel_filePicker">Выбор файла</string>
   <string name="actLabel_dirPicker">Выбор каталога</string>
