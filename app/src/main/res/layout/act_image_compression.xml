@@ -12,7 +12,7 @@
     android:orientation="vertical"
     android:layout_width="0dp"
     android:layout_height="match_parent"
-    android:layout_weight="3">
+    android:layout_weight="4">
 
     <LinearLayout
       android:layout_width="match_parent"
@@ -20,7 +20,7 @@
       android:orientation="horizontal">
 
       <Button
-        android:id="@+id/btnOpen"
+        android:id="@+id/btnLoad"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -161,6 +161,7 @@
       android:gravity="center"/>
 
     <ScrollView
+      android:id="@+id/logWrapper"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:layout_marginTop="5dp">
@@ -176,7 +177,7 @@
   <RelativeLayout
     android:layout_width="0dp"
     android:layout_height="match_parent"
-    android:layout_weight="7">
+    android:layout_weight="6">
 
     <ru.didim99.tstu.ui.view.DrawerView
       android:id="@+id/view"

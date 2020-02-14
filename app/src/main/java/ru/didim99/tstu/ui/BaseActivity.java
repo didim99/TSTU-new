@@ -20,9 +20,11 @@ import ru.didim99.tstu.utils.MyLog;
  */
 public abstract class BaseActivity extends AppCompatActivity {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_BaseAct";
+  // internal intent request codes
   protected static final int REQUEST_GET_FILE = 1;
+  protected static final int REQUEST_GET_DIR = 2;
 
-  //main workflow
+  // main workflow
   protected boolean disableBackBtn = false;
   protected boolean uiLocked = false;
 
@@ -81,5 +83,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     Intent intent = new Intent(this, DirPickerActivity.class);
     intent.putExtra(DirPickerActivity.KEY_MODE, DirPickerActivity.Mode.FILE);
     startActivityForResult(intent, REQUEST_GET_FILE);
+  }
+
+  protected void openDir() {
+    MyLog.d(LOG_TAG, "Choose directory from DirPicker...");
+    Intent intent = new Intent(this, DirPickerActivity.class);
+    intent.putExtra(DirPickerActivity.KEY_MODE, DirPickerActivity.Mode.DIRECTORY);
+    startActivityForResult(intent, REQUEST_GET_DIR);
   }
 }

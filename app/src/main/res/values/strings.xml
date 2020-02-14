@@ -189,6 +189,9 @@
   <string name="errTI_emptySizeY">Не задана высота изображения</string>
   <string name="errTI_incorrectSizeX">Некорректно задана ширина изображения</string>
   <string name="errTI_incorrectSizeY">Некорректно задана высота изображения</string>
+  <string name="errTI_imageLoading">Ошибка при загрузке изображения: %s</string>
+  <string name="errTI_imageSaving">Ошибка при сохранении изображения: %s</string>
+  <string name="errTI_emptyFilename">Не задано имя файла</string>
   <!-- MathStat -->
   <string-array name="math_taskTypes">
     <item>@string/startMathStat</item>
@@ -721,6 +724,30 @@
   <string name="iTheory_eventLog">Журнал операций</string>
   <string name="iTheory_packImage">Запаковать</string>
   <string name="iTheory_unpackImage">Распаковать</string>
+  <string name="iTheory_state_initial">Не инициализирован</string>
+  <string name="iTheory_state_ready">Готов</string>
+  <string name="iTheory_state_loading">Загрузка данных</string>
+  <string name="iTheory_state_saving">Выгрузка данных</string>
+  <string name="iTheory_state_processing">Обработка</string>
+  <string name="iTheory_state_testing">Тестирование</string>
+  <string name="iTheory_imageName">Укажите имя файла</string>
+  <string name="iTheory_event_loadStart">Загрузка файла: %s</string>
+  <string name="iTheory_event_loadEnd">Загружено: %s (%d)</string>
+  <string name="iTheory_event_saveStart">Сохранение файла: %s</string>
+  <string name="iTheory_event_saveEnd">Файл сохранен (%d)</string>
+  <string name="iTheory_event_created">Создано изображение (%dx%d)</string>
+  <string name="iTheory_event_cleared">Область изображения очищена</string>
+  <string name="iTheory_event_generateStart">Генерация случайного изображения</string>
+  <string name="iTheory_event_testingStart">Начато тестирование алгоритма RLE</string>
+  <string name="iTheory_event_testingCopyCreated">Создается временный файл: %s</string>
+  <string name="iTheory_event_testingOrigWritten">Временный файл записан: %d</string>
+  <string name="iTheory_event_testingOrigLoaded">Несжатые данные загружены</string>
+  <string name="iTheory_event_testingCompWritten">Сжатые данные записаны: %d</string>
+  <string name="iTheory_event_testingCompLoaded">Сжатые данные загружены</string>
+  <string name="iTheory_event_testingCopyWritten">Несжатые данные записаны: %d</string>
+  <string name="iTheory_event_testingCopyDeleted">Временный файл удален</string>
+  <string name="iTheory_event_testSuccessful">Тестирование завернено. Степень сжатия: %.1f%%</string>
+  <string name="iTheory_event_testFailed">Тестирование завернено с ошибкой</string>
   <!-- Geometry modeling -->
   <string name="startGeometry">Геом. моделирование</string>
   <string name="sectionGeometry">Геометрическое моделирование</string>

@@ -35,15 +35,27 @@ public class DrawerView extends View {
       paint = new Paint();
       paint.setAntiAlias(false);
     }
+
+    calculateSize();
+    invalidate();
   }
 
   public void setSource(Scene scene) {
     this.scene = scene;
   }
 
+  public void recycle() {
+    this.bitmap = null;
+    invalidate();
+  }
+
   @Override
-  protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-    super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+  protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+    super.onSizeChanged(w, h, oldw, oldh);
+    calculateSize();
+  }
+
+  private void calculateSize() {
     if (src != null && dst != null) {
       dst.set(0, 0, getWidth(), getHeight());
       if (dst.width() < dst.height()) {

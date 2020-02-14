@@ -7,8 +7,10 @@ import android.content.pm.ResolveInfo;
 import android.support.annotation.RawRes;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -131,6 +133,19 @@ public class Utils {
       if (!line.isEmpty()) data.add(line);
     MyLog.d(LOG_TAG, "Reading completed");
     return data;
+  }
+
+  public static byte[] readFileRaw(String fileName)
+    throws IOException {
+    MyLog.d(LOG_TAG, "Reading: " + fileName);
+    File file = new File(fileName);
+    byte[] buff = new byte[(int) file.length()];
+    MyLog.d(LOG_TAG, "File size: " + file.length());
+    DataInputStream src = new DataInputStream(new FileInputStream(file));
+    src.readFully(buff);
+    src.close();
+    MyLog.d(LOG_TAG, "Reading completed");
+    return buff;
   }
 
   public static void writeFile(String fileName, ArrayList<String> data)

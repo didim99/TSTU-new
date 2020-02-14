@@ -7,12 +7,12 @@ import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Random;
-
 import ru.didim99.tstu.utils.MyLog;
 import ru.didim99.tstu.utils.Utils;
 
@@ -23,10 +23,12 @@ public class Image {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_Image";
   private static final String[] EXT_IMG = {".png", ".jpg", ".bmp"};
   private static final String[] EXT_TXT = {".img", ".txt"};
-  private static final String EXT_SEP = ".";
+  private static final String NAME_DEFAULT = "untitled.img";
+  private static final String NAME_SUFFIX = "-new";
+  public static final String EXT_SEP = ".";
   //Image file structure
   private static final String SIGNATURE = "RLE 1.0";
-  private static final String SECTION_HEADER = "header";
+  private static final String SECTION_HEADER = "head";
   private static final String SECTION_DATA = "data";
   private static final String FIELD_TYPE = "t";
   private static final String FIELD_SIZE = "s";
@@ -37,10 +39,12 @@ public class Image {
   //Other settings
   public static final int MIN_SIZE = 4;
   public static final int MAX_SIZE = 512;
+  public static final int DEFAULT_SIZE = 32;
   private static final int DEFAULT_BG = 0xff6aa4f5;
   private static final int DEFAULT_FG = 0xff000000;
   private static final int LUMA_THRESHOLD = 128;
 
+  private String name;
   private Bitmap bitmap;
   private int width, height;
   private int colorBg, colorFg;
@@ -51,6 +55,7 @@ public class Image {
   private Image(Bitmap src) {
     this.colorBg = DEFAULT_BG;
     this.colorFg = DEFAULT_FG;
+    this.name = NAME_DEFAULT;
     if (src != null) {
       this.compressed = false;
       this.width = src.getWidth();
@@ -62,6 +67,10 @@ public class Image {
   Image(int width, int height) {
     this(Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888));
     clear();
+  }
+
+  public String getName() {
+    return name;
   }
 
   public int getWidth() {
@@ -78,6 +87,14 @@ public class Image {
 
   public boolean isCompressed() {
     return compressed;
+  }
+
+  void setCompressed(Boolean compressed) {
+    this.compressed = compressed;
+  }
+
+  void toggleCompressedState() {
+    compressed = !compressed;
   }
 
   void clear() {
@@ -98,7 +115,7 @@ public class Image {
       for (int i = 0; i < line.length(); i++) {
         bitmap.setPixel(x, y, line.charAt(i) == FLAG_FALSE.charAt(0)
           ? colorBg : colorFg);
-        if (x++ == width) { x = 0; y++; }
+        if (++x == width) { x = 0; y++; }
       }
     }
   }
@@ -112,7 +129,7 @@ public class Image {
       int count = Integer.parseInt(parts[i + 1]);
       for (int j = 0; j < count; j++) {
         bitmap.setPixel(x, y, color);
-        if (x++ == width) { x = 0; y++; }
+        if (++x == width) { x = 0; y++; }
       }
     }
   }
@@ -136,22 +153,26 @@ public class Image {
 
     prev = bitmap.getPixel(0, 0);
     for (int y = 0; y < height; y++) {
-      for (int x = 0; x < width; x++)
+      for (int x = 0; x < width; x++) {
         next = bitmap.getPixel(x, y);
         if (next == prev) count++;
         else {
-          sb.append(next == colorFg ? FLAG_TRUE : FLAG_FALSE)
-            .append(VALUE_SEP).append(count);
+          sb.append(prev == colorFg ? FLAG_TRUE : FLAG_FALSE)
+            .append(VALUE_SEP).append(count).append(VALUE_SEP);
           count = 1;
         }
 
         prev = next;
+      }
     }
 
-    return sb.toString().trim();
+    sb.append(next == colorFg ? FLAG_TRUE : FLAG_FALSE)
+      .append(VALUE_SEP).append(count);
+    return sb.toString();
   }
 
   void save(String path) throws IOException {
+    name = path.substring(path.lastIndexOf(File.separator) + 1);
     ArrayList<String> data = new ArrayList<>();
     data.add(SIGNATURE);
     data.add(SECTION_HEADER);
@@ -159,9 +180,8 @@ public class Image {
       compressed ? FLAG_TRUE : FLAG_FALSE));
     data.add(String.format(Locale.ROOT, "%s %d %d",
       FIELD_SIZE, width, height));
-    data.add(String.format("%s %s %s", FIELD_COLOR,
-      Integer.toHexString(colorBg & 0x00ffffff),
-      Integer.toHexString(colorFg & 0x00ffffff)));
+    data.add(String.format(Locale.ROOT, "%s %06x %06x",
+      FIELD_COLOR, colorBg & 0x00ffffff, colorFg & 0x00ffffff));
     data.add(SECTION_DATA);
     if (compressed) data.add(writeCompressed());
     else data.addAll(writeUncompressed());
@@ -195,18 +215,22 @@ public class Image {
     for (int x = 0; x < dst.getWidth(); x++) {
       for (int y = 0; y < dst.getHeight(); y++) {
         dst.setPixel(x, y, Utils.luma(dst.getPixel(x, y)) > LUMA_THRESHOLD
-          ? DEFAULT_FG : DEFAULT_BG);
+          ? DEFAULT_BG : DEFAULT_FG);
       }
     }
 
     MyLog.d(LOG_TAG, "Bitmap data loaded");
-    return new Image(dst);
+    Image image = new Image(dst);
+    image.name = path.substring(
+      path.lastIndexOf(File.separator) + 1,
+      path.lastIndexOf(EXT_SEP)).concat(EXT_TXT[0]);
+    return image;
   }
 
   private static Image loadText(String path)
     throws IOException, ParserException {
     ArrayList<String> src = Utils.readFile(path);
-    MyLog.d(LOG_TAG, "Loading OBJ data");
+    MyLog.d(LOG_TAG, "Loading image data");
     String signature = src.remove(0);
     if (!signature.equals(SIGNATURE))
       throw new ParserException("Invalid file structure: invalid signature");
@@ -242,17 +266,18 @@ public class Image {
 
       image.bitmap = Bitmap.createBitmap(image.width,
         image.height, Bitmap.Config.ARGB_8888);
-
       if (image.compressed) image.loadCompressed(src.get(0));
       else image.loadUncompressed(src);
+
+      image.name = path.substring(path.lastIndexOf(File.separator) + 1,
+        path.lastIndexOf(EXT_SEP)).concat(NAME_SUFFIX).concat(EXT_TXT[0]);
       return image;
-    } catch (NumberFormatException e) {
-      throw new ParserException("Invalid file structure", e);
+    } catch (IllegalArgumentException e) {
+      throw new ParserException("Invalid file structure: " + e.getMessage());
     }
   }
 
-  public static class ParserException extends Exception {
-    private ParserException(String msg, Throwable cause) { super(msg, cause); }
+  static class ParserException extends Exception {
     private ParserException(String msg) { super(msg); }
   }
 }
