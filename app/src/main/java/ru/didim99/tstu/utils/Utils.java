@@ -199,4 +199,9 @@ public class Utils {
     res |= 0xff000000;
     return res;
   }
+
+  public static int luma(int color) {
+    return (int) (0.2126 * ((color >> 16) & 0xff)
+      + 0.7152 * ((color >> 8) & 0xff) + 0.0722 * (color & 0xff));
+  }
 }

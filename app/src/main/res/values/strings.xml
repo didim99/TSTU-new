@@ -719,6 +719,8 @@
   <string name="iTheory_imageSize">Размер изображения</string>
   <string name="iTheory_currentState">Состояние:</string>
   <string name="iTheory_eventLog">Журнал операций</string>
+  <string name="iTheory_packImage">Запаковать</string>
+  <string name="iTheory_unpackImage">Распаковать</string>
   <!-- Geometry modeling -->
   <string name="startGeometry">Геом. моделирование</string>
   <string name="sectionGeometry">Геометрическое моделирование</string>
