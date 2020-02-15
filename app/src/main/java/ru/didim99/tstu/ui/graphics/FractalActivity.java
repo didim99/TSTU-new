@@ -15,7 +15,7 @@ import ru.didim99.tstu.core.graphics.AsyncRenderer;
 import ru.didim99.tstu.core.graphics.Config;
 import ru.didim99.tstu.core.graphics.FractalRenderer;
 import ru.didim99.tstu.core.graphics.ModelRenderer;
-import ru.didim99.tstu.core.graphics.ModelSaver;
+import ru.didim99.tstu.core.graphics.task.ModelSaver;
 import ru.didim99.tstu.core.graphics.utils.Model;
 import ru.didim99.tstu.ui.view.DrawerView;
 import ru.didim99.tstu.ui.view.RangeBar;

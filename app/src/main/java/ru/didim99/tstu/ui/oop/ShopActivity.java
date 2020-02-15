@@ -23,8 +23,8 @@ import ru.didim99.tstu.core.oop.shop.ShopController;
 import ru.didim99.tstu.core.oop.shop.products.Food;
 import ru.didim99.tstu.core.oop.shop.products.Product;
 import ru.didim99.tstu.ui.BaseActivity;
-import ru.didim99.tstu.ui.DialogEventListener;
-import ru.didim99.tstu.ui.SpinnerAdapter;
+import ru.didim99.tstu.ui.utils.DialogEventListener;
+import ru.didim99.tstu.ui.utils.SpinnerAdapter;
 import ru.didim99.tstu.utils.InputValidator;
 import ru.didim99.tstu.utils.MyLog;
 

@@ -1,4 +1,4 @@
-package ru.didim99.tstu.core.oop;
+package ru.didim99.tstu.core.oop.abiturient;
 
 import com.google.gson.Gson;
 import java.io.IOException;

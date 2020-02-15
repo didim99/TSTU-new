@@ -1,4 +1,4 @@
-package ru.didim99.tstu.core.graphics;
+package ru.didim99.tstu.core.graphics.task;
 
 import android.content.Context;
 import java.io.File;

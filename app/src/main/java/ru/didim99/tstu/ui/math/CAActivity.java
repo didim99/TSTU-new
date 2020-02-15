@@ -22,7 +22,7 @@ import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.math.CAProcessor;
 import ru.didim99.tstu.core.math.ProcessException;
 import ru.didim99.tstu.ui.BaseActivity;
-import ru.didim99.tstu.ui.SpinnerAdapter;
+import ru.didim99.tstu.ui.utils.SpinnerAdapter;
 import ru.didim99.tstu.utils.InputValidator;
 import ru.didim99.tstu.utils.MyLog;
 

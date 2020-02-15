@@ -1,4 +1,4 @@
-package ru.didim99.tstu.ui;
+package ru.didim99.tstu.ui.utils;
 
 import android.view.View;
 import ru.didim99.tstu.utils.MyLog;

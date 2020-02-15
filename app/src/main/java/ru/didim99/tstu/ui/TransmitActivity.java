@@ -7,6 +7,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.is.DataExchanger;
+import ru.didim99.tstu.ui.utils.SpinnerAdapter;
 import ru.didim99.tstu.ui.view.RangeBar;
 import ru.didim99.tstu.utils.MyLog;
 

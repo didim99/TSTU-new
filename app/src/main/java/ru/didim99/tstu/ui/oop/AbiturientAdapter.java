@@ -10,8 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.ArrayList;
 import ru.didim99.tstu.R;
-import ru.didim99.tstu.core.oop.Abiturient;
-import ru.didim99.tstu.core.oop.GradeList;
+import ru.didim99.tstu.core.oop.abiturient.Abiturient;
+import ru.didim99.tstu.core.oop.abiturient.GradeList;
 
 /**
  * Created by didim99 on 23.02.19.

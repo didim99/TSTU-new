@@ -49,12 +49,6 @@ public class DrawerView extends View {
     invalidate();
   }
 
-  @Override
-  protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-    super.onSizeChanged(w, h, oldw, oldh);
-    calculateSize();
-  }
-
   private void calculateSize() {
     if (src != null && dst != null) {
       dst.set(0, 0, getWidth(), getHeight());
@@ -71,10 +65,21 @@ public class DrawerView extends View {
   }
 
   @Override
+  protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+    super.onSizeChanged(w, h, oldw, oldh);
+    calculateSize();
+  }
+
+  @Override
   protected void onDraw(Canvas canvas) {
     if (bitmap != null)
       canvas.drawBitmap(bitmap, src, dst, paint);
     else if (scene != null)
       scene.draw(canvas);
+  }
+
+  @Override
+  public boolean performClick() {
+    return super.performClick();
   }
 }

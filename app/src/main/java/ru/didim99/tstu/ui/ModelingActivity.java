@@ -9,8 +9,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LegendRenderer;
-import com.jjoe64.graphview.series.Series;
-
+import com.jjoe64.graphview.series.BaseSeries;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.TSTU;
 import ru.didim99.tstu.core.CallbackTask;
@@ -159,8 +158,9 @@ public class ModelingActivity extends BaseActivity
     switch (type) {
       case Config.TaskType.STATIC_CURVE:
         tvOut.setText(taskResult.getDescription());
-        Series<PointD> series = taskResult.getSeries();
-        graphView.addSeries(taskResult.getSeries());
+        BaseSeries<PointD> series = (BaseSeries<PointD>) taskResult.getSeries();
+        series.setColor(getResources().getColor(R.color.graph0));
+        graphView.addSeries(series);
         graphView.getLegendRenderer().setVisible(true);
         graphView.getViewport().setScalable(true);
         break;

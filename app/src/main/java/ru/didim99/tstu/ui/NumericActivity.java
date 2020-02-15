@@ -26,6 +26,7 @@ import ru.didim99.tstu.core.numeric.Matrix;
 import ru.didim99.tstu.core.numeric.Result;
 import ru.didim99.tstu.core.numeric.NumericTask;
 import ru.didim99.tstu.core.numeric.TranscendentSolver;
+import ru.didim99.tstu.ui.utils.TextListAdapter;
 import ru.didim99.tstu.utils.MyLog;
 import ru.didim99.tstu.utils.Utils;
 

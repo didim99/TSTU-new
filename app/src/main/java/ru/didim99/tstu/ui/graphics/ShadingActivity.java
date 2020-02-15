@@ -10,7 +10,7 @@ import android.widget.Toast;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.CallbackTask;
 import ru.didim99.tstu.core.graphics.Config;
-import ru.didim99.tstu.core.graphics.ModelLoader;
+import ru.didim99.tstu.core.graphics.task.ModelLoader;
 import ru.didim99.tstu.core.graphics.ModelRenderer;
 import ru.didim99.tstu.core.graphics.utils.Model;
 import ru.didim99.tstu.ui.view.DrawerView;

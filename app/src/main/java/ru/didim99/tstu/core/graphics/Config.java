@@ -13,7 +13,7 @@ public class Config {
 
   static final class Type {
     static final int BITMAP = 1;
-    static final int SCENE = 2;
+    static final int SCENE  = 2;
   }
 
   // Global
@@ -110,7 +110,7 @@ public class Config {
     return texture != null;
   }
 
-  // ModelRenderer
+  // FractalRenderer
   int maxLevel, branchCount;
   boolean centralBranch;
   double branchL, branchAngle;

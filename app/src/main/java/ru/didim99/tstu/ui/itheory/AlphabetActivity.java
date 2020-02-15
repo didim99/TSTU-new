@@ -12,7 +12,7 @@ import android.widget.TextView;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.itheory.InformationCounter;
 import ru.didim99.tstu.ui.BaseActivity;
-import ru.didim99.tstu.ui.SpinnerAdapter;
+import ru.didim99.tstu.ui.utils.SpinnerAdapter;
 import ru.didim99.tstu.utils.InputValidator;
 import ru.didim99.tstu.utils.MyLog;
 

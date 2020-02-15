@@ -1,4 +1,4 @@
-package ru.didim99.tstu.ui;
+package ru.didim99.tstu.ui.utils;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -13,11 +13,11 @@ import ru.didim99.tstu.R;
 /**
  * Created by didim99 on 06.09.19.
  */
-class TextListAdapter extends RecyclerView.Adapter<TextListAdapter.ViewHolder> {
+public class TextListAdapter extends RecyclerView.Adapter<TextListAdapter.ViewHolder> {
   private ArrayList<String> data;
   private LayoutInflater inflater;
 
-  TextListAdapter(Context context) {
+  public TextListAdapter(Context context) {
     this.inflater = LayoutInflater.from(context);
   }
 
@@ -37,12 +37,12 @@ class TextListAdapter extends RecyclerView.Adapter<TextListAdapter.ViewHolder> {
     return data == null ? 0 : data.size();
   }
 
-  void refreshData(ArrayList<String> data) {
+  public void refreshData(ArrayList<String> data) {
     this.data = data;
     notifyDataSetChanged();
   }
 
-  class ViewHolder extends RecyclerView.ViewHolder {
+  static class ViewHolder extends RecyclerView.ViewHolder {
     final TextView tvData;
 
     ViewHolder(View itemView) {

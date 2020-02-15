@@ -1,4 +1,4 @@
-package ru.didim99.tstu.core.oop;
+package ru.didim99.tstu.core.oop.abiturient;
 
 /**
  * Created by didim99 on 23.02.19.

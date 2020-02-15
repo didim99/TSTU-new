@@ -22,6 +22,8 @@ import ru.didim99.tstu.core.optimization.ExtremaFinder;
 import ru.didim99.tstu.core.optimization.OptTask;
 import ru.didim99.tstu.core.optimization.Result;
 import ru.didim99.tstu.core.optimization.variation.ExtremaFinderFunc;
+import ru.didim99.tstu.ui.utils.SpinnerAdapter;
+import ru.didim99.tstu.ui.utils.TextListAdapter;
 import ru.didim99.tstu.utils.MyLog;
 
 /**

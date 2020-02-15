@@ -22,7 +22,7 @@ import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.math.MathStat;
 import ru.didim99.tstu.core.math.ProcessException;
 import ru.didim99.tstu.ui.BaseActivity;
-import ru.didim99.tstu.ui.MultiTapCatcher;
+import ru.didim99.tstu.ui.utils.MultiTapCatcher;
 import ru.didim99.tstu.utils.InputValidator;
 import ru.didim99.tstu.utils.MyLog;
 
