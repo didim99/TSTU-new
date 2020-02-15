@@ -1,2 +1,2 @@
 # TSTU-new
-Some university projects, packed in Android app
+Some university projects, packed in Android app.
