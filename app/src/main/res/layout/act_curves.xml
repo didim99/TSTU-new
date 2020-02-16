@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:padding="@dimen/layoutPadding">
+
+  <TextView
+    android:id="@+id/tvHelp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:text="@string/geometry_curveHelp"
+    android:textSize="@dimen/textSize_main"
+    android:gravity="center"/>
+
+  <ru.didim99.tstu.ui.view.DrawerView
+    android:id="@+id/view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
+
+  <LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:paddingTop="5dp"
+    android:paddingLeft="5dp"
+    android:paddingStart="5dp"
+    android:paddingBottom="15dp"
+    android:paddingRight="15dp"
+    android:paddingEnd="15dp"
+    android:background="?android:colorBackground">
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/geometry_curveType"
+      android:textSize="@dimen/textSize_main"/>
+
+    <Spinner
+      android:id="@+id/spCurveType"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:entries="@array/geometry_curveTypes"/>
+  </LinearLayout>
+
+</RelativeLayout>

@@ -72,6 +72,9 @@
       android:name=".ui.graphics.FractalActivity"
       android:label="@string/graphics_fractals"
       android:theme="@style/AppThemePrint"/>
+    <activity
+      android:name=".ui.graphics.CurvesActivity"
+      android:label="@string/geometry_functionalCurves"/>
 
     <activity
       android:name=".ui.mp.lab1.L1ActMain"

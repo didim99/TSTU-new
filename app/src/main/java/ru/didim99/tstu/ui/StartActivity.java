@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.TSTU;
+import ru.didim99.tstu.ui.graphics.CurvesActivity;
 import ru.didim99.tstu.ui.graphics.FractalActivity;
 import ru.didim99.tstu.ui.graphics.HorizonActivity;
 import ru.didim99.tstu.ui.graphics.LinesActivity;
@@ -50,7 +51,9 @@ public class StartActivity extends AppCompatActivity {
   private static final Class[] IS_TARGET =
     { TransmitActivity.class };
   private static final Class[] ITHEORY_TARGET =
-    { AlphabetActivity.class, RLEActivity.class};
+    { AlphabetActivity.class, RLEActivity.class };
+  private static final Class[] GEOMETRY_TARGET =
+    { CurvesActivity.class };
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +83,8 @@ public class StartActivity extends AppCompatActivity {
       R.string.sectionModeling, R.array.modeling_taskTypes, ModelingActivity.class));
     findViewById(R.id.startITheory).setOnClickListener(v -> activityTypeDialog(
       R.string.sectionITheory, R.array.iTheory_taskTypes, ITHEORY_TARGET));
+    findViewById(R.id.startGeometry).setOnClickListener(v -> activityTypeDialog(
+      R.string.sectionGeometry, R.array.geometry_taskTypes, GEOMETRY_TARGET));
 
     MyLog.d(LOG_TAG, "StartActivity created");
   }

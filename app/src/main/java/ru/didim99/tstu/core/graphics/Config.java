@@ -1,6 +1,8 @@
 package ru.didim99.tstu.core.graphics;
 
 import java.util.ArrayList;
+
+import ru.didim99.tstu.core.graphics.curve.Point;
 import ru.didim99.tstu.core.graphics.utils.Model;
 import ru.didim99.tstu.core.graphics.utils.Projection;
 import ru.didim99.tstu.core.graphics.utils.Texture;
@@ -142,5 +144,13 @@ public class Config {
 
   public double getBranchAF() {
     return branchAF;
+  }
+
+  // CurveRenderer
+  ArrayList<Point> points;
+  int curveType;
+
+  public int getCurveType() {
+    return curveType;
   }
 }

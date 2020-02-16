@@ -751,12 +751,16 @@
   <!-- Geometry modeling -->
   <string name="startGeometry">Геом. моделирование</string>
   <string name="sectionGeometry">Геометрическое моделирование</string>
-  <string name="geometry_lagrange">Кривые Лагранжа</string>
-  <string name="geometry_bezier">Кривые Безье</string>
+  <string name="geometry_functionalCurves">Функциональные кривые</string>
   <string-array name="geometry_taskTypes">
-    <item>@string/geometry_lagrange</item>
-    <item>@string/geometry_bezier</item>
+    <item>@string/geometry_functionalCurves</item>
   </string-array>
+  <string name="geometry_curveType">Кривые</string>
+  <string-array name="geometry_curveTypes">
+    <item>Лагранжа</item>
+    <item>Безье</item>
+  </string-array>
+  <string name="geometry_curveHelp">Коснитесь экрана чтобы добавить точку.\nДважды коснитесь точки чтобы удалить ее</string>
   <!-- Содержимое текстовых полей и подписей кнопок (Layout: act_dir_picker) -->
   <string name="actLabel_filePicker">Выбор файла</string>
   <string name="actLabel_dirPicker">Выбор каталога</string>

@@ -21,6 +21,7 @@ public class AsyncRenderer extends AsyncTask<Void, Void, Void> {
   private AnimationEventListener listener;
   private WeakReference<DrawerView> target;
   private volatile boolean running, paused;
+  private volatile boolean realtimeMode;
   private volatile boolean animationFinish;
   private volatile boolean animating;
   private volatile int frameSleep;
@@ -47,16 +48,16 @@ public class AsyncRenderer extends AsyncTask<Void, Void, Void> {
     clear();
   }
 
-  void onSceneCreated(Scene scene) {
-    target.get().setSource(scene);
-  }
-
   public void setEventListener(AnimationEventListener listener) {
     this.listener = listener;
   }
 
   public void start() {
     executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+  }
+
+  void onSceneCreated(Scene scene) {
+    target.get().setSource(scene);
   }
 
   @Override
@@ -70,10 +71,13 @@ public class AsyncRenderer extends AsyncTask<Void, Void, Void> {
   protected Void doInBackground(Void... voids) {
     while (running) {
       try {
-        if (animating && !paused) {
-          animateInternal();
-          animationFinish = true;
-          onFrame();
+        if (!paused) {
+          if (animating) {
+            animateInternal();
+            animationFinish = true;
+            onFrame();
+          } else if (realtimeMode)
+            update();
         } else Thread.sleep(IDLE);
       } catch (InterruptedException ignored) {}
     }
@@ -99,7 +103,8 @@ public class AsyncRenderer extends AsyncTask<Void, Void, Void> {
   }
 
   public void pause(boolean paused) {
-    if (animating) this.paused = paused;
+    if (animating || realtimeMode)
+      this.paused = paused;
   }
 
   public void finish() {
@@ -123,6 +128,10 @@ public class AsyncRenderer extends AsyncTask<Void, Void, Void> {
     paused = false;
   }
 
+  boolean isAnimating() {
+    return animating;
+  }
+
   public Config getConfig() {
     return config;
   }
@@ -135,11 +144,12 @@ public class AsyncRenderer extends AsyncTask<Void, Void, Void> {
     frameSleep = 1000 / fps;
   }
 
-  void animateInternal() throws InterruptedException {}
-
-  boolean isAnimating() {
-    return animating;
+  void setRealtimeMode() {
+    this.realtimeMode = true;
   }
+
+  void animateInternal() throws InterruptedException {}
+  void update() throws InterruptedException {}
 
   public interface AnimationEventListener {
     void onAnimationEvent(AnimationEvent event);
