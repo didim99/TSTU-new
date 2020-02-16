@@ -1,13 +1,12 @@
 package ru.didim99.tstu.core.graphics;
 
-import android.graphics.Point;
-import ru.didim99.tstu.core.graphics.utils.Face;
-import ru.didim99.tstu.core.graphics.utils.Mat4;
-import ru.didim99.tstu.core.graphics.utils.Model;
-import ru.didim99.tstu.core.graphics.utils.Projection;
-import ru.didim99.tstu.core.graphics.utils.Texture;
-import ru.didim99.tstu.core.graphics.utils.VertexHolder;
-import ru.didim99.tstu.core.graphics.utils.Vec4;
+import ru.didim99.tstu.core.graphics.model.Face;
+import ru.didim99.tstu.core.graphics.model.Mat4;
+import ru.didim99.tstu.core.graphics.model.Model;
+import ru.didim99.tstu.core.graphics.model.Projection;
+import ru.didim99.tstu.core.graphics.model.Texture;
+import ru.didim99.tstu.core.graphics.model.VertexHolder;
+import ru.didim99.tstu.core.graphics.model.Vec4;
 import ru.didim99.tstu.ui.view.DrawerView;
 
 import static java.lang.Math.ceil;

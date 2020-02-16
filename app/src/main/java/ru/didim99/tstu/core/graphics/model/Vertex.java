@@ -1,4 +1,4 @@
-package ru.didim99.tstu.core.graphics.utils;
+package ru.didim99.tstu.core.graphics.model;
 
 import android.graphics.Point;
 import android.graphics.PointF;

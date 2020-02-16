@@ -1,4 +1,4 @@
-package ru.didim99.tstu.core.graphics.utils;
+package ru.didim99.tstu.core.graphics.model;
 
 /**
  * Created by didim99 on 09.03.19.

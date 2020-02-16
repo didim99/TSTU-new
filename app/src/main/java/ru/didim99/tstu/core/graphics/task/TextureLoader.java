@@ -3,7 +3,7 @@ package ru.didim99.tstu.core.graphics.task;
 import android.content.Context;
 import java.io.IOException;
 import ru.didim99.tstu.core.CallbackTask;
-import ru.didim99.tstu.core.graphics.utils.Texture;
+import ru.didim99.tstu.core.graphics.model.Texture;
 import ru.didim99.tstu.utils.MyLog;
 
 /**
