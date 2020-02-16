@@ -57,7 +57,7 @@ public class CurveRenderer extends AsyncRenderer implements Scene {
     paintActive.setStrokeCap(Paint.Cap.ROUND);
 
     if (config == null) {
-      this.config.curve = new Curve(Curve.Type.LAGRANGE);
+      this.config.curve = new Curve();
     }
 
     setRealtimeMode();
@@ -156,11 +156,8 @@ public class CurveRenderer extends AsyncRenderer implements Scene {
     if (config.curve.getPoints().isEmpty())
       return;
 
-    if (config.curve.rebuild()) {
-      canvas.drawLines(config.curve.getPointsPuffer(),
-        0, config.curve.getCurveSize(), paintCurve);
-    }
-
+    if (config.curve.rebuild())
+      canvas.drawLines(config.curve.getPointsPuffer(), paintCurve);
     for (Point point : config.curve.getPoints()) {
       PointF position = point.getPosition();
       canvas.drawPoint(position.x, position.y,

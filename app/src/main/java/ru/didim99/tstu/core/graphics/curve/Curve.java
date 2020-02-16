@@ -4,32 +4,34 @@ import android.graphics.PointF;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import ru.didim99.tstu.utils.Utils;
+
 /**
  * Created by didim99 on 16.02.20.
  */
 public class Curve {
-  private static final int STEP_POINTS_LAGRANGE = 1000;
-  private static final int STEP_POINTS_BEZIER = 100;
+  private static final int STEP_POINTS = 1000;
+  private static final int BUFFER_SIZE = (STEP_POINTS + 1) * 4;
 
-  public static final class Type {
-    public static final int LAGRANGE  = 0;
-    public static final int BEZIER    = 1;
+  private static final class Type {
+    private static final int LAGRANGE  = 0;
+    private static final int BEZIER    = 1;
   }
 
   private int type;
-  private final Object renderLock;
   private ArrayList<Point> points;
+  private final Object renderLock;
   private float[] factorBuffer;
   private float[] pointsPuffer;
   private Point activePoint;
 
-  public Curve(int type) {
+  public Curve() {
+    this.type = Type.LAGRANGE;
     this.renderLock = new Object();
     this.points = new ArrayList<>();
+    this.pointsPuffer = new float[BUFFER_SIZE];
     this.factorBuffer = new float[0];
-    this.pointsPuffer = new float[0];
     this.activePoint = null;
-    this.type = type;
   }
 
   public ArrayList<Point> getPoints() {
@@ -46,14 +48,7 @@ public class Curve {
 
   public void setType(int type) {
     this.type = type;
-  }
-
-  public int getCurveSize() {
-    switch (type) {
-      case Type.LAGRANGE: return (STEP_POINTS_LAGRANGE + 1) * 4;
-      case Type.BEZIER: return (points.size() - 1) * STEP_POINTS_BEZIER + 1;
-      default: return 0;
-    }
+    onPointsChanged();
   }
 
   public boolean clear() {
@@ -66,16 +61,10 @@ public class Curve {
   public void addPoint(PointF position) {
     synchronized (renderLock) {
       points.add(new Point(position));
+      int bufferSize = points.size();
+      if (factorBuffer.length < bufferSize)
+        factorBuffer = new float[bufferSize];
       onPointsChanged();
-
-      if (type == Type.LAGRANGE) {
-        int bufferSize = points.size();
-        if (factorBuffer.length < bufferSize)
-          factorBuffer = new float[bufferSize];
-        int curveSize = getCurveSize();
-        if (pointsPuffer.length < curveSize)
-          pointsPuffer = new float[curveSize];
-      }
     }
   }
 
@@ -166,11 +155,10 @@ public class Curve {
 
       float xStart = points.get(0).getPosition().x;
       float xEnd = points.get(size - 1).getPosition().x;
-      float dx = (xEnd - xStart) / STEP_POINTS_LAGRANGE;
+      float dx = (xEnd - xStart) / STEP_POINTS, tmp = 1;
       float x = xStart, y = points.get(0).getPosition().y;
       PointF prev = new PointF(x, y);
 
-      float tmp = 1;
       int index = 0;
       while (index + 3 < pointsPuffer.length) {
         x += dx;
@@ -198,6 +186,40 @@ public class Curve {
   }
 
   private boolean rebuildBezier() {
-    return false;
+    synchronized (renderLock) {
+      int size = points.size();
+      if (size < 3) return false;
+
+      float t = 0, dt = 1f / STEP_POINTS;
+      float x = points.get(0).getPosition().x;
+      float y = points.get(0).getPosition().y;
+      PointF prev = new PointF(x, y);
+
+      for (int i = 0; i < size; i++)
+        factorBuffer[i] = Utils.combination(size - 1, i);
+
+      int index = 0;
+      while (index + 3 < pointsPuffer.length) {
+        t += dt;
+
+        x = y = 0;
+        for (int i = 0; i < size; i++) {
+          PointF point = points.get(i).getPosition();
+          double tmp = (factorBuffer[i] * Math.pow(t, i))
+            * Math.pow(1 - t, size - 1 - i);
+          x += tmp * point.x;
+          y += tmp * point.y;
+        }
+
+        pointsPuffer[index]     = prev.x;
+        pointsPuffer[index + 1] = prev.y;
+        pointsPuffer[index + 2] = x;
+        pointsPuffer[index + 3] = y;
+        prev.set(x, y);
+        index += 4;
+      }
+
+      return true;
+    }
   }
 }
