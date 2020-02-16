@@ -4,12 +4,11 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import ru.didim99.tstu.R;
+import ru.didim99.tstu.core.graphics.curve.Curve;
 import ru.didim99.tstu.core.graphics.curve.Point;
 import ru.didim99.tstu.ui.view.DrawerView;
 import ru.didim99.tstu.utils.MyLog;
@@ -30,15 +29,9 @@ public class CurveRenderer extends AsyncRenderer implements Scene {
   private static final float POINT_RADIUS_INACTIVE = 15;
   private static final float POINT_RADIUS_ACTIVE = 50;
 
-  private static final class CurveType {
-    private static final int LAGRANGE  = 0;
-    private static final int BEZIER    = 1;
-  }
-
   private boolean configured;
   private BlockingQueue<TouchEvent> eventQueue;
   private StateChangeListener listener;
-  private Point activePoint;
   // Drawing
   private Paint paintCurve;
   private Paint paintInactive;
@@ -49,7 +42,6 @@ public class CurveRenderer extends AsyncRenderer implements Scene {
       DEFAULT_WIDTH, DEFAULT_HEIGHT, true);
     this.eventQueue = new LinkedBlockingQueue<>();
     this.configured = false;
-    this.activePoint = null;
 
     paintCurve = new Paint();
     paintCurve.setColor(res.getColor(COLOR_CURVE));
@@ -65,8 +57,7 @@ public class CurveRenderer extends AsyncRenderer implements Scene {
     paintActive.setStrokeCap(Paint.Cap.ROUND);
 
     if (config == null) {
-      this.config.points = new ArrayList<>();
-      this.config.curveType = CurveType.LAGRANGE;
+      this.config.curve = new Curve(Curve.Type.LAGRANGE);
     }
 
     setRealtimeMode();
@@ -78,13 +69,13 @@ public class CurveRenderer extends AsyncRenderer implements Scene {
   }
 
   public void setCurveType(int type) {
-    config.curveType = type;
+    config.curve.setType(type);
+    publishProgress();
   }
 
   @Override
   public void clear() {
-    if (config.points != null) {
-      config.points.clear();
+    if (config.curve != null && config.curve.clear()) {
       onPointsCountChanged(false);
       publishProgress();
     }
@@ -98,15 +89,15 @@ public class CurveRenderer extends AsyncRenderer implements Scene {
     boolean eventPossible = true;
     switch (action) {
       case SINGLE_TAP:
-        eventPossible = !checkPoint(event.getPosition());
+        eventPossible = !config.curve.checkPoint(event.getPosition());
         if (eventPossible) onPointsCountChanged(true);
         break;
       case DOUBLE_TAP:
-        eventPossible = checkPoint(event.getPosition());
+        eventPossible = config.curve.checkPoint(event.getPosition());
         if (eventPossible) onPointsCountChanged(false);
         break;
       case MOTION_START:
-        eventPossible = checkPoint(event.getPosition());
+        eventPossible = config.curve.checkPoint(event.getPosition());
         break;
     }
 
@@ -120,9 +111,29 @@ public class CurveRenderer extends AsyncRenderer implements Scene {
     return eventPossible;
   }
 
+  private void dispatchTouchEvent(TouchEvent event) {
+    switch (event.getAction()) {
+      case SINGLE_TAP:
+        config.curve.addPoint(event.getPosition());
+        break;
+      case DOUBLE_TAP:
+        config.curve.removePoint(event.getPosition());
+        break;
+      case MOTION_START:
+        config.curve.setActivePoint(event.getPosition());
+        break;
+      case MOVE:
+        config.curve.moveActivePoint(event.getPosition());
+        break;
+      case MOTION_END:
+        config.curve.setActivePoint(null);
+        break;
+    }
+  }
+
   private void onPointsCountChanged(boolean add) {
     if (listener != null) listener.onPointsCountChanged(
-      config.points.size() + (add ? 1 : -1));
+      config.curve.getPoints().size() + (add ? 1 : -1));
   }
 
   private void configure(Canvas canvas) {
@@ -139,72 +150,21 @@ public class CurveRenderer extends AsyncRenderer implements Scene {
     if (event != null) publishProgress();
   }
 
-  private void dispatchTouchEvent(TouchEvent event) {
-    switch (event.getAction()) {
-      case SINGLE_TAP:
-        config.points.add(new Point(event.getPosition()));
-        if (config.curveType == CurveType.LAGRANGE)
-          Collections.sort(config.points, Point::compareX);
-        break;
-      case DOUBLE_TAP:
-        int removeIndex = getPointIndex(event.getPosition());
-        if (removeIndex >= 0) config.points.remove(removeIndex);
-        break;
-      case MOTION_START:
-        int activeIndex = getPointIndex(event.getPosition());
-        if (activeIndex >= 0) setActivePoint(config.points.get(activeIndex));
-        break;
-      case MOVE:
-        activePoint.getPosition().set(event.getPosition());
-        if (config.curveType == CurveType.LAGRANGE)
-          Collections.sort(config.points, Point::compareX);
-        break;
-      case MOTION_END:
-        setActivePoint(null);
-        break;
-    }
-  }
-
   @Override
   public void draw(Canvas canvas) {
     configure(canvas);
-    if (config.points.isEmpty()) return;
+    if (config.curve.getPoints().isEmpty())
+      return;
 
-    for (Point point : config.points) {
+    if (config.curve.rebuild()) {
+      canvas.drawLines(config.curve.getPointsPuffer(),
+        0, config.curve.getCurveSize(), paintCurve);
+    }
+
+    for (Point point : config.curve.getPoints()) {
       PointF position = point.getPosition();
       canvas.drawPoint(position.x, position.y,
         point.isActive() ? paintActive : paintInactive);
-    }
-  }
-
-  private boolean checkPoint(PointF position) {
-    for (Point point : config.points)
-      if (point.nearest(position)) return true;
-    return false;
-  }
-
-  private int getPointIndex(PointF position) {
-    int index = -1;
-
-    double distance, minDistance = Double.POSITIVE_INFINITY;
-    for (int i = 0; i < config.points.size(); i++) {
-      distance = config.points.get(i).distance(position);
-      if (distance < minDistance) {
-        minDistance = distance;
-        index = i;
-      }
-    }
-
-    return index;
-  }
-
-  private void setActivePoint(Point point) {
-    if (point == null) {
-      activePoint.setActive(false);
-      activePoint = null;
-    } else {
-      activePoint = point;
-      activePoint.setActive(true);
     }
   }
 

@@ -1,7 +1,7 @@
 package ru.didim99.tstu.core.graphics;
 
 import java.util.ArrayList;
-import ru.didim99.tstu.core.graphics.curve.Point;
+import ru.didim99.tstu.core.graphics.curve.Curve;
 import ru.didim99.tstu.core.graphics.model.Model;
 import ru.didim99.tstu.core.graphics.model.Projection;
 import ru.didim99.tstu.core.graphics.model.Texture;
@@ -146,10 +146,9 @@ public class Config {
   }
 
   // CurveRenderer
-  ArrayList<Point> points;
-  int curveType;
+  Curve curve;
 
-  public int getCurveType() {
-    return curveType;
+  public Curve getCurve() {
+    return curve;
   }
 }

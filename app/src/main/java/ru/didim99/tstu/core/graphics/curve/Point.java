@@ -7,6 +7,7 @@ import android.graphics.PointF;
  */
 public class Point {
   private static final float TAP_DISTANCE = 60;
+  private static final float EQ_DISTANCE = 1;
 
   private PointF position;
   private boolean active;
@@ -28,19 +29,23 @@ public class Point {
     this.position = position;
   }
 
-  public void setActive(boolean active) {
+  void setActive(boolean active) {
     this.active = active;
   }
 
-  public double distance(PointF point) {
+  double distance(PointF point) {
     double dx = Math.abs(position.x - point.x);
     double dy = Math.abs(position.y - point.y);
     return Math.sqrt(dx * dx + dy * dy);
   }
 
-  public boolean nearest(PointF point) {
+  boolean nearest(PointF point) {
     return Math.abs(position.x - point.x) < TAP_DISTANCE
       && Math.abs(position.y - point.y) < TAP_DISTANCE;
+  }
+
+  boolean xEquals(Point point) {
+    return Math.abs(position.x - point.position.x) < EQ_DISTANCE;
   }
 
   @Override
@@ -49,7 +54,12 @@ public class Point {
     return nearest(((Point) obj).position);
   }
 
-  public static int compareX(Point p1, Point p2) {
+  @Override
+  public String toString() {
+    return position + ", active: " + active;
+  }
+
+  static int compareX(Point p1, Point p2) {
     return Float.compare(p1.position.x, p2.position.x);
   }
 }

@@ -38,7 +38,7 @@ public class CurvesActivity extends AnimationActivity {
     renderer.start();
 
     config = renderer.getConfig();
-    spCurveType.setSelection(config.getCurveType());
+    spCurveType.setSelection(config.getCurve().getType());
     spCurveType.setOnItemSelectedListener(
       new SpinnerAdapter(this::onCurveTypeChanged));
     targetView.setOnTouchListener(new PointsTouchListener(

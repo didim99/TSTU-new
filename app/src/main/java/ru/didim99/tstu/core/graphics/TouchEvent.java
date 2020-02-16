@@ -6,7 +6,7 @@ import android.graphics.PointF;
  * Created by didim99 on 16.02.20.
  */
 public class TouchEvent {
-  public enum Action {SINGLE_TAP, DOUBLE_TAP, MOTION_START, MOVE, MOTION_END}
+  public enum Action { SINGLE_TAP, DOUBLE_TAP, MOTION_START, MOVE, MOTION_END }
 
   private Action action;
   private PointF position;
