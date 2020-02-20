@@ -52,7 +52,7 @@ public class Point {
       && Math.abs(position.y - point.y) < TAP_DISTANCE;
   }
 
-  boolean xEquals(Point point) {
+  public boolean xEquals(Point point) {
     return Math.abs(position.x - point.position.x) < EQ_DISTANCE;
   }
 

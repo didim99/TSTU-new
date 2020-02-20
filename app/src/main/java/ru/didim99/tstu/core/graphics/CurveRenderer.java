@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.graphics.curve.Curve;
 import ru.didim99.tstu.core.graphics.curve.Point;
+import ru.didim99.tstu.core.graphics.curve.builder.Builder;
 import ru.didim99.tstu.ui.view.DrawerView;
 import ru.didim99.tstu.utils.MyLog;
 
@@ -153,14 +154,15 @@ public class CurveRenderer extends AsyncRenderer implements Scene {
   @Override
   public void draw(Canvas canvas) {
     configure(canvas);
+    Builder builder = config.curve.getBuilder();
     if (config.curve.getPoints().isEmpty())
       return;
 
-    if (config.curve.rebuild()) {
+    if (builder.rebuild()) {
       if (config.curve.isDrawFrame())
-        canvas.drawLines(config.curve.getFramePuffer(),
-          0, config.curve.getFrameSize(), paintFrame);
-      canvas.drawLines(config.curve.getPointsPuffer(), paintCurve);
+        canvas.drawLines(builder.getFramePuffer(),
+          0, builder.getFrameSize(), paintFrame);
+      canvas.drawLines(builder.getPointsPuffer(), paintCurve);
     }
 
     for (Point point : config.curve.getPoints()) {
