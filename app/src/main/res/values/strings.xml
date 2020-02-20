@@ -760,6 +760,7 @@
     <item>Лагранжа</item>
     <item>Безье</item>
   </string-array>
+  <string name="geometry_curveFrame">Рисовать каркас</string>
   <string name="geometry_curveHelp">Коснитесь экрана чтобы добавить точку.\nДважды коснитесь точки чтобы удалить ее</string>
   <!-- Содержимое текстовых полей и подписей кнопок (Layout: act_dir_picker) -->
   <string name="actLabel_filePicker">Выбор файла</string>

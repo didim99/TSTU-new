@@ -17,6 +17,14 @@ public class Point {
     this.active = false;
   }
 
+  public float getX() {
+    return position.x;
+  }
+
+  public float getY() {
+    return position.y;
+  }
+
   public PointF getPosition() {
     return position;
   }

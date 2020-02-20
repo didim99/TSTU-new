@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
 import ru.didim99.tstu.R;
@@ -30,6 +31,7 @@ public class CurvesActivity extends AnimationActivity {
     MyLog.d(LOG_TAG, "View components init...");
     DrawerView targetView = findViewById(R.id.view);
     Spinner spCurveType = findViewById(R.id.spCurveType);
+    CheckBox cbDrawFrame = findViewById(R.id.cbCurveFrame);
     tvHelp = findViewById(R.id.tvHelp);
     MyLog.d(LOG_TAG, "View components init competed");
 
@@ -41,6 +43,9 @@ public class CurvesActivity extends AnimationActivity {
     spCurveType.setSelection(config.getCurve().getType());
     spCurveType.setOnItemSelectedListener(
       new SpinnerAdapter(this::onCurveTypeChanged));
+    cbDrawFrame.setChecked(config.getCurve().isDrawFrame());
+    cbDrawFrame.setOnCheckedChangeListener(
+      (v, c) -> onDrawFrameStateChanged(c));
     targetView.setOnTouchListener(new PointsTouchListener(
       ((CurveRenderer) renderer)::onTouchEvent));
     ((CurveRenderer) renderer).setStateChangeListener(count ->
@@ -72,5 +77,10 @@ public class CurvesActivity extends AnimationActivity {
   private void onCurveTypeChanged(int type) {
     MyLog.d(LOG_TAG, "Curve type changed: " + type);
     ((CurveRenderer) renderer).setCurveType(type);
+  }
+
+  private void onDrawFrameStateChanged(boolean drawFrame) {
+    MyLog.d(LOG_TAG, "Draw frame state changed: " + drawFrame);
+    ((CurveRenderer) renderer).setDrawFrame(drawFrame);
   }
 }

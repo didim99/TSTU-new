@@ -3,7 +3,6 @@ package ru.didim99.tstu.core.graphics.curve;
 import android.graphics.PointF;
 import java.util.ArrayList;
 import java.util.Collections;
-
 import ru.didim99.tstu.utils.Utils;
 
 /**
@@ -19,18 +18,22 @@ public class Curve {
   }
 
   private int type;
+  private boolean drawFrame;
   private ArrayList<Point> points;
   private final Object renderLock;
   private float[] factorBuffer;
   private float[] pointsPuffer;
+  private float[] framePuffer;
   private Point activePoint;
 
   public Curve() {
     this.type = Type.LAGRANGE;
+    this.drawFrame = true;
     this.renderLock = new Object();
     this.points = new ArrayList<>();
     this.pointsPuffer = new float[BUFFER_SIZE];
     this.factorBuffer = new float[0];
+    this.framePuffer = new float[0];
     this.activePoint = null;
   }
 
@@ -42,12 +45,30 @@ public class Curve {
     return pointsPuffer;
   }
 
+  public float[] getFramePuffer() {
+    return framePuffer;
+  }
+
   public int getType() {
     return type;
   }
 
+  public boolean isDrawFrame() {
+    return drawFrame;
+  }
+
+  public int getFrameSize() {
+    return (points.size() - 1) * 4;
+  }
+
   public void setType(int type) {
     this.type = type;
+    onPointsChanged();
+  }
+
+  public void setDrawFrame(boolean drawFrame) {
+    this.drawFrame = drawFrame;
+    checkFrameBuffer();
     onPointsChanged();
   }
 
@@ -64,6 +85,7 @@ public class Curve {
       int bufferSize = points.size();
       if (factorBuffer.length < bufferSize)
         factorBuffer = new float[bufferSize];
+      checkFrameBuffer();
       onPointsChanged();
     }
   }
@@ -149,14 +171,14 @@ public class Curve {
 
         for (int x2 = 0; x2 < size; x2++) {
           if (x1 == x2) continue;
-          factorBuffer[x1] /= p1.x - points.get(x2).getPosition().x;
+          factorBuffer[x1] /= p1.x - points.get(x2).getX();
         }
       }
 
-      float xStart = points.get(0).getPosition().x;
-      float xEnd = points.get(size - 1).getPosition().x;
+      float xStart = points.get(0).getX();
+      float xEnd = points.get(size - 1).getX();
       float dx = (xEnd - xStart) / STEP_POINTS, tmp = 1;
-      float x = xStart, y = points.get(0).getPosition().y;
+      float x = xStart, y = points.get(0).getY();
       PointF prev = new PointF(x, y);
 
       int index = 0;
@@ -167,7 +189,7 @@ public class Curve {
         for (int x1 = 0; x1 < size; x1++, tmp = 1) {
           for (int x2 = 0; x2 < size; x2++) {
             if (x1 == x2) continue;
-            tmp *= x - points.get(x2).getPosition().x;
+            tmp *= x - points.get(x2).getX();
           }
 
           y += factorBuffer[x1] * tmp;
@@ -181,6 +203,7 @@ public class Curve {
         index += 4;
       }
 
+      drawFrame();
       return true;
     }
   }
@@ -191,8 +214,8 @@ public class Curve {
       if (size < 3) return false;
 
       float t = 0, dt = 1f / STEP_POINTS;
-      float x = points.get(0).getPosition().x;
-      float y = points.get(0).getPosition().y;
+      float x = points.get(0).getX();
+      float y = points.get(0).getY();
       PointF prev = new PointF(x, y);
 
       for (int i = 0; i < size; i++)
@@ -219,7 +242,34 @@ public class Curve {
         index += 4;
       }
 
+      drawFrame();
       return true;
+    }
+  }
+
+  private void checkFrameBuffer() {
+    if (drawFrame) {
+      int frameSize = getFrameSize();
+      if (framePuffer.length < frameSize)
+        framePuffer = new float[frameSize];
+    }
+  }
+
+  private void drawFrame() {
+    if (!drawFrame) return;
+    int last = points.size() - 1;
+    int index = 0;
+
+    for (int i = 0; i <= last; i++) {
+      PointF point = points.get(i).getPosition();
+      framePuffer[index]      = point.x;
+      framePuffer[index + 1]  = point.y;
+      if (i > 0 && i < last) {
+        framePuffer[index + 2] = point.x;
+        framePuffer[index + 3] = point.y;
+        index += 2;
+      }
+      index += 2;
     }
   }
 }

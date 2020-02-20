@@ -22,18 +22,21 @@ public class CurveRenderer extends AsyncRenderer implements Scene {
   private static final int DEFAULT_HEIGHT = 500;
   private static final long EVENT_WAIT = 1000;
   // Drawer settings
-  private static final int COLOR_CURVE = R.color.graph0;
-  private static final int COLOR_POINT_INACTIVE = R.color.graph2;
-  private static final int COLOR_POINT_ACTIVE = R.color.graph4;
-  private static final float CURVE_WIDTH = 5;
-  private static final float POINT_RADIUS_INACTIVE = 15;
-  private static final float POINT_RADIUS_ACTIVE = 50;
+  private static final PaintConfig PAINT_CURVE =
+    new PaintConfig(R.color.graph0, 5, Paint.Cap.ROUND);
+  private static final PaintConfig PAINT_FRAME =
+    new PaintConfig(R.color.curveFrame, 3, Paint.Cap.ROUND);
+  private static final PaintConfig PAINT_POINT =
+    new PaintConfig(R.color.graph2, 15, Paint.Cap.ROUND);
+  private static final PaintConfig PAINT_POINT_ACTIVE =
+    new PaintConfig(R.color.graph4, 50, Paint.Cap.ROUND);
 
   private boolean configured;
   private BlockingQueue<TouchEvent> eventQueue;
   private StateChangeListener listener;
   // Drawing
   private Paint paintCurve;
+  private Paint paintFrame;
   private Paint paintInactive;
   private Paint paintActive;
 
@@ -43,18 +46,10 @@ public class CurveRenderer extends AsyncRenderer implements Scene {
     this.eventQueue = new LinkedBlockingQueue<>();
     this.configured = false;
 
-    paintCurve = new Paint();
-    paintCurve.setColor(res.getColor(COLOR_CURVE));
-    paintCurve.setStrokeCap(Paint.Cap.ROUND);
-    paintCurve.setStrokeWidth(CURVE_WIDTH);
-    paintInactive = new Paint();
-    paintInactive.setColor(res.getColor(COLOR_POINT_INACTIVE));
-    paintInactive.setStrokeWidth(POINT_RADIUS_INACTIVE);
-    paintInactive.setStrokeCap(Paint.Cap.ROUND);
-    paintActive = new Paint();
-    paintActive.setColor(res.getColor(COLOR_POINT_ACTIVE));
-    paintActive.setStrokeWidth(POINT_RADIUS_ACTIVE);
-    paintActive.setStrokeCap(Paint.Cap.ROUND);
+    paintCurve = getPaint(PAINT_CURVE, res);
+    paintFrame = getPaint(PAINT_FRAME, res);
+    paintInactive = getPaint(PAINT_POINT, res);
+    paintActive = getPaint(PAINT_POINT_ACTIVE, res);
 
     if (config == null) {
       this.config.curve = new Curve();
@@ -70,6 +65,11 @@ public class CurveRenderer extends AsyncRenderer implements Scene {
 
   public void setCurveType(int type) {
     config.curve.setType(type);
+    publishProgress();
+  }
+
+  public void setDrawFrame(boolean drawFrame) {
+    config.curve.setDrawFrame(drawFrame);
     publishProgress();
   }
 
@@ -156,12 +156,37 @@ public class CurveRenderer extends AsyncRenderer implements Scene {
     if (config.curve.getPoints().isEmpty())
       return;
 
-    if (config.curve.rebuild())
+    if (config.curve.rebuild()) {
+      if (config.curve.isDrawFrame())
+        canvas.drawLines(config.curve.getFramePuffer(),
+          0, config.curve.getFrameSize(), paintFrame);
       canvas.drawLines(config.curve.getPointsPuffer(), paintCurve);
+    }
+
     for (Point point : config.curve.getPoints()) {
       PointF position = point.getPosition();
       canvas.drawPoint(position.x, position.y,
         point.isActive() ? paintActive : paintInactive);
+    }
+  }
+
+  private Paint getPaint(PaintConfig config, Resources res) {
+    Paint paint = new Paint();
+    paint.setColor(res.getColor(config.color));
+    paint.setStrokeWidth(config.width);
+    paint.setStrokeCap(config.cap);
+    return paint;
+  }
+
+  private static class PaintConfig {
+    private int color;
+    private float width;
+    private Paint.Cap cap;
+
+    private PaintConfig(int color, float width, Paint.Cap cap) {
+      this.color = color;
+      this.width = width;
+      this.cap = cap;
     }
   }
 
