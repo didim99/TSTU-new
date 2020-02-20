@@ -16,29 +16,29 @@ public class LagrangeBuilder extends Builder {
   @Override
   public boolean rebuild() {
     synchronized (renderLock) {
-      int size = points.size();
+      int size = basePoints.size();
       if (size < 2) return false;
 
       for (int i = 1; i < size; i++) {
-        Point point = points.get(i);
-        if (point.xEquals(points.get(i - 1)))
+        Point point = basePoints.get(i);
+        if (point.xEquals(basePoints.get(i - 1)))
           point.getPosition().x += 10;
       }
 
       for (int x1 = 0; x1 < size; x1++) {
-        PointF p1 = points.get(x1).getPosition();
+        PointF p1 = basePoints.get(x1).getPosition();
         factorBuffer[x1] = p1.y;
 
         for (int x2 = 0; x2 < size; x2++) {
           if (x1 == x2) continue;
-          factorBuffer[x1] /= p1.x - points.get(x2).getX();
+          factorBuffer[x1] /= p1.x - basePoints.get(x2).getVisibleX();
         }
       }
 
-      float xStart = points.get(0).getX();
-      float xEnd = points.get(size - 1).getX();
+      float xStart = basePoints.get(0).getVisibleX();
+      float xEnd = basePoints.get(size - 1).getVisibleX();
       float dx = (xEnd - xStart) / STEP_POINTS, tmp = 1;
-      float x = xStart, y = points.get(0).getY();
+      float x = xStart, y = basePoints.get(0).getVisibleY();
       PointF prev = new PointF(x, y);
 
       int index = 0;
@@ -49,7 +49,7 @@ public class LagrangeBuilder extends Builder {
         for (int x1 = 0; x1 < size; x1++, tmp = 1) {
           for (int x2 = 0; x2 < size; x2++) {
             if (x1 == x2) continue;
-            tmp *= x - points.get(x2).getX();
+            tmp *= x - basePoints.get(x2).getVisibleX();
           }
 
           y += factorBuffer[x1] * tmp;

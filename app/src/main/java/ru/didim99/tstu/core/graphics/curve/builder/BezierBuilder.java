@@ -16,12 +16,12 @@ public class BezierBuilder extends Builder {
   @Override
   public boolean rebuild() {
     synchronized (renderLock) {
-      int size = points.size();
+      int size = basePoints.size();
       if (size < 3) return false;
 
       float t = 0, dt = 1f / STEP_POINTS;
-      float x = points.get(0).getX();
-      float y = points.get(0).getY();
+      float x = basePoints.get(0).getVisibleX();
+      float y = basePoints.get(0).getVisibleY();
       PointF prev = new PointF(x, y);
 
       for (int i = 0; i < size; i++)
@@ -33,7 +33,7 @@ public class BezierBuilder extends Builder {
 
         x = y = 0;
         for (int i = 0; i < size; i++) {
-          PointF point = points.get(i).getPosition();
+          PointF point = basePoints.get(i).getPosition();
           double tmp = (factorBuffer[i] * Math.pow(t, i))
             * Math.pow(1 - t, size - 1 - i);
           x += tmp * point.x;

@@ -759,9 +759,13 @@
   <string-array name="geometry_curveTypes">
     <item>Лагранжа</item>
     <item>Безье</item>
+    <item>Эрмита</item>
   </string-array>
+  <string name="geometry_curvePoints">Рисовать точки</string>
   <string name="geometry_curveFrame">Рисовать каркас</string>
+  <string name="geometry_curveSync">Синхр. рычаги</string>
   <string name="geometry_curveHelp">Коснитесь экрана чтобы добавить точку.\nДважды коснитесь точки чтобы удалить ее</string>
+  <string name="geometry_hideMenu">Скрыть меню</string>
   <!-- Содержимое текстовых полей и подписей кнопок (Layout: act_dir_picker) -->
   <string name="actLabel_filePicker">Выбор файла</string>
   <string name="actLabel_dirPicker">Выбор каталога</string>

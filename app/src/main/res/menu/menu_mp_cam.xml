@@ -4,13 +4,13 @@
 
   <item
     android:id="@+id/act_prev"
-    android:icon="@drawable/ic_prev_24dp"
+    android:icon="@drawable/ic_prev_black_24dp"
     android:title="@string/mp_prevScreen"
     app:showAsAction="always"/>
 
   <item
     android:id="@+id/act_next"
-    android:icon="@drawable/ic_next_24dp"
+    android:icon="@drawable/ic_next_black_24dp"
     android:title="@string/mp_nextScreen"
     app:showAsAction="ifRoom"/>
 </menu>

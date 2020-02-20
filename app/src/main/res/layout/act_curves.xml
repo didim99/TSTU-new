@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:padding="@dimen/layoutPadding">
@@ -20,19 +21,15 @@
     android:layout_height="match_parent" />
 
   <LinearLayout
+    android:id="@+id/menuLayout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_alignParentTop="true"
     android:layout_alignParentLeft="true"
     android:layout_alignParentStart="true"
-    android:paddingTop="5dp"
-    android:paddingLeft="5dp"
-    android:paddingStart="5dp"
-    android:paddingBottom="15dp"
-    android:paddingRight="15dp"
-    android:paddingEnd="15dp"
-    android:background="?android:colorBackground">
+    android:padding="10dp"
+    android:background="@drawable/background_overlay">
 
     <LinearLayout
       android:layout_width="wrap_content"
@@ -53,12 +50,41 @@
     </LinearLayout>
 
     <CheckBox
+      android:id="@+id/cbCurvePoints"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="5dp"
+      android:text="@string/geometry_curvePoints"
+      android:textSize="@dimen/textSize_main"/>
+
+    <CheckBox
       android:id="@+id/cbCurveFrame"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_marginTop="5dp"
       android:text="@string/geometry_curveFrame"
       android:textSize="@dimen/textSize_main"/>
+
+    <CheckBox
+      android:id="@+id/cbCurveSync"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="5dp"
+      android:text="@string/geometry_curveSync"
+      android:textSize="@dimen/textSize_main"/>
   </LinearLayout>
+
+  <ImageView
+    android:id="@+id/ivHideMenu"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_toRightOf="@id/menuLayout"
+    android:layout_toEndOf="@id/menuLayout"
+    android:padding="10dp"
+    app:srcCompat="@drawable/ic_prev_white_24dp"
+    android:background="?attr/selectableItemBackground"
+    android:contentDescription="@string/geometry_hideMenu"
+    android:focusable="true"
+    android:clickable="true" />
 
 </RelativeLayout>

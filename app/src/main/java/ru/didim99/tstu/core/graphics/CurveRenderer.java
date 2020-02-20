@@ -27,8 +27,12 @@ public class CurveRenderer extends AsyncRenderer implements Scene {
     new PaintConfig(R.color.graph0, 5, Paint.Cap.ROUND);
   private static final PaintConfig PAINT_FRAME =
     new PaintConfig(R.color.curveFrame, 3, Paint.Cap.ROUND);
-  private static final PaintConfig PAINT_POINT =
+  private static final PaintConfig PAINT_ARM =
+    new PaintConfig(R.color.valueBarBg, 3, Paint.Cap.ROUND);
+  private static final PaintConfig PAINT_POINT_DEFAULT =
     new PaintConfig(R.color.graph2, 15, Paint.Cap.ROUND);
+  private static final PaintConfig PAINT_POINT_CONTROL =
+    new PaintConfig(R.color.graph1, 15, Paint.Cap.ROUND);
   private static final PaintConfig PAINT_POINT_ACTIVE =
     new PaintConfig(R.color.graph4, 50, Paint.Cap.ROUND);
 
@@ -36,10 +40,9 @@ public class CurveRenderer extends AsyncRenderer implements Scene {
   private BlockingQueue<TouchEvent> eventQueue;
   private StateChangeListener listener;
   // Drawing
-  private Paint paintCurve;
-  private Paint paintFrame;
-  private Paint paintInactive;
-  private Paint paintActive;
+  private Paint paintInactive, paintActive;
+  private Paint paintCurve, paintFrame;
+  private Paint paintControl, paintArm;
 
   public CurveRenderer(DrawerView target, Config config, Resources res) {
     super(target, Config.Type.SCENE, config,
@@ -47,10 +50,12 @@ public class CurveRenderer extends AsyncRenderer implements Scene {
     this.eventQueue = new LinkedBlockingQueue<>();
     this.configured = false;
 
+    paintInactive = getPaint(PAINT_POINT_DEFAULT, res);
+    paintActive = getPaint(PAINT_POINT_ACTIVE, res);
     paintCurve = getPaint(PAINT_CURVE, res);
     paintFrame = getPaint(PAINT_FRAME, res);
-    paintInactive = getPaint(PAINT_POINT, res);
-    paintActive = getPaint(PAINT_POINT_ACTIVE, res);
+    paintControl = getPaint(PAINT_POINT_CONTROL, res);
+    paintArm = getPaint(PAINT_ARM, res);
 
     if (config == null) {
       this.config.curve = new Curve();
@@ -69,8 +74,18 @@ public class CurveRenderer extends AsyncRenderer implements Scene {
     publishProgress();
   }
 
+  public void setDrawPoints(boolean drawPoints) {
+    config.curve.setDrawPoints(drawPoints);
+    publishProgress();
+  }
+
   public void setDrawFrame(boolean drawFrame) {
     config.curve.setDrawFrame(drawFrame);
+    publishProgress();
+  }
+
+  public void setSyncControls(boolean syncControls) {
+    config.curve.setSyncControls(syncControls);
     publishProgress();
   }
 
@@ -90,15 +105,15 @@ public class CurveRenderer extends AsyncRenderer implements Scene {
     boolean eventPossible = true;
     switch (action) {
       case SINGLE_TAP:
-        eventPossible = !config.curve.checkPoint(event.getPosition());
+        eventPossible = !config.curve.checkPoint(event.getPosition(), false);
         if (eventPossible) onPointsCountChanged(true);
         break;
       case DOUBLE_TAP:
-        eventPossible = config.curve.checkPoint(event.getPosition());
+        eventPossible = config.curve.checkPoint(event.getPosition(), true);
         if (eventPossible) onPointsCountChanged(false);
         break;
       case MOTION_START:
-        eventPossible = config.curve.checkPoint(event.getPosition());
+        eventPossible = config.curve.checkPoint(event.getPosition(), false);
         break;
     }
 
@@ -134,7 +149,7 @@ public class CurveRenderer extends AsyncRenderer implements Scene {
 
   private void onPointsCountChanged(boolean add) {
     if (listener != null) listener.onPointsCountChanged(
-      config.curve.getPoints().size() + (add ? 1 : -1));
+      config.curve.getBasePoints().size() + (add ? 1 : -1));
   }
 
   private void configure(Canvas canvas) {
@@ -154,21 +169,32 @@ public class CurveRenderer extends AsyncRenderer implements Scene {
   @Override
   public void draw(Canvas canvas) {
     configure(canvas);
+    if (config.curve.isEmpty()) return;
     Builder builder = config.curve.getBuilder();
-    if (config.curve.getPoints().isEmpty())
-      return;
 
     if (builder.rebuild()) {
       if (config.curve.isDrawFrame())
         canvas.drawLines(builder.getFramePuffer(),
-          0, builder.getFrameSize(), paintFrame);
+          0, builder.getFrameBufferSize(), paintFrame);
       canvas.drawLines(builder.getPointsPuffer(), paintCurve);
     }
 
-    for (Point point : config.curve.getPoints()) {
-      PointF position = point.getPosition();
-      canvas.drawPoint(position.x, position.y,
-        point.isActive() ? paintActive : paintInactive);
+    if (config.curve.isDrawPoints()) {
+      if (config.curve.hasControlPoints()) {
+        canvas.drawLines(builder.getArmBuffer(),
+          0, builder.getArmBufferSize(), paintArm);
+        for (Point point : config.curve.getControlPoints()) {
+          PointF position = point.getPosition();
+          canvas.drawPoint(position.x, position.y,
+            point.isActive() ? paintActive : paintControl);
+        }
+      }
+
+      for (Point point : config.curve.getBasePoints()) {
+        PointF position = point.getPosition();
+        canvas.drawPoint(position.x, position.y,
+          point.isActive() ? paintActive : paintInactive);
+      }
     }
   }
 

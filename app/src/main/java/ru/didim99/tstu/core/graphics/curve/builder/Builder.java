@@ -14,20 +14,24 @@ public abstract class Builder {
 
   private Curve curve;
   final Object renderLock;
-  ArrayList<Point> points;
-  float[] factorBuffer;
-  float[] pointsPuffer;
-  float[] framePuffer;
+  ArrayList<Point> basePoints;
+  ArrayList<Point> controlPoints;
+  // Internal drawing buffers
+  float[] factorBuffer, pointsPuffer;
+  private float[] framePuffer;
+  private float[] armBuffer;
 
   public Builder(Curve curve) {
     this.curve = curve;
-    this.points = curve.getPoints();
     this.renderLock = curve.getRenderLock();
+    this.basePoints = curve.getBasePoints();
+    this.controlPoints = curve.getControlPoints();
     this.pointsPuffer = new float[BUFFER_SIZE];
     this.factorBuffer = new float[0];
     this.framePuffer = new float[0];
-    checkPointsBuffer();
-    checkFrameBuffer();
+    if (curve.hasControlPoints())
+      this.armBuffer = new float[0];
+    checkBuffers();
   }
 
   public float[] getPointsPuffer() {
@@ -38,31 +42,49 @@ public abstract class Builder {
     return framePuffer;
   }
 
-  public int getFrameSize() {
-    return (points.size() - 1) * 4;
+  public float[] getArmBuffer() {
+    return armBuffer;
   }
 
-  public void checkPointsBuffer() {
-    int bufferSize = points.size();
+  public int getFrameBufferSize() {
+    return (basePoints.size() - 1) * 4;
+  }
+
+  public int getArmBufferSize() {
+    return controlPoints.size() * 4;
+  }
+
+  public void checkBuffers() {
+    int bufferSize = basePoints.size();
     if (factorBuffer.length < bufferSize)
       factorBuffer = new float[bufferSize];
+    checkFrameBuffer();
+    checkArmBuffer();
   }
 
   public void checkFrameBuffer() {
     if (curve.isDrawFrame()) {
-      int frameSize = getFrameSize();
+      int frameSize = getFrameBufferSize();
       if (framePuffer.length < frameSize)
         framePuffer = new float[frameSize];
     }
   }
 
+  public void checkArmBuffer() {
+    if (curve.hasControlPoints() && curve.isDrawPoints()) {
+      int frameSize = getArmBufferSize();
+      if (armBuffer.length < frameSize)
+        armBuffer = new float[frameSize];
+    }
+  }
+
   void drawFrame() {
     if (!curve.isDrawFrame()) return;
-    int last = points.size() - 1;
+    int last = basePoints.size() - 1;
     int index = 0;
 
     for (int i = 0; i <= last; i++) {
-      PointF point = points.get(i).getPosition();
+      PointF point = basePoints.get(i).getPosition();
       framePuffer[index]      = point.x;
       framePuffer[index + 1]  = point.y;
       if (i > 0 && i < last) {
@@ -71,6 +93,20 @@ public abstract class Builder {
         index += 2;
       }
       index += 2;
+    }
+  }
+
+  void drawArms() {
+    if (!curve.isDrawPoints()) return;
+    if (controlPoints.size() < 2) return;
+    int index = 0;
+
+    for (Point point : controlPoints) {
+      armBuffer[index]      = point.getVisibleX();
+      armBuffer[index + 1]  = point.getVisibleY();
+      armBuffer[index + 2]  = point.getParent().getVisibleX();
+      armBuffer[index + 3]  = point.getParent().getVisibleY();
+      index += 4;
     }
   }
 
