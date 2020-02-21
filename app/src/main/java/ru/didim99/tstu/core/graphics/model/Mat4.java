@@ -1,23 +1,42 @@
 package ru.didim99.tstu.core.graphics.model;
 
+import android.support.annotation.Size;
 import java.util.Locale;
 
 /**
  * 4x4 matrix for geometry operations
  * Created by didim99 on 09.03.19.
+ *
+ * <p>Matrix data stored in the single-dimension array by rows -> columns:
+ *
+ * <pre>
+ *     |  0  1  2  3
+ *   --+------------
+ *   0 |  0  1  2  3
+ *   1 |  4  5  6  7
+ *   2 |  8  9 10 11
+ *   3 | 12 13 14 15
+ * </pre>
+ *
  */
 public class Mat4 {
+  private static final int SIZE = 16;
   private static final int N = 4;
 
   private double[] data;
 
   public Mat4() {
-    data = new double[16];
+    data = new double[SIZE];
     loadIdentity();
   }
 
   public Mat4(Mat4 src) {
-    data = new double[16];
+    data = new double[SIZE];
+    load(src);
+  }
+
+  public Mat4(@Size(SIZE) double... src) {
+    data = new double[SIZE];
     load(src);
   }
 
@@ -68,7 +87,11 @@ public class Mat4 {
   }
 
   public void load(Mat4 src) {
-    System.arraycopy(src.data, 0, data, 0, data.length);
+    load(src.data);
+  }
+
+  private void load(double[] src) {
+    System.arraycopy(src, 0, data, 0, data.length);
   }
 
   private void loadTranslate(Vec4 translate) {

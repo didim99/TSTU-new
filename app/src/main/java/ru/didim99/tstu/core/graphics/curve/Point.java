@@ -105,6 +105,7 @@ public class Point {
 
   public void clearControls() {
     if (controls != null) controls.clear();
+    controlNext = controlPrev = null;
   }
 
   public void setControlNext(Point controlNext) {

@@ -19,7 +19,7 @@ public class BezierBuilder extends Builder {
       int size = basePoints.size();
       if (size < 3) return false;
 
-      float t = 0, dt = 1f / STEP_POINTS;
+      float t = T_MIN, dt = T_MAX / STEP_POINTS;
       float x = basePoints.get(0).getVisibleX();
       float y = basePoints.get(0).getVisibleY();
       PointF prev = new PointF(x, y);

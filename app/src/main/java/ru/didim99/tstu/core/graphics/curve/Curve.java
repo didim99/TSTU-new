@@ -149,7 +149,7 @@ public class Curve {
   private int getPointIndex(ArrayList<Point> points, PointF position) {
     int index = -1;
 
-    double distance, minDistance = Point.TAP_DISTANCE * 1.5;
+    double distance, minDistance = Point.TAP_DISTANCE;
     for (int i = 0; i < points.size(); i++) {
       distance = points.get(i).distance(position);
       if (distance < minDistance) {

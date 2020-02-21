@@ -9,6 +9,8 @@ import ru.didim99.tstu.core.graphics.curve.Point;
  * Created by didim99 on 20.02.20.
  */
 public abstract class Builder {
+  static final float T_MIN = 0f;
+  static final float T_MAX = 1f;
   static final int STEP_POINTS = 1000;
   private static final int BUFFER_SIZE = (STEP_POINTS + 1) * 4;
 
