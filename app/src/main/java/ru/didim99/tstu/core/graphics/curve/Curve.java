@@ -185,7 +185,9 @@ public class Curve {
 
   public void moveActivePoint(PointF position) {
     synchronized (renderLock) {
-      activePoint.moveTo(position);
+      if (activePoint.isControlPoint())
+        ((HermiteBuilder) builder).moveControlPoint(activePoint, position);
+      else activePoint.moveTo(position);
       onPointsChanged(true);
     }
   }

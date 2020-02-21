@@ -47,6 +47,14 @@ public class Point {
     return active;
   }
 
+  boolean isControlPoint() {
+    return type == Type.CONTROL;
+  }
+
+  public boolean isMultiControl() {
+    return controlNext != null && controlPrev != null;
+  }
+
   ArrayList<Point> getControls() {
     return controls;
   }
@@ -91,6 +99,10 @@ public class Point {
     this.active = active;
   }
 
+  public Point getSlaveControl(Point master) {
+    return master.equals(controlNext) ? controlPrev : controlNext;
+  }
+
   public void clearControls() {
     if (controls != null) controls.clear();
   }
@@ -114,13 +126,21 @@ public class Point {
     controls.add(control);
   }
 
-  void moveTo(PointF pos) {
+  public void moveTo(PointF pos) {
     if (controls != null && !controls.isEmpty()) {
       for (Point point : controls) point.position.offset(
         pos.x - position.x, pos.y - position.y);
     }
 
     position.set(pos);
+  }
+
+  public void rotate(double angle) {
+    double offsetX = position.x - parent.position.x;
+    double offsetY = parent.position.y - position.y;
+    double sinPhi = Math.sin(angle), cosPhi = Math.cos(angle);
+    position.x = (float) (parent.position.x + (offsetX * cosPhi - offsetY * sinPhi));
+    position.y = (float) (parent.position.y - (offsetX * sinPhi + offsetY * cosPhi));
   }
 
   double distance(PointF point) {

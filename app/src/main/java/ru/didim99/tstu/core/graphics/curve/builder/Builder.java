@@ -12,7 +12,7 @@ public abstract class Builder {
   static final int STEP_POINTS = 1000;
   private static final int BUFFER_SIZE = (STEP_POINTS + 1) * 4;
 
-  private Curve curve;
+  Curve curve;
   final Object renderLock;
   ArrayList<Point> basePoints;
   ArrayList<Point> controlPoints;

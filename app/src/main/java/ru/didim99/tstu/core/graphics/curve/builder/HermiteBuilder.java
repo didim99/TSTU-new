@@ -79,4 +79,21 @@ public class HermiteBuilder extends Builder {
       (p1.getVisibleY() * 3 + p2.getVisibleY()) / 4
     );
   }
+
+  public void moveControlPoint(Point activePoint, PointF position) {
+    Point basePoint = activePoint.getParent();
+    if (curve.isSyncControls() && basePoint.isMultiControl()) {
+      double angle = getAngle(position, basePoint)
+       - getAngle(activePoint.getPosition(), basePoint);
+      basePoint.getSlaveControl(activePoint).rotate(angle);
+    }
+
+    activePoint.moveTo(position);
+  }
+
+  private double getAngle(PointF point, Point base) {
+    double dx = (point.x - base.getVisibleX());
+    double dy = (point.y - base.getVisibleY());
+    return Math.atan2(dx, dy);
+  }
 }
