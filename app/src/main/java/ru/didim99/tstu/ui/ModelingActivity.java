@@ -14,9 +14,9 @@ import ru.didim99.tstu.R;
 import ru.didim99.tstu.TSTU;
 import ru.didim99.tstu.core.CallbackTask;
 import ru.didim99.tstu.core.modeling.Config;
+import ru.didim99.tstu.core.modeling.Functions;
 import ru.didim99.tstu.core.modeling.ModelingTask;
 import ru.didim99.tstu.core.modeling.Result;
-import ru.didim99.tstu.core.modeling.StaticProcessor;
 import ru.didim99.tstu.core.optimization.math.PointD;
 import ru.didim99.tstu.utils.MyLog;
 
@@ -59,7 +59,7 @@ public class ModelingActivity extends BaseActivity
         legend.setAlign(LegendRenderer.LegendAlign.TOP);
         spVariable.setAdapter(new ArrayAdapter<>(
           this, android.R.layout.simple_list_item_1,
-          StaticProcessor.getVarList()));
+          Functions.getVarList()));
         break;
     }
 
