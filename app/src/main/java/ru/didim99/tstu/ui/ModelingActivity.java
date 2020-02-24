@@ -55,6 +55,7 @@ public class ModelingActivity extends BaseActivity
 
     switch (type) {
       case Config.TaskType.STATIC_CURVE:
+      case Config.TaskType.DYNAMIC_CURVE:
         LegendRenderer legend = graphView.getLegendRenderer();
         legend.setAlign(LegendRenderer.LegendAlign.TOP);
         spVariable.setAdapter(new ArrayAdapter<>(
@@ -115,6 +116,7 @@ public class ModelingActivity extends BaseActivity
 
     switch (type) {
       case Config.TaskType.STATIC_CURVE:
+      case Config.TaskType.DYNAMIC_CURVE:
         config.setVariable(spVariable.getSelectedItemPosition());
         break;
     }
@@ -157,6 +159,7 @@ public class ModelingActivity extends BaseActivity
 
     switch (type) {
       case Config.TaskType.STATIC_CURVE:
+      case Config.TaskType.DYNAMIC_CURVE:
         tvOut.setText(taskResult.getDescription());
         BaseSeries<PointD> series = (BaseSeries<PointD>) taskResult.getSeries();
         series.setColor(getResources().getColor(R.color.graph0));

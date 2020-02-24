@@ -18,18 +18,18 @@ public class Functions {
   private static final double P1    = 7600;   // kg/m^2
 
   // Input variables
-  static Variable[] vars = new Variable[] {
+  public static Variable[] vars = new Variable[] {
     new Variable("cIn", 0.08, 0.06, 0.10, 0.004, 0.03),
     new Variable("mIn", 4.0, 4.0, 6.0, 0.2, 3.0),
     new Variable("tIn", 130.0, 122.0, 140.0, 0.5, 13.0)
   };
 
   // Values definition: cIn, mIn, tIn
-  static FunctionRN cOutStatic = in ->
+  public static FunctionRN cOutStatic = in ->
     in.get(1) * in.get(0) / (in.get(1) + kT * F * (in.get(2) - tR) / (cT * tR - r));
 
   // Values definition: mIn, mSec
-  static FunctionRN MStatic = in ->
+  public static FunctionRN MStatic = in ->
     S * (Math.pow((in.get(0) - in.get(1)) / sigma, 2) + P1 - P0);
 
   public static String[] getVarList() {

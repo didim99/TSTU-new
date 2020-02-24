@@ -693,6 +693,7 @@
   <string name="modeling_dynamicCurve">Динамические характеристики</string>
   <string-array name="modeling_taskTypes">
     <item>@string/modeling_staticCurve</item>
+    <item>@string/modeling_dynamicCurve</item>
   </string-array>
   <string name="modeling_variable">Зависимость</string>
   <!-- Information theory -->

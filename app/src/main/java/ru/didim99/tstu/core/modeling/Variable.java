@@ -3,7 +3,7 @@ package ru.didim99.tstu.core.modeling;
 /**
  * Created by didim99 on 24.02.20.
  */
-class Variable {
+public class Variable {
   private String name;
   private double defaultValue;
   private double minValue, maxValue;
@@ -20,27 +20,27 @@ class Variable {
     this.delta = delta;
   }
 
-  String getName() {
+  public String getName() {
     return name;
   }
 
-  double getDefaultValue() {
+  public double getDefaultValue() {
     return defaultValue;
   }
 
-  double getMinValue() {
+  public double getMinValue() {
     return minValue;
   }
 
-  double getMaxValue() {
+  public double getMaxValue() {
     return maxValue;
   }
 
-  double getStep() {
+  public double getStep() {
     return step;
   }
 
-  double getDelta() {
+  public double getDelta() {
     return delta;
   }
 }
