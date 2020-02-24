@@ -1,6 +1,5 @@
 package ru.didim99.tstu.core.modeling.processor;
 
-import java.util.ArrayList;
 import ru.didim99.tstu.core.modeling.Functions;
 import ru.didim99.tstu.core.optimization.math.FunctionRN;
 import ru.didim99.tstu.core.optimization.math.PointD;
@@ -19,7 +18,6 @@ public class StaticProcessor extends VariableProcessor {
 
   @Override
   public void process() {
-    series = new ArrayList<>();
     PointD p = new PointD(Functions.vars.length);
     for (int i = 0; i < p.size(); i++) {
       if (i == variableId) p.set(i, var.getMinValue());

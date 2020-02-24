@@ -12,6 +12,7 @@ import ru.didim99.tstu.core.optimization.math.PointD;
  * Created by didim99 on 24.02.20.
  */
 public abstract class VariableProcessor {
+  private static final int MAX_SERIES_VISIBLE = 500;
 
   int variableId;
   Variable var;
@@ -20,11 +21,22 @@ public abstract class VariableProcessor {
   VariableProcessor(int variableId) {
     this.variableId = variableId;
     this.var = Functions.vars[variableId];
+    this.series = new ArrayList<>();
   }
 
   public Series<PointD> getSeries() {
     LineGraphSeries<PointD> series = new LineGraphSeries<>();
-    series.resetData(this.series.toArray(new PointD[0]));
+
+    if (this.series.size() <= MAX_SERIES_VISIBLE)
+      series.resetData(this.series.toArray(new PointD[0]));
+    else {
+      int step = this.series.size() / 500;
+      for (int pos = 0; pos < this.series.size(); pos += step) {
+        series.appendData(this.series.get(pos),
+          false, 500);
+      }
+    }
+
     series.setTitle(var.getName());
     return series;
   }
