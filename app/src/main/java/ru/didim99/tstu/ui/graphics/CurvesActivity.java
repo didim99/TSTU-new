@@ -133,6 +133,6 @@ public class CurvesActivity extends AnimationActivity {
     MyLog.d(LOG_TAG, "Curve type changed: " + type);
     ((CurveRenderer) renderer).setCurveType(type);
     cbSyncControls.setEnabled(renderer.getConfig()
-      .getCurve().hasControlPoints());
+      .getCurve().getBuilder().hasControlPoints());
   }
 }

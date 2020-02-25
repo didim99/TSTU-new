@@ -7,7 +7,7 @@ import ru.didim99.tstu.utils.Utils;
 /**
  * Created by didim99 on 20.02.20.
  */
-public class BezierBuilder extends Builder {
+public class BezierBuilder extends BaseBuilder {
 
   public BezierBuilder(Curve curve) {
     super(curve);

@@ -7,7 +7,7 @@ import ru.didim99.tstu.core.graphics.curve.Point;
 /**
  * Created by didim99 on 20.02.20.
  */
-public class LagrangeBuilder extends Builder {
+public class LagrangeBuilder extends BaseBuilder {
 
   public LagrangeBuilder(Curve curve) {
     super(curve);

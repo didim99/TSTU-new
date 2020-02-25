@@ -3,8 +3,10 @@ package ru.didim99.tstu.core.graphics.curve;
 import android.graphics.PointF;
 import java.util.ArrayList;
 import java.util.Collections;
+import ru.didim99.tstu.core.graphics.curve.builder.BaseBuilder;
 import ru.didim99.tstu.core.graphics.curve.builder.BezierBuilder;
-import ru.didim99.tstu.core.graphics.curve.builder.Builder;
+import ru.didim99.tstu.core.graphics.curve.builder.ControlPointBuilder;
+import ru.didim99.tstu.core.graphics.curve.builder.CubicBezierBuilder;
 import ru.didim99.tstu.core.graphics.curve.builder.HermiteBuilder;
 import ru.didim99.tstu.core.graphics.curve.builder.LagrangeBuilder;
 
@@ -14,9 +16,10 @@ import ru.didim99.tstu.core.graphics.curve.builder.LagrangeBuilder;
 public class Curve {
 
   private static final class Type {
-    private static final int LAGRANGE  = 0;
-    private static final int BEZIER    = 1;
-    private static final int HERMITE   = 2;
+    private static final int LAGRANGE     = 0;
+    private static final int BEZIER       = 1;
+    private static final int HERMITE      = 2;
+    private static final int CUBIC_BEZIER = 3;
   }
 
   private int type;
@@ -26,7 +29,7 @@ public class Curve {
   private ArrayList<Point> basePoints;
   private ArrayList<Point> controlPoints;
   private Point activePoint;
-  private Builder builder;
+  private BaseBuilder builder;
 
   public Curve() {
     this.drawPoints = true;
@@ -67,16 +70,12 @@ public class Curve {
     return syncControls;
   }
 
-  public Builder getBuilder() {
+  public BaseBuilder getBuilder() {
     return builder;
   }
 
   public boolean isEmpty() {
     return basePoints.isEmpty();
-  }
-
-  public boolean hasControlPoints() {
-    return type == Type.HERMITE;
   }
 
   public void setType(int type) {
@@ -85,6 +84,7 @@ public class Curve {
       case Type.LAGRANGE: builder = new LagrangeBuilder(this); break;
       case Type.BEZIER: builder = new BezierBuilder(this); break;
       case Type.HERMITE: builder = new HermiteBuilder(this); break;
+      case Type.CUBIC_BEZIER: builder = new CubicBezierBuilder(this); break;
     }
 
     onPointsChanged(false);
@@ -123,7 +123,7 @@ public class Curve {
     int removeIndex = getPointIndex(basePoints, position);
     if (removeIndex >= 0) {
       Point point = basePoints.remove(removeIndex);
-      if (hasControlPoints()) {
+      if (builder.hasControlPoints()) {
         controlPoints.removeAll(point.getControls());
         onPointsChanged(false);
       }
@@ -133,7 +133,7 @@ public class Curve {
   public boolean checkPoint(PointF position, boolean baseOnly) {
     for (Point point : basePoints)
       if (point.near(position)) return true;
-    if (hasControlPoints() && !baseOnly) {
+    if (builder.hasControlPoints() && !baseOnly) {
       for (Point point : controlPoints)
         if (point.near(position)) return true;
     }
@@ -164,8 +164,8 @@ public class Curve {
   private void onPointsChanged(boolean movedOnly) {
     if (type == Type.LAGRANGE) {
       Collections.sort(basePoints, Point::compareX);
-    } else if (!movedOnly && type == Type.HERMITE) {
-      ((HermiteBuilder) builder).computeArms();
+    } else if (!movedOnly && builder.hasControlPoints()) {
+      ((ControlPointBuilder) builder).computeArms();
     }
   }
 
@@ -176,7 +176,7 @@ public class Curve {
       activePoint = null;
     } else {
       activePoint = getPoint(basePoints, position);
-      if (activePoint == null && hasControlPoints())
+      if (activePoint == null && builder.hasControlPoints())
         activePoint = getPoint(controlPoints, position);
       if (activePoint != null)
         activePoint.setActive(true);
@@ -186,7 +186,7 @@ public class Curve {
   public void moveActivePoint(PointF position) {
     synchronized (renderLock) {
       if (activePoint.isControlPoint())
-        ((HermiteBuilder) builder).moveControlPoint(activePoint, position);
+        ((ControlPointBuilder) builder).moveControlPoint(activePoint, position);
       else activePoint.moveTo(position);
       onPointsChanged(true);
     }

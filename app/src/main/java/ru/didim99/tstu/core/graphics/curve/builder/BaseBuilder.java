@@ -8,7 +8,7 @@ import ru.didim99.tstu.core.graphics.curve.Point;
 /**
  * Created by didim99 on 20.02.20.
  */
-public abstract class Builder {
+public abstract class BaseBuilder {
   static final float T_MIN = 0f;
   static final float T_MAX = 1f;
   static final int STEP_POINTS = 1000;
@@ -23,7 +23,7 @@ public abstract class Builder {
   private float[] framePuffer;
   private float[] armBuffer;
 
-  public Builder(Curve curve) {
+  BaseBuilder(Curve curve) {
     this.curve = curve;
     this.renderLock = curve.getRenderLock();
     this.basePoints = curve.getBasePoints();
@@ -31,7 +31,7 @@ public abstract class Builder {
     this.pointsPuffer = new float[BUFFER_SIZE];
     this.factorBuffer = new float[0];
     this.framePuffer = new float[0];
-    if (curve.hasControlPoints())
+    if (hasControlPoints())
       this.armBuffer = new float[0];
     checkBuffers();
   }
@@ -56,6 +56,10 @@ public abstract class Builder {
     return controlPoints.size() * 4;
   }
 
+  public boolean hasControlPoints() {
+    return false;
+  }
+
   public void checkBuffers() {
     int bufferSize = basePoints.size();
     if (factorBuffer.length < bufferSize)
@@ -73,7 +77,7 @@ public abstract class Builder {
   }
 
   public void checkArmBuffer() {
-    if (curve.hasControlPoints() && curve.isDrawPoints()) {
+    if (hasControlPoints() && curve.isDrawPoints()) {
       int frameSize = getArmBufferSize();
       if (armBuffer.length < frameSize)
         armBuffer = new float[frameSize];
