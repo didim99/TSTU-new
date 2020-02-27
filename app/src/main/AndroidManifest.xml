@@ -209,7 +209,10 @@
       android:label="@string/iTheory_informationCount"/>
     <activity
       android:name=".ui.itheory.RLEActivity"
-      android:label="@string/iTheory_compRLE"/>
+      android:label="@string/iTheory_compImage"/>
+    <activity
+      android:name=".ui.itheory.CompressionActivity"
+      android:label="@string/iTheory_compText"/>
 
     <activity
       android:name=".ui.dirpicker.DirPickerActivity"

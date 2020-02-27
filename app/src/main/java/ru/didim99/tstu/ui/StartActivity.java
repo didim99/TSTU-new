@@ -16,6 +16,7 @@ import ru.didim99.tstu.ui.graphics.ShadingActivity;
 import ru.didim99.tstu.ui.graphics.TexturesActivity;
 import ru.didim99.tstu.ui.graphics.TransformActivity;
 import ru.didim99.tstu.ui.itheory.AlphabetActivity;
+import ru.didim99.tstu.ui.itheory.CompressionActivity;
 import ru.didim99.tstu.ui.itheory.RLEActivity;
 import ru.didim99.tstu.ui.math.CAActivity;
 import ru.didim99.tstu.ui.math.MathStatActivity;
@@ -51,7 +52,8 @@ public class StartActivity extends AppCompatActivity {
   private static final Class[] IS_TARGET =
     { TransmitActivity.class };
   private static final Class[] ITHEORY_TARGET =
-    { AlphabetActivity.class, RLEActivity.class };
+    { AlphabetActivity.class, RLEActivity.class,
+      CompressionActivity.class };
   private static final Class[] GEOMETRY_TARGET =
     { CurvesActivity.class };
 

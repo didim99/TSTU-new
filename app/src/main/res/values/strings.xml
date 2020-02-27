@@ -700,10 +700,12 @@
   <string name="startITheory">Теория информации</string>
   <string name="sectionITheory">Основы теории информации</string>
   <string name="iTheory_informationCount">Измерение объема информации</string>
-  <string name="iTheory_compRLE">Алгоритм сжатия RLE</string>
+  <string name="iTheory_compImage">Сжатие изображений. RLE</string>
+  <string name="iTheory_compText">Huffman и арифметическое корирование</string>
   <string-array name="iTheory_taskTypes">
     <item>@string/iTheory_informationCount</item>
-    <item>@string/iTheory_compRLE</item>
+    <item>@string/iTheory_compImage</item>
+    <item>@string/iTheory_compText</item>
   </string-array>
   <string name="iTheory_alphabetType">Алфавит</string>
   <string name="iTheory_message">Сообщение</string>
@@ -749,6 +751,11 @@
   <string name="iTheory_event_testingCopyDeleted">Временный файл удален</string>
   <string name="iTheory_event_testSuccessful">Тестирование завернено. Степень сжатия: %.1f%%</string>
   <string name="iTheory_event_testFailed">Тестирование завернено с ошибкой</string>
+  <string name="iTheory_compressionMethod">Метод сжатия</string>
+  <string-array name="iTheory_compressionMethods">
+    <item>Huffman</item>
+    <item>Арифметическое кодирование</item>
+  </string-array>
   <!-- Geometry modeling -->
   <string name="startGeometry">Геом. моделирование</string>
   <string name="sectionGeometry">Геометрическое моделирование</string>
