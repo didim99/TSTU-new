@@ -30,6 +30,7 @@
     <activity
       android:name=".ui.TranslatorActivity"
       android:label="@string/startTranslator"/>
+
     <activity
       android:name=".ui.NumericActivity"
       android:label="@string/startNumeric"/>
@@ -206,7 +207,6 @@
     <activity
       android:name=".ui.itheory.AlphabetActivity"
       android:label="@string/iTheory_informationCount"/>
-
     <activity
       android:name=".ui.itheory.RLEActivity"
       android:label="@string/iTheory_compRLE"/>

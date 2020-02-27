@@ -13,8 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.io.File;
 import ru.didim99.tstu.R;
-import ru.didim99.tstu.core.itheory.Image;
-import ru.didim99.tstu.core.itheory.ImageProcessor;
+import ru.didim99.tstu.core.itheory.image.Image;
+import ru.didim99.tstu.core.itheory.image.ImageProcessor;
 import ru.didim99.tstu.ui.BaseActivity;
 import ru.didim99.tstu.ui.view.DrawerView;
 import ru.didim99.tstu.utils.InputValidator;
@@ -45,7 +45,7 @@ public class RLEActivity extends BaseActivity
   protected void onCreate(Bundle savedInstanceState) {
     MyLog.d(LOG_TAG, "RLEActivity creating...");
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.act_image_compression);
+    setContentView(R.layout.act_compression_image);
 
     MyLog.d(LOG_TAG, "View components init...");
     etSizeX = findViewById(R.id.etSizeX);
