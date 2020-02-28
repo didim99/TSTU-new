@@ -751,6 +751,10 @@
   <string name="iTheory_event_testingCopyDeleted">Временный файл удален</string>
   <string name="iTheory_event_testSuccessful">Тестирование завернено. Степень сжатия: %.1f%%</string>
   <string name="iTheory_event_testFailed">Тестирование завернено с ошибкой</string>
+  <string name="iTheory_sectionSettings">Управление</string>
+  <string name="iTheory_sectionInMsg">Исходное сообщение</string>
+  <string name="iTheory_sectionOutMsg">Выходное сообщение</string>
+  <string name="iTheory_sectionInfo">Информация о кодере</string>
   <string name="iTheory_compressionMethod">Метод сжатия</string>
   <string-array name="iTheory_compressionMethods">
     <item>Huffman</item>
