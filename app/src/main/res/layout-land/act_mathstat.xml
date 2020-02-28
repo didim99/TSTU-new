@@ -11,7 +11,8 @@
     android:layout_height="wrap_content"
     android:text="@string/mathStat_inputData"
     android:textSize="@dimen/textSize_main"
-    android:textAlignment="center"/>
+    android:textAlignment="center"
+    android:gravity="center" />
 
   <TextView
     android:id="@+id/tvInputX"

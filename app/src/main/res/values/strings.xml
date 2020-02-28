@@ -753,13 +753,15 @@
   <string name="iTheory_event_testFailed">Тестирование завернено с ошибкой</string>
   <string name="iTheory_sectionSettings">Управление</string>
   <string name="iTheory_sectionInMsg">Исходное сообщение</string>
-  <string name="iTheory_sectionOutMsg">Выходное сообщение</string>
+  <string name="iTheory_sectionOutMsg">Сжатое сообщение</string>
   <string name="iTheory_sectionInfo">Информация о кодере</string>
   <string name="iTheory_compressionMethod">Метод сжатия</string>
   <string-array name="iTheory_compressionMethods">
     <item>Huffman</item>
     <item>Арифметическое кодирование</item>
   </string-array>
+  <string name="iTheory_inputMessage">Введите сообщение</string>
+  <string name="iTheory_loadFromFile">Загрузить из файла</string>
   <!-- Geometry modeling -->
   <string name="startGeometry">Геом. моделирование</string>
   <string name="sectionGeometry">Геометрическое моделирование</string>

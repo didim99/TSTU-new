@@ -45,6 +45,7 @@
     android:maxWidth="@dimen/valueBreCircle_containerSize"
     android:paddingTop="@dimen/valueBreCircle_valuePadding"
     android:textSize="@dimen/valueBreCircle_txtSizeSub"
-    android:textAlignment="center"/>
+    android:textAlignment="center"
+    android:gravity="center" />
 
 </LinearLayout>

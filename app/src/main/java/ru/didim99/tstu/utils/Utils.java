@@ -158,9 +158,10 @@ public class Utils {
     MyLog.d(LOG_TAG, "Writing: " + fileName);
     File file = new File(fileName);
     BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-    for (String line : data) {
-      writer.append(line);
-      writer.newLine();
+    int last = data.size() - 1;
+    for (int i = 0; i <= last; i++) {
+      writer.append(data.get(i));
+      if (i < last) writer.newLine();
     }
     writer.close();
     MyLog.d(LOG_TAG, "Writing completed (" + file.length() + ")");

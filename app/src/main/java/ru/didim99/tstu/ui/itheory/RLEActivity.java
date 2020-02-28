@@ -89,6 +89,7 @@ public class RLEActivity extends BaseActivity
 
   @Override
   public Object onRetainCustomNonConfigurationInstance() {
+    processor.setStateChangeListener(null);
     return processor;
   }
 

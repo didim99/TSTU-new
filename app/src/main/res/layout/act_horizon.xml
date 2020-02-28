@@ -45,7 +45,8 @@
       android:layout_marginTop="10dp"
       android:text="@string/graphics_parameters"
       android:textSize="@dimen/textSize_main"
-      android:textAlignment="center"/>
+      android:textAlignment="center"
+      android:gravity="center"/>
 
     <ru.didim99.tstu.ui.view.RangeBar
       android:id="@+id/rbAlpha"

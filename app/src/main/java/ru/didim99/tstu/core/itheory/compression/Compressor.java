@@ -7,6 +7,24 @@ import java.util.Map;
  * Created by didim99 on 28.02.20.
  */
 public abstract class Compressor {
+  public static final String EXT_SEP = ".";
+  public static final String EXT_UNC = ".txt";
+  public static final String EXT_COMP = ".dat";
+
+  static final class Type {
+    static final int HUFFMAN = 0;
+    static final int ARITHMETIC = 1;
+  }
+
+  String compressed, info;
+
+  public String getCompressed() {
+    return compressed;
+  }
+
+  public String getInfo() {
+    return info;
+  }
 
   Map<Character, Integer> getFrequency(String data) {
     Map<Character, Integer> frequency = new HashMap<>();

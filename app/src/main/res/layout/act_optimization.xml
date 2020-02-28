@@ -16,7 +16,8 @@
       android:layout_height="wrap_content"
       android:layout_weight="6"
       android:textSize="@dimen/textSize_large"
-      android:textAlignment="center"/>
+      android:textAlignment="center"
+      android:gravity="center" />
 
     <Button
       android:id="@+id/btnStart"
