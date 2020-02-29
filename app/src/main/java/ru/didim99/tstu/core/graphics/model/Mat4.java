@@ -48,6 +48,13 @@ public class Mat4 {
     data[i*4 + j] = v;
   }
 
+  public Mat4 multiply(double v) {
+    Mat4 res = new Mat4(this);
+    for (int i = 0; i < SIZE; i++)
+      res.data[i] *= v;
+    return res;
+  }
+
   public void multiply(Mat4 m) {
     Mat4 res = new Mat4();
     for (int i = 0; i < N; i++) {

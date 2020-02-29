@@ -775,6 +775,8 @@
     <item>Безье</item>
     <item>Эрмита</item>
     <item>Куб. Безье</item>
+    <item>B-сплайн^2</item>
+    <item>B-сплайн^3</item>
   </string-array>
   <string name="geometry_curvePoints">Рисовать точки</string>
   <string name="geometry_curveFrame">Рисовать каркас</string>

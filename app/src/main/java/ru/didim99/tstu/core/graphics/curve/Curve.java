@@ -3,6 +3,8 @@ package ru.didim99.tstu.core.graphics.curve;
 import android.graphics.PointF;
 import java.util.ArrayList;
 import java.util.Collections;
+import ru.didim99.tstu.core.graphics.curve.builder.BSpline2Builder;
+import ru.didim99.tstu.core.graphics.curve.builder.BSpline3Builder;
 import ru.didim99.tstu.core.graphics.curve.builder.BaseBuilder;
 import ru.didim99.tstu.core.graphics.curve.builder.BezierBuilder;
 import ru.didim99.tstu.core.graphics.curve.builder.ControlPointBuilder;
@@ -20,6 +22,8 @@ public class Curve {
     private static final int BEZIER       = 1;
     private static final int HERMITE      = 2;
     private static final int CUBIC_BEZIER = 3;
+    private static final int B_SPLINE2    = 4;
+    private static final int B_SPLINE3    = 5;
   }
 
   private int type;
@@ -85,6 +89,8 @@ public class Curve {
       case Type.BEZIER: builder = new BezierBuilder(this); break;
       case Type.HERMITE: builder = new HermiteBuilder(this); break;
       case Type.CUBIC_BEZIER: builder = new CubicBezierBuilder(this); break;
+      case Type.B_SPLINE2: builder = new BSpline2Builder(this); break;
+      case Type.B_SPLINE3: builder = new BSpline3Builder(this); break;
     }
 
     onPointsChanged(false);
