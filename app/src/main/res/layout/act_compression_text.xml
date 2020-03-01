@@ -77,8 +77,7 @@
         android:layout_weight="1"
         android:gravity="top"
         android:hint="@string/iTheory_inputMessage"
-        android:inputType="textMultiLine"
-        android:lines="3"/>
+        android:inputType="textMultiLine"/>
 
       <LinearLayout
         android:layout_width="match_parent"

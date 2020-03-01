@@ -50,11 +50,10 @@ public class HuffmanCompressor extends Compressor {
       }
     }
 
-    int origSize = data.getBytes(Charset.defaultCharset()).length;
     int compSize = dataBuffer.size() / 8;
     int compSizeTree = buffer.size();
 
-    describe(infoBuilder, origSize, compSize, compSizeTree, table);
+    describe(infoBuilder, data, compSize, compSizeTree, table);
     compressed = msgBuilder.toString().trim();
     info = infoBuilder.toString().trim();
     return buffer.toByteArray();
@@ -103,15 +102,17 @@ public class HuffmanCompressor extends Compressor {
     }
 
     String message = outBuilder.toString();
-    int origSize = message.getBytes(Charset.defaultCharset()).length;
-    describe(infoBuilder, origSize, compSize, compSizeTree, table);
+    describe(infoBuilder, message, compSize, compSizeTree, table);
     compressed = msgBuilder.toString().trim();
     info = infoBuilder.toString().trim();
     return message;
   }
 
-  private static void describe(StringBuilder sb, int origSize, int compSize,
+  private static void describe(StringBuilder sb, String message, int compSize,
                                  int compSizeTree, HuffmanCharTable table) {
+    int origSize = message.getBytes(Charset.defaultCharset()).length;
+    sb.append(String.format(Locale.US,
+      "Message length: %d characters\n", message.length()));
     sb.append(String.format(Locale.US,
       "Original size: %d bytes\n", origSize));
     sb.append(String.format(Locale.US,

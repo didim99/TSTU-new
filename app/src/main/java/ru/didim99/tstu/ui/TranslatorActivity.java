@@ -1,8 +1,5 @@
 package ru.didim99.tstu.ui;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -74,8 +71,8 @@ public class TranslatorActivity extends BaseActivity
     btnSyntax.setOnClickListener(v -> saTypeDialog());
     btnSymbol.setOnClickListener(v -> startTask(Translator.Mode.SYMBOLS));
     btnTranslate.setOnClickListener(v -> startTask(Translator.Mode.FULL));
-    tvSrc.setOnLongClickListener(v -> copyToClipboard(tvSrc.getText()));
-    tvOut.setOnLongClickListener(v -> copyToClipboard(tvOut.getText()));
+    tvSrc.setOnLongClickListener(v -> Utils.copyToClipboard(this, tvSrc.getText()));
+    tvOut.setOnLongClickListener(v -> Utils.copyToClipboard(this, tvOut.getText()));
     MyLog.d(LOG_TAG, "TranslatorActivity started");
   }
 
@@ -154,19 +151,6 @@ public class TranslatorActivity extends BaseActivity
       task.registerEventListener(this);
       task.execute(new Translator.Config(mode, saType, path, true));
     }
-  }
-
-  private boolean copyToClipboard(CharSequence text) {
-    ClipboardManager cbm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-    ClipData data = ClipData.newPlainText(null, text);
-
-    if (cbm != null) {
-      cbm.setPrimaryClip(data);
-      toastMsg.setText(R.string.copiedToClipboard);
-      toastMsg.show();
-    }
-
-    return false;
   }
 
   private void saTypeDialog() {

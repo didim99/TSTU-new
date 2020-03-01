@@ -20,6 +20,7 @@ import ru.didim99.tstu.ui.dirpicker.DirPickerActivity;
 import ru.didim99.tstu.ui.utils.SpinnerAdapter;
 import ru.didim99.tstu.utils.InputValidator;
 import ru.didim99.tstu.utils.MyLog;
+import ru.didim99.tstu.utils.Utils;
 
 /**
  * Created by didim99 on 27.02.20.
@@ -60,6 +61,7 @@ public class CompressionActivity extends BaseActivity
     btnStart.setOnClickListener(v -> startCoder());
     tvIn.setOnLongClickListener(v -> saveToFile(v, false));
     tvOut.setOnLongClickListener(v -> saveToFile(v, true));
+    tvInfo.setOnLongClickListener(v -> Utils.copyToClipboard(this, tvInfo.getText()));
     MyLog.d(LOG_TAG, "View components init completed");
 
     MyLog.d(LOG_TAG, "Connecting ImageProcessor...");

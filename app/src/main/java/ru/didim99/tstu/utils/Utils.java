@@ -1,10 +1,14 @@
 package ru.didim99.tstu.utils;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.support.annotation.RawRes;
+import android.widget.Toast;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
@@ -22,6 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+
+import ru.didim99.tstu.R;
 
 /**
  * Created by didim99 on 10.09.18.
@@ -213,6 +219,19 @@ public class Utils {
     }
 
     return dstPath;
+  }
+
+  public static boolean copyToClipboard(Context context, CharSequence text) {
+    ClipboardManager cbm = (ClipboardManager)
+      context.getSystemService(Context.CLIPBOARD_SERVICE);
+    ClipData data = ClipData.newPlainText(null, text);
+
+    if (cbm != null) {
+      cbm.setPrimaryClip(data);
+      Toast.makeText(context, R.string.copiedToClipboard, Toast.LENGTH_SHORT).show();
+      return true;
+    } else
+      return false;
   }
 
   /* ======== COLOR UTILS ======== */
