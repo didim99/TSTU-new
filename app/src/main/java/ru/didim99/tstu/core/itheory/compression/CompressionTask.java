@@ -14,6 +14,7 @@ class CompressionTask extends CallbackTask<CompressionTask.Action, Boolean> {
   enum Action { LOAD_FILE, SAVE_FILE, PROCESS }
 
   private CompressionManager manager;
+  private String error;
 
   CompressionTask(Context context, CompressionManager manager) {
     super(context);
@@ -27,7 +28,8 @@ class CompressionTask extends CallbackTask<CompressionTask.Action, Boolean> {
         case LOAD_FILE:
           String inFile = manager.getInFile();
           if (inFile.endsWith(Compressor.EXT_UNC))
-            manager.setFileMessage(Utils.joinStr("\n", Utils.readFile(inFile)));
+            manager.setFileMessage(Utils.joinStr(
+              "\n", Utils.readFile(inFile, true)));
           else if (inFile.endsWith(Compressor.EXT_COMP))
             manager.setFileData(Utils.readFileRaw(inFile));
           else throw new IOException("Unsupported file type ("
@@ -46,11 +48,20 @@ class CompressionTask extends CallbackTask<CompressionTask.Action, Boolean> {
           break;
       }
     } catch (IOException e) {
-      Toast.makeText(appContext.get(), e.toString(),
-        Toast.LENGTH_LONG).show();
+      error = e.toString();
       return false;
     }
 
     return true;
+  }
+
+  @Override
+  protected void onPostExecute(Void res) {
+    if (error != null) {
+      Toast.makeText(appContext.get(),
+        error, Toast.LENGTH_LONG).show();
+    }
+
+    super.onPostExecute(res);
   }
 }

@@ -2,6 +2,8 @@ package ru.didim99.tstu.core.itheory.compression;
 
 import android.content.Context;
 import java.io.File;
+import java.io.IOException;
+
 import ru.didim99.tstu.core.CallbackTask;
 
 /**
@@ -91,6 +93,7 @@ public class CompressionManager implements CallbackTask.EventListener<Boolean> {
     this.inFileName = inFileName.substring(0,
       inFileName.lastIndexOf(Compressor.EXT_SEP));
     startTask(CompressionTask.Action.LOAD_FILE);
+    this.compressor.clearBuffers();
   }
 
   public void saveToFile(String path) {
@@ -104,7 +107,7 @@ public class CompressionManager implements CallbackTask.EventListener<Boolean> {
     startTask(CompressionTask.Action.PROCESS);
   }
 
-  public void process() {
+  public void process() throws IOException {
     if (message != null && !message.isEmpty())
       fileData = compressor.compress(message);
     else if (fileData != null && fileData.length > 0)

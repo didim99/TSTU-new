@@ -126,7 +126,7 @@ public class Utils {
 
   /* ======== FILE UTILS =========== */
 
-  public static ArrayList<String> readFile(String fileName)
+  public static ArrayList<String> readFile(String fileName, boolean raw)
     throws IOException {
     MyLog.d(LOG_TAG, "Reading: " + fileName);
     File file = new File(fileName);
@@ -135,9 +135,14 @@ public class Utils {
     ArrayList<String> data = new ArrayList<>();
     String line;
     while ((line = reader.readLine()) != null)
-      if (!line.isEmpty()) data.add(line);
+      if (!line.isEmpty() || raw) data.add(line);
     MyLog.d(LOG_TAG, "Reading completed");
     return data;
+  }
+
+  public static ArrayList<String> readFile(String fileName)
+    throws IOException {
+    return readFile(fileName, false);
   }
 
   public static byte[] readFileRaw(String fileName)

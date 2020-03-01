@@ -32,9 +32,12 @@ public class CompressionActivity extends BaseActivity
   protected static final int REQUEST_SAVE_COMP = 4;
 
   // View elements
+  private Spinner spMethod;
   private EditText etMessage;
+  private Button btnLoad, btnStart;
   private TextView tvIn, tvOut;
   private TextView tvInfo;
+  private View pbMain;
   // Workflow
   private CompressionManager manager;
 
@@ -45,13 +48,14 @@ public class CompressionActivity extends BaseActivity
     setContentView(R.layout.act_compression_text);
 
     MyLog.d(LOG_TAG, "View components init...");
-    Button btnLoad = findViewById(R.id.btnLoad);
-    Button btnStart = findViewById(R.id.btnStart);
-    Spinner spMethod = findViewById(R.id.spMethod);
+    btnLoad = findViewById(R.id.btnLoad);
+    btnStart = findViewById(R.id.btnStart);
+    spMethod = findViewById(R.id.spMethod);
     etMessage = findViewById(R.id.etMessage);
     tvIn = findViewById(R.id.tvInMsg);
     tvOut = findViewById(R.id.tvOutMsg);
     tvInfo = findViewById(R.id.tvInfo);
+    pbMain = findViewById(R.id.pbMain);
     btnLoad.setOnClickListener(v -> openFile());
     btnStart.setOnClickListener(v -> startCoder());
     tvIn.setOnLongClickListener(v -> saveToFile(v, false));
@@ -91,6 +95,7 @@ public class CompressionActivity extends BaseActivity
           switch (requestCode) {
             case REQUEST_GET_FILE:
               MyLog.d(LOG_TAG, "Loading item: " + path);
+              etMessage.setText(null);
               manager.loadFile(path);
               break;
             case REQUEST_SAVE_UNC:
@@ -116,13 +121,15 @@ public class CompressionActivity extends BaseActivity
   @Override
   public void onCompressionEvent(CompressionManager.Event event) {
     switch (event) {
-      case TYPE_CHANGED:
       case OPERATION_START:
+        uiLock(true);
+      case TYPE_CHANGED:
         tvInfo.setText(null);
         tvIn.setText(null);
         tvOut.setText(null);
         break;
       case OPERATION_END:
+        uiLock(false);
         tvIn.setText(manager.getMessage());
         tvOut.setText(manager.getCompressor().getCompressed());
         tvInfo.setText(manager.getCompressor().getInfo());
@@ -133,6 +140,25 @@ public class CompressionActivity extends BaseActivity
   private void startCoder() {
     manager.setMessage(etMessage.getText().toString());
     manager.start();
+  }
+
+  private void uiLock(boolean state) {
+    if (state) MyLog.d(LOG_TAG, "Locking UI...");
+    else MyLog.d(LOG_TAG, "Unlocking UI...");
+
+    uiLocked = state;
+    spMethod.setEnabled(!state);
+    etMessage.setEnabled(!state);
+    btnLoad.setEnabled(!state);
+    btnStart.setEnabled(!state);
+
+    if (state) {
+      pbMain.setVisibility(View.VISIBLE);
+      MyLog.d(LOG_TAG, "UI locked");
+    } else {
+      pbMain.setVisibility(View.INVISIBLE);
+      MyLog.d(LOG_TAG, "UI unlocked");
+    }
   }
 
   protected boolean saveToFile(View v, boolean compressed) {
@@ -168,8 +194,8 @@ public class CompressionActivity extends BaseActivity
       InputValidator iv = InputValidator.getInstance();
       String name = iv.checkEmptyStr(dialog.findViewById(R.id.etInput),
         R.string.errTI_emptyFilename, "filename");
-      path = path.concat(File.separator).concat(name).concat(Compressor.EXT_SEP)
-        .concat(compress ? Compressor.EXT_COMP : Compressor.EXT_UNC);
+      path = path.concat(File.separator).concat(name).concat(
+        compress ? Compressor.EXT_COMP : Compressor.EXT_UNC);
       manager.saveToFile(path);
       dialog.dismiss();
     } catch (InputValidator.ValidationException ignored) {}

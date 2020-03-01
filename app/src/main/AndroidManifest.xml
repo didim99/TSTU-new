@@ -212,7 +212,8 @@
       android:label="@string/iTheory_compImage"/>
     <activity
       android:name=".ui.itheory.CompressionActivity"
-      android:label="@string/iTheory_compText"/>
+      android:label="@string/iTheory_compText"
+      android:windowSoftInputMode="adjustNothing|stateAlwaysHidden"/>
 
     <activity
       android:name=".ui.dirpicker.DirPickerActivity"

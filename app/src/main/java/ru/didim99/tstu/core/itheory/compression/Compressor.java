@@ -1,5 +1,6 @@
 package ru.didim99.tstu.core.itheory.compression;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,7 +8,7 @@ import java.util.Map;
  * Created by didim99 on 28.02.20.
  */
 public abstract class Compressor {
-  public static final String EXT_SEP = ".";
+  static final String EXT_SEP = ".";
   public static final String EXT_UNC = ".txt";
   public static final String EXT_COMP = ".dat";
 
@@ -26,6 +27,11 @@ public abstract class Compressor {
     return info;
   }
 
+  void clearBuffers() {
+    compressed = null;
+    info = null;
+  }
+
   Map<Character, Integer> getFrequency(String data) {
     Map<Character, Integer> frequency = new HashMap<>();
     for (char c : data.toCharArray()) {
@@ -37,6 +43,6 @@ public abstract class Compressor {
     return frequency;
   }
 
-  public abstract byte[] compress(String data);
-  public abstract String decompress(byte[] data);
+  public abstract byte[] compress(String data) throws IOException;
+  public abstract String decompress(byte[] data) throws IOException;
 }
