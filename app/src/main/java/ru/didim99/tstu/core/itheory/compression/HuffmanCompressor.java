@@ -5,10 +5,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Locale;
 import ru.didim99.tstu.core.itheory.compression.utils.HuffmanCharTable;
 import ru.didim99.tstu.core.itheory.compression.utils.HuffmanTreeEntry;
 
@@ -74,7 +72,7 @@ public class HuffmanCompressor extends Compressor {
     if (!Arrays.equals(header, HEADER))
       throw new IOException("Invalid file header");
 
-    HuffmanCharTable table = HuffmanCharTable.readFrom(stream);
+    HuffmanCharTable table = new HuffmanCharTable(stream);
     int totalLength = stream.readInt();
     int compSize = buffer.available();
 
@@ -106,30 +104,5 @@ public class HuffmanCompressor extends Compressor {
     compressed = msgBuilder.toString().trim();
     info = infoBuilder.toString().trim();
     return message;
-  }
-
-  private static void describe(StringBuilder sb, String message, int compSize,
-                                 int compSizeTree, HuffmanCharTable table) {
-    int origSize = message.getBytes(Charset.defaultCharset()).length;
-    sb.append(String.format(Locale.US,
-      "Message length: %d characters\n", message.length()));
-    sb.append(String.format(Locale.US,
-      "Original size: %d bytes\n", origSize));
-    sb.append(String.format(Locale.US,
-      "Tree size: %d bytes\n", compSizeTree - compSize - 4));
-    sb.append(String.format(Locale.US,
-      "Compressed size (w/o tree): %d bytes\n", compSize));
-    sb.append(String.format(Locale.US,
-      "Compressed size (w tree): %d bytes\n", compSizeTree));
-    sb.append(String.format(Locale.US,
-      "Compression factor (w/o tree): %.1f%%\n", percent(origSize, compSize)));
-    sb.append(String.format(Locale.US,
-      "Compression factor (w tree): %.1f%%\n", percent(origSize, compSizeTree)));
-    sb.append("\nCharacter code table\n");
-    sb.append(table.describe());
-  }
-
-  private static double percent(int total, int comp) {
-    return (total - comp) * 100.0 / total;
   }
 }

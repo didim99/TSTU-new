@@ -1,8 +1,11 @@
 package ru.didim99.tstu.core.itheory.compression;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import ru.didim99.tstu.core.itheory.compression.utils.BaseCharTable;
 
 /**
  * Created by didim99 on 28.02.20.
@@ -18,6 +21,9 @@ public abstract class Compressor {
   }
 
   String compressed, info;
+
+  public abstract byte[] compress(String data) throws IOException;
+  public abstract String decompress(byte[] data) throws IOException;
 
   public String getCompressed() {
     return compressed;
@@ -43,6 +49,28 @@ public abstract class Compressor {
     return frequency;
   }
 
-  public abstract byte[] compress(String data) throws IOException;
-  public abstract String decompress(byte[] data) throws IOException;
+  static void describe(StringBuilder sb, String message, int compSize,
+                       int compSizeTree, BaseCharTable table) {
+    int origSize = message.getBytes(Charset.defaultCharset()).length;
+    sb.append(String.format(Locale.US,
+      "Message length: %d characters\n", message.length()));
+    sb.append(String.format(Locale.US,
+      "Original size: %d bytes\n", origSize));
+    sb.append(String.format(Locale.US,
+      "Tree size: %d bytes\n", compSizeTree - compSize - 4));
+    sb.append(String.format(Locale.US,
+      "Compressed size (w/o tree): %d bytes\n", compSize));
+    sb.append(String.format(Locale.US,
+      "Compressed size (w tree): %d bytes\n", compSizeTree));
+    sb.append(String.format(Locale.US,
+      "Compression factor (w/o tree): %.1f%%\n", percent(origSize, compSize)));
+    sb.append(String.format(Locale.US,
+      "Compression factor (w tree): %.1f%%\n", percent(origSize, compSizeTree)));
+    sb.append("\nCharacter code table\n");
+    sb.append(table.describe());
+  }
+
+  private static double percent(int total, int comp) {
+    return (total - comp) * 100.0 / total;
+  }
 }
