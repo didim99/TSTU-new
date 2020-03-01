@@ -3,7 +3,6 @@ package ru.didim99.tstu.core.itheory.compression;
 import android.content.Context;
 import java.io.File;
 import java.io.IOException;
-
 import ru.didim99.tstu.core.CallbackTask;
 
 /**
@@ -65,6 +64,7 @@ public class CompressionManager implements CallbackTask.EventListener<Boolean> {
         compressor = new HuffmanCompressor();
         break;
       case Compressor.Type.ARITHMETIC:
+        compressor = new ArithmeticCompressor();
         break;
     }
 
