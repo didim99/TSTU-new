@@ -1,9 +1,9 @@
 package ru.didim99.tstu.core.graphics;
 
 import java.util.ArrayList;
-import ru.didim99.tstu.core.graphics.model.Mat4;
+import ru.didim99.tstu.core.graphics.math.Mat4;
+import ru.didim99.tstu.core.graphics.math.Vec4;
 import ru.didim99.tstu.core.graphics.model.Model;
-import ru.didim99.tstu.core.graphics.model.Vec4;
 import ru.didim99.tstu.core.graphics.model.Vertex;
 import ru.didim99.tstu.ui.view.DrawerView;
 

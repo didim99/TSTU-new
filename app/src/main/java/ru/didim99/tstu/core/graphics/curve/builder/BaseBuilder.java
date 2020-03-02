@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import ru.didim99.tstu.core.graphics.curve.Curve;
 import ru.didim99.tstu.core.graphics.curve.Point;
-import ru.didim99.tstu.core.graphics.model.Mat4;
+import ru.didim99.tstu.core.graphics.math.Mat4;
 
 /**
  * Created by didim99 on 20.02.20.

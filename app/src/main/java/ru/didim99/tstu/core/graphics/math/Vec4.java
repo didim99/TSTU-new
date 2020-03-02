@@ -1,4 +1,4 @@
-package ru.didim99.tstu.core.graphics.model;
+package ru.didim99.tstu.core.graphics.math;
 
 import java.util.Arrays;
 import java.util.Locale;
@@ -78,7 +78,7 @@ public class Vec4 {
     return this;
   }
 
-  void div(double f) {
+  public void div(double f) {
     data[X] /= f;
     data[Y] /= f;
     data[Z] /= f;
@@ -114,7 +114,7 @@ public class Vec4 {
       + data[Z] * v.data[Z];
   }
 
-  double calcAngle(Vec4 v) {
+  public double calcAngle(Vec4 v) {
     v = new Vec4(v);
     v.sub(this);
     return multiplyScalar(v)

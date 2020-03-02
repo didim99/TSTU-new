@@ -3,6 +3,9 @@ package ru.didim99.tstu.core.graphics.model;
 import android.graphics.Point;
 import android.graphics.PointF;
 
+import ru.didim99.tstu.core.graphics.math.Mat4;
+import ru.didim99.tstu.core.graphics.math.Vec4;
+
 /**
  * Created by didim99 on 05.04.19.
  */

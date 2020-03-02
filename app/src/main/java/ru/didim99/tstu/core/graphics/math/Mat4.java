@@ -1,4 +1,4 @@
-package ru.didim99.tstu.core.graphics.model;
+package ru.didim99.tstu.core.graphics.math;
 
 import android.support.annotation.Size;
 import java.util.Locale;

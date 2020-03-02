@@ -2,10 +2,10 @@ package ru.didim99.tstu.core.graphics;
 
 import java.util.ArrayList;
 import ru.didim99.tstu.core.graphics.curve.Curve;
+import ru.didim99.tstu.core.graphics.math.Vec4;
 import ru.didim99.tstu.core.graphics.model.Model;
 import ru.didim99.tstu.core.graphics.model.Projection;
 import ru.didim99.tstu.core.graphics.model.Texture;
-import ru.didim99.tstu.core.graphics.model.Vec4;
 
 /**
  * Created by didim99 on 15.02.19.

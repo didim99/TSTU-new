@@ -3,7 +3,7 @@ package ru.didim99.tstu.core.graphics.curve.builder;
 import android.graphics.PointF;
 import ru.didim99.tstu.core.graphics.curve.Curve;
 import ru.didim99.tstu.core.graphics.curve.Point;
-import ru.didim99.tstu.core.graphics.model.Vec4;
+import ru.didim99.tstu.core.graphics.math.Vec4;
 
 /**
  * Created by didim99 on 29.02.20.

@@ -1,5 +1,7 @@
 package ru.didim99.tstu.core.graphics.model;
 
+import ru.didim99.tstu.core.graphics.math.Vec4;
+
 /**
  * Created by didim99 on 09.03.19.
  */
