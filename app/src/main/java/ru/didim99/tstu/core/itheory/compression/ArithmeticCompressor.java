@@ -5,60 +5,66 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Arrays;
 import ru.didim99.tstu.core.itheory.compression.utils.ArithmeticCharTable;
+import ru.didim99.tstu.core.itheory.compression.utils.BitStream;
 
 /**
  * Created by didim99 on 01.03.20.
  */
 public class ArithmeticCompressor extends Compressor {
   private static final byte[] HEADER = new byte[] {0x41, 0x52, 0x4D};
-  private static final int SEQUENCE_SIZE = 20;
+
+  public static final int CODE_BITS = 16;
+  private static final long CODE_MIN = 0L;
+  private static final long CODE_MAX = (1L << CODE_BITS) - 1;
+  private static final long FIRST_QTR = CODE_MAX / 4 + 1;
+  private static final long HALF = FIRST_QTR * 2;
+  private static final long THIRD_QTR = FIRST_QTR * 3;
+  public static final long MAX_FREQ = (1L << (CODE_BITS - 2)) - 1;
 
   @Override
   public byte[] compress(String data) throws IOException {
     ArithmeticCharTable table = new ArithmeticCharTable(getFrequency(data));
-    BigDecimal start = ArithmeticCharTable.DEFAULT_MIN;
-    BigDecimal end = ArithmeticCharTable.DEFAULT_MAX;
-
     ByteArrayOutputStream buffer = new ByteArrayOutputStream();
     DataOutputStream stream = new DataOutputStream(buffer);
     StringBuilder infoBuilder = new StringBuilder();
     StringBuilder msgBuilder = new StringBuilder();
+    BitStream bitStream = new BitStream(stream, msgBuilder);
 
     buffer.write(HEADER);
     table.serializeTo(stream);
     stream.writeInt(data.length());
-    int compSize = 0;
 
-    int read = 0;
+    long start = CODE_MIN, end = CODE_MAX;
+    long maxFreq = table.getMaxFrequency();
     for (char c : data.toCharArray()) {
-      BigDecimal interval = end.subtract(start);
-      end = start.add(interval.multiply(table.getMaxValue(c)));
-      start = start.add(interval.multiply(table.getMinValue(c)));
+      long range = end - start + 1;
+      end = start + table.getMaxValue(c) * range / maxFreq - 1;
+      start += table.getMinValue(c) * range / maxFreq;
 
-      if (++read == SEQUENCE_SIZE) {
-        double value = start.doubleValue();
-        msgBuilder.append(value).append(' ');
-        stream.writeDouble(value);
-        start = ArithmeticCharTable.DEFAULT_MIN;
-        end = ArithmeticCharTable.DEFAULT_MAX;
-        compSize += Double.SIZE / Byte.SIZE;
-        read = 0;
+      while (true) {
+        if (end < HALF)
+          bitStream.pushBit(0);
+        else if (start >= HALF) {
+          bitStream.pushBit(1);
+          start -= HALF;
+          end -= HALF;
+        } else if (start >= FIRST_QTR && end < THIRD_QTR) {
+          bitStream.followBit();
+          start -= FIRST_QTR;
+          end -= FIRST_QTR;
+        } else break;
+        end = end * 2 + 1;
+        start *= 2;
       }
     }
 
-    if (read > 0) {
-      double value = start.doubleValue();
-      msgBuilder.append(value).append(' ');
-      stream.writeDouble(value);
-      compSize += Double.SIZE / Byte.SIZE;
-    }
+    bitStream.followBit();
+    bitStream.pushBit(start < FIRST_QTR ? 0 : 1);
+    bitStream.flush();
 
-    int compSizeTree = buffer.size();
-    describe(infoBuilder, data, compSize, compSizeTree, table);
+    describe(infoBuilder, data, bitStream.size(), buffer.size(), table);
     compressed = msgBuilder.toString().trim();
     info = infoBuilder.toString().trim();
     return buffer.toByteArray();
@@ -80,25 +86,38 @@ public class ArithmeticCompressor extends Compressor {
       throw new IOException("Invalid file header");
 
     ArithmeticCharTable table = new ArithmeticCharTable(stream);
+    BitStream bitStream = new BitStream(stream, msgBuilder);
     int totalLength = stream.readInt();
     int compSize = buffer.available();
 
-    double value = stream.readDouble();
-    msgBuilder.append(value).append(' ');
-    BigDecimal number = BigDecimal.valueOf(value);
+    long value = 0;
+    long start = CODE_MIN, end = CODE_MAX;
+    long maxFreq = table.getMaxFrequency();
+    for (int i = 0; i < CODE_BITS; i++)
+      value = (value << 1) + bitStream.pullBit();
 
-    int read = 0;
     while (totalLength-- > 0) {
-      char c = table.getCharacter(number);
+      long range = end - start + 1;
+      long cum = ((value - start + 1) * maxFreq - 1) / range;
+      char c = table.getCharacter(cum);
+      end = start + table.getMaxValue(c) * range / maxFreq - 1;
+      start += table.getMinValue(c) * range / maxFreq;
       outBuilder.append(c);
-      number = number.subtract(table.getMinValue(c));
-      number = number.divide(table.getInterval(c), RoundingMode.UP);
-
-      if (++read == SEQUENCE_SIZE) {
-        value = stream.readDouble();
-        msgBuilder.append(value).append(' ');
-        number = BigDecimal.valueOf(value);
-        read = 0;
+      while (true) {
+        if (end < HALF) {
+          /* Nothing to do */
+        } else if (start >= HALF) {
+          value -= HALF;
+          start -= HALF;
+          end -= HALF;
+        } else if (start >= FIRST_QTR && end < THIRD_QTR) {
+          value -= FIRST_QTR;
+          start -= FIRST_QTR;
+          end -= FIRST_QTR;
+        } else break;
+        value = (value << 1) + bitStream.pullBit();
+        end = end * 2 + 1;
+        start *= 2;
       }
     }
 
