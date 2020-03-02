@@ -1,6 +1,5 @@
 package ru.didim99.tstu.core.graphics.curve.builder;
 
-import android.graphics.PointF;
 import ru.didim99.tstu.core.graphics.curve.Curve;
 import ru.didim99.tstu.core.graphics.curve.Point;
 import ru.didim99.tstu.core.graphics.model.Mat4;
@@ -14,7 +13,7 @@ public class BSpline3Builder extends BaseBuilder {
     -1, 3, -3, 1, 3, -6, 3, 0, -3, 0, 3, 0, 1, 4, 1, 0).multiply(1.0 / 6.0);
 
   public BSpline3Builder(Curve curve) {
-    super(curve);
+    super(curve, false, B_SPLINE_MATRIX);
   }
 
   @Override
@@ -23,8 +22,7 @@ public class BSpline3Builder extends BaseBuilder {
       int last = basePoints.size() - 3;
       if (last < 1) return false;
 
-      int step = STEP_POINTS / last;
-      double t, dt = T_MAX / step;
+      interpolator.setLastPointIndex(last);
       for (int i = 0; i < last; i++) {
         Point p1 = basePoints.get(i);
         Point p2 = basePoints.get(i + 1);
@@ -34,30 +32,7 @@ public class BSpline3Builder extends BaseBuilder {
           p3.getVisibleX(), p4.getVisibleX());
         Vec4 gy = new Vec4(p1.getVisibleY(), p2.getVisibleY(),
           p3.getVisibleY(), p4.getVisibleY());
-        Vec4 vt = new Vec4();
-        PointF prev = null;
-
-        t = T_MIN;
-        float x, y;
-        int offset = i * step * 4;
-        for (int index = 0; index < step * 4; index += 4) {
-          vt.set(t * t * t, t * t, t, 1);
-          vt = vt.multiply(B_SPLINE_MATRIX);
-          x = (float) gx.multiply(vt);
-          y = (float) gy.multiply(vt);
-          if (prev != null) {
-            pointsPuffer[offset + index]      = prev.x;
-            pointsPuffer[offset + index + 1]  = prev.y;
-            pointsPuffer[offset + index + 2]  = x;
-            pointsPuffer[offset + index + 3]  = y;
-          } else {
-            prev = new PointF();
-            index -= 4;
-          }
-
-          prev.set(x, y);
-          t += dt;
-        }
+        interpolator.interpolate(i, gx, gy);
       }
 
       drawFrame();

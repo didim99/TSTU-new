@@ -171,6 +171,7 @@ public class Curve {
   }
 
   private void onPointsChanged(boolean movedOnly) {
+    if (!movedOnly) builder.clearBuffers();
     if (type == Type.LAGRANGE) {
       Collections.sort(basePoints, Point::compareX);
     } else if (!movedOnly && builder.hasControlPoints()) {

@@ -2,8 +2,10 @@ package ru.didim99.tstu.core.graphics.curve.builder;
 
 import android.graphics.PointF;
 import java.util.ArrayList;
+import java.util.Arrays;
 import ru.didim99.tstu.core.graphics.curve.Curve;
 import ru.didim99.tstu.core.graphics.curve.Point;
+import ru.didim99.tstu.core.graphics.model.Mat4;
 
 /**
  * Created by didim99 on 20.02.20.
@@ -18,21 +20,33 @@ public abstract class BaseBuilder {
   final Object renderLock;
   ArrayList<Point> basePoints;
   ArrayList<Point> controlPoints;
+  CubicInterpolator interpolator;
+  private boolean hasControlPoints;
   // Internal drawing buffers
   float[] factorBuffer, pointsPuffer;
   private float[] framePuffer;
   private float[] armBuffer;
 
   BaseBuilder(Curve curve) {
+    this(curve, false, null);
+  }
+
+  BaseBuilder(Curve curve, boolean hasControlPoints, Mat4 basisMatrix) {
     this.curve = curve;
+    this.hasControlPoints = hasControlPoints;
     this.renderLock = curve.getRenderLock();
     this.basePoints = curve.getBasePoints();
     this.controlPoints = curve.getControlPoints();
     this.pointsPuffer = new float[BUFFER_SIZE];
     this.factorBuffer = new float[0];
     this.framePuffer = new float[0];
-    if (hasControlPoints())
+    if (hasControlPoints)
       this.armBuffer = new float[0];
+    if (basisMatrix != null) {
+      interpolator = new CubicInterpolator(
+        pointsPuffer, basisMatrix);
+    }
+
     checkBuffers();
   }
 
@@ -57,7 +71,11 @@ public abstract class BaseBuilder {
   }
 
   public boolean hasControlPoints() {
-    return false;
+    return hasControlPoints;
+  }
+
+  public void clearBuffers() {
+    Arrays.fill(pointsPuffer, 0f);
   }
 
   public void checkBuffers() {
@@ -77,7 +95,7 @@ public abstract class BaseBuilder {
   }
 
   public void checkArmBuffer() {
-    if (hasControlPoints() && curve.isDrawPoints()) {
+    if (hasControlPoints && curve.isDrawPoints()) {
       int frameSize = getArmBufferSize();
       if (armBuffer.length < frameSize)
         armBuffer = new float[frameSize];
