@@ -12,7 +12,7 @@ import ru.didim99.tstu.core.graphics.model.Vec4;
  */
 public class CatmullRomBuilder extends BaseBuilder {
   private static final Mat4 CATMULL_ROM_MATRIX = new Mat4(
-    0, -1, 2, -1, 2, 0, -5, 3, 0, 1, 4, -3, 0, 0, -1, 1).multiply(0.5);
+    -1, 3, -3, 1, 2, -5, 4, -1, -1, 0, 1, 0, 0, 2, 0, 0).multiply(0.5);
 
   public CatmullRomBuilder(Curve curve) {
     super(curve);
@@ -42,8 +42,8 @@ public class CatmullRomBuilder extends BaseBuilder {
         float x, y;
         int offset = i * step * 4;
         for (int index = 0; index < step * 4; index += 4) {
-          vt.set(1, t, t * t, t * t * t);
-          //vt.set(t * t * t, t * t, t, 1);
+          //vt.set(1, t, t * t, t * t * t);
+          vt.set(t * t * t, t * t, t, 1);
           vt = vt.multiply(CATMULL_ROM_MATRIX);
           x = (float) gx.multiply(vt);
           y = (float) gy.multiply(vt);
