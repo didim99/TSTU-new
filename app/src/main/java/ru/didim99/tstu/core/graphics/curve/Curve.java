@@ -7,6 +7,7 @@ import ru.didim99.tstu.core.graphics.curve.builder.BSpline2Builder;
 import ru.didim99.tstu.core.graphics.curve.builder.BSpline3Builder;
 import ru.didim99.tstu.core.graphics.curve.builder.BaseBuilder;
 import ru.didim99.tstu.core.graphics.curve.builder.BezierBuilder;
+import ru.didim99.tstu.core.graphics.curve.builder.CatmullRomBuilder;
 import ru.didim99.tstu.core.graphics.curve.builder.ControlPointBuilder;
 import ru.didim99.tstu.core.graphics.curve.builder.CubicBezierBuilder;
 import ru.didim99.tstu.core.graphics.curve.builder.HermiteBuilder;
@@ -24,6 +25,7 @@ public class Curve {
     private static final int CUBIC_BEZIER = 3;
     private static final int B_SPLINE2    = 4;
     private static final int B_SPLINE3    = 5;
+    private static final int CATMULL_ROM  = 6;
   }
 
   private int type;
@@ -91,6 +93,7 @@ public class Curve {
       case Type.CUBIC_BEZIER: builder = new CubicBezierBuilder(this); break;
       case Type.B_SPLINE2: builder = new BSpline2Builder(this); break;
       case Type.B_SPLINE3: builder = new BSpline3Builder(this); break;
+      case Type.CATMULL_ROM: builder = new CatmullRomBuilder(this); break;
     }
 
     onPointsChanged(false);

@@ -153,6 +153,9 @@ public class CompressionActivity extends BaseActivity
     etMessage.setEnabled(!state);
     btnLoad.setEnabled(!state);
     btnStart.setEnabled(!state);
+    tvInfo.setEnabled(!state);
+    tvIn.setEnabled(!state);
+    tvOut.setEnabled(!state);
 
     if (state) {
       pbMain.setVisibility(View.VISIBLE);

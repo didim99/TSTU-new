@@ -92,7 +92,7 @@ public class ArithmeticCompressor extends Compressor {
       char c = table.getCharacter(number);
       outBuilder.append(c);
       number = number.subtract(table.getMinValue(c));
-      number = number.divide(table.getInterval(c), RoundingMode.HALF_UP);
+      number = number.divide(table.getInterval(c), RoundingMode.UP);
 
       if (++read == SEQUENCE_SIZE) {
         value = stream.readDouble();
