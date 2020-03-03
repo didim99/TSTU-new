@@ -39,8 +39,8 @@ public class HuffmanTreeEntry {
     return rightChild;
   }
 
-  public HuffmanTreeEntry getChild(boolean bit) {
-    return bit ? rightChild : leftChild;
+  public HuffmanTreeEntry getChild(int bit) {
+    return bit > 0 ? rightChild : leftChild;
   }
 
   public boolean isLeaf() {

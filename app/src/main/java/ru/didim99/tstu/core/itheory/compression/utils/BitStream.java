@@ -49,7 +49,7 @@ public class BitStream {
     if (offset == 0) {
       if (input.available() > 0) {
         buffer = input.read();
-        msgBuilder.append(Integer.toHexString(buffer)).append(' ');
+        writeMessage(buffer);
         offset = MAX_OFFSET + 1;
         count++;
       } else if (++garbage > MAX_GARBAGE)
@@ -71,7 +71,7 @@ public class BitStream {
   }
 
   public void flush() throws IOException {
-    msgBuilder.append(Integer.toHexString(buffer)).append(' ');
+    writeMessage(buffer);
     output.write(buffer);
     buffer = offset = 0;
     count++;
@@ -80,5 +80,10 @@ public class BitStream {
   private void writeBit(int bit) throws IOException {
     if (bit > 0) buffer |= 1 << offset;
     if (++offset == MAX_OFFSET) flush();
+  }
+
+  private void writeMessage(int buffer) {
+    if (msgBuilder != null) msgBuilder.append(
+      Integer.toHexString(buffer)).append(' ');
   }
 }

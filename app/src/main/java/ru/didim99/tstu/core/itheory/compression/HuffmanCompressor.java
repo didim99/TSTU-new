@@ -5,8 +5,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
+import ru.didim99.tstu.core.itheory.compression.utils.BitStream;
 import ru.didim99.tstu.core.itheory.compression.utils.HuffmanCharTable;
 import ru.didim99.tstu.core.itheory.compression.utils.HuffmanTreeEntry;
 
@@ -20,6 +20,7 @@ public class HuffmanCompressor extends Compressor {
   public byte[] compress(String data) throws IOException {
     HuffmanCharTable table = new HuffmanCharTable(getFrequency(data));
     ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+    BitStream bitStream = new BitStream(buffer, null);
     DataOutputStream stream = new DataOutputStream(buffer);
     StringBuilder infoBuilder = new StringBuilder();
     StringBuilder msgBuilder = new StringBuilder();
@@ -28,27 +29,14 @@ public class HuffmanCompressor extends Compressor {
     table.serializeTo(stream);
     stream.writeInt(data.length());
 
-    ArrayList<Boolean> dataBuffer = new ArrayList<>();
     for (char c : data.toCharArray()) {
       msgBuilder.append(table.getCodeStr(c)).append(' ');
-      dataBuffer.addAll(table.getCode(c));
+      for (Boolean b : table.getCode(c))
+        bitStream.pushBit(b ? 1 : 0);
     }
 
-    int offset = dataBuffer.size() % 8;
-    while (offset++ < 8) dataBuffer.add(false);
-
-    offset = 0;
-    byte bitBuffer = 0;
-    for (boolean bit : dataBuffer) {
-      if (bit) bitBuffer |= 1 << offset;
-      if (++offset == Byte.SIZE) {
-        buffer.write(bitBuffer);
-        bitBuffer = 0;
-        offset = 0;
-      }
-    }
-
-    int compSize = dataBuffer.size() / 8;
+    bitStream.flush();
+    int compSize = bitStream.size();
     int compSizeTree = buffer.size();
 
     describe(infoBuilder, data, compSize, compSizeTree, table);
@@ -60,6 +48,7 @@ public class HuffmanCompressor extends Compressor {
   @Override
   public String decompress(byte[] data) throws IOException {
     ByteArrayInputStream buffer = new ByteArrayInputStream(data);
+    BitStream bitStream = new BitStream(buffer, null);
     DataInputStream stream = new DataInputStream(buffer);
     StringBuilder infoBuilder = new StringBuilder();
     StringBuilder msgBuilder = new StringBuilder();
@@ -76,27 +65,16 @@ public class HuffmanCompressor extends Compressor {
     int totalLength = stream.readInt();
     int compSize = buffer.available();
 
-    ArrayList<Boolean> dataBuffer = new ArrayList<>(compSize);
-    while (buffer.available() > 0) {
-      byte bitBuffer = stream.readByte();
-      int offset = 0;
-      while (offset < 8) {
-        dataBuffer.add((bitBuffer & 1 << offset++) > 0);
-      }
-    }
-
     HuffmanTreeEntry entry = table.getRoot();
-    for (boolean bit : dataBuffer) {
+    while (--totalLength > 0) {
       if (entry.isLeaf()) {
         char c = entry.getCharacter();
         msgBuilder.append(table.getCodeStr(c)).append(' ');
         outBuilder.append(c);
-        if (--totalLength == 0)
-          break;
         entry = table.getRoot();
       }
 
-      entry = entry.getChild(bit);
+      entry = entry.getChild(bitStream.pullBit());
     }
 
     String message = outBuilder.toString();
