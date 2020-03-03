@@ -103,6 +103,7 @@ public class ArithmeticCompressor extends Compressor {
       end = start + table.getMaxValue(c) * range / maxFreq - 1;
       start += table.getMinValue(c) * range / maxFreq;
       outBuilder.append(c);
+
       while (true) {
         if (end < HALF) {
           /* Nothing to do */

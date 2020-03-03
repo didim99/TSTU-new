@@ -69,6 +69,7 @@ public class CompressionManager implements CallbackTask.EventListener<Boolean> {
     }
 
     publishEvent(Event.TYPE_CHANGED);
+    if (inFile != null) loadFile(inFile);
   }
 
   public void setMessage(String message) {
