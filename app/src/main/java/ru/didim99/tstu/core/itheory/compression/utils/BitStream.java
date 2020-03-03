@@ -11,7 +11,7 @@ import ru.didim99.tstu.core.itheory.compression.ArithmeticCompressor;
  */
 public class BitStream {
   private static final int MAX_GARBAGE = ArithmeticCompressor.CODE_BITS - 2;
-  private static final int MAX_OFFSET = Byte.SIZE - 1;
+  private static final int MAX_OFFSET = Byte.SIZE;
 
   private InputStream input;
   private OutputStream output;
@@ -50,7 +50,7 @@ public class BitStream {
       if (input.available() > 0) {
         buffer = input.read();
         writeMessage(buffer);
-        offset = MAX_OFFSET + 1;
+        offset = MAX_OFFSET;
         count++;
       } else if (++garbage > MAX_GARBAGE)
         throw new EOFException();
@@ -78,12 +78,12 @@ public class BitStream {
   }
 
   private void writeBit(int bit) throws IOException {
-    if (bit > 0) buffer |= 1 << offset;
+    if ((bit & 0x01) > 0) buffer |= 1 << offset;
     if (++offset == MAX_OFFSET) flush();
   }
 
   private void writeMessage(int buffer) {
     if (msgBuilder != null) msgBuilder.append(
-      Integer.toHexString(buffer)).append(' ');
+      String.format("%02x ", buffer));
   }
 }

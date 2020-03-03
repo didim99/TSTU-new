@@ -66,12 +66,13 @@ public class HuffmanCompressor extends Compressor {
     int compSize = buffer.available();
 
     HuffmanTreeEntry entry = table.getRoot();
-    while (--totalLength > 0) {
+    while (totalLength > 0) {
       if (entry.isLeaf()) {
         char c = entry.getCharacter();
         msgBuilder.append(table.getCodeStr(c)).append(' ');
         outBuilder.append(c);
         entry = table.getRoot();
+        totalLength--;
       }
 
       entry = entry.getChild(bitStream.pullBit());

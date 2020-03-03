@@ -15,7 +15,7 @@ import ru.didim99.tstu.core.itheory.compression.utils.BitStream;
 public class ArithmeticCompressor extends Compressor {
   private static final byte[] HEADER = new byte[] {0x41, 0x52, 0x4D};
 
-  public static final int CODE_BITS = 16;
+  public static final int CODE_BITS = 32;
   private static final long CODE_MIN = 0L;
   private static final long CODE_MAX = (1L << CODE_BITS) - 1;
   private static final long FIRST_QTR = CODE_MAX / 4 + 1;

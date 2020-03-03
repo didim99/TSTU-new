@@ -62,10 +62,16 @@ public class ArithmeticCharTable extends BaseCharTable<ArithmeticCharTable.Entry
 
     long prevMax = 0;
     Collections.sort(entryList);
-    boolean divide = entryList.get(0).frequency
-      > ArithmeticCompressor.MAX_FREQ;
     for (Entry entry : entryList)
-      prevMax = entry.computeRange(prevMax, divide);
+      prevMax = entry.computeRange(prevMax);
+    if (prevMax >= ArithmeticCompressor.MAX_FREQ) {
+      prevMax = 0;
+      for (Entry entry : entryList) {
+        entry.frequency = (entry.frequency + 1) / 2;
+        prevMax = entry.computeRange(prevMax);
+      }
+    }
+
     maxFrequency = prevMax;
   }
 
@@ -78,8 +84,7 @@ public class ArithmeticCharTable extends BaseCharTable<ArithmeticCharTable.Entry
       super(character, frequency);
     }
 
-    private long computeRange(long prevMax, boolean divide) {
-      if (divide) frequency = (frequency + 1) / 2;
+    private long computeRange(long prevMax) {
       maxValue = prevMax + frequency;
       minValue = prevMax;
       return maxValue;
