@@ -63,12 +63,12 @@ public class CompressionActivity extends BaseActivity
     tvInfo.setOnLongClickListener(v -> Utils.copyToClipboard(this, tvInfo.getText()));
     MyLog.d(LOG_TAG, "View components init completed");
 
-    MyLog.d(LOG_TAG, "Connecting ImageProcessor...");
+    MyLog.d(LOG_TAG, "Connecting CompressionManager...");
     manager = (CompressionManager) getLastCustomNonConfigurationInstance();
     if (manager != null) {
       MyLog.d(LOG_TAG, "Connected to: " + manager);
     } else {
-      MyLog.d(LOG_TAG, "No existing ImageProcessor found");
+      MyLog.d(LOG_TAG, "No existing CompressionManager found");
       manager = new CompressionManager(getApplicationContext());
     }
 
@@ -165,7 +165,7 @@ public class CompressionActivity extends BaseActivity
     }
   }
 
-  protected boolean saveToFile(View v, boolean compressed) {
+  private boolean saveToFile(View v, boolean compressed) {
     if (((TextView) v).getText().toString().isEmpty()) return false;
     openDir(compressed ? REQUEST_SAVE_COMP : REQUEST_SAVE_UNC);
     return true;

@@ -34,6 +34,7 @@
   <string name="buttonMore">Дополнительно</string>
   <string name="buttonCalculate">Рассчитать</string>
   <string name="buttonGenerate">Сгенерировать</string>
+  <string name="buttonSet">Установить</string>
   <string name="buttonClear">Очистить</string>
   <string name="fieldSizeW">Ширина</string>
   <string name="fieldSizeH">Высота</string>
@@ -193,6 +194,9 @@
   <string name="errTI_imageLoading">Ошибка при загрузке изображения: %s</string>
   <string name="errTI_imageSaving">Ошибка при сохранении изображения: %s</string>
   <string name="errTI_emptyFilename">Не задано имя файла</string>
+  <string name="errTI_emptyKey">Не задан один из параметров ключа</string>
+  <string name="errTI_incorrectKey">Некорректно задан один из параметров ключа</string>
+  <string name="errTI_incorrectKeyN">Значения N для открытого и закрытого ключей должны совпадать</string>
   <!-- MathStat -->
   <string-array name="math_taskTypes">
     <item>@string/startMathStat</item>

@@ -3,6 +3,9 @@ package ru.didim99.tstu.utils;
 import android.content.Context;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.math.BigInteger;
+
 import ru.didim99.tstu.BuildConfig;
 
 /**
@@ -19,6 +22,22 @@ public class InputValidator {
 
   public void init(Context appContext) {
     toastMsg = Toast.makeText(appContext, "", Toast.LENGTH_LONG);
+  }
+
+  public BigInteger checkBigInteger(EditText src, int msgId_empty,
+                                    int msgId_incorrect, String logMsg)
+    throws ValidationException {
+    String strValue = checkEmptyStr(src, msgId_empty, logMsg);
+    if (strValue == null) return null;
+
+    try {
+      return new BigInteger(strValue);
+    } catch (IllegalArgumentException e) {
+      MyLog.w(LOG_TAG, "Incorrect value: " + logMsg);
+      if (BuildConfig.DEBUG) e.printStackTrace();
+      showToast(msgId_incorrect);
+      throw new ValidationException(e);
+    }
   }
 
   public Integer checkInteger(EditText src, Integer minValue,

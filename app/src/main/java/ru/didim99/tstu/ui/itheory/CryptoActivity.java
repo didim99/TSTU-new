@@ -1,18 +1,23 @@
 package ru.didim99.tstu.ui.itheory;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.io.File;
+import java.math.BigInteger;
 import ru.didim99.tstu.R;
+import ru.didim99.tstu.core.itheory.encryption.CryptoManager;
+import ru.didim99.tstu.core.itheory.encryption.rsa.RSAKey;
 import ru.didim99.tstu.ui.BaseActivity;
 import ru.didim99.tstu.utils.InputValidator;
 import ru.didim99.tstu.utils.MyLog;
@@ -20,7 +25,8 @@ import ru.didim99.tstu.utils.MyLog;
 /**
  * Created by didim99 on 27.02.20.
  */
-public class CryptoActivity extends BaseActivity {
+public class CryptoActivity extends BaseActivity
+  implements CryptoManager.EventListener {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_CryptoAct";
   // internal intent request codes
   protected static final int REQUEST_LOAD_MSG = 1;
@@ -34,11 +40,13 @@ public class CryptoActivity extends BaseActivity {
   private EditText etPublicE, etPublicN;
   private EditText etPrivateD, etPrivateN;
   private Button btnLoadMsg, btnStart;
-  private Button btnGenKey, btnLoadKey, btnStoreKey;
+  private Button btnGenKey, btnSetKey;
+  private Button btnLoadKey, btnStoreKey;
   private Spinner spKeyLength;
   private TextView tvEnc, tvDec;
   private View pbMain;
   // Workflow
+  private CryptoManager manager;
 
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,20 +63,43 @@ public class CryptoActivity extends BaseActivity {
     btnLoadMsg = findViewById(R.id.btnLoadMsg);
     btnStart = findViewById(R.id.btnStart);
     btnGenKey = findViewById(R.id.btnGenKey);
+    btnSetKey = findViewById(R.id.btnSetKey);
     btnLoadKey = findViewById(R.id.btnLoadKey);
     btnStoreKey = findViewById(R.id.btnStoreKey);
     spKeyLength = findViewById(R.id.spKeyLength);
     tvEnc = findViewById(R.id.tvEncrypted);
     tvDec = findViewById(R.id.tvDecrypted);
     pbMain = findViewById(R.id.pbMain);
+    btnGenKey.setOnClickListener(v -> setKey());
+    btnGenKey.setOnClickListener(v -> generateKey());
+    btnStart.setOnClickListener(v -> startEncryption());
     btnLoadMsg.setOnClickListener(v -> openFile(REQUEST_LOAD_MSG));
     btnLoadKey.setOnClickListener(v -> openFile(REQUEST_LOAD_KEY));
-    btnStoreKey.setOnClickListener(v -> storeKey());
+    btnStoreKey.setOnClickListener(v -> openDir(REQUEST_STORE_KEY));
     tvEnc.setOnLongClickListener(v -> saveMessage(v, true));
     tvDec.setOnLongClickListener(v -> saveMessage(v, false));
     MyLog.d(LOG_TAG, "View components init completed");
 
+    MyLog.d(LOG_TAG, "Connecting ImageProcessor...");
+    manager = (CryptoManager) getLastCustomNonConfigurationInstance();
+    if (manager != null) {
+      MyLog.d(LOG_TAG, "Connected to: " + manager);
+    } else {
+      MyLog.d(LOG_TAG, "No existing ImageProcessor found");
+      manager = new CryptoManager(getApplicationContext());
+    }
+
+    spKeyLength.setAdapter(new ArrayAdapter<>(this,
+      android.R.layout.simple_list_item_1, RSAKey.getPossibleLength()));
+    manager.setEventListener(this);
+
     MyLog.d(LOG_TAG, "CryptoActivity created");
+  }
+
+  @Override
+  public Object onRetainCustomNonConfigurationInstance() {
+    manager.setEventListener(null);
+    return manager;
   }
 
   @Override
@@ -80,10 +111,10 @@ public class CryptoActivity extends BaseActivity {
         if (path != null) {
           switch (requestCode) {
             case REQUEST_LOAD_MSG:
-              MyLog.d(LOG_TAG, "Loading message from: " + path);
-              break;
             case REQUEST_LOAD_KEY:
-              MyLog.d(LOG_TAG, "Loading key from: " + path);
+              MyLog.d(LOG_TAG, "Loading item from: " + path);
+              etMessage.setText(null);
+              manager.loadFile(path);
               break;
             case REQUEST_STORE_KEY:
             case REQUEST_STORE_ENC:
@@ -103,6 +134,31 @@ public class CryptoActivity extends BaseActivity {
       MyLog.d(LOG_TAG, "Choosing path aborted");
   }
 
+  @Override
+  public void onOperationStateChanged(boolean state) {
+    uiLock(!state);
+    if (state) {
+      tvEnc.setText(null);
+      tvDec.setText(null);
+    }
+  }
+
+  @Override
+  @SuppressLint("SetTextI18n")
+  public void onKeyChanged(RSAKey key) {
+    etPublicE.setText(key.getE().toString());
+    etPublicN.setText(key.getN().toString());
+    etPrivateD.setText(key.getD().toString());
+    etPrivateN.setText(key.getN().toString());
+  }
+
+  @Override
+  public void onDataChanged() {
+    etMessage.setText(manager.getMessage());
+    tvEnc.setText(manager.getEncryptedDataStr());
+    tvDec.setText(manager.getDecryptedData());
+  }
+
   private void uiLock(boolean state) {
     if (state) MyLog.d(LOG_TAG, "Locking UI...");
     else MyLog.d(LOG_TAG, "Unlocking UI...");
@@ -116,6 +172,7 @@ public class CryptoActivity extends BaseActivity {
     btnLoadMsg.setEnabled(!state);
     btnStart.setEnabled(!state);
     btnGenKey.setEnabled(!state);
+    btnSetKey.setEnabled(!state);
     btnLoadKey.setEnabled(!state);
     btnStoreKey.setEnabled(!state);
     spKeyLength.setEnabled(!state);
@@ -129,24 +186,49 @@ public class CryptoActivity extends BaseActivity {
     }
   }
 
-  protected boolean saveMessage(View v, boolean encrypted) {
+  private void generateKey() {
+    int length = Integer.parseInt((String) spKeyLength.getSelectedItem());
+    manager.generateKey(length);
+  }
+
+  private void setKey() {
+    try {
+      InputValidator iv = InputValidator.getInstance();
+      BigInteger publicN = iv.checkBigInteger(etPublicN, R.string.errTI_emptyKey,
+        R.string.errTI_incorrectKey, "Public N");
+      BigInteger privateN = iv.checkBigInteger(etPrivateN, R.string.errTI_emptyKey,
+        R.string.errTI_incorrectKey, "Private N");
+      if (!publicN.equals(privateN)) {
+        Toast.makeText(this, R.string.errTI_incorrectKeyN,
+          Toast.LENGTH_LONG).show();
+        return;
+      }
+
+      manager.setKey(new RSAKey(
+        iv.checkBigInteger(etPublicE, R.string.errTI_emptyKey,
+          R.string.errTI_incorrectKey, "Public E"),
+        iv.checkBigInteger(etPrivateD, R.string.errTI_emptyKey,
+          R.string.errTI_incorrectKey, "Private D"), publicN));
+    } catch (InputValidator.ValidationException ignored) {}
+  }
+
+  private void startEncryption() {
+    if (etMessage.getText().length() == 0) return;
+    if (manager.getKey() == null) return;
+    manager.setMessage(etMessage.getText().toString());
+    manager.start();
+  }
+
+  private boolean saveMessage(View v, boolean encrypted) {
     if (((TextView) v).getText().toString().isEmpty()) return false;
     openDir(encrypted ? REQUEST_STORE_ENC : REQUEST_STORE_DEC);
     return true;
   }
 
-  private void storeKey() {
-    if (etPublicE.getText().length() == 0) return;
-    if (etPublicN.getText().length() == 0) return;
-    if (etPrivateD.getText().length() == 0) return;
-    if (etPrivateN.getText().length() == 0) return;
-    openDir(REQUEST_STORE_KEY);
-  }
-
   private void saveFileDialog(String path, int requestCode) {
     View view = getLayoutInflater().inflate(R.layout.dia_sf_text, null);
     EditText etInput = view.findViewById(R.id.etInput);
-    //etInput.setText(manager.getInFileName());
+    etInput.setText(manager.getFilename());
     etInput.setSelection(etInput.getText().length());
 
     AlertDialog.Builder adb = new AlertDialog.Builder(this)
@@ -168,9 +250,17 @@ public class CryptoActivity extends BaseActivity {
       InputValidator iv = InputValidator.getInstance();
       String name = iv.checkEmptyStr(dialog.findViewById(R.id.etInput),
         R.string.errTI_emptyFilename, "filename");
-      /*path = path.concat(File.separator).concat(name).concat(
-        compress ? Compressor.EXT_COMP : Compressor.EXT_UNC);
-      manager.saveToFile(path);*/
+
+      String ext = "";
+      switch (requestCode) {
+        case REQUEST_STORE_DEC: ext = CryptoManager.EXT_TXT; break;
+        case REQUEST_STORE_ENC: ext = CryptoManager.EXT_ENC; break;
+        case REQUEST_STORE_KEY: ext = CryptoManager.EXT_KEY; break;
+      }
+
+      path = path.concat(File.separator)
+        .concat(name).concat(ext);
+      manager.saveToFile(path);
       dialog.dismiss();
     } catch (InputValidator.ValidationException ignored) {}
   }
