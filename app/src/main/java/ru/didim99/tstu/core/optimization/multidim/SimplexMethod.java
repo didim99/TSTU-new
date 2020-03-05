@@ -52,7 +52,7 @@ public class SimplexMethod extends ExtremaFinderRN {
     calcF(fun, startG);
     calcF(fun, startL);
 
-    PointD[] simplex = new PointD[] {startH, startG, startL};
+    PointD[] simplex = {startH, startG, startL};
 
     double avg, sigma = 1.0;
     while (sigma > EPSILON) {

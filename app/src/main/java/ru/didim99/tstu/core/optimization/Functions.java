@@ -9,7 +9,7 @@ import ru.didim99.tstu.core.optimization.math.PointD;
  * Created by didim99 on 21.10.19.
  */
 class Functions {
-  static final FunctionRN[] parabola = new FunctionRN[] {
+  static final FunctionRN[] parabola = {
     p -> paraboloid(p, -4, -5, 3, 5, Math.toRadians(115)),
     p -> paraboloid(p, 4, 4, 2, 3, Math.toRadians(55)),
     p -> paraboloid(p, -2, -1, 2, 3, Math.toRadians(125))

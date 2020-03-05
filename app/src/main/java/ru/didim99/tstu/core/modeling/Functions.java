@@ -18,7 +18,7 @@ public class Functions {
   private static final double P1    = 7600;   // kg/m^2
 
   // Input variables
-  public static Variable[] vars = new Variable[] {
+  public static Variable[] vars = {
     new Variable("cIn", 0.08, 0.06, 0.10, 0.004, 0.03),
     new Variable("mIn", 4.0, 4.0, 6.0, 0.2, 3.0),
     new Variable("tIn", 130.0, 122.0, 140.0, 0.5, 13.0)

@@ -14,7 +14,7 @@ import ru.didim99.tstu.core.itheory.compression.utils.HuffmanTreeEntry;
  * Created by didim99 on 28.02.20.
  */
 public class HuffmanCompressor extends Compressor {
-  private static final byte[] HEADER = new byte[] {0x48, 0x46, 0x4D};
+  private static final byte[] HEADER = {0x48, 0x46, 0x4D};
 
   @Override
   public byte[] compress(String data) throws IOException {

@@ -13,7 +13,7 @@ import ru.didim99.tstu.core.itheory.compression.utils.BitStream;
  * Created by didim99 on 01.03.20.
  */
 public class ArithmeticCompressor extends Compressor {
-  private static final byte[] HEADER = new byte[] {0x41, 0x52, 0x4D};
+  private static final byte[] HEADER = {0x41, 0x52, 0x4D};
 
   public static final int CODE_BITS = 32;
   private static final long CODE_MIN = 0L;
