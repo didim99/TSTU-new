@@ -1,4 +1,4 @@
-package ru.didim99.tstu.core.is;
+package ru.didim99.tstu.core.itheory.datatransfer;
 
 import java.util.ArrayList;
 import java.util.Random;

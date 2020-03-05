@@ -297,6 +297,7 @@
     <item>@string/graphics_textures</item>
     <item>@string/graphics_shading</item>
     <item>@string/graphics_fractals</item>
+    <item>@string/geometry_functionalCurves</item>
   </string-array>
   <string name="graphics_modelSaved">Модель успешно сохранена в: %s</string>
   <string name="graphics_modelName">Название модели</string>
@@ -356,6 +357,23 @@
   <string name="graphics_branchAngle">Угол отклонения ветки: %d&#176;</string>
   <string name="graphics_rbBranchLF">Коэф. коррекции длины: %.2f</string>
   <string name="graphics_rbBranchAF">Коэф. коррекции угла: %.2f</string>
+  <!-- Geometry modeling -->
+  <string name="geometry_functionalCurves">Функциональные кривые</string>
+  <string name="geometry_curveType">Кривые</string>
+  <string-array name="geometry_curveTypes">
+    <item>Лагранжа</item>
+    <item>Безье</item>
+    <item>Эрмита</item>
+    <item>Куб. Безье</item>
+    <item>B-сплайн^2</item>
+    <item>B-сплайн^3</item>
+    <item>Catmull-Rom</item>
+  </string-array>
+  <string name="geometry_curvePoints">Рисовать точки</string>
+  <string name="geometry_curveFrame">Рисовать каркас</string>
+  <string name="geometry_curveSync">Синхр. рычаги</string>
+  <string name="geometry_curveHelp">Коснитесь экрана чтобы добавить точку.\nДважды коснитесь точки чтобы удалить ее</string>
+  <string name="geometry_hideMenu">Скрыть меню</string>
   <!-- Mobile platforms -->
   <string name="startMP">МВП</string>
   <string name="mp_selectType">Мобильные платформы</string>
@@ -602,31 +620,6 @@
   <string name="os_scheduler_logFinished">%d: процесс завершил выполнение</string>
   <string name="os_scheduler_logIOStarted">%d: запрос операции ввода-вывода</string>
   <string name="os_scheduler_logIOFinished">%d: завершена операция ввода-вывода</string>
-  <!-- IS -->
-  <string name="startIS">ИБ</string>
-  <string name="sectionIS">Информационная безопасность</string>
-  <string name="is_dataTransmission">Передача информации</string>
-  <string-array name="is_taskTypes">
-    <item>@string/is_dataTransmission</item>
-  </string-array>
-  <string-array name="is_dt_codeTypes">
-    <item>1 из m</item>
-    <item>CRC</item>
-    <item>(n,k)-Хэмминга</item>
-  </string-array>
-  <string name="is_dt_coding">Кодирование</string>
-  <string name="is_dt_codeType">Метод кодирования</string>
-  <string name="is_dt_transmitter">Передатчик</string>
-  <string name="is_dt_receiver">Приемник</string>
-  <string name="is_dt_channel">Передача информации</string>
-  <string name="is_dt_start">Начать</string>
-  <string name="is_dt_stop">Остановить</string>
-  <string name="is_dt_pause">Приостановить</string>
-  <string name="is_dt_unPause">Возобновить</string>
-  <string name="is_dt_enableErrors">Вносить ошибки</string>
-  <string name="is_dt_messageLength">Длина сообщения: %d</string>
-  <string name="is_dt_errorRateTotal">Ошибочных блоков: %d</string>
-  <string name="is_dt_errorRateBlock">Ошибочных бит на блок: %d</string>
   <!-- Optimization -->
   <string name="startOpt">Оптимизация</string>
   <string name="sectionOpt">Методы оптимизации</string>
@@ -697,6 +690,26 @@
     <item>@string/modeling_dynamicCurve</item>
   </string-array>
   <string name="modeling_variable">Зависимость</string>
+  <!-- Information Security -->
+  <string name="is_dataTransmission">Передача информации</string>
+  <string-array name="is_dt_codeTypes">
+    <item>1 из m</item>
+    <item>CRC</item>
+    <item>(n,k)-Хэмминга</item>
+  </string-array>
+  <string name="is_dt_coding">Кодирование</string>
+  <string name="is_dt_codeType">Метод кодирования</string>
+  <string name="is_dt_transmitter">Передатчик</string>
+  <string name="is_dt_receiver">Приемник</string>
+  <string name="is_dt_channel">Передача информации</string>
+  <string name="is_dt_start">Начать</string>
+  <string name="is_dt_stop">Остановить</string>
+  <string name="is_dt_pause">Приостановить</string>
+  <string name="is_dt_unPause">Возобновить</string>
+  <string name="is_dt_enableErrors">Вносить ошибки</string>
+  <string name="is_dt_messageLength">Длина сообщения: %d</string>
+  <string name="is_dt_errorRateTotal">Ошибочных блоков: %d</string>
+  <string name="is_dt_errorRateBlock">Ошибочных бит на блок: %d</string>
   <!-- Information theory -->
   <string name="startITheory">Теория информации</string>
   <string name="sectionITheory">Основы теории информации</string>
@@ -705,6 +718,7 @@
   <string name="iTheory_compText">Huffman и арифметическое корирование</string>
   <string name="iTheory_encryption">Шифрование данный. RSA</string>
   <string-array name="iTheory_taskTypes">
+    <item>@string/is_dataTransmission</item>
     <item>@string/iTheory_informationCount</item>
     <item>@string/iTheory_compImage</item>
     <item>@string/iTheory_compText</item>
@@ -774,28 +788,6 @@
   <string name="iTheory_keyN">N:</string>
   <string name="iTheory_keyE">E:</string>
   <string name="iTheory_keyD">D:</string>
-  <!-- Geometry modeling -->
-  <string name="startGeometry">Геом. моделирование</string>
-  <string name="sectionGeometry">Геометрическое моделирование</string>
-  <string name="geometry_functionalCurves">Функциональные кривые</string>
-  <string-array name="geometry_taskTypes">
-    <item>@string/geometry_functionalCurves</item>
-  </string-array>
-  <string name="geometry_curveType">Кривые</string>
-  <string-array name="geometry_curveTypes">
-    <item>Лагранжа</item>
-    <item>Безье</item>
-    <item>Эрмита</item>
-    <item>Куб. Безье</item>
-    <item>B-сплайн^2</item>
-    <item>B-сплайн^3</item>
-    <item>Catmull-Rom</item>
-  </string-array>
-  <string name="geometry_curvePoints">Рисовать точки</string>
-  <string name="geometry_curveFrame">Рисовать каркас</string>
-  <string name="geometry_curveSync">Синхр. рычаги</string>
-  <string name="geometry_curveHelp">Коснитесь экрана чтобы добавить точку.\nДважды коснитесь точки чтобы удалить ее</string>
-  <string name="geometry_hideMenu">Скрыть меню</string>
   <!-- Содержимое текстовых полей и подписей кнопок (Layout: act_dir_picker) -->
   <string name="actLabel_filePicker">Выбор файла</string>
   <string name="actLabel_dirPicker">Выбор каталога</string>

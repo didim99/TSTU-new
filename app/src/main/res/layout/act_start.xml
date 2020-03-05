@@ -68,27 +68,11 @@
         android:text="@string/startOS"/>
 
       <Button
-        android:id="@+id/startIS"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/actStart_btnPadding"
-        android:text="@string/startIS"/>
-    </TableRow>
-
-    <TableRow>
-      <Button
         android:id="@+id/startOpt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/actStart_btnPadding"
         android:text="@string/startOpt"/>
-
-      <Button
-        android:id="@+id/startModeling"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/actStart_btnPadding"
-        android:text="@string/startModeling"/>
     </TableRow>
 
     <TableRow>
@@ -100,11 +84,11 @@
         android:text="@string/startITheory"/>
 
       <Button
-        android:id="@+id/startGeometry"
+        android:id="@+id/startModeling"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/actStart_btnPadding"
-        android:text="@string/startGeometry"/>
+        android:text="@string/startModeling"/>
     </TableRow>
   </TableLayout>
 

@@ -1,4 +1,4 @@
-package ru.didim99.tstu.core.is.encoder;
+package ru.didim99.tstu.core.itheory.datatransfer.encoder;
 
 import java.util.Arrays;
 import java.util.Locale;

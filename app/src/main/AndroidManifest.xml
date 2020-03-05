@@ -193,10 +193,6 @@
       android:label="@string/os_scheduler"/>
 
     <activity
-      android:name=".ui.TransmitActivity"
-      android:label="@string/is_dataTransmission"/>
-
-    <activity
       android:name=".ui.OptimizationActivity"
       android:label="@string/sectionOpt"/>
 
@@ -204,6 +200,9 @@
       android:name=".ui.ModelingActivity"
       android:label="@string/sectionModeling"/>
 
+    <activity
+      android:name=".ui.itheory.TransmitActivity"
+      android:label="@string/is_dataTransmission"/>
     <activity
       android:name=".ui.itheory.AlphabetActivity"
       android:label="@string/iTheory_informationCount"/>

@@ -1,4 +1,4 @@
-package ru.didim99.tstu.ui;
+package ru.didim99.tstu.ui.itheory;
 
 import android.os.Bundle;
 import android.widget.Button;
@@ -6,7 +6,8 @@ import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
 import ru.didim99.tstu.R;
-import ru.didim99.tstu.core.is.DataExchanger;
+import ru.didim99.tstu.core.itheory.datatransfer.DataExchanger;
+import ru.didim99.tstu.ui.BaseActivity;
 import ru.didim99.tstu.ui.utils.SpinnerAdapter;
 import ru.didim99.tstu.ui.view.RangeBar;
 import ru.didim99.tstu.utils.MyLog;

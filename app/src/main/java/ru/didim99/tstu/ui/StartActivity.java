@@ -19,6 +19,7 @@ import ru.didim99.tstu.ui.itheory.AlphabetActivity;
 import ru.didim99.tstu.ui.itheory.CompressionActivity;
 import ru.didim99.tstu.ui.itheory.CryptoActivity;
 import ru.didim99.tstu.ui.itheory.RLEActivity;
+import ru.didim99.tstu.ui.itheory.TransmitActivity;
 import ru.didim99.tstu.ui.math.CAActivity;
 import ru.didim99.tstu.ui.math.MathStatActivity;
 import ru.didim99.tstu.ui.math.RV2Activity;
@@ -46,17 +47,15 @@ public class StartActivity extends AppCompatActivity {
   private static final Class[] GRAPH_TARGET =
     { LinesActivity.class, HorizonActivity.class,
       TransformActivity.class, TexturesActivity.class,
-      ShadingActivity.class, FractalActivity.class };
+      ShadingActivity.class, FractalActivity.class,
+      CurvesActivity.class };
   private static final Class[] OS_TARGET =
     { ProcessActivity.class, ExpanseActivity.class,
       SchedulerActivity.class };
-  private static final Class[] IS_TARGET =
-    { TransmitActivity.class };
   private static final Class[] ITHEORY_TARGET =
-    { AlphabetActivity.class, RLEActivity.class,
-      CompressionActivity.class, CryptoActivity.class };
-  private static final Class[] GEOMETRY_TARGET =
-    { CurvesActivity.class };
+    { TransmitActivity.class, AlphabetActivity.class,
+      RLEActivity.class, CompressionActivity.class,
+      CryptoActivity.class };
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -78,16 +77,12 @@ public class StartActivity extends AppCompatActivity {
       R.string.graphics_selectType, R.array.graphics_taskTypes, GRAPH_TARGET));
     findViewById(R.id.startOS).setOnClickListener(v -> activityTypeDialog(
       R.string.sectionOS, R.array.os_taskTypes, OS_TARGET));
-    findViewById(R.id.startIS).setOnClickListener(v -> activityTypeDialog(
-      R.string.sectionIS, R.array.is_taskTypes, IS_TARGET));
     findViewById(R.id.startOpt).setOnClickListener(v -> taskTypeDialog(
       R.string.sectionOpt, R.array.opt_taskTypes, OptimizationActivity.class));
     findViewById(R.id.startModeling).setOnClickListener(v -> taskTypeDialog(
       R.string.sectionModeling, R.array.modeling_taskTypes, ModelingActivity.class));
     findViewById(R.id.startITheory).setOnClickListener(v -> activityTypeDialog(
       R.string.sectionITheory, R.array.iTheory_taskTypes, ITHEORY_TARGET));
-    findViewById(R.id.startGeometry).setOnClickListener(v -> activityTypeDialog(
-      R.string.sectionGeometry, R.array.geometry_taskTypes, GEOMETRY_TARGET));
 
     MyLog.d(LOG_TAG, "StartActivity created");
   }
