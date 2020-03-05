@@ -16,7 +16,6 @@ import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.itheory.compression.CompressionManager;
 import ru.didim99.tstu.core.itheory.compression.Compressor;
 import ru.didim99.tstu.ui.BaseActivity;
-import ru.didim99.tstu.ui.dirpicker.DirPickerActivity;
 import ru.didim99.tstu.ui.utils.SpinnerAdapter;
 import ru.didim99.tstu.utils.InputValidator;
 import ru.didim99.tstu.utils.MyLog;
@@ -168,9 +167,7 @@ public class CompressionActivity extends BaseActivity
 
   protected boolean saveToFile(View v, boolean compressed) {
     if (((TextView) v).getText().toString().isEmpty()) return false;
-    Intent intent = new Intent(this, DirPickerActivity.class);
-    intent.putExtra(DirPickerActivity.KEY_MODE, DirPickerActivity.Mode.DIRECTORY);
-    startActivityForResult(intent, compressed ? REQUEST_SAVE_COMP : REQUEST_SAVE_UNC);
+    openDir(compressed ? REQUEST_SAVE_COMP : REQUEST_SAVE_UNC);
     return true;
   }
 
@@ -184,7 +181,7 @@ public class CompressionActivity extends BaseActivity
       .setTitle(R.string.iTheory_imageName).setView(view)
       .setPositiveButton(R.string.dialogButtonOk, null)
       .setNegativeButton(R.string.dialogButtonCancel, null);
-    MyLog.d(LOG_TAG, "Save image dialog created");
+    MyLog.d(LOG_TAG, "Save dialog created");
     AlertDialog dialog = adb.create();
     dialog.setOnShowListener((di) -> {
       AlertDialog d = (AlertDialog) di;

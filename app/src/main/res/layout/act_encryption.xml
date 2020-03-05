@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:layout_margin="@dimen/layoutPadding">
+
+  <View
+    android:id="@+id/hCenter"
+    android:layout_width="5dp"
+    android:layout_height="match_parent"
+    android:layout_centerHorizontal="true" />
+
+  <View
+    android:id="@+id/vCenter"
+    android:layout_width="match_parent"
+    android:layout_height="5dp"
+    android:layout_centerVertical="true" />
+
+  <TextView
+    android:id="@+id/tvSectionInMsg"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_toLeftOf="@id/hCenter"
+    android:layout_toStartOf="@id/hCenter"
+    android:layout_marginBottom="@dimen/layoutPadding"
+    android:text="@string/iTheory_sectionInMsg"
+    android:textSize="@dimen/textSize_large"
+    android:textColor="@color/dirPicker_textActive"
+    android:gravity="center"/>
+
+  <RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/tvSectionInMsg"
+    android:layout_alignLeft="@id/tvSectionInMsg"
+    android:layout_alignStart="@id/tvSectionInMsg"
+    android:layout_alignRight="@id/tvSectionInMsg"
+    android:layout_alignEnd="@id/tvSectionInMsg"
+    android:layout_above="@id/vCenter">
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="vertical">
+
+      <EditText
+        android:id="@+id/etMessage"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="top"
+        android:hint="@string/iTheory_inputMessage"
+        android:inputType="textMultiLine"/>
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        tools:ignore="buttonBarButtonStyle">
+
+        <Button
+          android:id="@+id/btnLoadMsg"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:text="@string/iTheory_loadFromFile"/>
+
+        <Button
+          android:id="@+id/btnStart"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:text="@string/buttonStart"/>
+      </LinearLayout>
+    </LinearLayout>
+
+    <ProgressBar
+      android:id="@+id/pbMain"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerInParent="true"
+      style="?android:attr/progressBarStyleLarge"
+      android:visibility="invisible"/>
+  </RelativeLayout>
+
+  <TextView
+    android:id="@+id/tvSectionKeys"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"
+    android:layout_toRightOf="@id/hCenter"
+    android:layout_toEndOf="@id/hCenter"
+    android:layout_marginBottom="@dimen/layoutPadding"
+    android:text="@string/iTheory_sectionKeys"
+    android:textSize="@dimen/textSize_large"
+    android:textColor="@color/dirPicker_textActive"
+    android:gravity="center"/>
+
+  <LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/tvSectionKeys"
+    android:layout_alignLeft="@id/tvSectionKeys"
+    android:layout_alignStart="@id/tvSectionKeys"
+    android:layout_alignRight="@id/tvSectionKeys"
+    android:layout_alignEnd="@id/tvSectionKeys"
+    android:layout_above="@id/vCenter"
+    android:orientation="vertical">
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal">
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:text="@string/iTheory_keyLength"
+        android:textSize="@dimen/textSize_main"/>
+
+      <Spinner
+        android:id="@+id/spKeyLength"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp" />
+    </LinearLayout>
+
+    <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="6dp"
+      android:layout_marginRight="6dp"
+      android:text="@string/iTheory_publicKey"
+      android:textSize="@dimen/textSize_main"
+      android:gravity="center"/>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal">
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:text="@string/iTheory_keyE"
+        android:textSize="@dimen/textSize_main"/>
+
+      <EditText
+        android:id="@+id/etPublicE"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:inputType="number"
+        android:nextFocusDown="@id/etSizeY"/>
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:text="@string/iTheory_keyN"
+        android:textSize="@dimen/textSize_main"
+        android:gravity="center"/>
+
+      <EditText
+        android:id="@+id/etPublicN"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:inputType="number"/>
+    </LinearLayout>
+
+    <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="6dp"
+      android:layout_marginRight="6dp"
+      android:text="@string/iTheory_privateKey"
+      android:textSize="@dimen/textSize_main"
+      android:gravity="center"/>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal">
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:text="@string/iTheory_keyD"
+        android:textSize="@dimen/textSize_main"/>
+
+      <EditText
+        android:id="@+id/etPrivateD"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:inputType="number"
+        android:nextFocusDown="@id/etSizeY"/>
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:text="@string/iTheory_keyN"
+        android:textSize="@dimen/textSize_main"
+        android:gravity="center"/>
+
+      <EditText
+        android:id="@+id/etPrivateN"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:inputType="number"/>
+    </LinearLayout>
+
+    <View
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"/>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      tools:ignore="buttonBarButtonStyle">
+
+      <Button
+        android:id="@+id/btnGenKey"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/buttonGenerate"/>
+
+      <Button
+        android:id="@+id/btnLoadKey"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/buttonLoad"/>
+
+      <Button
+        android:id="@+id/btnStoreKey"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/buttonSave"/>
+    </LinearLayout>
+  </LinearLayout>
+
+  <TextView
+    android:id="@+id/tvSectionEncrypted"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_below="@id/vCenter"
+    android:layout_toLeftOf="@id/hCenter"
+    android:layout_toStartOf="@id/hCenter"
+    android:layout_marginBottom="@dimen/layoutPadding"
+    android:text="@string/iTheory_sectionEncrypted"
+    android:textSize="@dimen/textSize_large"
+    android:textColor="@color/dirPicker_textActive"
+    android:gravity="center"/>
+
+  <ScrollView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/tvSectionEncrypted"
+    android:layout_alignLeft="@id/tvSectionEncrypted"
+    android:layout_alignStart="@id/tvSectionEncrypted"
+    android:layout_alignRight="@id/tvSectionEncrypted"
+    android:layout_alignEnd="@id/tvSectionEncrypted"
+    android:layout_alignParentBottom="true">
+
+    <TextView
+      android:id="@+id/tvEncrypted"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textSize="@dimen/textSize_main"
+      android:typeface="monospace"/>
+  </ScrollView>
+
+  <TextView
+    android:id="@+id/tvSectionDecrypted"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"
+    android:layout_below="@id/vCenter"
+    android:layout_toRightOf="@id/hCenter"
+    android:layout_toEndOf="@id/hCenter"
+    android:layout_marginBottom="@dimen/layoutPadding"
+    android:text="@string/iTheory_sectionDecrypted"
+    android:textSize="@dimen/textSize_large"
+    android:textColor="@color/dirPicker_textActive"
+    android:gravity="center"/>
+
+  <ScrollView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/tvSectionDecrypted"
+    android:layout_alignLeft="@id/tvSectionDecrypted"
+    android:layout_alignStart="@id/tvSectionDecrypted"
+    android:layout_alignRight="@id/tvSectionDecrypted"
+    android:layout_alignEnd="@id/tvSectionDecrypted"
+    android:layout_alignParentBottom="true">
+
+    <TextView
+      android:id="@+id/tvDecrypted"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textSize="@dimen/textSize_main"
+      android:typeface="monospace"/>
+  </ScrollView>
+
+</RelativeLayout>

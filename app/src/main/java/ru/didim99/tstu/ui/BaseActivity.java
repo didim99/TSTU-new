@@ -80,16 +80,24 @@ public abstract class BaseActivity extends AppCompatActivity {
   }
 
   protected void openFile() {
-    MyLog.d(LOG_TAG, "Choose file from DirPicker...");
-    Intent intent = new Intent(this, DirPickerActivity.class);
-    intent.putExtra(DirPickerActivity.KEY_MODE, DirPickerActivity.Mode.FILE);
-    startActivityForResult(intent, REQUEST_GET_FILE);
+    openFile(REQUEST_GET_FILE);
   }
 
   protected void openDir() {
+    openDir(REQUEST_GET_DIR);
+  }
+
+  protected void openFile(int requestCode) {
+    MyLog.d(LOG_TAG, "Choose file from DirPicker...");
+    Intent intent = new Intent(this, DirPickerActivity.class);
+    intent.putExtra(DirPickerActivity.KEY_MODE, DirPickerActivity.Mode.FILE);
+    startActivityForResult(intent, requestCode);
+  }
+
+  protected void openDir(int requestCode) {
     MyLog.d(LOG_TAG, "Choose directory from DirPicker...");
     Intent intent = new Intent(this, DirPickerActivity.class);
     intent.putExtra(DirPickerActivity.KEY_MODE, DirPickerActivity.Mode.DIRECTORY);
-    startActivityForResult(intent, REQUEST_GET_DIR);
+    startActivityForResult(intent, requestCode);
   }
 }

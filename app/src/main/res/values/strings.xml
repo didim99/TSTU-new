@@ -29,6 +29,7 @@
   <string name="buttonCreate">Создать</string>
   <string name="buttonAdd">Добавить</string>
   <string name="buttonOpen">Открыть</string>
+  <string name="buttonLoad">Загрузить</string>
   <string name="buttonSave">Сохранить</string>
   <string name="buttonMore">Дополнительно</string>
   <string name="buttonCalculate">Рассчитать</string>
@@ -702,10 +703,12 @@
   <string name="iTheory_informationCount">Измерение объема информации</string>
   <string name="iTheory_compImage">Сжатие изображений. RLE</string>
   <string name="iTheory_compText">Huffman и арифметическое корирование</string>
+  <string name="iTheory_encryption">Шифрование данный. RSA</string>
   <string-array name="iTheory_taskTypes">
     <item>@string/iTheory_informationCount</item>
     <item>@string/iTheory_compImage</item>
     <item>@string/iTheory_compText</item>
+    <item>@string/iTheory_encryption</item>
   </string-array>
   <string name="iTheory_alphabetType">Алфавит</string>
   <string name="iTheory_message">Сообщение</string>
@@ -762,6 +765,15 @@
   </string-array>
   <string name="iTheory_inputMessage">Введите сообщение</string>
   <string name="iTheory_loadFromFile">Загрузить из файла</string>
+  <string name="iTheory_sectionKeys">Управление ключами</string>
+  <string name="iTheory_sectionEncrypted">Зашифрованное сообщение</string>
+  <string name="iTheory_sectionDecrypted">Расшифрованное сообщение</string>
+  <string name="iTheory_keyLength">Длина ключа (бит)</string>
+  <string name="iTheory_publicKey">Открытый ключ</string>
+  <string name="iTheory_privateKey">Закрытый ключ</string>
+  <string name="iTheory_keyN">N:</string>
+  <string name="iTheory_keyE">E:</string>
+  <string name="iTheory_keyD">D:</string>
   <!-- Geometry modeling -->
   <string name="startGeometry">Геом. моделирование</string>
   <string name="sectionGeometry">Геометрическое моделирование</string>

@@ -214,6 +214,10 @@
       android:name=".ui.itheory.CompressionActivity"
       android:label="@string/iTheory_compText"
       android:windowSoftInputMode="adjustNothing|stateAlwaysHidden"/>
+    <activity
+      android:name=".ui.itheory.CryptoActivity"
+      android:label="@string/iTheory_encryption"
+      android:windowSoftInputMode="adjustNothing|stateAlwaysHidden"/>
 
     <activity
       android:name=".ui.dirpicker.DirPickerActivity"
