@@ -25,6 +25,14 @@ public class FastMath {
   }
 
   /**
+   * Calculate multiplicative inverse number for {@code a} by module {@code m}
+   * using extended Euclidean algorithm
+   */
+  public static long inversem(long a, long m) {
+    return 0;
+  }
+
+  /**
    * Calculate a greatest common divisor of {@code a} and {@code b}
    * using Euclidean algorithm
    */
