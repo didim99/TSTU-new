@@ -11,7 +11,8 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
-import ru.didim99.tstu.core.itheory.encryption.FastMath;
+import ru.didim99.tstu.core.itheory.encryption.math.FastMath;
+import ru.didim99.tstu.core.itheory.encryption.math.SieveEratosthenes;
 
 /**
  * Created by didim99 on 05.03.20.
@@ -20,8 +21,8 @@ public class RSAKey {
   private static final byte[] HEADER = {0x52, 0x53, 0x41};
   private static final long[] PUBLIC_EXP = {17, 257, 65537};
   private static final int MIN_LEN = 8;
-  private static final int MAX_LEN = 32;
-  private static final int LEN_STEP = 8;
+  private static final int MAX_LEN = 16;
+  private static final int LEN_STEP = 4;
 
   private BigInteger e, d, n;
 
@@ -89,9 +90,19 @@ public class RSAKey {
 
   public static RSAKey generate(int length) {
     if (length == MAX_LEN) length--;
+    long minValue = 1L << (length - 2);
+    long maxValue = 1L << length;
+
     Random random = new Random();
-    long p = getPrimeRand(random, length);
-    long q = getPrimeRand(random, length);
+    SieveEratosthenes sieve = new SieveEratosthenes();
+    sieve.fillNPrimes(maxValue);
+    int size = sieve.getSize();
+    long p = 0, q = 0;
+
+    while (p < minValue)
+      p = sieve.get(random.nextInt(size));
+    while (q < minValue)
+      q = sieve.get(random.nextInt(size));
 
     long n = p * q, e = 1;
     long phi = (p - 1) * (q - 1);
@@ -99,23 +110,11 @@ public class RSAKey {
       if (exp < phi) e = exp;
     }
 
-    long d = FastMath.inversem(e, n);
+    long d = FastMath.inversem(e, phi);
     return new RSAKey(
       BigInteger.valueOf(e),
       BigInteger.valueOf(d),
       BigInteger.valueOf(n));
-  }
-
-  private static long getPrimeRand(Random random, int length) {
-    long minValue = 1L << (length - 2);
-    long maxValue = 1L << (length);
-    while (true) {
-      long number = random.nextLong();
-      if (number < minValue) continue;
-      if (number > maxValue) continue;
-      if (FastMath.isPrime(number))
-        return number;
-    }
   }
 
   public static String[] getPossibleLength() {

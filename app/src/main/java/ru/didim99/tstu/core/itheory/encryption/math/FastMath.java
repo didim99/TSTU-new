@@ -1,4 +1,4 @@
-package ru.didim99.tstu.core.itheory.encryption;
+package ru.didim99.tstu.core.itheory.encryption.math;
 
 import java.util.Random;
 

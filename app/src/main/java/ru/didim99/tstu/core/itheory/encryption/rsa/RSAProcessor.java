@@ -5,7 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import ru.didim99.tstu.core.itheory.encryption.FastMath;
+import ru.didim99.tstu.core.itheory.encryption.math.FastMath;
 
 /**
  * Created by didim99 on 05.03.20.
