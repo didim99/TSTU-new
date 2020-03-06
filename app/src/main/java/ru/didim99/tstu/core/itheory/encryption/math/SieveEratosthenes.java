@@ -23,7 +23,7 @@ public class SieveEratosthenes {
     return primes.size();
   }
 
-  public void fillNPrimes(long maxNumber) {
+  public void fillPrimesUpTo(long maxNumber) {
     while (getLastNumber() < maxNumber)
       addNextPrime();
   }
@@ -50,7 +50,7 @@ public class SieveEratosthenes {
   private static class PrimePair {
     private long prime, lastCrossed;
 
-    PrimePair(long prime, long lastCrossed) {
+    private PrimePair(long prime, long lastCrossed) {
       this.lastCrossed = lastCrossed;
       this.prime = prime;
     }

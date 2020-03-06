@@ -3,7 +3,6 @@ package ru.didim99.tstu.core.itheory.encryption;
 import android.content.Context;
 import java.io.File;
 import java.io.IOException;
-
 import ru.didim99.tstu.core.CallbackTask;
 import ru.didim99.tstu.core.itheory.encryption.rsa.RSAKey;
 import ru.didim99.tstu.core.itheory.encryption.rsa.RSAProcessor;

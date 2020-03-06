@@ -25,7 +25,7 @@ public class RSAProcessor {
     long e = key.getE().longValue();
     long n = key.getN().longValue();
     for (char character : message.toCharArray())
-      stream.writeLong(FastMath.powm(character, e, n));
+      stream.writeInt((int) FastMath.powm(character, e, n));
 
     return buffer.toByteArray();
   }
@@ -39,7 +39,7 @@ public class RSAProcessor {
     long d = key.getD().longValue();
     long n = key.getN().longValue();
     while (length-- > 0)
-      sb.append((char) FastMath.powm(stream.readLong(), d, n));
+      sb.append((char) FastMath.powm(stream.readInt(), d, n));
 
     return sb.toString();
   }

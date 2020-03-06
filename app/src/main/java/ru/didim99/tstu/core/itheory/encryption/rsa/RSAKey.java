@@ -20,7 +20,7 @@ import ru.didim99.tstu.core.itheory.encryption.math.SieveEratosthenes;
 public class RSAKey {
   private static final byte[] HEADER = {0x52, 0x53, 0x41};
   private static final long[] PUBLIC_EXP = {17, 257, 65537};
-  private static final int MIN_LEN = 8;
+  private static final int MIN_LEN = 4;
   private static final int MAX_LEN = 16;
   private static final int LEN_STEP = 4;
 
@@ -95,7 +95,7 @@ public class RSAKey {
 
     Random random = new Random();
     SieveEratosthenes sieve = new SieveEratosthenes();
-    sieve.fillNPrimes(maxValue);
+    sieve.fillPrimesUpTo(maxValue);
     int size = sieve.getSize();
     long p = 0, q = 0;
 

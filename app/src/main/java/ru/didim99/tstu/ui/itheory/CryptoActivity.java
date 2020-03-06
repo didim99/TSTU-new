@@ -148,6 +148,7 @@ public class CryptoActivity extends BaseActivity
     etPublicE.setText(key.getE().toString());
     etPrivateD.setText(key.getD().toString());
     etKeyModule.setText(key.getN().toString());
+    etMessage.setText(manager.getMessage());
   }
 
   @Override
