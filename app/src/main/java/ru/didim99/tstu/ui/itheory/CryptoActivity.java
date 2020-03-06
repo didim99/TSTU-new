@@ -14,7 +14,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.io.File;
-import java.math.BigInteger;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.itheory.encryption.CryptoManager;
 import ru.didim99.tstu.core.itheory.encryption.rsa.RSAKey;
@@ -37,8 +36,9 @@ public class CryptoActivity extends BaseActivity
 
   // View elements
   private EditText etMessage;
-  private EditText etPublicE, etPublicN;
-  private EditText etPrivateD, etPrivateN;
+  private EditText etPublicE;
+  private EditText etPrivateD;
+  private EditText etKeyModule;
   private Button btnLoadMsg, btnStart;
   private Button btnGenKey, btnSetKey;
   private Button btnLoadKey, btnStoreKey;
@@ -57,9 +57,8 @@ public class CryptoActivity extends BaseActivity
     MyLog.d(LOG_TAG, "View components init...");
     etMessage = findViewById(R.id.etMessage);
     etPublicE = findViewById(R.id.etPublicE);
-    etPublicN = findViewById(R.id.etPublicN);
     etPrivateD = findViewById(R.id.etPrivateD);
-    etPrivateN = findViewById(R.id.etPrivateN);
+    etKeyModule = findViewById(R.id.etKeyModule);
     btnLoadMsg = findViewById(R.id.btnLoadMsg);
     btnStart = findViewById(R.id.btnStart);
     btnGenKey = findViewById(R.id.btnGenKey);
@@ -70,7 +69,7 @@ public class CryptoActivity extends BaseActivity
     tvEnc = findViewById(R.id.tvEncrypted);
     tvDec = findViewById(R.id.tvDecrypted);
     pbMain = findViewById(R.id.pbMain);
-    btnGenKey.setOnClickListener(v -> setKey());
+    btnSetKey.setOnClickListener(v -> setKey());
     btnGenKey.setOnClickListener(v -> generateKey());
     btnStart.setOnClickListener(v -> startEncryption());
     btnLoadMsg.setOnClickListener(v -> openFile(REQUEST_LOAD_MSG));
@@ -136,7 +135,7 @@ public class CryptoActivity extends BaseActivity
 
   @Override
   public void onOperationStateChanged(boolean state) {
-    uiLock(!state);
+    uiLock(state);
     if (state) {
       tvEnc.setText(null);
       tvDec.setText(null);
@@ -147,9 +146,8 @@ public class CryptoActivity extends BaseActivity
   @SuppressLint("SetTextI18n")
   public void onKeyChanged(RSAKey key) {
     etPublicE.setText(key.getE().toString());
-    etPublicN.setText(key.getN().toString());
     etPrivateD.setText(key.getD().toString());
-    etPrivateN.setText(key.getN().toString());
+    etKeyModule.setText(key.getN().toString());
   }
 
   @Override
@@ -166,9 +164,8 @@ public class CryptoActivity extends BaseActivity
     uiLocked = state;
     etMessage.setEnabled(!state);
     etPublicE.setEnabled(!state);
-    etPublicN.setEnabled(!state);
     etPrivateD.setEnabled(!state);
-    etPrivateN.setEnabled(!state);
+    etKeyModule.setEnabled(!state);
     btnLoadMsg.setEnabled(!state);
     btnStart.setEnabled(!state);
     btnGenKey.setEnabled(!state);
@@ -194,28 +191,20 @@ public class CryptoActivity extends BaseActivity
   private void setKey() {
     try {
       InputValidator iv = InputValidator.getInstance();
-      BigInteger publicN = iv.checkBigInteger(etPublicN, R.string.errTI_emptyKey,
-        R.string.errTI_incorrectKey, "Public N");
-      BigInteger privateN = iv.checkBigInteger(etPrivateN, R.string.errTI_emptyKey,
-        R.string.errTI_incorrectKey, "Private N");
-      if (!publicN.equals(privateN)) {
-        Toast.makeText(this, R.string.errTI_incorrectKeyN,
-          Toast.LENGTH_LONG).show();
-        return;
-      }
-
       manager.setKey(new RSAKey(
         iv.checkBigInteger(etPublicE, R.string.errTI_emptyKey,
           R.string.errTI_incorrectKey, "Public E"),
         iv.checkBigInteger(etPrivateD, R.string.errTI_emptyKey,
-          R.string.errTI_incorrectKey, "Private D"), publicN));
+          R.string.errTI_incorrectKey, "Private D"),
+        iv.checkBigInteger(etKeyModule, R.string.errTI_emptyKey,
+          R.string.errTI_incorrectKey, "Module")));
     } catch (InputValidator.ValidationException ignored) {}
   }
 
   private void startEncryption() {
-    if (etMessage.getText().length() == 0) return;
     if (manager.getKey() == null) return;
-    manager.setMessage(etMessage.getText().toString());
+    if (etMessage.getText().length() > 0)
+      manager.setMessage(etMessage.getText().toString());
     manager.start();
   }
 

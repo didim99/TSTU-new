@@ -135,99 +135,68 @@
         android:layout_marginStart="5dp" />
     </LinearLayout>
 
-    <TextView
+    <TableLayout
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginLeft="6dp"
-      android:layout_marginRight="6dp"
-      android:text="@string/iTheory_publicKey"
-      android:textSize="@dimen/textSize_main"
-      android:gravity="center"/>
+      android:layout_height="wrap_content">
 
-    <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:orientation="horizontal">
+      <TableRow>
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="6dp"
+          android:layout_marginRight="6dp"
+          android:text="@string/iTheory_keyE"
+          android:textSize="@dimen/textSize_main"
+          android:gravity="end"/>
 
-      <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="6dp"
-        android:layout_marginRight="6dp"
-        android:text="@string/iTheory_keyE"
-        android:textSize="@dimen/textSize_main"/>
+        <EditText
+          android:id="@+id/etPublicE"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:inputType="number"
+          android:nextFocusDown="@id/etSizeY"/>
 
-      <EditText
-        android:id="@+id/etPublicE"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:inputType="number"
-        android:nextFocusDown="@id/etSizeY"/>
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="6dp"
+          android:layout_marginRight="6dp"
+          android:text="@string/iTheory_keyD"
+          android:textSize="@dimen/textSize_main"
+          android:gravity="end"/>
 
-      <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="6dp"
-        android:layout_marginRight="6dp"
-        android:text="@string/iTheory_keyN"
-        android:textSize="@dimen/textSize_main"
-        android:gravity="center"/>
+        <EditText
+          android:id="@+id/etPrivateD"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:inputType="number"
+          android:nextFocusDown="@id/etSizeY"/>
+      </TableRow>
 
-      <EditText
-        android:id="@+id/etPublicN"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:inputType="number"/>
-    </LinearLayout>
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginLeft="6dp"
-      android:layout_marginRight="6dp"
-      android:text="@string/iTheory_privateKey"
-      android:textSize="@dimen/textSize_main"
-      android:gravity="center"/>
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="6dp"
+          android:layout_marginRight="6dp"
+          android:text="@string/iTheory_keyN"
+          android:textSize="@dimen/textSize_main"
+          android:gravity="end"/>
 
-    <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:orientation="horizontal">
-
-      <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="6dp"
-        android:layout_marginRight="6dp"
-        android:text="@string/iTheory_keyD"
-        android:textSize="@dimen/textSize_main"/>
-
-      <EditText
-        android:id="@+id/etPrivateD"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:inputType="number"
-        android:nextFocusDown="@id/etSizeY"/>
-
-      <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="6dp"
-        android:layout_marginRight="6dp"
-        android:text="@string/iTheory_keyN"
-        android:textSize="@dimen/textSize_main"
-        android:gravity="center"/>
-
-      <EditText
-        android:id="@+id/etPrivateN"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:inputType="number"/>
-    </LinearLayout>
+        <EditText
+          android:id="@+id/etKeyModule"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:inputType="number"
+          android:nextFocusDown="@id/etSizeY"/>
+      </LinearLayout>
+    </TableLayout>
 
     <View
       android:layout_width="match_parent"

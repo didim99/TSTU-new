@@ -29,7 +29,27 @@ public class FastMath {
    * using extended Euclidean algorithm
    */
   public static long inversem(long a, long m) {
-    return 0;
+    if (a == 0) return 1;
+    long x1 = 0, x2 = 1;
+    long y1 = 1, y2 = 0;
+    long q, r, x, y;
+    long m0 = m;
+
+    while (a > 0) {
+      q = m / a;
+      r = m - a*q;
+      x = x2 - q * x1;
+      y = y2 - q * y1;
+      m = a;
+      a = r;
+      x2 = x1;
+      y2 = y1;
+      x1 = x;
+      y1 = y;
+    }
+
+    if (y2 < 0) y2 += m0;
+    return y2;
   }
 
   /**
@@ -45,7 +65,7 @@ public class FastMath {
    * Fast exponentiation modulo
    * @return {@code a^b mod m}
    */
-  private static long powm(long a, long b, long m) {
+  public static long powm(long a, long b, long m) {
     if (b == 0) return 1;
     if (b % 2 == 0) {
       long t = powm(a, b / 2, m);

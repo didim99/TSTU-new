@@ -2,6 +2,8 @@ package ru.didim99.tstu.core.itheory.encryption;
 
 import android.content.Context;
 import java.io.File;
+import java.io.IOException;
+
 import ru.didim99.tstu.core.CallbackTask;
 import ru.didim99.tstu.core.itheory.encryption.rsa.RSAKey;
 import ru.didim99.tstu.core.itheory.encryption.rsa.RSAProcessor;
@@ -93,7 +95,7 @@ public class CryptoManager {
   }
 
   public void generateKey(int length) {
-    startTask(new Action.Builder(Action.Type.SAVE_FILE)
+    startTask(new Action.Builder(Action.Type.GEN_KEY)
       .setKeyLength(length).build());
   }
 
@@ -102,7 +104,7 @@ public class CryptoManager {
       Action.Type.PROCESS).build());
   }
 
-  void process() {
+  void process() throws IOException {
     RSAProcessor processor = new RSAProcessor(key);
     if (message != null && !message.isEmpty())
       encryptedData = processor.encrypt(message);

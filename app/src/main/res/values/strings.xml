@@ -196,7 +196,6 @@
   <string name="errTI_emptyFilename">Не задано имя файла</string>
   <string name="errTI_emptyKey">Не задан один из параметров ключа</string>
   <string name="errTI_incorrectKey">Некорректно задан один из параметров ключа</string>
-  <string name="errTI_incorrectKeyN">Значения N для открытого и закрытого ключей должны совпадать</string>
   <!-- MathStat -->
   <string-array name="math_taskTypes">
     <item>@string/startMathStat</item>
