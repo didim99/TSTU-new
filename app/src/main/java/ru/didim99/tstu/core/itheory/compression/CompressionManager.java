@@ -66,6 +66,9 @@ public class CompressionManager implements CallbackTask.EventListener<Boolean> {
       case Compressor.Type.ARITHMETIC:
         compressor = new ArithmeticCompressor();
         break;
+      case Compressor.Type.LZW:
+        compressor = new LZWCompressor();
+        break;
     }
 
     publishEvent(Event.TYPE_CHANGED);

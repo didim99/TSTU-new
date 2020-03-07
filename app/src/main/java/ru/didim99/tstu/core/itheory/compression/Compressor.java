@@ -16,8 +16,9 @@ public abstract class Compressor {
   public static final String EXT_COMP = ".dat";
 
   static final class Type {
-    static final int HUFFMAN = 0;
+    static final int HUFFMAN    = 0;
     static final int ARITHMETIC = 1;
+    static final int LZW        = 2;
   }
 
   String compressed, info;
@@ -57,15 +58,15 @@ public abstract class Compressor {
     sb.append(String.format(Locale.US,
       "Original size: %d bytes\n", origSize));
     sb.append(String.format(Locale.US,
-      "Tree size: %d bytes\n", compSizeTree - compSize - 4));
+      "Metadata size: %d bytes\n", compSizeTree - compSize - 4));
     sb.append(String.format(Locale.US,
-      "Compressed size (w/o tree): %d bytes\n", compSize));
+      "Compressed size (w/o metadata): %d bytes\n", compSize));
     sb.append(String.format(Locale.US,
-      "Compressed size (w tree): %d bytes\n", compSizeTree));
+      "Compressed size (w metadata): %d bytes\n", compSizeTree));
     sb.append(String.format(Locale.US,
-      "Compression factor (w/o tree): %.1f%%\n", percent(origSize, compSize)));
+      "Compression factor (w/o metadata): %.1f%%\n", percent(origSize, compSize)));
     sb.append(String.format(Locale.US,
-      "Compression factor (w tree): %.1f%%\n", percent(origSize, compSizeTree)));
+      "Compression factor (w metadata): %.1f%%\n", percent(origSize, compSizeTree)));
     sb.append("\nCharacter code table\n");
     sb.append(table.describe());
   }

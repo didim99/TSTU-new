@@ -718,8 +718,8 @@
   <string name="sectionITheory">Основы теории информации</string>
   <string name="iTheory_informationCount">Измерение объема информации</string>
   <string name="iTheory_compImage">Сжатие изображений. RLE</string>
-  <string name="iTheory_compText">Huffman и арифметическое корирование</string>
-  <string name="iTheory_encryption">Шифрование данный. RSA</string>
+  <string name="iTheory_compText">Сжатие текста</string>
+  <string name="iTheory_encryption">Шифрование данных. RSA</string>
   <string-array name="iTheory_taskTypes">
     <item>@string/is_dataTransmission</item>
     <item>@string/iTheory_informationCount</item>
@@ -779,6 +779,7 @@
   <string-array name="iTheory_compressionMethods">
     <item>Huffman</item>
     <item>Арифметическое кодирование</item>
+    <item>LZW</item>
   </string-array>
   <string name="iTheory_inputMessage">Введите сообщение</string>
   <string name="iTheory_loadFromFile">Загрузить из файла</string>
