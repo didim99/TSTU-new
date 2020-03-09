@@ -71,7 +71,11 @@ public abstract class Compressor {
     sb.append(table.describe());
   }
 
-  private static double percent(int total, int comp) {
-    return (total - comp) * 100.0 / total;
+  static double percent(int total, int compressed) {
+    return getRatio(total, compressed) * 100.0;
+  }
+
+  static double getRatio(int total, int compressed) {
+    return (total - compressed) / (double) total;
   }
 }
