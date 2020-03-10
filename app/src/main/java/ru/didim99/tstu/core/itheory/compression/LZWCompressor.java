@@ -33,11 +33,11 @@ public class LZWCompressor extends Compressor {
     StringBuilder msgBuilder = new StringBuilder();
 
     ArrayList<Integer> buffer = new ArrayList<>(LZWHashTable.BUFFER_SIZE);
-    LZWHashTable table = new LZWHashTable();
+    LZWHashTable table = new LZWHashTable(false);
     int marker = getMarker(inBuffer);
 
     outBuffer.write(HEADER);
-    writeAndDescribe(marker, out, msgBuilder);
+    outBuffer.write(marker);
 
     double bestRatio = RATIO_POOR;
     int read = 1, readAfter = 0;
@@ -122,7 +122,7 @@ public class LZWCompressor extends Compressor {
     if (!Arrays.equals(header, HEADER))
       throw new IOException("Invalid file header");
 
-    LZWHashTable table = new LZWHashTable();
+    LZWHashTable table = new LZWHashTable(true);
     int marker = inBuffer.read();
 
     int oldCode = readAndDescribe(inBuffer, in, marker, msgBuilder);
@@ -130,8 +130,7 @@ public class LZWCompressor extends Compressor {
     int symbol = oldCode;
 
     ArrayList<Integer> buffer;
-    int length = inBuffer.available();
-    while (length-- > 0) {
+    while (inBuffer.available() > 0) {
       int newCode = readAndDescribe(inBuffer, in, marker, msgBuilder);
       if (newCode == -marker) {
         table.rebuild();
@@ -152,7 +151,7 @@ public class LZWCompressor extends Compressor {
     }
 
     String message = new String(outBuffer.toByteArray());
-    describe(infoBuilder, message, marker, compSize, table);
+    describe(infoBuilder, message, compSize, marker, table);
     compressed = msgBuilder.toString().trim();
     info = infoBuilder.toString().trim();
     return message;
