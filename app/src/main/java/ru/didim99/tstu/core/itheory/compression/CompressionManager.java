@@ -53,6 +53,10 @@ public class CompressionManager implements CallbackTask.EventListener<Boolean> {
     return fileData;
   }
 
+  public boolean isMessageEmpty() {
+    return message == null || message.isEmpty();
+  }
+
   public void setEventListener(EventListener listener) {
     this.listener = listener;
   }
@@ -105,17 +109,22 @@ public class CompressionManager implements CallbackTask.EventListener<Boolean> {
     startTask(CompressionTask.Action.SAVE_FILE);
   }
 
-  public void start() {
-    if ((message == null || message.isEmpty())
-      && (fileData == null || fileData.length == 0)) return;
-    startTask(CompressionTask.Action.PROCESS);
+  public void start(boolean forTesting) {
+    if (isMessageEmpty() && !forTesting &&
+      (fileData == null || fileData.length == 0)) return;
+    startTask(forTesting ? CompressionTask.Action.TEST
+      : CompressionTask.Action.PROCESS);
   }
 
-  public void process() throws IOException {
+  void process() throws IOException {
     if (message != null && !message.isEmpty())
       fileData = compressor.compress(message);
     else if (fileData != null && fileData.length > 0)
       fileMessage = message = compressor.decompress(fileData);
+  }
+
+  void test() throws IOException {
+    compressor.test(message);
   }
 
   private void startTask(CompressionTask.Action action) {

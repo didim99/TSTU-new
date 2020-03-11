@@ -11,7 +11,7 @@ import ru.didim99.tstu.utils.Utils;
  * Created by didim99 on 28.02.20.
  */
 class CompressionTask extends CallbackTask<CompressionTask.Action, Boolean> {
-  enum Action { LOAD_FILE, SAVE_FILE, PROCESS }
+  enum Action { LOAD_FILE, SAVE_FILE, PROCESS, TEST }
 
   private CompressionManager manager;
   private String error;
@@ -45,6 +45,9 @@ class CompressionTask extends CallbackTask<CompressionTask.Action, Boolean> {
           break;
         case PROCESS:
           manager.process();
+          break;
+        case TEST:
+          manager.test();
           break;
       }
     } catch (IOException e) {

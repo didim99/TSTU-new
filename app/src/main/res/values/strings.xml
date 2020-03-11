@@ -194,6 +194,7 @@
   <string name="errTI_imageLoading">Ошибка при загрузке изображения: %s</string>
   <string name="errTI_imageSaving">Ошибка при сохранении изображения: %s</string>
   <string name="errTI_emptyFilename">Не задано имя файла</string>
+  <string name="errTI_nothingToTest">Нечего тестировать</string>
   <string name="errTI_emptyKey">Не задан один из параметров ключа</string>
   <string name="errTI_incorrectKey">Некорректно задан один из параметров ключа</string>
   <!-- MathStat -->

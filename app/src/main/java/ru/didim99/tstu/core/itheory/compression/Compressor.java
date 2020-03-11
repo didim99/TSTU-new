@@ -2,10 +2,12 @@ package ru.didim99.tstu.core.itheory.compression;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import ru.didim99.tstu.core.itheory.compression.utils.BaseCharTable;
+import ru.didim99.tstu.utils.Timer;
 
 /**
  * Created by didim99 on 28.02.20.
@@ -48,6 +50,28 @@ public abstract class Compressor {
     }
 
     return frequency;
+  }
+
+  public void test(String message) throws IOException {
+    Timer timer = new Timer();
+    timer.start();
+    byte[] original = message.getBytes();
+    byte[] compressed = compress(message);
+    byte[] decompressed = decompress(compressed).getBytes();
+    boolean passed = Arrays.equals(original, decompressed);
+    timer.stop();
+
+    info = String.format(Locale.US,
+      "Message length: %d characters\n", message.length()) +
+      String.format(Locale.US,
+        "Original size: %d bytes\n", original.length) +
+      String.format(Locale.US,
+        "Compressed size: %d bytes\n", compressed.length) +
+      String.format(Locale.US,
+        "Compression factor: %.1f%%\n",
+        percent(original.length, compressed.length)) +
+      "Execution time: " + timer.getStr() + " sec\n" +
+      "\nTest status: " + (passed ? "PASSED" : "FAILED");
   }
 
   static void describe(StringBuilder sb, String message, int compSize,

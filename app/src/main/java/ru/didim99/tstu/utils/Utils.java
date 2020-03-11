@@ -60,6 +60,37 @@ public class Utils {
     return builder.toString();
   }
 
+  public static String collapse(String str, int maxLength) {
+    if (str == null) return null;
+    int length = str.length();
+    if (length <= maxLength) return str;
+
+    int offset = maxLength / 2;
+    int delta = offset > 10 ? (offset > 100 ? 10 : 5) : 2;
+    delta = offset / delta;
+
+    int startIndex = offset - 1;
+    int endIndex = length - offset;
+    boolean startFound = false, endFound = false;
+
+    for (int i = 0; i < delta; i++) {
+      if (startFound && endFound) break;
+      if (!startFound && Character.isWhitespace(
+        str.charAt(startIndex - i))) {
+        startFound = true;
+        startIndex -= i - 1;
+      }
+
+      if (!endFound && Character.isWhitespace(
+        str.charAt(endIndex + i))) {
+        endFound = true;
+        endIndex += i;
+      }
+    }
+
+    return str.substring(0, startIndex) + "…" + str.substring(endIndex);
+  }
+
   public static String formatBytes(int bytes) {
     int offset = 0;
     while (bytes > 1024) { bytes >>= 10; offset++; }

@@ -32,10 +32,11 @@ public class Timer {
     return longToTime(timer);
   }
 
-  private String longToTime(long time) {
+  private static String longToTime(long time) {
+    long ticks = time;
     time /= TICKS_PER_MS;
     if (time < 60000)
-      return String.format(Locale.US, "%.3f сек.", time / 1000f);
+      return String.format(Locale.US, "%.3f", time / 1000f);
     else {
       String out;
       long millis = time % 1000;
@@ -49,7 +50,7 @@ public class Timer {
       else
         out = String.format(Locale.US, "%d:%02d:%02d.%03d", time, min, sec, millis);
 
-      MyLog.d(LOG_TAG, "Converting time: " + timer + " --> " + out);
+      MyLog.d(LOG_TAG, "Converting time: " + ticks + " --> " + out);
       return out;
     }
   }

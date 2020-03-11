@@ -30,11 +30,12 @@ public class CompressionActivity extends BaseActivity
   // internal intent request codes
   protected static final int REQUEST_SAVE_UNC = 3;
   protected static final int REQUEST_SAVE_COMP = 4;
+  protected static final int MAX_MSG_LENGTH = 50000;
 
   // View elements
   private Spinner spMethod;
   private EditText etMessage;
-  private Button btnLoad, btnStart;
+  private Button btnLoad, btnStart, btnTest;
   private TextView tvIn, tvOut;
   private TextView tvInfo;
   private View pbMain;
@@ -50,6 +51,7 @@ public class CompressionActivity extends BaseActivity
     MyLog.d(LOG_TAG, "View components init...");
     btnLoad = findViewById(R.id.btnLoad);
     btnStart = findViewById(R.id.btnStart);
+    btnTest = findViewById(R.id.btnTest);
     spMethod = findViewById(R.id.spMethod);
     etMessage = findViewById(R.id.etMessage);
     tvIn = findViewById(R.id.tvInMsg);
@@ -58,6 +60,7 @@ public class CompressionActivity extends BaseActivity
     pbMain = findViewById(R.id.pbMain);
     btnLoad.setOnClickListener(v -> openFile());
     btnStart.setOnClickListener(v -> startCoder());
+    btnTest.setOnClickListener(v -> testCoder());
     tvIn.setOnLongClickListener(v -> saveToFile(v, false));
     tvOut.setOnLongClickListener(v -> saveToFile(v, true));
     tvInfo.setOnLongClickListener(v -> Utils.copyToClipboard(this, tvInfo.getText()));
@@ -131,8 +134,10 @@ public class CompressionActivity extends BaseActivity
         break;
       case OPERATION_END:
         uiLock(false);
-        tvIn.setText(manager.getMessage());
-        tvOut.setText(manager.getCompressor().getCompressed());
+        tvIn.setText(Utils.collapse(
+          manager.getMessage(), MAX_MSG_LENGTH));
+        tvOut.setText(Utils.collapse(
+          manager.getCompressor().getCompressed(), MAX_MSG_LENGTH));
         tvInfo.setText(manager.getCompressor().getInfo());
         break;
     }
@@ -140,7 +145,14 @@ public class CompressionActivity extends BaseActivity
 
   private void startCoder() {
     manager.setMessage(etMessage.getText().toString());
-    manager.start();
+    manager.start(false);
+  }
+
+  private void testCoder() {
+    if (manager.isMessageEmpty()) {
+      Toast.makeText(this, R.string.errTI_nothingToTest,
+        Toast.LENGTH_SHORT).show();
+    } else manager.start(true);
   }
 
   private void uiLock(boolean state) {
@@ -152,6 +164,7 @@ public class CompressionActivity extends BaseActivity
     etMessage.setEnabled(!state);
     btnLoad.setEnabled(!state);
     btnStart.setEnabled(!state);
+    btnTest.setEnabled(!state);
     tvInfo.setEnabled(!state);
     tvIn.setEnabled(!state);
     tvOut.setEnabled(!state);

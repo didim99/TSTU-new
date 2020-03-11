@@ -1,8 +1,9 @@
 package ru.didim99.tstu.core.itheory.compression.utils;
 
 import android.util.SparseArray;
-import android.util.SparseIntArray;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -10,20 +11,19 @@ import java.util.Locale;
  */
 public class LZWHashTable {
   public static final int BUFFER_SIZE = 64;
-  private static final int CODE_BITS = 16;
-  private static final int INVALID_CODE = -1;
+  public static final int CODE_BITS = 16;
   private static final int TABLE_SIZE_MIN = 256;
   private static final int TABLE_SIZE_MAX = (1 << CODE_BITS);
 
   private boolean reversed;
-  private SparseIntArray codeTable;
+  private HashMap<List<Integer>, Integer> codeTable;
   private SparseArray<ArrayList<Integer>> sequenceTable;
   private ArrayList<Integer> buffer;
   private int buildCount;
   private int nextCode;
 
   public LZWHashTable(boolean reversed) {
-    this.codeTable = new SparseIntArray(TABLE_SIZE_MIN);
+    this.codeTable = new HashMap<>(TABLE_SIZE_MIN);
     this.sequenceTable = new SparseArray<>(TABLE_SIZE_MIN);
     this.buffer = new ArrayList<>(BUFFER_SIZE);
     this.reversed = reversed;
@@ -33,12 +33,8 @@ public class LZWHashTable {
   }
 
   public void rebuild() {
-    if (!reversed) {
-      codeTable.clear();
-      for (int v = 0; v < TABLE_SIZE_MIN; v++)
-        codeTable.put(hashOf(v), v);
-    } else
-      sequenceTable.clear();
+    codeTable.clear();
+    sequenceTable.clear();
     nextCode = TABLE_SIZE_MIN;
     buildCount++;
   }
@@ -47,20 +43,21 @@ public class LZWHashTable {
     return nextCode == TABLE_SIZE_MAX;
   }
 
+  public int getMaxCode() {
+    return (buildCount > 1 ? TABLE_SIZE_MAX : nextCode) - 1;
+  }
+
   public boolean contains(ArrayList<Integer> sequence) {
-    return getCode(sequence) != INVALID_CODE;
+    return getCode(sequence) != null;
   }
 
   public boolean contains(int code) {
     return getSequence(code) != null;
   }
 
-  public int getCode(ArrayList<Integer> sequence) {
-    return codeTable.get(hashOf(sequence), INVALID_CODE);
-  }
-
-  private int getCode(ArrayList<Integer> sequence, int length) {
-    return codeTable.get(hashOf(sequence, length), INVALID_CODE);
+  public Integer getCode(List<Integer> sequence) {
+    if (sequence.size() == 1) return sequence.get(0);
+    return codeTable.get(sequence);
   }
 
   public ArrayList<Integer> getSequence(int code) {
@@ -77,12 +74,15 @@ public class LZWHashTable {
   }
 
   public int add(ArrayList<Integer> sequence) {
-    int code = getCode(sequence, sequence.size() - 1);
-    codeTable.append(hashOf(sequence), nextCode++);
+    int oldLength = sequence.size() - 1;
+    int code = getCode(sequence.subList(0, oldLength));
+    if (!isFull())
+      codeTable.put(new ArrayList<>(sequence), nextCode++);
     return code;
   }
 
   public void add(int code, int symbol) {
+    if (isFull()) return;
     ArrayList<Integer> sequence = new ArrayList<>(getSequence(code));
     sequence.add(symbol);
     sequenceTable.append(nextCode++, sequence);
@@ -91,28 +91,12 @@ public class LZWHashTable {
   public String describe() {
     return "Sequence code table\n" +
       String.format(Locale.US, "Current size: %d\n",
-        !reversed ? codeTable.size() : sequenceTable.size() + TABLE_SIZE_MIN) +
+        TABLE_SIZE_MIN + (reversed ? sequenceTable.size() : codeTable.size())) +
       String.format(Locale.US, "Build count: %d\n", buildCount);
   }
 
   @Override
   public String toString() {
     return describe();
-  }
-
-  private static int hashOf(int symbol) {
-    return 31 + symbol;
-  }
-
-  private static int hashOf(ArrayList<Integer> sequence) {
-    return hashOf(sequence, sequence.size());
-  }
-
-  private static int hashOf(ArrayList<Integer> sequence, int length) {
-    if (length == 1) return hashOf(sequence.get(0));
-    int hashCode = 1;
-    for (int i = 0; i < length; i++)
-      hashCode = 31 * hashCode + sequence.get(i);
-    return hashCode;
   }
 }
