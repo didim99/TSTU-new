@@ -268,11 +268,11 @@ public class LZWCompressor extends Compressor {
     sb.append(String.format(Locale.US,
       "Compressed size (w/o repacking): %d bytes\n", compSize));
     if (compSizePack != compSize) sb.append(String.format(Locale.US,
-      "Compressed size (o repacking): %d bytes\n", compSizePack));
+      "Compressed size (w repacking): %d bytes\n", compSizePack));
     sb.append(String.format(Locale.US,
       "Compression factor (w/o repacking): %.1f%%\n", percent(origSize, compSize)));
     if (compSizePack != compSize) sb.append(String.format(Locale.US,
-      "Compression factor (o repacking): %.1f%%\n", percent(origSize, compSizePack)));
+      "Compression factor (w repacking): %.1f%%\n", percent(origSize, compSizePack)));
     sb.append(String.format(Locale.US,
       "Marker byte: %d\n\n", marker));
     sb.append(table.describe());
