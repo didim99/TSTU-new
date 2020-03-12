@@ -87,12 +87,13 @@ public class LZWCompressor extends Compressor {
     outBuffer.write(HEADER);
     outBuffer.write(marker);
     outBuffer.write(codeBits);
+    int compSize = outBuffer.size() + tmpBuffer.size();
 
     ByteArrayInputStream packBuffer =
       new ByteArrayInputStream(tmpBuffer.toByteArray());
     repack(packBuffer, outBuffer, LZWHashTable.CODE_BITS, codeBits);
 
-    describe(infoBuilder, data, outBuffer.size(), marker, table);
+    describe(infoBuilder, data, compSize, outBuffer.size(), marker, table);
     compressed = msgBuilder.toString().trim();
     info = infoBuilder.toString().trim();
     return outBuffer.toByteArray();
@@ -130,7 +131,7 @@ public class LZWCompressor extends Compressor {
     StringBuilder infoBuilder = new StringBuilder();
     StringBuilder msgBuilder = new StringBuilder();
 
-    int compSize = data.length;
+    int compSizePack = data.length;
     byte[] header = new byte[HEADER.length];
     if (inBuffer.read(header) < HEADER.length)
       throw new IOException("Unexpected end of file");
@@ -148,6 +149,7 @@ public class LZWCompressor extends Compressor {
       in = new DataInputStream(inBuffer);
     }
 
+    int compSize = inBuffer.available() + 2;
     int oldCode = readAndDescribe(inBuffer, in, marker, msgBuilder);
     writeSequence(table.getSequence(oldCode), outBuffer);
     int symbol = oldCode;
@@ -177,7 +179,7 @@ public class LZWCompressor extends Compressor {
     }
 
     String message = new String(outBuffer.toByteArray());
-    describe(infoBuilder, message, compSize, marker, table);
+    describe(infoBuilder, message, compSize, compSizePack, marker, table);
     compressed = msgBuilder.toString().trim();
     info = infoBuilder.toString().trim();
     return message;
@@ -257,16 +259,20 @@ public class LZWCompressor extends Compressor {
   }
 
   private static void describe(StringBuilder sb, String message, int compSize,
-                               int marker, LZWHashTable table) {
+                               int compSizePack, int marker, LZWHashTable table) {
     int origSize = message.getBytes(Charset.defaultCharset()).length;
     sb.append(String.format(Locale.US,
       "Message length: %d characters\n", message.length()));
     sb.append(String.format(Locale.US,
       "Original size: %d bytes\n", origSize));
     sb.append(String.format(Locale.US,
-      "Compressed size: %d bytes\n", compSize));
+      "Compressed size (w/o repacking): %d bytes\n", compSize));
+    if (compSizePack != compSize) sb.append(String.format(Locale.US,
+      "Compressed size (o repacking): %d bytes\n", compSizePack));
     sb.append(String.format(Locale.US,
-      "Compression factor: %.1f%%\n", percent(origSize, compSize)));
+      "Compression factor (w/o repacking): %.1f%%\n", percent(origSize, compSize)));
+    if (compSizePack != compSize) sb.append(String.format(Locale.US,
+      "Compression factor (o repacking): %.1f%%\n", percent(origSize, compSizePack)));
     sb.append(String.format(Locale.US,
       "Marker byte: %d\n\n", marker));
     sb.append(table.describe());
