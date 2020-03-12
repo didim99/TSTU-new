@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
 import ru.didim99.tstu.core.itheory.compression.utils.LZWHashTable;
+import ru.didim99.tstu.utils.Utils;
 
 /**
  * Created by didim99 on 07.03.20.
@@ -21,14 +22,15 @@ import ru.didim99.tstu.core.itheory.compression.utils.LZWHashTable;
 public class LZWCompressor extends Compressor {
   private static final byte[] HEADER = {0x4C, 0x5A, 0x57};
   private static final int RATIO_CHECK_INTERVAL = 100;
-  private static final double RATIO_POOR = 2.0;
+  private static final double RATIO_POOR = 0.1;
   private static final double RATIO_DELTA = 0.2;
 
   @Override
   public byte[] compress(String data) throws IOException {
     ByteArrayInputStream inBuffer = new ByteArrayInputStream(data.getBytes());
+    ByteArrayOutputStream tmpBuffer = new ByteArrayOutputStream();
     ByteArrayOutputStream outBuffer = new ByteArrayOutputStream();
-    DataOutputStream out = new DataOutputStream(outBuffer);
+    DataOutputStream tmp = new DataOutputStream(tmpBuffer);
     StringBuilder infoBuilder = new StringBuilder();
     StringBuilder msgBuilder = new StringBuilder();
 
@@ -36,9 +38,7 @@ public class LZWCompressor extends Compressor {
     LZWHashTable table = new LZWHashTable(false);
     int marker = getMarker(inBuffer);
 
-    outBuffer.write(HEADER);
-    outBuffer.write(marker);
-
+    boolean recycle = false;
     double bestRatio = RATIO_POOR;
     int read = 1, readAfter = 0;
     int symbol, code;
@@ -54,28 +54,43 @@ public class LZWCompressor extends Compressor {
       if (readAfter > 0 || table.isFull()) {
         if (++readAfter == RATIO_CHECK_INTERVAL) {
           readAfter = 0;
-          double ratio = getRatio(read, out.size());
-          if (ratio < bestRatio) {
+          double ratio = getRatio(read, tmp.size());
+          if (ratio > bestRatio) {
             bestRatio = ratio;
-          } else if (ratio - bestRatio < RATIO_DELTA) {
-            writeAndDescribe(marker, out, msgBuilder);
-            table.rebuild();
+          } else if (bestRatio - ratio > RATIO_DELTA) {
+            recycle = true;
           }
         }
       }
 
       code = table.add(buffer);
       if (code == marker)
-        writeAndDescribe(marker, out, msgBuilder);
-      writeAndDescribe(code, out, msgBuilder);
+        writeAndDescribe(marker, tmp, msgBuilder);
+      writeAndDescribe(code, tmp, msgBuilder);
       buffer.clear();
       buffer.add(symbol);
+
+      if (recycle) {
+        recycle = false;
+        writeAndDescribe(marker, tmp, msgBuilder);
+        table.rebuild();
+      }
     }
 
     code = table.getCode(buffer);
     if (code == marker)
-      writeAndDescribe(marker, out, msgBuilder);
-    writeAndDescribe(code, out, msgBuilder);
+      writeAndDescribe(marker, tmp, msgBuilder);
+    writeAndDescribe(code, tmp, msgBuilder);
+
+    int codeBits = table.getCodeBits();
+
+    outBuffer.write(HEADER);
+    outBuffer.write(marker);
+    outBuffer.write(codeBits);
+
+    ByteArrayInputStream packBuffer =
+      new ByteArrayInputStream(tmpBuffer.toByteArray());
+    repack(packBuffer, outBuffer, LZWHashTable.CODE_BITS, codeBits);
 
     describe(infoBuilder, data, outBuffer.size(), marker, table);
     compressed = msgBuilder.toString().trim();
@@ -124,6 +139,14 @@ public class LZWCompressor extends Compressor {
 
     LZWHashTable table = new LZWHashTable(true);
     int marker = inBuffer.read();
+    int codeBits = inBuffer.read();
+
+    if (codeBits < LZWHashTable.CODE_BITS) {
+      ByteArrayOutputStream tmpBuffer = new ByteArrayOutputStream();
+      repack(inBuffer, tmpBuffer, codeBits, LZWHashTable.CODE_BITS);
+      inBuffer = new ByteArrayInputStream(tmpBuffer.toByteArray());
+      in = new DataInputStream(inBuffer);
+    }
 
     int oldCode = readAndDescribe(inBuffer, in, marker, msgBuilder);
     writeSequence(table.getSequence(oldCode), outBuffer);
@@ -133,6 +156,9 @@ public class LZWCompressor extends Compressor {
     while (inBuffer.available() > 0) {
       int newCode = readAndDescribe(inBuffer, in, marker, msgBuilder);
       if (newCode == -marker) {
+        oldCode = readAndDescribe(inBuffer, in, marker, msgBuilder);
+        writeSequence(table.getSequence(oldCode), outBuffer);
+        symbol = oldCode;
         table.rebuild();
         continue;
       }
@@ -160,11 +186,11 @@ public class LZWCompressor extends Compressor {
   private int readAndDescribe(InputStream buffer, DataInput in,
                               int marker, StringBuilder msgBuilder)
     throws IOException {
-    int symbol = in.readShort();
+    int symbol = in.readShort() & 0xffff;
     msgBuilder.append(symbol).append(' ');
     if (symbol == marker) {
       buffer.mark(0);
-      int nextSymbol = in.readShort();
+      int nextSymbol = in.readShort() & 0xffff;
       if (nextSymbol == marker) {
         msgBuilder.append(nextSymbol).append(' ');
         return nextSymbol;
@@ -178,6 +204,56 @@ public class LZWCompressor extends Compressor {
   private void writeSequence(ArrayList<Integer> sequence, OutputStream out)
     throws IOException {
     for (Integer i : sequence) out.write(i);
+  }
+
+  private void repack(InputStream in, OutputStream out,
+                      int fromBits, int toBits)
+    throws IOException {
+    if (fromBits == toBits) {
+      Utils.plainCopy(in, out);
+      return;
+    }
+
+    int read, segment = 1;
+    int maxBits = Math.max(fromBits, toBits);
+    while (segment < maxBits) segment <<= 1;
+    int minBits = Math.min(fromBits, toBits);
+    long outMask = (1 << minBits) - 1;
+
+    long inBuffer = 0, outBuffer = 0;
+    int inOffset = 0, outOffset = 0;
+
+    boolean done = false;
+    while (in.available() > 0 || !done) {
+      if ((read = in.read()) != -1) {
+        inBuffer <<= 8;
+        inBuffer |= read;
+        inOffset += 8;
+      } else done = true;
+
+      if (inOffset >= segment || done) {
+        while (inOffset >= fromBits) {
+          inOffset -= fromBits;
+          outBuffer <<= toBits;
+          outBuffer |= (inBuffer >>> inOffset) & outMask;
+          outOffset += toBits;
+        }
+
+        if (done) {
+          int outDelta = outOffset % 8;
+          if (outDelta > 0) {
+            outDelta = 8 - outDelta;
+            outBuffer <<= outDelta;
+            outOffset += outDelta;
+          }
+        }
+
+        while (outOffset >= 8) {
+          outOffset -= 8;
+          out.write((int) outBuffer >>> outOffset);
+        }
+      }
+    }
   }
 
   private static void describe(StringBuilder sb, String message, int compSize,

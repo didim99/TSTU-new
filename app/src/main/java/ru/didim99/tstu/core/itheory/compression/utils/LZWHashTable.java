@@ -39,12 +39,14 @@ public class LZWHashTable {
     buildCount++;
   }
 
-  public boolean isFull() {
-    return nextCode == TABLE_SIZE_MAX;
+  public int getCodeBits() {
+    int maxCode = getMaxCode(), codeBits = 1;
+    while ((maxCode >>>= 1) > 0) codeBits++;
+    return codeBits;
   }
 
-  public int getMaxCode() {
-    return (buildCount > 1 ? TABLE_SIZE_MAX : nextCode) - 1;
+  public boolean isFull() {
+    return nextCode == TABLE_SIZE_MAX;
   }
 
   public boolean contains(ArrayList<Integer> sequence) {
@@ -92,7 +94,12 @@ public class LZWHashTable {
     return "Sequence code table\n" +
       String.format(Locale.US, "Current size: %d\n",
         TABLE_SIZE_MIN + (reversed ? sequenceTable.size() : codeTable.size())) +
-      String.format(Locale.US, "Build count: %d\n", buildCount);
+      String.format(Locale.US, "Build count: %d\n", buildCount) +
+      String.format(Locale.US, "Code bits: %d\n", getCodeBits());
+  }
+
+  private int getMaxCode() {
+    return (buildCount > 1 ? TABLE_SIZE_MAX : nextCode) - 1;
   }
 
   @Override

@@ -149,6 +149,8 @@ public class CompressionActivity extends BaseActivity
   }
 
   private void testCoder() {
+    String message = etMessage.getText().toString();
+    if (!message.isEmpty()) manager.setMessage(message);
     if (manager.isMessageEmpty()) {
       Toast.makeText(this, R.string.errTI_nothingToTest,
         Toast.LENGTH_SHORT).show();

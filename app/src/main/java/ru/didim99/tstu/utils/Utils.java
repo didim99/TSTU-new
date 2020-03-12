@@ -161,6 +161,13 @@ public class Utils {
     return result;
   }
 
+  public static void plainCopy(InputStream in, OutputStream out)
+    throws IOException {
+    byte[] buffer = new byte[1024]; int len;
+    while ((len = in.read(buffer)) != -1)
+      out.write(buffer, 0, len);
+  }
+
   /* ======== FILE UTILS =========== */
 
   public static ArrayList<String> readFile(String fileName, boolean raw)
