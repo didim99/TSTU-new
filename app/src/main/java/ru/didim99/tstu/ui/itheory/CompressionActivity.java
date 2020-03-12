@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +36,7 @@ public class CompressionActivity extends BaseActivity
   // View elements
   private Spinner spMethod;
   private EditText etMessage;
+  private ImageView ivClearInput;
   private Button btnLoad, btnStart, btnTest;
   private TextView tvIn, tvOut;
   private TextView tvInfo;
@@ -49,6 +51,7 @@ public class CompressionActivity extends BaseActivity
     setContentView(R.layout.act_compression_text);
 
     MyLog.d(LOG_TAG, "View components init...");
+    ivClearInput = findViewById(R.id.ivClearInput);
     btnLoad = findViewById(R.id.btnLoad);
     btnStart = findViewById(R.id.btnStart);
     btnTest = findViewById(R.id.btnTest);
@@ -61,6 +64,7 @@ public class CompressionActivity extends BaseActivity
     btnLoad.setOnClickListener(v -> openFile());
     btnStart.setOnClickListener(v -> startCoder());
     btnTest.setOnClickListener(v -> testCoder());
+    ivClearInput.setOnClickListener(v -> etMessage.setText(null));
     tvIn.setOnLongClickListener(v -> saveToFile(v, false));
     tvOut.setOnLongClickListener(v -> saveToFile(v, true));
     tvInfo.setOnLongClickListener(v -> Utils.copyToClipboard(this, tvInfo.getText()));
@@ -162,6 +166,7 @@ public class CompressionActivity extends BaseActivity
     else MyLog.d(LOG_TAG, "Unlocking UI...");
 
     uiLocked = state;
+    ivClearInput.setEnabled(!state);
     spMethod.setEnabled(!state);
     etMessage.setEnabled(!state);
     btnLoad.setEnabled(!state);

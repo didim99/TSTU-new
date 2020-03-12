@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
@@ -51,12 +52,13 @@
       <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:orientation="horizontal">
 
         <TextView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
+          android:layout_marginLeft="5dp"
+          android:layout_marginStart="5dp"
           android:text="@string/iTheory_compressionMethod"
           android:textSize="@dimen/textSize_main"
           android:gravity="end"/>
@@ -68,6 +70,21 @@
           android:layout_marginLeft="5dp"
           android:layout_marginStart="5dp"
           android:entries="@array/iTheory_compressionMethods"/>
+
+        <View
+          android:layout_width="0dp"
+          android:layout_height="match_parent"
+          android:layout_weight="1"/>
+
+        <ImageView
+          android:id="@+id/ivClearInput"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          app:srcCompat="@drawable/ic_cross_24dp"
+          android:background="?attr/selectableItemBackground"
+          android:contentDescription="@string/buttonClear"
+          android:focusable="true"
+          android:clickable="true"/>
       </LinearLayout>
 
       <EditText
