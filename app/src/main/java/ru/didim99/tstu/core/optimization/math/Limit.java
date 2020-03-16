@@ -17,7 +17,7 @@ public class Limit implements FunctionRN {
   }
 
   @Override
-  public double f(PointD p) {
+  public double f(PointRN p) {
     switch (mode) {
       case LT:
       case LE: return -function.f(p);

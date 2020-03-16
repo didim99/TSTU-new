@@ -6,5 +6,5 @@ package ru.didim99.tstu.core.optimization.math;
  */
 @FunctionalInterface
 public interface FunctionRN {
-  double f(PointD p);
+  double f(PointRN p);
 }

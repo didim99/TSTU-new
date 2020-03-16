@@ -1,20 +1,20 @@
 package ru.didim99.tstu.core.modeling;
 
 import com.jjoe64.graphview.series.Series;
-import ru.didim99.tstu.core.optimization.math.PointD;
+import ru.didim99.tstu.core.optimization.math.PointRN;
 
 /**
  * Created by didim99 on 10.02.20.
  */
 public class Result {
   private String description;
-  private Series<PointD> series;
+  private Series<PointRN> series;
 
   public String getDescription() {
     return description;
   }
 
-  public Series<PointD> getSeries() {
+  public Series<PointRN> getSeries() {
     return series;
   }
 
@@ -22,7 +22,7 @@ public class Result {
     this.description = description;
   }
 
-  void setSeries(Series<PointD> series) {
+  void setSeries(Series<PointRN> series) {
     this.series = series;
   }
 }

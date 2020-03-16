@@ -1,5 +1,7 @@
 package ru.didim99.tstu.core.modeling;
 
+import ru.didim99.tstu.core.modeling.processor.DynamicProcessor.Point;
+import ru.didim99.tstu.core.optimization.math.Function;
 import ru.didim99.tstu.core.optimization.math.FunctionRN;
 
 /**
@@ -18,19 +20,35 @@ public class Functions {
   private static final double P1    = 7600;   // kg/m^2
 
   // Input variables
-  public static Variable[] vars = {
+  public static final Variable[] vars = {
     new Variable("cIn", 0.08, 0.06, 0.10, 0.004, 0.03),
     new Variable("mIn", 4.0, 4.0, 6.0, 0.2, 3.0),
     new Variable("tIn", 130.0, 122.0, 140.0, 0.5, 13.0)
   };
 
   // Values definition: cIn, mIn, tIn
-  public static FunctionRN cOutStatic = in ->
+  public static final FunctionRN cOutStatic = in ->
     in.get(1) * in.get(0) / (in.get(1) + kT * F * (in.get(2) - tR) / (cT * tR - r));
 
-  // Values definition: mIn, mSec
-  public static FunctionRN MStatic = in ->
-    S * (Math.pow((in.get(0) - in.get(1)) / sigma, 2) + P1 - P0);
+  // Values definition: cIn, mIn, cOut
+  public static final FunctionRN mOutStatic = in ->
+    in.get(Point.M_IN) * in.get(Point.C_IN) / in.get(Point.C_OUT);
+
+  public static final Function MStatic = mOut ->
+    S * (Math.pow(mOut / sigma, 2) + P1 - P0);
+
+  public static final Function mOutDynamic = m ->
+    sigma * Math.sqrt(P0 + m / S - P1);
+
+  // Values definition: mIn, mOut, tIn
+  public static final FunctionRN dM = in ->
+    kT * F * (in.get(Point.T_IN) - tR) / (cT * tR - r)
+      + in.get(Point.M_IN) - in.get(Point.M_OUT);
+
+  // Values definition: cIn, mIn, cOut, mOut, dM, M
+  public static final FunctionRN dCxM = in ->
+    in.get(Point.C_IN) * in.get(Point.M_IN) - in.get(Point.C_OUT)
+      * (in.get(Point.M_OUT) + in.get(Point.DM));
 
   public static String[] getVarList() {
     String[] list = new String[vars.length];

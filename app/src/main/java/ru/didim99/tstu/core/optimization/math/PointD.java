@@ -1,12 +1,11 @@
 package ru.didim99.tstu.core.optimization.math;
 
-import com.jjoe64.graphview.series.DataPointInterface;
 import java.util.Arrays;
 
 /**
  * Created by didim99 on 06.09.19.
  */
-public class PointD implements DataPointInterface {
+public class PointD implements PointRN {
   private double[] data;
 
   public PointD(int size) {
@@ -32,6 +31,7 @@ public class PointD implements DataPointInterface {
     return this;
   }
 
+  @Override
   public double get(int pos) {
     return data[pos];
   }
@@ -40,6 +40,7 @@ public class PointD implements DataPointInterface {
     return data[data.length - 1];
   }
 
+  @Override
   public void set(int pos, double val) {
     data[pos] = val;
   }
@@ -109,12 +110,6 @@ public class PointD implements DataPointInterface {
   public int size() {
     return data.length;
   }
-
-  @Override
-  public double getX() { return get(0); }
-
-  @Override
-  public double getY() { return get(1); }
 
   @Override
   public String toString() {

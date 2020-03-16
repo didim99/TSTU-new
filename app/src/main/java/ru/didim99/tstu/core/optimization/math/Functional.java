@@ -33,7 +33,7 @@ public class Functional implements FunctionRN {
   }
 
   @Override
-  public double f(PointD p) {
+  public double f(PointRN p) {
     double[] jValues = new double[resolution + 1];
     PointD[] xValues = new PointD[xCount];
 

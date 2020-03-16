@@ -41,7 +41,7 @@ public class Fine implements FunctionRN {
   }
 
   @Override
-  public double f(PointD p) {
+  public double f(PointRN p) {
     double res = 0;
     for (int i = 0; i < limits.length; i++)
       res += functions[i].f(limits[i].f(p)) * factors[i];

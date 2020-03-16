@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 import ru.didim99.tstu.core.modeling.Functions;
 import ru.didim99.tstu.core.modeling.Variable;
-import ru.didim99.tstu.core.optimization.math.PointD;
+import ru.didim99.tstu.core.optimization.math.PointRN;
 
 /**
  * Created by didim99 on 24.02.20.
@@ -16,7 +16,7 @@ public abstract class VariableProcessor {
 
   int variableId;
   Variable var;
-  ArrayList<PointD> series;
+  ArrayList<PointRN> series;
 
   VariableProcessor(int variableId) {
     this.variableId = variableId;
@@ -24,11 +24,11 @@ public abstract class VariableProcessor {
     this.series = new ArrayList<>();
   }
 
-  public Series<PointD> getSeries() {
-    LineGraphSeries<PointD> series = new LineGraphSeries<>();
+  public Series<PointRN> getSeries() {
+    LineGraphSeries<PointRN> series = new LineGraphSeries<>();
 
     if (this.series.size() <= MAX_SERIES_VISIBLE)
-      series.resetData(this.series.toArray(new PointD[0]));
+      series.resetData(this.series.toArray(new PointRN[0]));
     else {
       int step = this.series.size() / 500;
       for (int pos = 0; pos < this.series.size(); pos += step) {
@@ -43,7 +43,7 @@ public abstract class VariableProcessor {
 
   public String getDescription() {
     StringBuilder sb = new StringBuilder();
-    for (PointD point : series)
+    for (PointRN point : series)
       sb.append(String.format(Locale.US, "%7.4f %7.4f\n", point.getX(), point.getY()));
     return sb.toString();
   }

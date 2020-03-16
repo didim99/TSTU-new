@@ -17,7 +17,7 @@ import ru.didim99.tstu.core.modeling.Config;
 import ru.didim99.tstu.core.modeling.Functions;
 import ru.didim99.tstu.core.modeling.ModelingTask;
 import ru.didim99.tstu.core.modeling.Result;
-import ru.didim99.tstu.core.optimization.math.PointD;
+import ru.didim99.tstu.core.optimization.math.PointRN;
 import ru.didim99.tstu.utils.MyLog;
 
 /**
@@ -161,7 +161,7 @@ public class ModelingActivity extends BaseActivity
       case Config.TaskType.STATIC_CURVE:
       case Config.TaskType.DYNAMIC_CURVE:
         tvOut.setText(taskResult.getDescription());
-        BaseSeries<PointD> series = (BaseSeries<PointD>) taskResult.getSeries();
+        BaseSeries<PointRN> series = (BaseSeries<PointRN>) taskResult.getSeries();
         series.setColor(getResources().getColor(R.color.graph0));
         graphView.addSeries(series);
         graphView.getLegendRenderer().setVisible(true);
