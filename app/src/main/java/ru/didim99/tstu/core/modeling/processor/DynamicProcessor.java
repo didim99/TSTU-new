@@ -34,7 +34,7 @@ public class DynamicProcessor extends VariableProcessor {
       next.M = prev.M + prev.dM * T_STEP;
       prev.mOut = next.mOut;
       next.cOut = prev.cOut + Functions.dCxM.f(prev)
-        / prev.M * T_STEP;
+        * T_STEP / prev.M;
 
       series.add(new Point(prev));
       prev.set(next);
@@ -64,9 +64,9 @@ public class DynamicProcessor extends VariableProcessor {
     @Override
     public void set(int pos, double val) {
       switch (pos) {
-        case C_IN: this.cIn = val;
-        case M_IN: this.mIn = val;
-        case T_IN: this.tIn = val;
+        case C_IN: this.cIn = val; break;
+        case M_IN: this.mIn = val; break;
+        case T_IN: this.tIn = val; break;
       }
     }
 
