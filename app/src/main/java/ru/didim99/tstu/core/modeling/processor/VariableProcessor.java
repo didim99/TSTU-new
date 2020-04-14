@@ -20,32 +20,39 @@ public abstract class VariableProcessor {
 
   VariableProcessor(int variableId) {
     this.variableId = variableId;
-    this.var = Functions.vars[variableId];
+    this.var = Functions.lumpedVars[variableId];
     this.series = new ArrayList<>();
   }
 
   public Series<PointRN> getSeries() {
-    LineGraphSeries<PointRN> series = new LineGraphSeries<>();
-
-    if (this.series.size() <= MAX_SERIES_VISIBLE)
-      series.resetData(this.series.toArray(new PointRN[0]));
-    else {
-      int step = this.series.size() / 500;
-      for (int pos = 0; pos < this.series.size(); pos += step) {
-        series.appendData(this.series.get(pos),
-          false, 500);
-      }
-    }
-
-    series.setTitle(var.getName());
-    return series;
+    return buildSeries(this.series, var.getName());
   }
 
   public String getDescription() {
+    return describeSeries(series);
+  }
+
+  String describeSeries(ArrayList<PointRN> series) {
     StringBuilder sb = new StringBuilder();
     for (PointRN point : series)
       sb.append(String.format(Locale.US, "%7.4f %7.4f\n", point.getX(), point.getY()));
     return sb.toString();
+  }
+
+  Series<PointRN> buildSeries(ArrayList<PointRN> data, String name) {
+    LineGraphSeries<PointRN> series = new LineGraphSeries<>();
+
+    if (data.size() <= MAX_SERIES_VISIBLE)
+      series.resetData(data.toArray(new PointRN[0]));
+    else {
+      double step = data.size() / 500d;
+      for (int pos = 0; pos < 500; pos++)
+        series.appendData(data.get((int) Math.floor(pos * step)),
+          false, 500);
+    }
+
+    series.setTitle(name);
+    return series;
   }
 
   public abstract void process();

@@ -157,7 +157,7 @@ public class ActTask1 extends BaseActivity
     if (Utils.isIntentSafe(this, intent))
       startActivity(intent);
     else {
-      toast.setText(R.string.mo_journal_noViewerFound);
+      toast.setText(R.string.mp_journal_noViewerFound);
       toast.show();
     }
   }

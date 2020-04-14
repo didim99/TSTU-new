@@ -10,6 +10,8 @@ import android.widget.TextView;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.BaseSeries;
+import com.jjoe64.graphview.series.Series;
+
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.TSTU;
 import ru.didim99.tstu.core.CallbackTask;
@@ -26,6 +28,12 @@ import ru.didim99.tstu.utils.MyLog;
 public class ModelingActivity extends BaseActivity
   implements CallbackTask.EventListener<Result> {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_ModelingAct";
+
+  private static final int[] COLORS = {
+    R.color.graph0, R.color.graph1,
+    R.color.graph2, R.color.graph3,
+    R.color.graph4
+  };
 
   //view-elements
   private Spinner spVariable;
@@ -52,17 +60,25 @@ public class ModelingActivity extends BaseActivity
     graphView = findViewById(R.id.graphView);
     pbMain = findViewById(R.id.pbMain);
     btnStart.setOnClickListener(v -> startTask());
+    TextView tvVarType = findViewById(R.id.tvVarType);
 
     switch (type) {
-      case Config.TaskType.STATIC_CURVE:
-      case Config.TaskType.DYNAMIC_CURVE:
-        LegendRenderer legend = graphView.getLegendRenderer();
-        legend.setAlign(LegendRenderer.LegendAlign.TOP);
+      case Config.TaskType.LUMPED_STATIC_CURVE:
+      case Config.TaskType.LUMPED_DYNAMIC_CURVE:
         spVariable.setAdapter(new ArrayAdapter<>(
           this, android.R.layout.simple_list_item_1,
           Functions.getVarList()));
         break;
+      case Config.TaskType.DIST_STATIC_CURVES:
+        tvVarType.setText(R.string.modeling_concentration);
+        spVariable.setAdapter(new ArrayAdapter<>(
+          this, android.R.layout.simple_list_item_1, getResources()
+          .getStringArray(R.array.modeling_reactComponents)));
+        break;
     }
+
+    LegendRenderer legend = graphView.getLegendRenderer();
+    legend.setAlign(LegendRenderer.LegendAlign.TOP);
 
     MyLog.d(LOG_TAG, "View components init completed");
 
@@ -89,11 +105,14 @@ public class ModelingActivity extends BaseActivity
   @Override
   protected void onSetupActionBar(ActionBar bar) {
     switch (type) {
-      case Config.TaskType.STATIC_CURVE:
-        bar.setTitle(R.string.modeling_staticCurve);
+      case Config.TaskType.LUMPED_STATIC_CURVE:
+        bar.setTitle(R.string.modeling_lumpedStaticCurve);
         break;
-      case Config.TaskType.DYNAMIC_CURVE:
-        bar.setTitle(R.string.modeling_dynamicCurve);
+      case Config.TaskType.LUMPED_DYNAMIC_CURVE:
+        bar.setTitle(R.string.modeling_lumpedDynamicCurve);
+        break;
+      case Config.TaskType.DIST_STATIC_CURVES:
+        bar.setTitle(R.string.modeling_distStaticCurve);
         break;
     }
   }
@@ -115,8 +134,9 @@ public class ModelingActivity extends BaseActivity
     Config config = new Config(type);
 
     switch (type) {
-      case Config.TaskType.STATIC_CURVE:
-      case Config.TaskType.DYNAMIC_CURVE:
+      case Config.TaskType.LUMPED_STATIC_CURVE:
+      case Config.TaskType.LUMPED_DYNAMIC_CURVE:
+      case Config.TaskType.DIST_STATIC_CURVES:
         config.setVariable(spVariable.getSelectedItemPosition());
         break;
     }
@@ -158,12 +178,19 @@ public class ModelingActivity extends BaseActivity
     MyLog.d(LOG_TAG, "Setting up UI");
 
     switch (type) {
-      case Config.TaskType.STATIC_CURVE:
-      case Config.TaskType.DYNAMIC_CURVE:
+      case Config.TaskType.LUMPED_STATIC_CURVE:
+      case Config.TaskType.LUMPED_DYNAMIC_CURVE:
+      case Config.TaskType.DIST_STATIC_CURVES:
         tvOut.setText(taskResult.getDescription());
-        BaseSeries<PointRN> series = (BaseSeries<PointRN>) taskResult.getSeries();
-        series.setColor(getResources().getColor(R.color.graph0));
-        graphView.addSeries(series);
+
+        int clr = 0;
+        for (Series<PointRN> s : taskResult.getSeriesFamily()) {
+          BaseSeries<PointRN> series = (BaseSeries<PointRN>) s;
+          series.setColor(getResources().getColor(
+            COLORS[clr++ % COLORS.length]));
+          graphView.addSeries(series);
+        }
+
         graphView.getLegendRenderer().setVisible(true);
         graphView.getViewport().setScalable(true);
         break;

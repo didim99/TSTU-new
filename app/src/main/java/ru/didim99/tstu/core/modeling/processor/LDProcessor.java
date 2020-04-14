@@ -4,27 +4,29 @@ import ru.didim99.tstu.core.modeling.Functions;
 import ru.didim99.tstu.core.optimization.math.PointRN;
 
 /**
+ * Lumped system dynamic mode processor
+ *
  * Created by didim99 on 24.02.20.
  */
-public class DynamicProcessor extends VariableProcessor {
+public class LDProcessor extends VariableProcessor {
   private static final double T_START = 0; // sec
   private static final double T_END = 500; // sec
   private static final double T_STEP = 0.1; // sec
 
-  public DynamicProcessor(int variableId) {
+  public LDProcessor(int variableId) {
     super(variableId);
   }
 
   @Override
   public void process() {
-    Point prev = new Point(T_START);
-    for (int i = 0; i < Functions.vars.length; i++)
-      prev.set(i, Functions.vars[i].getDefaultValue());
+    LPoint prev = new LPoint(T_START);
+    for (int i = 0; i < Functions.lumpedVars.length; i++)
+      prev.set(i, Functions.lumpedVars[i].getDefaultValue());
     prev.cOut = Functions.cOutStatic.f(prev);
     prev.mOut = Functions.mOutStatic.f(prev);
     prev.M = Functions.MStatic.f(prev.mOut);
 
-    Point next = new Point(prev);
+    LPoint next = new LPoint(prev);
     next.set(variableId, next.get(
       variableId) + var.getDelta());
 
@@ -36,13 +38,13 @@ public class DynamicProcessor extends VariableProcessor {
       next.cOut = prev.cOut + Functions.dCxM.f(prev)
         * T_STEP / prev.M;
 
-      series.add(new Point(prev));
+      series.add(new LPoint(prev));
       prev.set(next);
       next.t += T_STEP;
     }
   }
 
-  public static class Point implements PointRN {
+  public static class LPoint implements PointRN {
     public static final int C_IN = 0;
     public static final int M_IN = 1;
     public static final int T_IN = 2;
@@ -53,11 +55,11 @@ public class DynamicProcessor extends VariableProcessor {
     private double t, cIn, mIn, tIn;
     private double cOut, mOut, M, dM;
 
-    private Point(double t) {
+    private LPoint(double t) {
       this.t = t;
     }
 
-    private Point(Point src) {
+    private LPoint(LPoint src) {
       set(src);
     }
 
@@ -93,7 +95,7 @@ public class DynamicProcessor extends VariableProcessor {
       return cOut;
     }
 
-    private void set(Point src) {
+    private void set(LPoint src) {
       this.t = src.t;
       this.cIn = src.cIn;
       this.mIn = src.mIn;

@@ -448,7 +448,7 @@
   <string name="mp_downloadFailed_notFound">Запрашиваемый файл не найден</string>
   <string name="mp_downloadFailed_localIO">Не удалось записать файл: ошибка ввода-вывода</string>
   <string name="mp_journal_selectFile">Выберите файл</string>
-  <string name="mo_journal_noViewerFound">Приложение для просмотра PDF не найдено</string>
+  <string name="mp_journal_noViewerFound">Приложение для просмотра PDF не найдено</string>
   <string name="mp_journal_selectForDelete">Выберите файл для удаления</string>
   <string name="mp_journal_confirmDelete">Удалить файл %s?</string>
   <string name="mp_journal_deleted">Файл удален</string>
@@ -687,13 +687,20 @@
   <!-- Math modeling -->
   <string name="startModeling">Мат. моделирование</string>
   <string name="sectionModeling">Методы анализа проектных решений</string>
-  <string name="modeling_staticCurve">Статические характеристики</string>
-  <string name="modeling_dynamicCurve">Динамические характеристики</string>
+  <string name="modeling_lumpedStaticCurve">Сосредоточенные координаты: статика</string>
+  <string name="modeling_lumpedDynamicCurve">Сосредоточенные координаты: динамика</string>
+  <string name="modeling_distStaticCurve">Распределенные координаты: статика</string>
   <string-array name="modeling_taskTypes">
-    <item>@string/modeling_staticCurve</item>
-    <item>@string/modeling_dynamicCurve</item>
+    <item>@string/modeling_lumpedStaticCurve</item>
+    <item>@string/modeling_lumpedDynamicCurve</item>
+    <item>@string/modeling_distStaticCurve</item>
   </string-array>
-  <string name="modeling_variable">Зависимость</string>
+  <string name="modeling_dependency">Зависимость</string>
+  <string name="modeling_concentration">Концентрация</string>
+  <string-array name="modeling_reactComponents">
+    <item>Этилен</item>
+    <item>Ацетилен</item>
+  </string-array>
   <!-- Information Security -->
   <string name="is_dataTransmission">Передача информации</string>
   <string-array name="is_dt_codeTypes">

@@ -5,23 +5,25 @@ import ru.didim99.tstu.core.optimization.math.FunctionRN;
 import ru.didim99.tstu.core.optimization.math.PointD;
 
 /**
+ * Lumped system static mode processor
+ *
  * Created by didim99 on 11.02.20.
  */
-public class StaticProcessor extends VariableProcessor {
+public class LSProcessor extends VariableProcessor {
 
   private FunctionRN cOut;
 
-  public StaticProcessor(int variableId) {
+  public LSProcessor(int variableId) {
     super(variableId);
     this.cOut = Functions.cOutStatic;
   }
 
   @Override
   public void process() {
-    PointD p = new PointD(Functions.vars.length);
+    PointD p = new PointD(Functions.lumpedVars.length);
     for (int i = 0; i < p.size(); i++) {
       if (i == variableId) p.set(i, var.getMinValue());
-      else p.set(i, Functions.vars[i].getDefaultValue());
+      else p.set(i, Functions.lumpedVars[i].getDefaultValue());
     }
 
     while (p.get(variableId) < var.getMaxValue()) {

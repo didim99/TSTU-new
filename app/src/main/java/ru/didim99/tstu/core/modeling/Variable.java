@@ -10,6 +10,11 @@ public class Variable {
   private double step;
   private double delta;
 
+  Variable(String name, double defaultValue,
+           double minValue, double maxValue, double step) {
+    this(name, defaultValue, minValue, maxValue, step, 0);
+  }
+
   Variable(String name, double defaultValue, double minValue,
            double maxValue, double step, double delta) {
     this.name = name;
@@ -42,5 +47,9 @@ public class Variable {
 
   public double getDelta() {
     return delta;
+  }
+
+  public boolean hasDelta() {
+    return maxValue > minValue;
   }
 }

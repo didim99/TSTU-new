@@ -1,10 +1,13 @@
 package ru.didim99.tstu.core.modeling;
 
 import android.content.Context;
+import com.jjoe64.graphview.series.Series;
 import ru.didim99.tstu.core.CallbackTask;
-import ru.didim99.tstu.core.modeling.processor.DynamicProcessor;
-import ru.didim99.tstu.core.modeling.processor.StaticProcessor;
+import ru.didim99.tstu.core.modeling.processor.DSProcessor;
+import ru.didim99.tstu.core.modeling.processor.LDProcessor;
+import ru.didim99.tstu.core.modeling.processor.LSProcessor;
 import ru.didim99.tstu.core.modeling.processor.VariableProcessor;
+import ru.didim99.tstu.core.optimization.math.PointRN;
 
 /**
  * Created by didim99 on 15.09.18.
@@ -21,18 +24,33 @@ public class ModelingTask extends CallbackTask<Config, Result> {
     VariableProcessor processor;
 
     switch (config.getTaskType()) {
-      case Config.TaskType.STATIC_CURVE:
-        processor = new StaticProcessor(config.getVariable());
+      case Config.TaskType.LUMPED_STATIC_CURVE:
+        processor = new LSProcessor(config.getVariable());
         break;
-      case Config.TaskType.DYNAMIC_CURVE:
-        processor = new DynamicProcessor(config.getVariable());
+      case Config.TaskType.LUMPED_DYNAMIC_CURVE:
+        processor = new LDProcessor(config.getVariable());
+        break;
+      case Config.TaskType.DIST_STATIC_CURVES:
+        processor = new DSProcessor(config.getVariable());
         break;
       default:
         return result;
     }
 
     processor.process();
-    result.setSeries(processor.getSeries());
+
+    switch (config.getTaskType()) {
+      case Config.TaskType.LUMPED_STATIC_CURVE:
+      case Config.TaskType.LUMPED_DYNAMIC_CURVE:
+        result.addSeries(processor.getSeries());
+        break;
+      case Config.TaskType.DIST_STATIC_CURVES:
+        Series<PointRN> series;
+        while ((series = processor.getSeries()) != null)
+          result.addSeries(series);
+        break;
+    }
+
     result.setDescription(processor.getDescription());
     return result;
   }

@@ -21,9 +21,10 @@
 
       <TableRow>
         <TextView
+          android:id="@+id/tvVarType"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:text="@string/modeling_variable"
+          android:text="@string/modeling_dependency"
           android:textSize="@dimen/textSize_large"
           android:gravity="end"/>
 

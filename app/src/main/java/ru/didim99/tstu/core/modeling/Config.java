@@ -5,9 +5,10 @@ package ru.didim99.tstu.core.modeling;
  */
 public class Config {
   public static final class TaskType {
-    public static final int UNDEFINED     = 0;
-    public static final int STATIC_CURVE  = 1;
-    public static final int DYNAMIC_CURVE = 2;
+    public static final int UNDEFINED             = 0;
+    public static final int LUMPED_STATIC_CURVE   = 1;
+    public static final int LUMPED_DYNAMIC_CURVE  = 2;
+    public static final int DIST_STATIC_CURVES    = 3;
   }
 
   private int taskType;
