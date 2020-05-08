@@ -38,6 +38,14 @@
       </TableRow>
     </TableLayout>
 
+    <CheckBox
+      android:id="@+id/cbOptimize"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="5dp"
+      android:text="@string/modeling_optimize"
+      android:visibility="gone"/>
+
     <Button
       android:id="@+id/btnStart"
       android:layout_width="match_parent"

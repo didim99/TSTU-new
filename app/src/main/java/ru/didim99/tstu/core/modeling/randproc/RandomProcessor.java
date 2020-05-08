@@ -41,13 +41,15 @@ public class RandomProcessor extends MultiSeriesProcessor implements FunctionRN 
   private static final int OA1 =  0;
   private static final int OA2 =  1;
 
+  private boolean useOptimization;
   private Random random;
   private RandomProcess process;
   private PointRN result;
   private double[] processData;
   private ArrayList<PointRN> cTable;
 
-  public RandomProcessor() {
+  public RandomProcessor(boolean useOptimization) {
+    this.useOptimization = useOptimization;
     random = new Random(RNG_A, RNG_M, RNG_SEED);
     result = new PointD(REFERENCE.size() + 2);
     seriesNames.addAll(Arrays.asList(SERIES_NAMES));
@@ -61,11 +63,15 @@ public class RandomProcessor extends MultiSeriesProcessor implements FunctionRN 
     process = new RandomProcess(random, INTERVAL);
     process.init(sx, REFERENCE.get(IM),
       REFERENCE.get(IS), REFERENCE.get(IA));
-    ExtremaFinderRN finder = new DownhillMethod();
-    PointD params = finder.find(this, new PointD(A1, A2, 0));
+    PointD params = new PointD(A1, A2, 0);
+
+    if (useOptimization) {
+      ExtremaFinderRN finder = new DownhillMethod();
+      params = finder.find(this, params);
+    } else compute(params);
+
     result.set(IA1, params.get(OA1));
     result.set(IA2, params.get(OA2));
-
     Function k = s -> Functions.approx.f(
       new PointD(result.get(IA), s, result.get(IS)));
     seriesFamily.add(buildSeriesInteger(processData, 1));

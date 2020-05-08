@@ -703,6 +703,7 @@
     <item>Этилен</item>
     <item>Ацетилен</item>
   </string-array>
+  <string name="modeling_optimize">Вкл. оптимизацию</string>
   <!-- Information Security -->
   <string name="is_dataTransmission">Передача информации</string>
   <string-array name="is_dt_codeTypes">

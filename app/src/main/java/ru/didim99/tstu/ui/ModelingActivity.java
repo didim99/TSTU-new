@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
 import com.jjoe64.graphview.GraphView;
@@ -39,6 +40,7 @@ public class ModelingActivity extends BaseActivity
 
   //view-elements
   private Spinner spVariable;
+  private CheckBox cbOptimize;
   private Button btnStart;
   private TextView tvOut;
   private GraphView graphView;
@@ -57,6 +59,7 @@ public class ModelingActivity extends BaseActivity
 
     MyLog.d(LOG_TAG, "View components init...");
     spVariable = findViewById(R.id.spVariable);
+    cbOptimize = findViewById(R.id.cbOptimize);
     btnStart = findViewById(R.id.btnStart);
     tvOut = findViewById(R.id.tvOut);
     graphView = findViewById(R.id.graphView);
@@ -78,6 +81,7 @@ public class ModelingActivity extends BaseActivity
           .getStringArray(R.array.modeling_reactComponents)));
         break;
       case Config.TaskType.RANDOM_PROCESSING:
+        cbOptimize.setVisibility(View.VISIBLE);
         spVariable.setEnabled(taskResult != null);
         spVariable.setAdapter(new ArrayAdapter<>(
           this, android.R.layout.simple_list_item_1,
@@ -152,6 +156,9 @@ public class ModelingActivity extends BaseActivity
       case Config.TaskType.DIST_STATIC_CURVES:
         config.setVariable(spVariable.getSelectedItemPosition());
         break;
+      case Config.TaskType.RANDOM_PROCESSING:
+        config.setOptimize(cbOptimize.isChecked());
+        break;
     }
 
     task = new ModelingTask(getApplicationContext());
@@ -164,6 +171,8 @@ public class ModelingActivity extends BaseActivity
     else MyLog.d(LOG_TAG, "Unlocking UI...");
 
     uiLocked = state;
+    spVariable.setEnabled(!state);
+    cbOptimize.setEnabled(!state);
     btnStart.setEnabled(!state);
 
     if (state) {

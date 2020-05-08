@@ -14,6 +14,7 @@ public class Config {
 
   private int taskType;
   private int variable;
+  private boolean optimize;
 
   public Config(int taskType) {
     this.taskType = taskType;
@@ -23,11 +24,19 @@ public class Config {
     this.variable = variable;
   }
 
+  public void setOptimize(boolean optimize) {
+    this.optimize = optimize;
+  }
+
   int getTaskType() {
     return taskType;
   }
 
   int getVariable() {
     return variable;
+  }
+
+  boolean isOptimize() {
+    return optimize;
   }
 }

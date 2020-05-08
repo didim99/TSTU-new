@@ -35,7 +35,7 @@ public class ModelingTask extends CallbackTask<Config, Result> {
         processor = new DSProcessor(config.getVariable());
         break;
       case Config.TaskType.RANDOM_PROCESSING:
-        processor = new RandomProcessor();
+        processor = new RandomProcessor(config.isOptimize());
         break;
       default:
         return result;
