@@ -6,7 +6,8 @@ import ru.didim99.tstu.core.CallbackTask;
 import ru.didim99.tstu.core.modeling.processor.DSProcessor;
 import ru.didim99.tstu.core.modeling.processor.LDProcessor;
 import ru.didim99.tstu.core.modeling.processor.LSProcessor;
-import ru.didim99.tstu.core.modeling.processor.VariableProcessor;
+import ru.didim99.tstu.core.modeling.processor.Processor;
+import ru.didim99.tstu.core.modeling.randproc.RandomProcessor;
 import ru.didim99.tstu.core.optimization.math.PointRN;
 
 /**
@@ -21,7 +22,7 @@ public class ModelingTask extends CallbackTask<Config, Result> {
   @Override
   protected Result doInBackgroundInternal(Config config) {
     Result result = new Result();
-    VariableProcessor processor;
+    Processor processor;
 
     switch (config.getTaskType()) {
       case Config.TaskType.LUMPED_STATIC_CURVE:
@@ -32,6 +33,9 @@ public class ModelingTask extends CallbackTask<Config, Result> {
         break;
       case Config.TaskType.DIST_STATIC_CURVES:
         processor = new DSProcessor(config.getVariable());
+        break;
+      case Config.TaskType.RANDOM_PROCESSING:
+        processor = new RandomProcessor();
         break;
       default:
         return result;
@@ -45,6 +49,7 @@ public class ModelingTask extends CallbackTask<Config, Result> {
         result.addSeries(processor.getSeries());
         break;
       case Config.TaskType.DIST_STATIC_CURVES:
+      case Config.TaskType.RANDOM_PROCESSING:
         Series<PointRN> series;
         while ((series = processor.getSeries()) != null)
           result.addSeries(series);

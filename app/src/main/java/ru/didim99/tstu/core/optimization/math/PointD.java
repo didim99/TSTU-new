@@ -27,7 +27,11 @@ public class PointD implements PointRN {
   }
 
   public PointD set(PointD src) {
-    System.arraycopy(src.data, 0, data, 0, data.length);
+    return set(src, data.length);
+  }
+
+  public PointD set(PointD src, int r) {
+    System.arraycopy(src.data, 0, data, 0, r);
     return this;
   }
 

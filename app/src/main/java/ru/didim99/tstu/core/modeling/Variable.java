@@ -10,6 +10,10 @@ public class Variable {
   private double step;
   private double delta;
 
+  Variable(String name, double minValue, double maxValue, double step) {
+    this(name, 0, minValue, maxValue, step, 0);
+  }
+
   Variable(String name, double defaultValue,
            double minValue, double maxValue, double step) {
     this(name, defaultValue, minValue, maxValue, step, 0);

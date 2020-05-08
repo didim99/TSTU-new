@@ -1,6 +1,5 @@
 package ru.didim99.tstu.core.modeling.processor;
 
-import com.jjoe64.graphview.series.Series;
 import java.util.ArrayList;
 import java.util.Locale;
 import ru.didim99.tstu.core.modeling.Functions;
@@ -12,18 +11,13 @@ import ru.didim99.tstu.core.optimization.math.PointRN;
  *
  * Created by didim99 on 13.04.20.
  */
-public class DSProcessor extends VariableProcessor {
+public class DSProcessor extends MultiSeriesProcessor {
 
-  private int secondVarId;
-  private ArrayList<ArrayList<PointRN>> seriesFamily;
-  private ArrayList<String> seriesNames;
-  private int seriesIndex;
+  private int variableId, secondVarId;
+  private Variable var;
 
   public DSProcessor(int variableId) {
-    super(variableId);
-    seriesFamily = new ArrayList<>();
-    seriesNames = new ArrayList<>();
-    seriesIndex = -1;
+    this.variableId = variableId;
 
     for (int i = 1; i < Functions.distVars.length; i++) {
       if (Functions.distVars[i].hasDelta()) {
@@ -58,8 +52,8 @@ public class DSProcessor extends VariableProcessor {
     Variable var = Functions.distVars[varId];
 
     start.set(varId, var.getMinValue());
-    start.k1 = Functions.rSpeed(Functions.A1, Functions.E1, start.t);
-    start.k2 = Functions.rSpeed(Functions.A2, Functions.E2, start.t);
+    start.k1 = Functions.rSpeed1.f(start.t);
+    start.k2 = Functions.rSpeed2.f(start.t);
     start.cOut1 = start.cIn;
     start.cOut2 = 0;
 
@@ -74,19 +68,6 @@ public class DSProcessor extends VariableProcessor {
     }
 
     return series;
-  }
-
-  @Override
-  public Series<PointRN> getSeries() {
-    if (++seriesIndex < seriesFamily.size()) {
-      return buildSeries(seriesFamily.get(seriesIndex),
-        seriesNames.get(seriesIndex));
-    } else return null;
-  }
-
-  @Override
-  public String getDescription() {
-    return describeSeries(seriesFamily.get(0));
   }
 
   public static class DPoint implements PointRN {

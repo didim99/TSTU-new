@@ -78,7 +78,7 @@ public class FastMath {
    * Fast multiplication modulo
    * @return {@code a*b mod m}
    */
-  private static long mulm(long a, long b, long m) {
+  public static long mulm(long a, long b, long m) {
     if (b == 1) return a;
     if (b % 2 == 0) {
       long t = mulm(a, b / 2, m);

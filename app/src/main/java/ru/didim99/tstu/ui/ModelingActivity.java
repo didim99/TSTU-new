@@ -11,7 +11,6 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.BaseSeries;
 import com.jjoe64.graphview.series.Series;
-
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.TSTU;
 import ru.didim99.tstu.core.CallbackTask;
@@ -75,6 +74,9 @@ public class ModelingActivity extends BaseActivity
           this, android.R.layout.simple_list_item_1, getResources()
           .getStringArray(R.array.modeling_reactComponents)));
         break;
+      case Config.TaskType.RANDOM_PROCESSING:
+        findViewById(R.id.varLayout).setVisibility(View.GONE);
+        break;
     }
 
     LegendRenderer legend = graphView.getLegendRenderer();
@@ -113,6 +115,9 @@ public class ModelingActivity extends BaseActivity
         break;
       case Config.TaskType.DIST_STATIC_CURVES:
         bar.setTitle(R.string.modeling_distStaticCurve);
+        break;
+      case Config.TaskType.RANDOM_PROCESSING:
+        bar.setTitle(R.string.modeling_randomProcesses);
         break;
     }
   }
@@ -176,26 +181,18 @@ public class ModelingActivity extends BaseActivity
 
   private void uiSet() {
     MyLog.d(LOG_TAG, "Setting up UI");
+    tvOut.setText(taskResult.getDescription());
 
-    switch (type) {
-      case Config.TaskType.LUMPED_STATIC_CURVE:
-      case Config.TaskType.LUMPED_DYNAMIC_CURVE:
-      case Config.TaskType.DIST_STATIC_CURVES:
-        tvOut.setText(taskResult.getDescription());
-
-        int clr = 0;
-        for (Series<PointRN> s : taskResult.getSeriesFamily()) {
-          BaseSeries<PointRN> series = (BaseSeries<PointRN>) s;
-          series.setColor(getResources().getColor(
-            COLORS[clr++ % COLORS.length]));
-          graphView.addSeries(series);
-        }
-
-        graphView.getLegendRenderer().setVisible(true);
-        graphView.getViewport().setScalable(true);
-        break;
+    int clr = 0;
+    for (Series<PointRN> s : taskResult.getSeriesFamily()) {
+      BaseSeries<PointRN> series = (BaseSeries<PointRN>) s;
+      series.setColor(getResources().getColor(
+        COLORS[clr++ % COLORS.length]));
+      graphView.addSeries(series);
     }
 
+    graphView.getLegendRenderer().setVisible(true);
+    graphView.getViewport().setScalable(true);
     MyLog.d(LOG_TAG, "UI setup completed");
   }
 }

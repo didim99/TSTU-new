@@ -21,10 +21,10 @@ public class Functions {
   private static final double P1    = 7600;   // kg/m^2
   // Static constants (Distributed)
   private static final double R     = 8.31;   // J/Mol*degC
-  public static final double E1     = 251E3;  // J/Mol
-  public static final double E2     = 297E3;  // J/Mol
-  public static final double A1     = 2E11;   // no unit
-  public static final double A2     = 8E12;   // no unit
+  private static final double E1    = 251E3;  // J/Mol
+  private static final double E2    = 297E3;  // J/Mol
+  private static final double A1    = 2E11;   // no unit
+  private static final double A2    = 8E12;   // no unit
   private static final double RO    = 1.4;    // kg/m^3
   private static final double D     = 0.1;    // m
   // Pre-calculated constants
@@ -78,9 +78,16 @@ public class Functions {
     (in.get(DPoint.K1) * in.get(DPoint.C_OUT1) - in.get(DPoint.K2)
       * in.get(DPoint.C_OUT2)) * ROxS / in.get(DPoint.M);
 
-  public static double rSpeed(double a, double e, double t) {
+  public static final Function rSpeed1 = t -> rSpeed(A1, E1, t);
+  public static final Function rSpeed2 = t -> rSpeed(A2, E2, t);
+
+  private static double rSpeed(double a, double e, double t) {
     return a * Math.exp(-e / (R * t));
   }
+
+  // Values definition: alpha, s, sigma
+  public static final FunctionRN approx = x ->
+    x.get(2) * Math.exp(-x.get(0) * Math.abs(x.get(1)));
 
   public static String[] getVarList() {
     String[] list = new String[lumpedVars.length];
