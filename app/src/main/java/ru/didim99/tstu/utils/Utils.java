@@ -132,6 +132,10 @@ public class Utils {
     return deNorm(norm(v, fromMin, fromMax), toMin, toMax);
   }
 
+  public static double calcError(double actual, double expected) {
+    return Math.abs(expected - actual) / expected * 100;
+  }
+
   public static int combination(int n, int k) {
     if (k == 0 || k == n) return 1;
     return combination(n - 1, k) + combination(n - 1, k - 1);

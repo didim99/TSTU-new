@@ -209,7 +209,7 @@ public class ModelingActivity extends BaseActivity
     }
 
     if (type == Config.TaskType.RANDOM_PROCESSING) {
-      spVariable.setEnabled(true);
+      spVariable.setSelection(0);
       activateSeries(0);
     }
 

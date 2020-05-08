@@ -11,6 +11,7 @@ import ru.didim99.tstu.core.optimization.math.PointD;
 import ru.didim99.tstu.core.optimization.math.PointRN;
 import ru.didim99.tstu.core.optimization.multidim.DownhillMethod;
 import ru.didim99.tstu.core.optimization.multidim.ExtremaFinderRN;
+import ru.didim99.tstu.utils.Utils;
 
 /**
  * Created by didim99 on 08.05.20.
@@ -108,9 +109,12 @@ public class RandomProcessor extends MultiSeriesProcessor implements FunctionRN 
   @Override
   public String getDescription() {
     return
-      String.format(Locale.US, "Mz = %.4f\n", result.get(IM)) +
-      String.format(Locale.US, "Sz = %.4f\n", result.get(IS)) +
-      String.format(Locale.US, "ɑz = %.4f\n", result.get(IA)) +
+      String.format(Locale.US, "Mz = %.4f (err: %.1f%%)\n",
+        result.get(IM), Utils.calcError(result.get(IM), REFERENCE.get(IM))) +
+      String.format(Locale.US, "Sz = %.4f (err: %.1f%%)\n",
+        result.get(IS), Utils.calcError(result.get(IS), REFERENCE.get(IS))) +
+      String.format(Locale.US, "ɑz = %.4f (err: %.1f%%)\n",
+        result.get(IA), Utils.calcError(result.get(IA), REFERENCE.get(IA))) +
       String.format(Locale.US, "A1 = %.4f\n", result.get(IA1)) +
       String.format(Locale.US, "A2 = %.4f\n", result.get(IA2)) +
       "\nRandom process range:\n" +
