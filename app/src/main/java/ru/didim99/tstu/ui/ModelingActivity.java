@@ -11,6 +11,7 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.BaseSeries;
 import com.jjoe64.graphview.series.Series;
+import java.util.ArrayList;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.TSTU;
 import ru.didim99.tstu.core.CallbackTask;
@@ -18,7 +19,9 @@ import ru.didim99.tstu.core.modeling.Config;
 import ru.didim99.tstu.core.modeling.Functions;
 import ru.didim99.tstu.core.modeling.ModelingTask;
 import ru.didim99.tstu.core.modeling.Result;
+import ru.didim99.tstu.core.modeling.randproc.RandomProcessor;
 import ru.didim99.tstu.core.optimization.math.PointRN;
+import ru.didim99.tstu.ui.utils.SpinnerAdapter;
 import ru.didim99.tstu.utils.MyLog;
 
 /**
@@ -75,7 +78,12 @@ public class ModelingActivity extends BaseActivity
           .getStringArray(R.array.modeling_reactComponents)));
         break;
       case Config.TaskType.RANDOM_PROCESSING:
-        findViewById(R.id.varLayout).setVisibility(View.GONE);
+        spVariable.setEnabled(taskResult != null);
+        spVariable.setAdapter(new ArrayAdapter<>(
+          this, android.R.layout.simple_list_item_1,
+          RandomProcessor.getSeriesList()));
+        spVariable.setOnItemSelectedListener(
+          new SpinnerAdapter(this::activateSeries));
         break;
     }
 
@@ -191,8 +199,25 @@ public class ModelingActivity extends BaseActivity
       graphView.addSeries(series);
     }
 
+    if (type == Config.TaskType.RANDOM_PROCESSING) {
+      spVariable.setEnabled(true);
+      activateSeries(0);
+    }
+
     graphView.getLegendRenderer().setVisible(true);
     graphView.getViewport().setScalable(true);
     MyLog.d(LOG_TAG, "UI setup completed");
+  }
+
+  private void activateSeries(int id) {
+    if (taskResult == null) return;
+    graphView.removeAllSeries();
+    ArrayList<Series<PointRN>> family = taskResult.getSeriesFamily();
+    if (id == 0) {
+      graphView.addSeries(family.get(id));
+    } else {
+      for (int i = 1; i < family.size(); i++)
+        graphView.addSeries(family.get(i));
+    }
   }
 }

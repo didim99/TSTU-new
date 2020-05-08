@@ -37,8 +37,6 @@ public class ExampleUnitTest {
 
   @Test
   public void sampleTest() {
-    RandomProcessor processor = new RandomProcessor();
-    processor.process();
-    System.out.println(processor.getDescription());
+
   }
 }
