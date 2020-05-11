@@ -32,3 +32,6 @@ captures/
 # External native build folder generated in Android Studio 2.2 and later
 .externalNativeBuild
 .cxx/
+
+# Signing configuration
+signing.gradle
