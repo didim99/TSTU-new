@@ -177,9 +177,21 @@ public class OptimizationActivity extends BaseActivity
   }
 
   @Override
-  public void onTaskStateChanged(String taskState) {
-    if (type == Config.TaskType.MULTI_ARG)
-      tvTaskState.setText(taskState);
+  public void onTaskStateChanged(OptTask.State state) {
+    if (type == Config.TaskType.MULTI_ARG) {
+      int msgId;
+
+      switch (state) {
+        case INIT: msgId = R.string.opt_taskState_init; break;
+        case SOLVE: msgId = R.string.opt_taskState_solve; break;
+        case DRAW_BASE: msgId = R.string.opt_taskState_drawBase; break;
+        case DRAW_STEPS: msgId = R.string.opt_taskState_drawSteps; break;
+        case DRAW_LIMITS: msgId = R.string.opt_taskState_drawLimits; break;
+        default: return;
+      }
+
+      tvTaskState.setText(msgId);
+    }
   }
 
   private void onLimitTypeChanged(int limitType) {
