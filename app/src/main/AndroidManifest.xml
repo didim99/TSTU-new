@@ -13,14 +13,17 @@
 
   <application
     android:name=".TSTU"
-    android:allowBackup="true"
+    android:allowBackup="false"
     android:icon="@mipmap/ic_launcher"
     android:label="@string/app_name"
     android:supportsRtl="true"
     android:theme="@style/AppTheme"
     tools:ignore="GoogleAppIndexingWarning">
 
-    <activity android:name=".ui.StartActivity">
+    <activity
+      android:name=".ui.StartActivity"
+      android:label="@string/app_name_short">
+
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
         <category android:name="android.intent.category.LAUNCHER"/>

@@ -1,6 +1,7 @@
 <resources>
   <!-- Application level -->
   <string name="app_name">САПР проекты</string>
+  <string name="app_name_short">САПР</string>
   <string name="startTranslator">Транслятор</string>
   <string name="startNumeric">Численные методы</string>
   <string name="startMath">Матстатистика</string>
