@@ -1,4 +1,4 @@
-package ru.didim99.tstu.core.itheory.datatransfer.encoder;
+package ru.didim99.tstu.core.security.datatransfer.encoder;
 
 import java.util.Random;
 

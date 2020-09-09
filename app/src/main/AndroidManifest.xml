@@ -173,6 +173,13 @@
       android:theme="@style/AppThemePrint"/>
 
     <activity
+      android:name=".ui.security.TransmitActivity"
+      android:label="@string/is_dataTransmission"/>
+    <activity
+      android:name=".ui.security.SimpleCipherActivity"
+      android:label="@string/is_simpleCipher"/>
+
+    <activity
       android:name=".ui.oop.AbiturientActivity"
       android:label="@string/oop_abit"/>
     <activity
@@ -203,9 +210,6 @@
       android:name=".ui.ModelingActivity"
       android:label="@string/sectionModeling"/>
 
-    <activity
-      android:name=".ui.itheory.TransmitActivity"
-      android:label="@string/is_dataTransmission"/>
     <activity
       android:name=".ui.itheory.AlphabetActivity"
       android:label="@string/iTheory_informationCount"/>

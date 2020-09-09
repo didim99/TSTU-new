@@ -706,7 +706,13 @@
   </string-array>
   <string name="modeling_optimize">Вкл. оптимизацию</string>
   <!-- Information Security -->
+  <string name="startIS">Защита информации</string>
   <string name="is_dataTransmission">Передача информации</string>
+  <string name="is_simpleCipher">Простое шифрование</string>
+  <string-array name="is_taskTypes">
+    <item>@string/is_dataTransmission</item>
+    <item>@string/is_simpleCipher</item>
+  </string-array>
   <string-array name="is_dt_codeTypes">
     <item>1 из m</item>
     <item>CRC</item>
@@ -733,7 +739,6 @@
   <string name="iTheory_compText">Сжатие текста</string>
   <string name="iTheory_encryption">Шифрование данных. RSA</string>
   <string-array name="iTheory_taskTypes">
-    <item>@string/is_dataTransmission</item>
     <item>@string/iTheory_informationCount</item>
     <item>@string/iTheory_compImage</item>
     <item>@string/iTheory_compText</item>

@@ -1,12 +1,12 @@
-package ru.didim99.tstu.core.itheory.datatransfer;
+package ru.didim99.tstu.core.security.datatransfer;
 
 import android.os.AsyncTask;
 import java.util.ArrayList;
 import java.util.Random;
-import ru.didim99.tstu.core.itheory.datatransfer.encoder.CRCEncoder;
-import ru.didim99.tstu.core.itheory.datatransfer.encoder.Encoder;
-import ru.didim99.tstu.core.itheory.datatransfer.encoder.HammingEncoder;
-import ru.didim99.tstu.core.itheory.datatransfer.encoder.SingleBitEncoder;
+import ru.didim99.tstu.core.security.datatransfer.encoder.CRCEncoder;
+import ru.didim99.tstu.core.security.datatransfer.encoder.Encoder;
+import ru.didim99.tstu.core.security.datatransfer.encoder.HammingEncoder;
+import ru.didim99.tstu.core.security.datatransfer.encoder.SingleBitEncoder;
 import ru.didim99.tstu.utils.MyLog;
 
 /**

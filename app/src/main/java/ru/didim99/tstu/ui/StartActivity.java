@@ -19,7 +19,7 @@ import ru.didim99.tstu.ui.itheory.AlphabetActivity;
 import ru.didim99.tstu.ui.itheory.CompressionActivity;
 import ru.didim99.tstu.ui.itheory.CryptoActivity;
 import ru.didim99.tstu.ui.itheory.RLEActivity;
-import ru.didim99.tstu.ui.itheory.TransmitActivity;
+import ru.didim99.tstu.ui.security.TransmitActivity;
 import ru.didim99.tstu.ui.math.CAActivity;
 import ru.didim99.tstu.ui.math.MathStatActivity;
 import ru.didim99.tstu.ui.math.RV2Activity;
@@ -33,29 +33,31 @@ import ru.didim99.tstu.ui.oop.ShopActivity;
 import ru.didim99.tstu.ui.os.expanse.ExpanseActivity;
 import ru.didim99.tstu.ui.os.procinfo.ProcessActivity;
 import ru.didim99.tstu.ui.os.scheduler.SchedulerActivity;
+import ru.didim99.tstu.ui.security.SimpleCipherActivity;
 import ru.didim99.tstu.utils.MyLog;
 
 public class StartActivity extends AppCompatActivity {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_StartAct";
-  private static final Class[] MATH_TARGET =
+  private static final Class<?>[] MATH_TARGET =
     { MathStatActivity.class, RV2Activity.class, CAActivity.class };
-  private static final Class[] MP_TARGET =
+  private static final Class<?>[] MP_TARGET =
     { L1ActMain.class, L2ActMain.class, L3ActMain.class };
-  private static final Class[] OOP_TARGET =
+  private static final Class<?>[] OOP_TARGET =
     { AbiturientActivity.class, MatrixActivity.class,
       ShopActivity.class, ExceptionsActivity.class };
-  private static final Class[] GRAPH_TARGET =
+  private static final Class<?>[] GRAPH_TARGET =
     { LinesActivity.class, HorizonActivity.class,
       TransformActivity.class, TexturesActivity.class,
       ShadingActivity.class, FractalActivity.class,
       CurvesActivity.class };
-  private static final Class[] OS_TARGET =
+  private static final Class<?>[] OS_TARGET =
     { ProcessActivity.class, ExpanseActivity.class,
       SchedulerActivity.class };
-  private static final Class[] ITHEORY_TARGET =
-    { TransmitActivity.class, AlphabetActivity.class,
-      RLEActivity.class, CompressionActivity.class,
-      CryptoActivity.class };
+  private static final Class<?>[] ITHEORY_TARGET =
+    { AlphabetActivity.class, RLEActivity.class,
+      CompressionActivity.class, CryptoActivity.class };
+  private static final Class<?>[] IS_TARGET =
+    { TransmitActivity.class, SimpleCipherActivity.class };
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -83,12 +85,14 @@ public class StartActivity extends AppCompatActivity {
       R.string.sectionModeling, R.array.modeling_taskTypes, ModelingActivity.class));
     findViewById(R.id.startITheory).setOnClickListener(v -> activityTypeDialog(
       R.string.sectionITheory, R.array.iTheory_taskTypes, ITHEORY_TARGET));
+    findViewById(R.id.startIS).setOnClickListener(v -> activityTypeDialog(
+      R.string.startIS, R.array.is_taskTypes, IS_TARGET));
 
     MyLog.d(LOG_TAG, "StartActivity created");
   }
 
   private void activityTypeDialog(@StringRes int titleId, @ArrayRes int listId,
-                                  Class[] targetList) {
+                                  Class<?>[] targetList) {
     MyLog.d(LOG_TAG, "Activity type dialog called");
     AlertDialog.Builder adb = new AlertDialog.Builder(this);
     adb.setTitle(titleId).setItems(listId, (dialog, pos) ->
@@ -98,7 +102,7 @@ public class StartActivity extends AppCompatActivity {
   }
 
   private void taskTypeDialog(@StringRes int titleId,
-                              @ArrayRes int listId, Class target) {
+                              @ArrayRes int listId, Class<?> target) {
     MyLog.d(LOG_TAG, "Task type dialog called");
     AlertDialog.Builder adb = new AlertDialog.Builder(this);
     adb.setTitle(titleId).setItems(listId, (dialog, pos) -> {
