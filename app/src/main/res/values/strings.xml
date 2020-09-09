@@ -731,6 +731,10 @@
   <string name="is_dt_messageLength">Длина сообщения: %d</string>
   <string name="is_dt_errorRateTotal">Ошибочных блоков: %d</string>
   <string name="is_dt_errorRateBlock">Ошибочных бит на блок: %d</string>
+  <string name="is_encryptedMessage">Зашифрованное сообщение</string>
+  <string name="is_decryptedMessage">Расшифрованное сообщение</string>
+  <string name="is_cipherSettings">Настройки шифрования</string>
+  <string name="is_networkSettings">Сетевые настройки</string>
   <!-- Information theory -->
   <string name="startITheory">Теория информации</string>
   <string name="sectionITheory">Основы теории информации</string>

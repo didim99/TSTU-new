@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:layout_margin="@dimen/layoutPadding">
+
+  <View
+    android:id="@+id/hCenter"
+    android:layout_width="5dp"
+    android:layout_height="match_parent"
+    android:layout_centerHorizontal="true" />
+
+  <View
+    android:id="@+id/vCenter"
+    android:layout_width="match_parent"
+    android:layout_height="5dp"
+    android:layout_centerVertical="true" />
+
+  <TextView
+    android:id="@+id/tvSectionNetwork"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_toLeftOf="@id/hCenter"
+    android:layout_toStartOf="@id/hCenter"
+    android:layout_marginBottom="@dimen/layoutPadding"
+    android:text="@string/is_networkSettings"
+    android:textSize="@dimen/textSize_large"
+    android:textColor="@color/dirPicker_textActive"
+    android:gravity="center"/>
+
+  <TextView
+    android:id="@+id/tvSectionCipher"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_below="@id/vCenter"
+    android:layout_toLeftOf="@id/hCenter"
+    android:layout_toStartOf="@id/hCenter"
+    android:layout_marginBottom="@dimen/layoutPadding"
+    android:text="@string/is_cipherSettings"
+    android:textSize="@dimen/textSize_large"
+    android:textColor="@color/dirPicker_textActive"
+    android:gravity="center"/>
+
+  <TextView
+    android:id="@+id/tvSectionInMsg"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"
+    android:layout_toRightOf="@id/hCenter"
+    android:layout_toEndOf="@id/hCenter"
+    android:layout_marginBottom="@dimen/layoutPadding"
+    android:text="@string/iTheory_sectionInMsg"
+    android:textSize="@dimen/textSize_large"
+    android:textColor="@color/dirPicker_textActive"
+    android:gravity="center"/>
+
+  <TextView
+    android:id="@+id/tvSectionOutMsg"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"
+    android:layout_below="@id/vCenter"
+    android:layout_toRightOf="@id/hCenter"
+    android:layout_toEndOf="@id/hCenter"
+    android:layout_marginBottom="@dimen/layoutPadding"
+    android:text="@string/is_decryptedMessage"
+    android:textSize="@dimen/textSize_large"
+    android:textColor="@color/dirPicker_textActive"
+    android:gravity="center"/>
+
+</RelativeLayout>
