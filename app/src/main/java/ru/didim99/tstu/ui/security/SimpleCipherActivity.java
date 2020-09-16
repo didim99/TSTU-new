@@ -12,6 +12,8 @@ import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.security.cipher.CryptoManager;
 import ru.didim99.tstu.core.security.cipher.TCPServer;
 import ru.didim99.tstu.ui.BaseActivity;
+import ru.didim99.tstu.ui.utils.DialogEventListener;
+import ru.didim99.tstu.utils.InputValidator;
 import ru.didim99.tstu.utils.MyLog;
 
 /**
@@ -19,7 +21,7 @@ import ru.didim99.tstu.utils.MyLog;
  */
 
 public class SimpleCipherActivity extends BaseActivity
-  implements CryptoManager.EventListener {
+  implements CryptoManager.EventListener, TCPServer.StateChangeListener {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_SCAct";
 
   // View elements
@@ -60,8 +62,8 @@ public class SimpleCipherActivity extends BaseActivity
     }
 
     etPort.setText(String.valueOf(TCPServer.DEFAULT_PORT));
+    btnStartStop.setOnClickListener(v -> startStopServer());
     ivRefreshIP.setOnClickListener(v -> updateMyIP());
-    onServerStateChanged();
     updateMyIP();
 
     MyLog.d(LOG_TAG, "SimpleCipherActivity created");
@@ -76,22 +78,27 @@ public class SimpleCipherActivity extends BaseActivity
   protected void onStart() {
     super.onStart();
     manager.setEventListener(this);
+    manager.getServer().setStateChangeListener(this);
   }
 
   @Override
   protected void onStop() {
+    manager.getServer().setStateChangeListener(null);
     manager.setEventListener(null);
     super.onStop();
   }
 
-  private void onServerStateChanged() {
-    boolean running = manager.getServer().isRunning();
+  @Override
+  public void onServerStateChanged(TCPServer.State state) {
+    TCPServer server = manager.getServer();
+    boolean running = server.isRunning();
     btnStartStop.setText(running ? R.string.is_network_stop
       : R.string.is_network_start);
+    btnStartStop.setEnabled(server.getState() != TCPServer.State.DISABLED);
     ivRefreshIP.setEnabled(!running);
     etPort.setEnabled(!running);
 
-    switch (manager.getServer().getState()) {
+    switch (state) {
       case DISABLED:
         tvServerState.setText(R.string.is_state_disabled);
         break;
@@ -102,11 +109,23 @@ public class SimpleCipherActivity extends BaseActivity
         tvServerState.setText(R.string.is_state_waiting);
         break;
       case CONNECTED:
-        InetSocketAddress client = manager.getServer().getClientAddress();
+        InetSocketAddress client = server.getClientAddress();
         tvServerState.setText(getString(R.string.is_state_connected,
           client.getAddress().getHostAddress(), client.getPort()));
         break;
     }
+  }
+
+  private void startStopServer() {
+    TCPServer server = manager.getServer();
+    if (!server.isRunning()) {
+      try {
+        InputValidator iv = InputValidator.getInstance();
+        int port = iv.checkInteger(etPort, TCPServer.MIN_PORT, TCPServer.MAX_PORT,
+          R.string.errIS_emptyPort, R.string.errIS_incorrectPort, "server port");
+        server.start(port);
+      } catch (InputValidator.ValidationException ignored) {}
+    } else server.stop();
   }
 
   private void updateMyIP() {

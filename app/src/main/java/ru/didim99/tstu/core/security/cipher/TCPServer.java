@@ -17,17 +17,27 @@ import ru.didim99.tstu.utils.MyLog;
 
 public class TCPServer {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_server";
+
   public enum State { DISABLED, STOPPED, WAITING, CONNECTED }
   public static final int DEFAULT_PORT = 9853;
+  public static final int MIN_PORT = 1000;
+  public static final int MAX_PORT = 65535;
 
   private State state;
-  private WifiManager wifiManager;
+  private StateChangeListener stateChangeListener;
   private InetSocketAddress clientAddress;
+  private WifiManager wifiManager;
+  private TCPServerTask task;
 
   TCPServer(Context context) {
     wifiManager = (WifiManager) context
       .getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-    state = State.STOPPED;
+    applyState(State.STOPPED);
+  }
+
+  public void setStateChangeListener(StateChangeListener stateChangeListener) {
+    this.stateChangeListener = stateChangeListener;
+    applyState(state);
   }
 
   public State getState() {
@@ -42,7 +52,7 @@ public class TCPServer {
     WifiInfo info = wifiManager.getConnectionInfo();
     if (info.getSupplicantState() != SupplicantState.COMPLETED) {
       MyLog.d(LOG_TAG, "No any Wi-Fi network connected");
-      state = State.DISABLED;
+      applyState(State.DISABLED);
       return null;
     }
 
@@ -68,5 +78,25 @@ public class TCPServer {
       default:
         return false;
     }
+  }
+
+  public void start(int port) {
+    task = new TCPServerTask(port);
+    task.start();
+  }
+
+  public void stop() {
+    applyState(State.DISABLED);
+    task.stop();
+  }
+
+  private void applyState(State state) {
+    this.state = state;
+    if (stateChangeListener != null)
+      stateChangeListener.onServerStateChanged(state);
+  }
+
+  public interface StateChangeListener {
+    void onServerStateChanged(State state);
   }
 }

@@ -199,6 +199,8 @@
   <string name="errTI_nothingToTest">Нечего тестировать</string>
   <string name="errTI_emptyKey">Не задан один из параметров ключа</string>
   <string name="errTI_incorrectKey">Некорректно задан один из параметров ключа</string>
+  <string name="errIS_emptyPort">Не задон номер порта</string>
+  <string name="errIS_incorrectPort">Некорректно задан номер порта</string>
   <!-- MathStat -->
   <string-array name="math_taskTypes">
     <item>@string/startMathStat</item>
