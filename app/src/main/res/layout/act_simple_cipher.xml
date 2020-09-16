@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:layout_margin="@dimen/layoutPadding">
@@ -33,6 +32,101 @@
     android:textColor="@color/dirPicker_textActive"
     android:gravity="center"/>
 
+  <LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/tvSectionNetwork"
+    android:layout_above="@id/vCenter"
+    android:layout_alignLeft="@id/tvSectionNetwork"
+    android:layout_alignStart="@id/tvSectionNetwork"
+    android:layout_alignRight="@id/tvSectionNetwork"
+    android:layout_alignEnd="@id/tvSectionNetwork"
+    android:orientation="vertical">
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal">
+
+      <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/is_network_address"
+        android:textSize="@dimen/textSize_main"
+        android:gravity="end"/>
+
+      <TextView
+        android:id="@+id/tvIPAddress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:textColor="@color/dirPicker_textActive"
+        android:textSize="@dimen/textSize_main"/>
+
+      <ImageView
+        android:id="@+id/ivRefreshIP"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:srcCompat="@drawable/ic_restart_24dp"
+        android:background="?attr/selectableItemBackground"
+        android:contentDescription="@string/buttonRefresh"
+        android:focusable="true"
+        android:clickable="true"/>
+
+      <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/is_network_port"
+        android:textSize="@dimen/textSize_main"
+        android:gravity="end"/>
+
+      <EditText
+        android:id="@+id/etPort"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:inputType="number"/>
+    </LinearLayout>
+
+    <Button
+      android:id="@+id/btnStartServer"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/is_network_start"/>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="5dp"
+      android:orientation="horizontal">
+
+      <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/is_network_state"
+        android:textSize="@dimen/textSize_main"
+        android:gravity="end"/>
+
+      <TextView
+        android:id="@+id/tvServerState"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:textColor="@color/dirPicker_textActive"
+        android:textSize="@dimen/textSize_main"/>
+    </LinearLayout>
+
+  </LinearLayout>
+
   <TextView
     android:id="@+id/tvSectionCipher"
     android:layout_width="wrap_content"
@@ -48,8 +142,58 @@
     android:textColor="@color/dirPicker_textActive"
     android:gravity="center"/>
 
+  <LinearLayout
+    android:id="@+id/cipherNameLayout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/tvSectionCipher"
+    android:layout_alignLeft="@id/tvSectionCipher"
+    android:layout_alignStart="@id/tvSectionCipher"
+    android:layout_alignRight="@id/tvSectionCipher"
+    android:layout_alignEnd="@id/tvSectionCipher"
+    android:layout_marginTop="5dp"
+    android:orientation="horizontal">
+
+    <TextView
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:text="@string/is_cipherName"
+      android:textSize="@dimen/textSize_main"
+      android:gravity="end"/>
+
+    <TextView
+      android:id="@+id/tvCipherName"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="3"
+      android:layout_marginLeft="5dp"
+      android:layout_marginStart="5dp"
+      android:textColor="@color/dirPicker_textActive"
+      android:textSize="@dimen/textSize_main"/>
+  </LinearLayout>
+
+  <ScrollView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/cipherNameLayout"
+    android:layout_alignLeft="@id/tvSectionCipher"
+    android:layout_alignStart="@id/tvSectionCipher"
+    android:layout_alignRight="@id/tvSectionCipher"
+    android:layout_alignEnd="@id/tvSectionCipher"
+    android:layout_alignParentBottom="true"
+    android:layout_marginTop="5dp">
+
+    <TextView
+      android:id="@+id/tvCipherConfig"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textSize="@dimen/textSize_main"
+      android:typeface="monospace"/>
+  </ScrollView>
+
   <TextView
-    android:id="@+id/tvSectionInMsg"
+    android:id="@+id/tvSectionEncrypted"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_alignParentTop="true"
@@ -63,8 +207,26 @@
     android:textColor="@color/dirPicker_textActive"
     android:gravity="center"/>
 
+  <ScrollView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/tvSectionEncrypted"
+    android:layout_alignLeft="@id/tvSectionEncrypted"
+    android:layout_alignStart="@id/tvSectionEncrypted"
+    android:layout_alignRight="@id/tvSectionEncrypted"
+    android:layout_alignEnd="@id/tvSectionEncrypted"
+    android:layout_above="@id/vCenter">
+
+    <TextView
+      android:id="@+id/tvEncrypted"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textSize="@dimen/textSize_main"
+      android:typeface="monospace"/>
+  </ScrollView>
+
   <TextView
-    android:id="@+id/tvSectionOutMsg"
+    android:id="@+id/tvSectionDecrypted"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_alignParentRight="true"
@@ -77,5 +239,23 @@
     android:textSize="@dimen/textSize_large"
     android:textColor="@color/dirPicker_textActive"
     android:gravity="center"/>
+
+  <ScrollView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/tvSectionDecrypted"
+    android:layout_alignLeft="@id/tvSectionDecrypted"
+    android:layout_alignStart="@id/tvSectionDecrypted"
+    android:layout_alignRight="@id/tvSectionDecrypted"
+    android:layout_alignEnd="@id/tvSectionDecrypted"
+    android:layout_alignParentBottom="true">
+
+    <TextView
+      android:id="@+id/tvDecrypted"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textSize="@dimen/textSize_main"
+      android:typeface="monospace"/>
+  </ScrollView>
 
 </RelativeLayout>

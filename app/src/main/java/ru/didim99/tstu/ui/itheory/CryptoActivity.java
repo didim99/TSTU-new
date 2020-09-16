@@ -79,12 +79,12 @@ public class CryptoActivity extends BaseActivity
     tvDec.setOnLongClickListener(v -> saveMessage(v, false));
     MyLog.d(LOG_TAG, "View components init completed");
 
-    MyLog.d(LOG_TAG, "Connecting ImageProcessor...");
+    MyLog.d(LOG_TAG, "Connecting CryptoManager...");
     manager = (CryptoManager) getLastCustomNonConfigurationInstance();
     if (manager != null) {
       MyLog.d(LOG_TAG, "Connected to: " + manager);
     } else {
-      MyLog.d(LOG_TAG, "No existing ImageProcessor found");
+      MyLog.d(LOG_TAG, "No existing CryptoManager found");
       manager = new CryptoManager(getApplicationContext());
     }
 

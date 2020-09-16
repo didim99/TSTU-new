@@ -29,6 +29,7 @@
   <string name="buttonTest">Тест</string>
   <string name="buttonCreate">Создать</string>
   <string name="buttonAdd">Добавить</string>
+  <string name="buttonRefresh">Обновить</string>
   <string name="buttonOpen">Открыть</string>
   <string name="buttonLoad">Загрузить</string>
   <string name="buttonSave">Сохранить</string>
@@ -733,8 +734,23 @@
   <string name="is_dt_errorRateBlock">Ошибочных бит на блок: %d</string>
   <string name="is_encryptedMessage">Зашифрованное сообщение</string>
   <string name="is_decryptedMessage">Расшифрованное сообщение</string>
-  <string name="is_cipherSettings">Настройки шифрования</string>
   <string name="is_networkSettings">Сетевые настройки</string>
+  <string name="is_network_address">IP-адрес:</string>
+  <string name="is_network_port">порт:</string>
+  <string name="is_network_start">Запустить сервер</string>
+  <string name="is_network_stop">Остановить сервер</string>
+  <string name="is_network_state">Состояние:</string>
+  <string name="is_state_disabled">WI-FI отключен</string>
+  <string name="is_state_stopped">сервер остановлен</string>
+  <string name="is_state_waiting">ожидание соединения</string>
+  <string name="is_state_connected">подключен (%s:%d)</string>
+  <string name="is_cipherSettings">Настройки шифрования</string>
+  <string name="is_cipherName">Шифр:</string>
+  <string name="is_cipher_vigenere">Виженера</string>
+  <string name="is_cipher_grid">Поворотная решетка</string>
+  <string name="is_cipher_gamma">Гаммирование по модулю N</string>
+  <string name="is_cipher_adfgvx">ADFGVX</string>
+  <string name="is_cipher_rsa">RSA</string>
   <!-- Information theory -->
   <string name="startITheory">Теория информации</string>
   <string name="sectionITheory">Основы теории информации</string>
