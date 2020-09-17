@@ -15,8 +15,11 @@ import ru.didim99.tstu.utils.MyLog;
  * Created by didim99 on 09.09.20.
  */
 
-public class TCPServer {
+public class TCPServer implements TCPServerTask.NetworkEventListener {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_server";
+
+  private static final char MSG_MARKER = '/';
+  private static final String MSG_DISCONNECT = "/goodbye";
 
   public enum State { DISABLED, STOPPED, WAITING, CONNECTED }
   public static final int DEFAULT_PORT = 9853;
@@ -24,7 +27,7 @@ public class TCPServer {
   public static final int MAX_PORT = 65535;
 
   private State state;
-  private StateChangeListener stateChangeListener;
+  private EventListener eventListener;
   private InetSocketAddress clientAddress;
   private WifiManager wifiManager;
   private TCPServerTask task;
@@ -35,9 +38,28 @@ public class TCPServer {
     applyState(State.STOPPED);
   }
 
-  public void setStateChangeListener(StateChangeListener stateChangeListener) {
-    this.stateChangeListener = stateChangeListener;
+  public void setEventListener(EventListener eventListener) {
+    this.eventListener = eventListener;
     applyState(state);
+  }
+
+  @Override
+  public void onConnected(InetAddress inetAddress, int port) {
+    this.clientAddress = new InetSocketAddress(inetAddress, port);
+    applyState(State.CONNECTED);
+  }
+
+  @Override
+  public void onDisconnected() {
+    this.clientAddress = null;
+    applyState(State.WAITING);
+  }
+
+  @Override
+  public void onMessage(String msg) {
+    /*if (msg.charAt(0) == MSG_MARKER)
+      onCommandReceived(msg);
+    else*/
   }
 
   public State getState() {
@@ -81,7 +103,7 @@ public class TCPServer {
   }
 
   public void start(int port) {
-    task = new TCPServerTask(port);
+    task = new TCPServerTask(port, this);
     task.start();
   }
 
@@ -92,11 +114,15 @@ public class TCPServer {
 
   private void applyState(State state) {
     this.state = state;
-    if (stateChangeListener != null)
-      stateChangeListener.onServerStateChanged(state);
+    if (eventListener != null)
+      eventListener.onServerStateChanged(state);
   }
 
-  public interface StateChangeListener {
+  public interface EventListener {
     void onServerStateChanged(State state);
+  }
+
+  interface MessageListener {
+    void onMessageReceived(String msg);
   }
 }

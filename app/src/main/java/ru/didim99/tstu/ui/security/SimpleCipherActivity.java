@@ -12,7 +12,6 @@ import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.security.cipher.CryptoManager;
 import ru.didim99.tstu.core.security.cipher.TCPServer;
 import ru.didim99.tstu.ui.BaseActivity;
-import ru.didim99.tstu.ui.utils.DialogEventListener;
 import ru.didim99.tstu.utils.InputValidator;
 import ru.didim99.tstu.utils.MyLog;
 
@@ -21,7 +20,7 @@ import ru.didim99.tstu.utils.MyLog;
  */
 
 public class SimpleCipherActivity extends BaseActivity
-  implements CryptoManager.EventListener, TCPServer.StateChangeListener {
+  implements CryptoManager.EventListener, TCPServer.EventListener {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_SCAct";
 
   // View elements
@@ -78,12 +77,12 @@ public class SimpleCipherActivity extends BaseActivity
   protected void onStart() {
     super.onStart();
     manager.setEventListener(this);
-    manager.getServer().setStateChangeListener(this);
+    manager.getServer().setEventListener(this);
   }
 
   @Override
   protected void onStop() {
-    manager.getServer().setStateChangeListener(null);
+    manager.getServer().setEventListener(null);
     manager.setEventListener(null);
     super.onStop();
   }

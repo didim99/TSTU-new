@@ -1,7 +1,12 @@
 package ru.didim99.tstu.core.security.cipher;
 
 import android.os.AsyncTask;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -15,9 +20,11 @@ class TCPServerTask extends AsyncTask<Void, Void, Void> {
   private int port;
   private boolean isRunning;
   private ServerSocket socket;
+  private NetworkEventListener listener;
 
-  TCPServerTask(int port) {
+  TCPServerTask(int port, NetworkEventListener listener) {
     this.isRunning = false;
+    this.listener = listener;
     this.port = port;
   }
 
@@ -34,7 +41,19 @@ class TCPServerTask extends AsyncTask<Void, Void, Void> {
     while (isRunning) {
       try {
         Socket client = socket.accept();
+        BufferedReader reader = new BufferedReader(
+          new InputStreamReader(client.getInputStream()));
+        BufferedWriter writer = new BufferedWriter(
+          new OutputStreamWriter(client.getOutputStream()));
+        listener.onConnected(client.getInetAddress(), client.getPort());
+
+        while (true) {
+          String msg = reader.readLine();
+          listener.onMessage(msg);
+        }
+
       } catch (IOException e) {
+        listener.onDisconnected();
         e.printStackTrace();
       }
     }
@@ -49,5 +68,11 @@ class TCPServerTask extends AsyncTask<Void, Void, Void> {
 
   void stop() {
     isRunning = false;
+  }
+
+  interface NetworkEventListener {
+    void onConnected(InetAddress inetAddress, int port);
+    void onMessage(String msg);
+    void onDisconnected();
   }
 }
