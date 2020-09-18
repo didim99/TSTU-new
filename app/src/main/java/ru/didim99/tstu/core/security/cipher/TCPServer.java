@@ -18,9 +18,6 @@ import ru.didim99.tstu.utils.MyLog;
 public class TCPServer implements TCPServerTask.NetworkEventListener {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_server";
 
-  private static final char MSG_MARKER = '/';
-  private static final String MSG_DISCONNECT = "/goodbye";
-
   public enum State { DISABLED, STOPPED, WAITING, CONNECTED }
   public static final int DEFAULT_PORT = 9853;
   public static final int MIN_PORT = 1000;
@@ -28,11 +25,13 @@ public class TCPServer implements TCPServerTask.NetworkEventListener {
 
   private State state;
   private EventListener eventListener;
+  private MessageListener messageListener;
   private InetSocketAddress clientAddress;
   private WifiManager wifiManager;
   private TCPServerTask task;
 
-  TCPServer(Context context) {
+  TCPServer(Context context, MessageListener messageListener) {
+    this.messageListener = messageListener;
     wifiManager = (WifiManager) context
       .getApplicationContext().getSystemService(Context.WIFI_SERVICE);
     applyState(State.STOPPED);
@@ -41,6 +40,11 @@ public class TCPServer implements TCPServerTask.NetworkEventListener {
   public void setEventListener(EventListener eventListener) {
     this.eventListener = eventListener;
     applyState(state);
+  }
+
+  @Override
+  public void onStarted() {
+    applyState(State.WAITING);
   }
 
   @Override
@@ -57,9 +61,7 @@ public class TCPServer implements TCPServerTask.NetworkEventListener {
 
   @Override
   public void onMessage(String msg) {
-    /*if (msg.charAt(0) == MSG_MARKER)
-      onCommandReceived(msg);
-    else*/
+    messageListener.onMessageReceived(msg);
   }
 
   public State getState() {
@@ -70,13 +72,18 @@ public class TCPServer implements TCPServerTask.NetworkEventListener {
     return clientAddress;
   }
 
-  public InetAddress getMyIP() {
+  private WifiInfo checkWifiState() {
     WifiInfo info = wifiManager.getConnectionInfo();
     if (info.getSupplicantState() != SupplicantState.COMPLETED) {
       MyLog.d(LOG_TAG, "No any Wi-Fi network connected");
       applyState(State.DISABLED);
       return null;
-    }
+    } else return info;
+  }
+
+  public InetAddress getMyIP() {
+    WifiInfo info = checkWifiState();
+    if (info == null) return null;
 
     try {
       int intIP = info.getIpAddress();
@@ -108,7 +115,7 @@ public class TCPServer implements TCPServerTask.NetworkEventListener {
   }
 
   public void stop() {
-    applyState(State.DISABLED);
+    applyState(State.STOPPED);
     task.stop();
   }
 

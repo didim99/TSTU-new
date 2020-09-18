@@ -119,12 +119,16 @@ public class SimpleCipherActivity extends BaseActivity
     TCPServer server = manager.getServer();
     if (!server.isRunning()) {
       try {
+        MyLog.d(LOG_TAG, "UI Action: server start");
         InputValidator iv = InputValidator.getInstance();
         int port = iv.checkInteger(etPort, TCPServer.MIN_PORT, TCPServer.MAX_PORT,
           R.string.errIS_emptyPort, R.string.errIS_incorrectPort, "server port");
         server.start(port);
       } catch (InputValidator.ValidationException ignored) {}
-    } else server.stop();
+    } else {
+      MyLog.d(LOG_TAG, "UI Action: server stop");
+      server.stop();
+    }
   }
 
   private void updateMyIP() {
