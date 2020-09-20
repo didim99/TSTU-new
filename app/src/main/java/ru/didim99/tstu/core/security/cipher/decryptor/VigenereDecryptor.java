@@ -6,6 +6,8 @@ package ru.didim99.tstu.core.security.cipher.decryptor;
 
 public class VigenereDecryptor implements Decryptor {
 
+  private static final String ALPHABET = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ .,";
+
   @Override
   public void configure(String[] params) {
 

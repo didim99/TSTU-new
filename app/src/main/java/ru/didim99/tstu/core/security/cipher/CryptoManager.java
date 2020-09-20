@@ -105,6 +105,7 @@ public class CryptoManager implements TCPServer.MessageListener {
   }
 
   private void applyMode(int mode) {
+    this.decryptor = null;
     switch (mode) {
       case MODE_CIPHER:
         this.mode = Mode.CIPHER;
