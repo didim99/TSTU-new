@@ -201,6 +201,7 @@
   <string name="errTI_incorrectKey">Некорректно задан один из параметров ключа</string>
   <string name="errIS_emptyPort">Не задон номер порта</string>
   <string name="errIS_incorrectPort">Некорректно задан номер порта</string>
+  <string name="errIS_anyNetwork">Произошла сетевая ошибка: %s</string>
   <!-- MathStat -->
   <string-array name="math_taskTypes">
     <item>@string/startMathStat</item>

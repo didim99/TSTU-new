@@ -101,7 +101,6 @@ public class ExpanseActivity extends BaseActivity
       game = new Expanse(this);
     }
 
-
     GameField field = onGameInitialized();
     etW.setText(String.valueOf(field.getWidth()));
     etH.setText(String.valueOf(field.getHeight()));

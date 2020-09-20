@@ -1,12 +1,14 @@
-package ru.didim99.tstu.core.security.cipher;
+package ru.didim99.tstu.core.security.cipher.network;
 
 import android.content.Context;
 import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.ByteOrder;
 import ru.didim99.tstu.utils.MyLog;
@@ -28,9 +30,10 @@ public class TCPServer implements TCPServerTask.NetworkEventListener {
   private MessageListener messageListener;
   private InetSocketAddress clientAddress;
   private WifiManager wifiManager;
+  private TCPReplySender replySender;
   private TCPServerTask task;
 
-  TCPServer(Context context, MessageListener messageListener) {
+  public TCPServer(Context context, MessageListener messageListener) {
     this.messageListener = messageListener;
     wifiManager = (WifiManager) context
       .getApplicationContext().getSystemService(Context.WIFI_SERVICE);
@@ -48,20 +51,32 @@ public class TCPServer implements TCPServerTask.NetworkEventListener {
   }
 
   @Override
-  public void onConnected(InetAddress inetAddress, int port) {
-    this.clientAddress = new InetSocketAddress(inetAddress, port);
+  public void onConnected(Socket client) throws IOException {
+    this.clientAddress = new InetSocketAddress(
+      client.getInetAddress(), client.getPort());
+    replySender = new TCPReplySender(client);
     applyState(State.CONNECTED);
   }
 
   @Override
-  public void onDisconnected() {
+  public void onDisconnected() throws IOException {
+    this.replySender.disconnect();
+    this.replySender = null;
     this.clientAddress = null;
     applyState(State.WAITING);
   }
 
   @Override
   public void onMessage(String msg) {
-    messageListener.onMessageReceived(msg);
+    String reply = messageListener.onMessageReceived(msg);
+    if (reply != null) replySender.send(reply);
+  }
+
+  @Override
+  public void onError(Throwable cause) {
+    if (eventListener != null)
+      eventListener.onServerError(cause);
+    applyState(State.STOPPED);
   }
 
   public State getState() {
@@ -119,7 +134,13 @@ public class TCPServer implements TCPServerTask.NetworkEventListener {
     task.stop();
   }
 
+  public void disconnect() {
+    task.disconnect();
+  }
+
   private void applyState(State state) {
+    if (state != this.state)
+      MyLog.d(LOG_TAG, "New state: " + state);
     this.state = state;
     if (eventListener != null)
       eventListener.onServerStateChanged(state);
@@ -127,9 +148,10 @@ public class TCPServer implements TCPServerTask.NetworkEventListener {
 
   public interface EventListener {
     void onServerStateChanged(State state);
+    void onServerError(Throwable cause);
   }
 
-  interface MessageListener {
-    void onMessageReceived(String msg);
+  public interface MessageListener {
+    String onMessageReceived(String msg);
   }
 }

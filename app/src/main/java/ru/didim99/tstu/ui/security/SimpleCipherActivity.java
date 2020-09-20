@@ -5,12 +5,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.security.cipher.CryptoManager;
-import ru.didim99.tstu.core.security.cipher.TCPServer;
+import ru.didim99.tstu.core.security.cipher.network.TCPServer;
 import ru.didim99.tstu.ui.BaseActivity;
 import ru.didim99.tstu.utils.InputValidator;
 import ru.didim99.tstu.utils.MyLog;
@@ -113,6 +113,36 @@ public class SimpleCipherActivity extends BaseActivity
           client.getAddress().getHostAddress(), client.getPort()));
         break;
     }
+
+    tvCipherName.setText(null);
+    tvCipherConfig.setText(null);
+    tvEnc.setText(null);
+    tvDec.setText(null);
+  }
+
+  @Override
+  public void onServerError(Throwable cause) {
+    Toast.makeText(this, getString(R.string.errIS_anyNetwork, cause),
+      Toast.LENGTH_LONG).show();
+  }
+
+  @Override
+  public void onDataReceived(String encrypted, String decrypted) {
+    tvEnc.setText(encrypted);
+    tvDec.setText(decrypted);
+  }
+
+  @Override
+  public void onCipherTypeChanged(CryptoManager.Cipher cipher) {
+    int cipherId = 0;
+    switch (cipher) {
+      case VIGENERE:    cipherId = R.string.is_cipher_vigenere; break;
+      case ROTARY_GRID: cipherId = R.string.is_cipher_grid; break;
+      case GAMMA:       cipherId = R.string.is_cipher_gamma; break;
+      case ADFGVX:      cipherId = R.string.is_cipher_adfgvx; break;
+      case RSA:         cipherId = R.string.is_cipher_rsa; break;
+    }
+    tvCipherName.setText(cipherId);
   }
 
   private void startStopServer() {

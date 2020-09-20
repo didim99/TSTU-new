@@ -98,7 +98,10 @@
       android:id="@+id/btnStartServer"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:text="@string/is_network_start"/>
+      android:text="@string/is_network_start"
+      android:focusableInTouchMode="true">
+      <requestFocus/>
+    </Button>
 
     <LinearLayout
       android:layout_width="match_parent"
