@@ -1,18 +1,20 @@
 package ru.didim99.tstu.core.modeling.randproc;
 
+import ru.didim99.tstu.utils.CyclicBuffer;
+
 /**
  * Created by didim99 on 08.05.20.
  */
 public class RandomProcess {
   private final Random random;
-  private final CyclicBuffer buffer;
+  private final CyclicBuffer<Double> buffer;
   private final int interval;
 
   private double m0, s0, a0, sigma;
   private double f1, f2;
 
   public RandomProcess(Random random, int interval) {
-    this.buffer = new CyclicBuffer(interval);
+    this.buffer = new CyclicBuffer<>(Double.class, interval);
     this.buffer.fill(random::nextDoubleCentered);
     this.random = random;
     this.interval = interval;

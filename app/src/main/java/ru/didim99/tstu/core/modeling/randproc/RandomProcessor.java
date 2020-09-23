@@ -11,6 +11,7 @@ import ru.didim99.tstu.core.optimization.math.PointD;
 import ru.didim99.tstu.core.optimization.math.PointRN;
 import ru.didim99.tstu.core.optimization.multidim.DownhillMethod;
 import ru.didim99.tstu.core.optimization.multidim.ExtremaFinderRN;
+import ru.didim99.tstu.utils.CyclicBuffer;
 import ru.didim99.tstu.utils.Utils;
 
 /**
@@ -46,7 +47,7 @@ public class RandomProcessor extends MultiSeriesProcessor implements FunctionRN 
   private Random random;
   private RandomProcess process;
   private PointRN result;
-  private double[] processData;
+  private Double[] processData;
   private ArrayList<PointRN> cTable;
 
   public RandomProcessor(boolean useOptimization) {
@@ -58,7 +59,7 @@ public class RandomProcessor extends MultiSeriesProcessor implements FunctionRN 
 
   @Override
   public void process() {
-    CyclicBuffer buffer = new CyclicBuffer(BUFF_SIZE);
+    CyclicBuffer<Double> buffer = new CyclicBuffer<>(Double.class, BUFF_SIZE);
     buffer.fill(random::nextDoubleCentered);
     double sx = DiscreteMath.spread(buffer.getAll());
     process = new RandomProcess(random, INTERVAL);
@@ -82,7 +83,7 @@ public class RandomProcessor extends MultiSeriesProcessor implements FunctionRN 
 
   public void compute(PointRN params) {
     process.setup(params.get(OA1), params.get(OA2));
-    CyclicBuffer buffer = new CyclicBuffer(Z_SIZE);
+    CyclicBuffer<Double> buffer = new CyclicBuffer<>(Double.class, Z_SIZE);
     buffer.fill(process::next);
     processData = buffer.getAll();
     result.set(IM, DiscreteMath.mean(processData));
@@ -121,7 +122,7 @@ public class RandomProcessor extends MultiSeriesProcessor implements FunctionRN 
       super.getDescription();
   }
 
-  private static ArrayList<PointRN> buildSeriesInteger(double[] src, int from) {
+  private static ArrayList<PointRN> buildSeriesInteger(Double[] src, int from) {
     ArrayList<PointRN> series = new ArrayList<>(src.length);
     for (double v : src)
       series.add(new PointD((double) from++, v));

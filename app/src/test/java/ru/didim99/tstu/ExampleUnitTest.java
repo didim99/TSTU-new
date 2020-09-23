@@ -1,11 +1,9 @@
 package ru.didim99.tstu;
 
 import org.junit.Test;
-
-import ru.didim99.tstu.core.modeling.randproc.CyclicBuffer;
 import ru.didim99.tstu.core.modeling.randproc.DiscreteMath;
 import ru.didim99.tstu.core.modeling.randproc.Random;
-import ru.didim99.tstu.core.modeling.randproc.RandomProcessor;
+import ru.didim99.tstu.utils.CyclicBuffer;
 
 import static org.junit.Assert.*;
 
@@ -18,7 +16,7 @@ public class ExampleUnitTest {
   @Test
   public void randomSpread() {
     Random random = new Random(48828125, 1L << 18, 1);
-    CyclicBuffer buffer = new CyclicBuffer(1000);
+    CyclicBuffer<Double> buffer = new CyclicBuffer<>(Double.class, 1000);
     buffer.fill(random::nextDoubleCentered);
     double prev = DiscreteMath.spread(buffer.getAll());
     double mean = DiscreteMath.mean(buffer.getAll());
