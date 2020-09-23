@@ -72,7 +72,7 @@ public class CryptoManager implements TCPServer.MessageListener {
         String cmd = command[0];
         processCommand(cmd, args);
       } else {
-        if (decryptor != null) {
+        if (decryptor != null && decryptor.isConfigured()) {
           listener.onDataReceived(msg, decryptor.decrypt(msg));
         } else throw new IllegalStateException("Decryptor not initialized");
       }
