@@ -1,5 +1,7 @@
 package ru.didim99.tstu.core.security.cipher.decryptor;
 
+import android.content.Context;
+
 /**
  * Created by didim99 on 20.09.20.
  */
@@ -8,6 +10,8 @@ public abstract class Decryptor {
   protected static final String ALPHABET_RUS = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ .,";
 
   protected void checkArgumentsCount(String[] args, int expected) {
+    if (args == null)
+      throw new IllegalArgumentException("no arguments passed");
     if (args.length < expected)
       throw new IllegalArgumentException("too few arguments passed");
     if (args.length > expected)
@@ -29,6 +33,7 @@ public abstract class Decryptor {
   }
 
   public abstract void configure(String[] params);
+  public abstract String getDescription(Context context);
   public abstract String decrypt(String data);
   public abstract boolean isConfigured();
 }

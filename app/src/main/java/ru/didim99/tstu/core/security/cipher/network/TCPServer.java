@@ -63,7 +63,8 @@ public class TCPServer implements TCPServerTask.NetworkEventListener {
     this.replySender.disconnect();
     this.replySender = null;
     this.clientAddress = null;
-    applyState(State.WAITING);
+    applyState(task.isRunning() ?
+      State.WAITING : State.STOPPED);
   }
 
   @Override

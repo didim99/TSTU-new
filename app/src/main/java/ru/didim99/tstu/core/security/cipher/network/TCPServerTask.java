@@ -152,6 +152,10 @@ class TCPServerTask extends AsyncTask<Void, TCPServerTask.Event, Void> {
       isInterrupted = true;
   }
 
+  public boolean isRunning() {
+    return isRunning;
+  }
+
   interface NetworkEventListener {
     void onStarted();
     void onConnected(Socket client) throws IOException;

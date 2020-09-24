@@ -1,7 +1,8 @@
 package ru.didim99.tstu.core.security.cipher.decryptor;
 
+import android.content.Context;
+import ru.didim99.tstu.R;
 import ru.didim99.tstu.utils.CyclicBuffer;
-import ru.didim99.tstu.utils.MyLog;
 
 /**
  * Created by didim99 on 20.09.20.
@@ -22,6 +23,11 @@ public class VigenereDecryptor extends Decryptor {
   }
 
   @Override
+  public String getDescription(Context context) {
+    return context.getString(R.string.is_cipher_keyword, keyword);
+  }
+
+  @Override
   public String decrypt(String data) {
     CyclicBuffer<Character> keyBuffer =
       new CyclicBuffer<>(keyword.length(), '\00');
@@ -33,8 +39,6 @@ public class VigenereDecryptor extends Decryptor {
       int input = alphabet.indexOf(data.charAt(i));
       int offset = alphabet.indexOf(keyBuffer.get(i));
       int pos = (input - offset + n) % n;
-      MyLog.d(MyLog.LOG_TAG_BASE, i + " " + data.charAt(i)
-        + " " + keyBuffer.get(i) + " " + alphabet.charAt(pos));
       sb.append(alphabet.charAt(pos));
     }
 

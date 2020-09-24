@@ -100,6 +100,8 @@ public class CryptoManager implements TCPServer.MessageListener {
       case CMD_CONFIGURE:
         if (decryptor != null) decryptor.configure(args);
         else throw new IllegalStateException("Nothing to configure");
+        if (listener != null)
+          listener.onCipherConfigChanged(decryptor);
         break;
       default:
         throw new IllegalArgumentException("Unknown command: " + cmd);
@@ -159,7 +161,8 @@ public class CryptoManager implements TCPServer.MessageListener {
   }
 
   public interface EventListener {
-    void onDataReceived(String encrypted, String decrypted);
     void onCipherTypeChanged(Cipher cipher);
+    void onCipherConfigChanged(Decryptor decryptor);
+    void onDataReceived(String encrypted, String decrypted);
   }
 }

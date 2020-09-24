@@ -754,6 +754,7 @@
   <string name="is_cipher_gamma">Гаммирование по модулю N</string>
   <string name="is_cipher_adfgvx">ADFGVX</string>
   <string name="is_cipher_rsa">RSA</string>
+  <string name="is_cipher_keyword">Ключевое слово: %s</string>
   <!-- Information theory -->
   <string name="startITheory">Теория информации</string>
   <string name="sectionITheory">Основы теории информации</string>

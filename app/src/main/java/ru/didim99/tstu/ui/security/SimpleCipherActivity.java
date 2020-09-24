@@ -10,6 +10,7 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.security.cipher.CryptoManager;
+import ru.didim99.tstu.core.security.cipher.decryptor.Decryptor;
 import ru.didim99.tstu.core.security.cipher.network.TCPServer;
 import ru.didim99.tstu.ui.BaseActivity;
 import ru.didim99.tstu.utils.InputValidator;
@@ -127,12 +128,6 @@ public class SimpleCipherActivity extends BaseActivity
   }
 
   @Override
-  public void onDataReceived(String encrypted, String decrypted) {
-    tvEnc.setText(encrypted);
-    tvDec.setText(decrypted);
-  }
-
-  @Override
   public void onCipherTypeChanged(CryptoManager.Cipher cipher) {
     int cipherId = 0;
     switch (cipher) {
@@ -143,6 +138,17 @@ public class SimpleCipherActivity extends BaseActivity
       case RSA:         cipherId = R.string.is_cipher_rsa; break;
     }
     tvCipherName.setText(cipherId);
+  }
+
+  @Override
+  public void onCipherConfigChanged(Decryptor decryptor) {
+    tvCipherConfig.setText(decryptor.getDescription(this));
+  }
+
+  @Override
+  public void onDataReceived(String encrypted, String decrypted) {
+    tvEnc.setText(encrypted);
+    tvDec.setText(decrypted);
   }
 
   private void startStopServer() {
