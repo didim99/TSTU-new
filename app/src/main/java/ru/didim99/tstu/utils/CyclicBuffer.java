@@ -1,5 +1,7 @@
 package ru.didim99.tstu.utils;
 
+import android.support.annotation.NonNull;
+
 import java.lang.reflect.Array;
 import java.util.Arrays;
 
@@ -12,9 +14,9 @@ public class CyclicBuffer<T> {
   private int size, pointer;
 
   @SuppressWarnings("unchecked")
-  public CyclicBuffer(Class<T> type, int size) {
-    this.buffer = (T[]) Array.newInstance(type, size);
-    Arrays.fill(buffer, 0.0);
+  public CyclicBuffer(int size, @NonNull T defaultValue) {
+    this.buffer = (T[]) Array.newInstance(defaultValue.getClass(), size);
+    Arrays.fill(buffer, defaultValue);
     this.size = buffer.length;
     this.pointer = 0;
   }

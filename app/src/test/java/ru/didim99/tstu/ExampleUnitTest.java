@@ -16,7 +16,7 @@ public class ExampleUnitTest {
   @Test
   public void randomSpread() {
     Random random = new Random(48828125, 1L << 18, 1);
-    CyclicBuffer<Double> buffer = new CyclicBuffer<>(Double.class, 1000);
+    CyclicBuffer<Double> buffer = new CyclicBuffer<>(1000, 0.0);
     buffer.fill(random::nextDoubleCentered);
     double prev = DiscreteMath.spread(buffer.getAll());
     double mean = DiscreteMath.mean(buffer.getAll());

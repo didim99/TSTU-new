@@ -34,7 +34,7 @@ class TCPReplySender extends Thread {
         String reply = queue.poll(QUEUE_TIMEOUT, TimeUnit.MILLISECONDS);
         if (reply == null) continue;
         MyLog.d(LOG_TAG, "Send " + reply);
-        out.write(reply + "\n");
+        out.write(reply + "\r\n");
         out.flush();
       } catch (InterruptedException ignored) {
       } catch (IOException e) {

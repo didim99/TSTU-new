@@ -14,7 +14,7 @@ public class RandomProcess {
   private double f1, f2;
 
   public RandomProcess(Random random, int interval) {
-    this.buffer = new CyclicBuffer<>(Double.class, interval);
+    this.buffer = new CyclicBuffer<>(interval, 0.0);
     this.buffer.fill(random::nextDoubleCentered);
     this.random = random;
     this.interval = interval;

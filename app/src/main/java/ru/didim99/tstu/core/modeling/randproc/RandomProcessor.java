@@ -59,7 +59,7 @@ public class RandomProcessor extends MultiSeriesProcessor implements FunctionRN 
 
   @Override
   public void process() {
-    CyclicBuffer<Double> buffer = new CyclicBuffer<>(Double.class, BUFF_SIZE);
+    CyclicBuffer<Double> buffer = new CyclicBuffer<>(BUFF_SIZE, 0.0);
     buffer.fill(random::nextDoubleCentered);
     double sx = DiscreteMath.spread(buffer.getAll());
     process = new RandomProcess(random, INTERVAL);
@@ -83,7 +83,7 @@ public class RandomProcessor extends MultiSeriesProcessor implements FunctionRN 
 
   public void compute(PointRN params) {
     process.setup(params.get(OA1), params.get(OA2));
-    CyclicBuffer<Double> buffer = new CyclicBuffer<>(Double.class, Z_SIZE);
+    CyclicBuffer<Double> buffer = new CyclicBuffer<>(Z_SIZE, 0.0);
     buffer.fill(process::next);
     processData = buffer.getAll();
     result.set(IM, DiscreteMath.mean(processData));
