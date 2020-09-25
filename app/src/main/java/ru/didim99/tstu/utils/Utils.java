@@ -143,6 +143,19 @@ public class Utils {
 
   /* ======== ARRAY UTILS =========== */
 
+  public static long[] stringArrayToLongArray(String... args) {
+    if (args == null || args.length == 0)
+      return null;
+    try {
+      long[] result = new long[args.length];
+      for (int i = 0; i < args.length; i++)
+        result[i] = Long.parseLong(args[i]);
+      return result;
+    } catch (NumberFormatException ignored) {
+      return null;
+    }
+  }
+
   public static double[] stringArrayToDoubleArray(String... args) {
     if (args == null || args.length == 0)
       return null;

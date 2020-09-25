@@ -89,6 +89,7 @@ public class CryptoManager implements TCPServer.MessageListener {
       }
       return MSG_OK;
     } catch (Exception e) {
+      e.printStackTrace();
       return getError(e.getMessage());
     }
   }

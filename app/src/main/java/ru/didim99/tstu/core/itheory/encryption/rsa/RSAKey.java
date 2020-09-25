@@ -26,6 +26,12 @@ public class RSAKey {
 
   private BigInteger e, d, n;
 
+  public RSAKey(long e, long d, long n) {
+    this.e = BigInteger.valueOf(e);
+    this.d = BigInteger.valueOf(d);
+    this.n = BigInteger.valueOf(n);
+  }
+
   public RSAKey(BigInteger e, BigInteger d, BigInteger n) {
     this.e = e;
     this.d = d;
@@ -122,5 +128,14 @@ public class RSAKey {
     for (int len = MIN_LEN; len <= MAX_LEN; len += LEN_STEP)
       list.add(String.valueOf(len));
     return list.toArray(new String[0]);
+  }
+
+  @Override
+  public String toString() {
+    return "RSAKey{" +
+      "e=" + e +
+      ", d=" + d +
+      ", n=" + n +
+      '}';
   }
 }
