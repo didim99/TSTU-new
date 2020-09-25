@@ -178,7 +178,7 @@
       android:name=".ui.security.TransmitActivity"
       android:label="@string/is_dataTransmission"/>
     <activity
-      android:name=".ui.security.SimpleCipherActivity"
+      android:name=".ui.security.CipherActivity"
       android:label="@string/is_simpleCipher"/>
 
     <activity

@@ -20,7 +20,7 @@ import ru.didim99.tstu.utils.MyLog;
  * Created by didim99 on 07.09.20.
  */
 
-public class SimpleCipherActivity extends BaseActivity
+public class CipherActivity extends BaseActivity
   implements CryptoManager.EventListener, TCPServer.EventListener {
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_SCAct";
 
@@ -36,9 +36,9 @@ public class SimpleCipherActivity extends BaseActivity
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    MyLog.d(LOG_TAG, "SimpleCipherActivity creating...");
+    MyLog.d(LOG_TAG, "CipherActivity creating...");
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.act_simple_cipher);
+    setContentView(R.layout.act_cipher);
 
     MyLog.d(LOG_TAG, "View components init...");
     btnStartStop = findViewById(R.id.btnStartServer);
@@ -56,6 +56,8 @@ public class SimpleCipherActivity extends BaseActivity
     manager = (CryptoManager) getLastCustomNonConfigurationInstance();
     if (manager != null) {
       MyLog.d(LOG_TAG, "Connected to: " + manager);
+      onCipherTypeChanged(manager.getCipherType());
+      onCipherConfigChanged(manager.getDecryptor());
     } else {
       MyLog.d(LOG_TAG, "No existing CryptoManager found");
       manager = new CryptoManager(getApplicationContext());
@@ -66,7 +68,7 @@ public class SimpleCipherActivity extends BaseActivity
     ivRefreshIP.setOnClickListener(v -> updateMyIP());
     updateMyIP();
 
-    MyLog.d(LOG_TAG, "SimpleCipherActivity created");
+    MyLog.d(LOG_TAG, "CipherActivity created");
   }
 
   @Override

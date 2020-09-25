@@ -44,6 +44,7 @@ public class CryptoManager implements TCPServer.MessageListener {
   private static final int CIPHER_RSA = 5;
 
   private Mode mode;
+  private Cipher cipher;
   private EventListener listener;
   private TCPServer server;
   private Decryptor decryptor;
@@ -59,6 +60,14 @@ public class CryptoManager implements TCPServer.MessageListener {
 
   public TCPServer getServer() {
     return server;
+  }
+
+  public Decryptor getDecryptor() {
+    return decryptor;
+  }
+
+  public Cipher getCipherType() {
+    return cipher;
   }
 
   @Override
@@ -126,27 +135,26 @@ public class CryptoManager implements TCPServer.MessageListener {
   }
 
   private void setCipher(int cipherId) {
-    Cipher cipher;
     switch (cipherId) {
       case CIPHER_VIGENERE:
-        decryptor = new VigenereDecryptor();
         cipher = Cipher.VIGENERE;
+        decryptor = new VigenereDecryptor();
         break;
       case CIPHER_ROTARY_GRID:
-        decryptor = new RotaryGridDecryptor();
         cipher = Cipher.ROTARY_GRID;
+        decryptor = new RotaryGridDecryptor();
         break;
       case CIPHER_GAMMA:
-        decryptor = new GammaDecryptor();
         cipher = Cipher.GAMMA;
+        decryptor = new GammaDecryptor();
         break;
       case CIPHER_ADFGVX:
-        decryptor = new ADFGVXDecryptor();
         cipher = Cipher.ADFGVX;
+        decryptor = new ADFGVXDecryptor();
         break;
       case CIPHER_RSA:
-        decryptor = new RSADecryptor();
         cipher = Cipher.RSA;
+        decryptor = new RSADecryptor();
         break;
       default:
         throw new IllegalArgumentException("unknown cipher: " + cipherId);

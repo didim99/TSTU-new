@@ -33,7 +33,7 @@ import ru.didim99.tstu.ui.oop.ShopActivity;
 import ru.didim99.tstu.ui.os.expanse.ExpanseActivity;
 import ru.didim99.tstu.ui.os.procinfo.ProcessActivity;
 import ru.didim99.tstu.ui.os.scheduler.SchedulerActivity;
-import ru.didim99.tstu.ui.security.SimpleCipherActivity;
+import ru.didim99.tstu.ui.security.CipherActivity;
 import ru.didim99.tstu.utils.MyLog;
 
 public class StartActivity extends AppCompatActivity {
@@ -57,7 +57,7 @@ public class StartActivity extends AppCompatActivity {
     { AlphabetActivity.class, RLEActivity.class,
       CompressionActivity.class, CryptoActivity.class };
   private static final Class<?>[] IS_TARGET =
-    { TransmitActivity.class, SimpleCipherActivity.class };
+    { TransmitActivity.class, CipherActivity.class };
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

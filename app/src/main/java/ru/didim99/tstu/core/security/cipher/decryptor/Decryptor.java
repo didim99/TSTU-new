@@ -8,14 +8,15 @@ import android.content.Context;
 
 public abstract class Decryptor {
   protected static final String ALPHABET_RUS = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ .,";
+  protected static final String ALPHABET_ENG = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
   protected void checkArgumentsCount(String[] args, int expected) {
     if (args == null)
-      throw new IllegalArgumentException("no arguments passed");
+      throw new IllegalArgumentException("no arguments passed, expected: " + expected);
     if (args.length < expected)
-      throw new IllegalArgumentException("too few arguments passed");
+      throw new IllegalArgumentException("too few arguments passed, expected: " + expected);
     if (args.length > expected)
-      throw new IllegalArgumentException("too many arguments passed");
+      throw new IllegalArgumentException("too many arguments passed, expected: " + expected);
   }
 
   protected void checkEmptyArguments(String[] args) {
@@ -23,6 +24,13 @@ public abstract class Decryptor {
       if (arg == null || arg.isEmpty())
         throw new IllegalArgumentException("argument is empty");
     }
+  }
+
+  protected void checkArgumentLength(String data, int min, int max) {
+    if (data.length() < min)
+      throw new IllegalArgumentException("argument too short");
+    if (data.length() > max)
+      throw new IllegalArgumentException("argument too long");
   }
 
   protected void checkAlphabet(String data, String alphabet) {
