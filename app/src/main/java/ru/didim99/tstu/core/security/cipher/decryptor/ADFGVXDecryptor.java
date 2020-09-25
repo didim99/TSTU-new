@@ -1,6 +1,9 @@
 package ru.didim99.tstu.core.security.cipher.decryptor;
 
 import android.content.Context;
+
+import java.util.Arrays;
+
 import ru.didim99.tstu.R;
 
 /**
@@ -50,6 +53,21 @@ public class ADFGVXDecryptor extends Decryptor {
 
   @Override
   public String decrypt(String data) {
+    if (data.length() % keyword.length() > 0)
+      throw new IllegalArgumentException("input data length not match keyword length");
+
+    int segmentSize = data.length() / keyword.length();
+    StringBuilder buffer = new StringBuilder();
+
+    char[] header = keyword.toCharArray();
+    Arrays.sort(header);
+    String tmpKeyword = keyword;
+
+    String[] tmpTable = new String[keyword.length()];
+    for (char c : tmpKeyword.toCharArray()) {
+      int pos = tmpKeyword.indexOf(c);
+    }
+
     return data;
   }
 

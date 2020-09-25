@@ -66,6 +66,7 @@ public class FastMath {
    * @return {@code a^b mod m}
    */
   public static long powm(long a, long b, long m) {
+    if (a == 0) return 0;
     if (b == 0) return 1;
     if (b % 2 == 0) {
       long t = powm(a, b / 2, m);

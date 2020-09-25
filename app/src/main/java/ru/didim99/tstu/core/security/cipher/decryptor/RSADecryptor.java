@@ -11,7 +11,7 @@ import ru.didim99.tstu.utils.Utils;
  */
 
 public class RSADecryptor extends Decryptor {
-  private static final String ALPHABET = ALPHABET_ENG;
+  private static final String ALPHABET = ALPHABET_RUS;
 
   private RSAKey key;
 
