@@ -9,12 +9,11 @@ import android.content.Context;
 public class RotaryGridDecryptor extends Decryptor {
 
   @Override
-  public void configure(String[] params) {
-
-  }
+  public void configure(String[] params) {}
 
   @Override
   public String getDescription(Context context) {
+    if (!isConfigured()) return null;
     StringBuilder sb = new StringBuilder();
     return sb.toString();
   }
