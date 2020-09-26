@@ -26,6 +26,10 @@ public abstract class Decryptor {
     }
   }
 
+  protected void checkArgumentLength(String data, int len) {
+    checkArgumentLength(data, len, len);
+  }
+
   protected void checkArgumentLength(String data, int min, int max) {
     if (data.length() < min)
       throw new IllegalArgumentException("argument too short");
@@ -37,6 +41,14 @@ public abstract class Decryptor {
     for (int i = 0; i < data.length(); i++) {
       if (alphabet.indexOf(data.charAt(i)) == -1)
         throw new IllegalArgumentException("Invalid character at pos: " + i);
+    }
+  }
+
+  protected int getIntegerArgument(String[] params, int index) {
+    try {
+      return Integer.parseInt(params[index]);
+    } catch (NumberFormatException e) {
+      throw new IllegalArgumentException("Argument [" + index + "] is not integer");
     }
   }
 

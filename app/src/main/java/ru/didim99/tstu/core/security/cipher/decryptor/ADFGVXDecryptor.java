@@ -20,7 +20,7 @@ public class ADFGVXDecryptor extends Decryptor {
     checkArgumentsCount(params, 2);
     checkEmptyArguments(params);
     String table = params[0].toUpperCase();
-    checkArgumentLength(table, ALPHABET.length(), ALPHABET.length());
+    checkArgumentLength(table, ALPHABET.length());
     checkAlphabet(table, ALPHABET);
     this.table = table;
     String keyword = params[1].toUpperCase();
@@ -53,11 +53,11 @@ public class ADFGVXDecryptor extends Decryptor {
 
   @Override
   public String decrypt(String data) {
-    int length = data.length() / 2;
+    int length = data.length();
 
     String[] params = data.split(" ");
     if (params.length > 1) {
-      length = Integer.parseInt(params[0]);
+      length = Integer.parseInt(params[0]) * 2;
       data = params[1];
     }
 
@@ -67,7 +67,7 @@ public class ADFGVXDecryptor extends Decryptor {
     checkAlphabet(data, COMPONENT);
 
     int segmentSize = data.length() / keyword.length();
-    char[][] buffer = new char[segmentSize][keyword.length()];
+    char[][] buffer = new char[keyword.length()][segmentSize];
     for (int i = 0; i < keyword.length(); i++) {
       int offset = segmentSize * swapTable[i];
       buffer[i] = data.substring(offset, offset + segmentSize).toCharArray();

@@ -761,6 +761,7 @@
   <string name="is_cipher_rsa">RSA</string>
   <string name="is_cipher_key">Ключ: %s</string>
   <string name="is_cipher_keyword">Ключевое слово: %s</string>
+  <string name="is_cipher_sequence">Положения: %s</string>
   <string name="is_hiding_bgColor">Изменение цвета фона</string>
   <string name="is_secret_color">Измененный цвет фона: #%s</string>
   <!-- Information theory -->
