@@ -4,7 +4,6 @@ import android.content.Context;
 import java.util.Arrays;
 import ru.didim99.tstu.core.security.cipher.decryptor.ADFGVXDecryptor;
 import ru.didim99.tstu.core.security.cipher.decryptor.Decryptor;
-import ru.didim99.tstu.core.security.cipher.decryptor.GammaDecryptor;
 import ru.didim99.tstu.core.security.cipher.decryptor.RSADecryptor;
 import ru.didim99.tstu.core.security.cipher.decryptor.RotaryGridDecryptor;
 import ru.didim99.tstu.core.security.cipher.decryptor.VigenereDecryptor;
@@ -66,6 +65,10 @@ public class CryptoManager implements TCPServer.MessageListener {
     return decryptor;
   }
 
+  public Mode getMode() {
+    return mode;
+  }
+
   public Cipher getCipherType() {
     return cipher;
   }
@@ -81,11 +84,13 @@ public class CryptoManager implements TCPServer.MessageListener {
         String cmd = command[0];
         processCommand(cmd, args);
       } else {
-        if (decryptor != null && decryptor.isConfigured()) {
-          String message = decryptor.decrypt(msg);
-          if (listener != null)
-            listener.onDataReceived(msg, message);
-        } else throw new IllegalStateException("Decryptor not initialized");
+        if (decryptor == null)
+          throw new IllegalStateException("Decryptor not initialized");
+        if (!decryptor.isConfigured())
+          throw new IllegalStateException("Decryptor not configured");
+        String message = decryptor.decrypt(msg);
+        if (listener != null)
+          listener.onDataReceived(msg, message);
       }
       return MSG_OK;
     } catch (Exception e) {
@@ -118,21 +123,25 @@ public class CryptoManager implements TCPServer.MessageListener {
     }
   }
 
-  private void applyMode(int mode) {
+  private void applyMode(int modeId) {
     this.decryptor = null;
-    switch (mode) {
+    switch (modeId) {
       case MODE_CIPHER:
-        this.mode = Mode.CIPHER;
+        mode = Mode.CIPHER;
         break;
       case MODE_HIDING:
-        this.mode = Mode.HIDING;
+        mode = Mode.HIDING;
+        decryptor = new SteganographyDetector();
         break;
       case MODE_SIGNING:
-        this.mode = Mode.SIGNING;
+        mode = Mode.SIGNING;
         break;
       default:
-        throw new IllegalArgumentException("unknown mode: " + mode);
+        throw new IllegalArgumentException("unknown mode: " + modeId);
     }
+
+    if (listener != null)
+      listener.onModeChanged(mode);
   }
 
   private void setCipher(int cipherId) {
@@ -147,7 +156,7 @@ public class CryptoManager implements TCPServer.MessageListener {
         break;
       case CIPHER_GAMMA:
         cipher = Cipher.GAMMA;
-        decryptor = new GammaDecryptor();
+        decryptor = new VigenereDecryptor();
         break;
       case CIPHER_ADFGVX:
         cipher = Cipher.ADFGVX;
@@ -170,6 +179,7 @@ public class CryptoManager implements TCPServer.MessageListener {
   }
 
   public interface EventListener {
+    void onModeChanged(Mode mode);
     void onCipherTypeChanged(Cipher cipher);
     void onCipherConfigChanged(Decryptor decryptor);
     void onDataReceived(String encrypted, String decrypted);

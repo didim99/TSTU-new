@@ -1,6 +1,9 @@
 package ru.didim99.tstu.ui.security;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,9 +31,12 @@ public class CipherActivity extends BaseActivity
   private EditText etPort;
   private Button btnStartStop;
   private ImageView ivRefreshIP;
+  private TextView tvSectionCipher, tvCipher;
+  private TextView tvSectionDecrypted;
   private TextView tvIP, tvServerState;
   private TextView tvCipherName, tvCipherConfig;
   private TextView tvEnc, tvDec;
+  private WebView wvEnc;
   // Workflow
   private CryptoManager manager;
 
@@ -41,6 +47,9 @@ public class CipherActivity extends BaseActivity
     setContentView(R.layout.act_cipher);
 
     MyLog.d(LOG_TAG, "View components init...");
+    tvSectionCipher = findViewById(R.id.tvSectionCipher);
+    tvCipher = findViewById(R.id.tvCipher);
+    tvSectionDecrypted = findViewById(R.id.tvSectionDecrypted);
     btnStartStop = findViewById(R.id.btnStartServer);
     ivRefreshIP = findViewById(R.id.ivRefreshIP);
     tvIP = findViewById(R.id.tvIPAddress);
@@ -49,6 +58,7 @@ public class CipherActivity extends BaseActivity
     tvCipherName = findViewById(R.id.tvCipherName);
     tvCipherConfig = findViewById(R.id.tvCipherConfig);
     tvEnc = findViewById(R.id.tvEncrypted);
+    wvEnc = findViewById(R.id.wvEncrypted);
     tvDec = findViewById(R.id.tvDecrypted);
     MyLog.d(LOG_TAG, "View components init completed");
 
@@ -56,11 +66,15 @@ public class CipherActivity extends BaseActivity
     manager = (CryptoManager) getLastCustomNonConfigurationInstance();
     if (manager != null) {
       MyLog.d(LOG_TAG, "Connected to: " + manager);
-      onCipherTypeChanged(manager.getCipherType());
-      onCipherConfigChanged(manager.getDecryptor());
+      onModeChanged(manager.getMode());
+      if (manager.getMode() == CryptoManager.Mode.CIPHER) {
+        onCipherTypeChanged(manager.getCipherType());
+        onCipherConfigChanged(manager.getDecryptor());
+      }
     } else {
       MyLog.d(LOG_TAG, "No existing CryptoManager found");
       manager = new CryptoManager(getApplicationContext());
+      onModeChanged(manager.getMode());
     }
 
     etPort.setText(String.valueOf(TCPServer.DEFAULT_PORT));
@@ -99,6 +113,7 @@ public class CipherActivity extends BaseActivity
     btnStartStop.setEnabled(server.getState() != TCPServer.State.DISABLED);
     ivRefreshIP.setEnabled(!running);
     etPort.setEnabled(!running);
+    uiLocked = running;
 
     switch (state) {
       case DISABLED:
@@ -117,10 +132,7 @@ public class CipherActivity extends BaseActivity
         break;
     }
 
-    tvCipherName.setText(null);
-    tvCipherConfig.setText(null);
-    tvEnc.setText(null);
-    tvDec.setText(null);
+    uiClear();
   }
 
   @Override
@@ -130,7 +142,40 @@ public class CipherActivity extends BaseActivity
   }
 
   @Override
+  public void onModeChanged(CryptoManager.Mode mode) {
+    int titleId = 0;
+
+    uiClear();
+    switch (mode) {
+      case CIPHER:
+        titleId = R.string.is_simpleCipher;
+        tvSectionCipher.setText(R.string.is_cipherSettings);
+        tvSectionDecrypted.setText(R.string.is_decryptedMessage);
+        tvCipher.setText(R.string.is_cipherName);
+        wvEnc.setVisibility(View.GONE);
+        tvEnc.setVisibility(View.VISIBLE);
+        break;
+      case HIDING:
+        titleId = R.string.is_steganography;
+        tvSectionCipher.setText(R.string.is_hidingSettings);
+        tvSectionDecrypted.setText(R.string.is_detectedMessage);
+        tvCipher.setText(R.string.is_methodName);
+        tvCipherName.setText(R.string.is_hiding_bgColor);
+        wvEnc.setVisibility(View.VISIBLE);
+        tvEnc.setVisibility(View.GONE);
+        break;
+      case SIGNING:
+        titleId = R.string.is_signing;
+        break;
+    }
+
+    ActionBar actionBar = getSupportActionBar();
+    if (actionBar != null) actionBar.setTitle(titleId);
+  }
+
+  @Override
   public void onCipherTypeChanged(CryptoManager.Cipher cipher) {
+    if (cipher == null) return;
     int cipherId = 0;
     switch (cipher) {
       case VIGENERE:    cipherId = R.string.is_cipher_vigenere; break;
@@ -144,12 +189,21 @@ public class CipherActivity extends BaseActivity
 
   @Override
   public void onCipherConfigChanged(Decryptor decryptor) {
+    if (decryptor == null) return;
     tvCipherConfig.setText(decryptor.getDescription(this));
   }
 
   @Override
   public void onDataReceived(String encrypted, String decrypted) {
-    tvEnc.setText(encrypted);
+    switch (manager.getMode()) {
+      case CIPHER:
+        tvEnc.setText(encrypted);
+        break;
+      case HIDING:
+        wvEnc.loadData(encrypted, "text/html", "UTF-8");
+        break;
+    }
+
     tvDec.setText(decrypted);
   }
 
@@ -172,5 +226,16 @@ public class CipherActivity extends BaseActivity
   private void updateMyIP() {
     InetAddress ip = manager.getServer().getMyIP();
     if (ip != null) tvIP.setText(ip.getHostAddress());
+  }
+
+  private void uiClear() {
+    if (manager.getMode() != CryptoManager.Mode.HIDING)
+      wvEnc.setVisibility(View.GONE);
+    if (manager.getMode() == CryptoManager.Mode.CIPHER)
+      tvCipherName.setText(null);
+    tvCipherConfig.setText(null);
+    tvEnc.setText(null);
+    tvDec.setText(null);
+    wvEnc.clearView();
   }
 }

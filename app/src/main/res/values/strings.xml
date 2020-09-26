@@ -713,6 +713,8 @@
   <string name="startIS">Защита информации</string>
   <string name="is_dataTransmission">Передача информации</string>
   <string name="is_simpleCipher">Простое шифрование</string>
+  <string name="is_steganography">Стеганография</string>
+  <string name="is_signing">Цифровая подпись</string>
   <string-array name="is_taskTypes">
     <item>@string/is_dataTransmission</item>
     <item>@string/is_simpleCipher</item>
@@ -737,6 +739,7 @@
   <string name="is_dt_errorRateBlock">Ошибочных бит на блок: %d</string>
   <string name="is_encryptedMessage">Зашифрованное сообщение</string>
   <string name="is_decryptedMessage">Расшифрованное сообщение</string>
+  <string name="is_detectedMessage">Обнаруженное сообщение</string>
   <string name="is_networkSettings">Сетевые настройки</string>
   <string name="is_network_address">IP-адрес:</string>
   <string name="is_network_port">порт:</string>
@@ -748,7 +751,9 @@
   <string name="is_state_waiting">ожидание соединения</string>
   <string name="is_state_connected">подключен (%s:%d)</string>
   <string name="is_cipherSettings">Настройки шифрования</string>
+  <string name="is_hidingSettings">Настройки детектора</string>
   <string name="is_cipherName">Шифр:</string>
+  <string name="is_methodName">Метод:</string>
   <string name="is_cipher_vigenere">Виженера</string>
   <string name="is_cipher_grid">Поворотная решетка</string>
   <string name="is_cipher_gamma">Гаммирование по модулю N</string>
@@ -756,6 +761,8 @@
   <string name="is_cipher_rsa">RSA</string>
   <string name="is_cipher_key">Ключ: %s</string>
   <string name="is_cipher_keyword">Ключевое слово: %s</string>
+  <string name="is_hiding_bgColor">Изменение цвета фона</string>
+  <string name="is_secret_color">Измененный цвет фона: #%s</string>
   <!-- Information theory -->
   <string name="startITheory">Теория информации</string>
   <string name="sectionITheory">Основы теории информации</string>

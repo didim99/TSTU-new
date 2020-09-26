@@ -158,6 +158,7 @@
     android:orientation="horizontal">
 
     <TextView
+      android:id="@+id/tvCipher"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_weight="1"
@@ -227,6 +228,17 @@
       android:textSize="@dimen/textSize_main"
       android:typeface="monospace"/>
   </ScrollView>
+
+  <WebView
+    android:id="@+id/wvEncrypted"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/tvSectionEncrypted"
+    android:layout_alignLeft="@id/tvSectionEncrypted"
+    android:layout_alignStart="@id/tvSectionEncrypted"
+    android:layout_alignRight="@id/tvSectionEncrypted"
+    android:layout_alignEnd="@id/tvSectionEncrypted"
+    android:layout_above="@id/vCenter"/>
 
   <TextView
     android:id="@+id/tvSectionDecrypted"
