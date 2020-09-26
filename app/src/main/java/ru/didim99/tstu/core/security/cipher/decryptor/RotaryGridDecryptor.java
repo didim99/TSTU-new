@@ -1,6 +1,7 @@
 package ru.didim99.tstu.core.security.cipher.decryptor;
 
 import android.content.Context;
+import java.util.Arrays;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.utils.Utils;
 
@@ -39,13 +40,7 @@ public class RotaryGridDecryptor extends Decryptor {
       Utils.intArrayToStringArray(sequence));
     sb.append(context.getString(
       R.string.is_cipher_sequence, sequenceStr)).append("\n");
-
-    sb.append("\n");
-    for (int y = 0; y < height; y++) {
-      sb.append("\n ");
-      for (int x = 0; x < width; x++)
-        sb.append(grid[x][y] ? "0" : "1");
-    }
+    sb.append("\n").append(serializeGrid(grid));
 
     return sb.toString();
   }
@@ -77,5 +72,73 @@ public class RotaryGridDecryptor extends Decryptor {
     for (int i = 0; i < sequence.length; i++)
       sequence[i] = Integer.parseInt(sequenceStr.substring(i, i+1));
     return sequence;
+  }
+
+  private boolean[][] rotateGrid(int position) {
+    boolean[][] res = deepCopy(grid);
+
+    switch (position) {
+      case 1:
+        break;
+      case 2:
+        flipHorizontal(res);
+        flipVertical(res);
+        break;
+      case 3:
+        flipHorizontal(res);
+        break;
+      case 4:
+        flipVertical(res);
+        break;
+      default:
+        throw new IllegalArgumentException("Unknown position: " + position);
+    }
+
+    return res;
+  }
+
+  private void flipHorizontal(boolean[][] grid) {
+    int width = grid[0].length;
+    for (int y = 0; y < grid.length; y++) {
+      for (int x = 0; x < width / 2; x++) {
+        int swapX = width - x - 1;
+        boolean tmp = grid[x][y];
+        grid[x][y] = grid[swapX][y];
+        grid[swapX][y] = tmp;
+      }
+    }
+  }
+
+  private void flipVertical(boolean[][] grid) {
+    int height = grid.length;
+    for (int x = 0; x < grid[0].length; x++) {
+      for (int y = 0; y < height / 2; y++) {
+        int swapY = height - y - 1;
+        boolean tmp = grid[x][y];
+        grid[x][y] = grid[x][swapY];
+        grid[x][swapY] = tmp;
+      }
+    }
+  }
+
+  private boolean[][] deepCopy(boolean[][] src) {
+    if (src == null)
+      return null;
+    final boolean[][] result = new boolean[src.length][];
+    for (int i = 0; i < src.length; i++)
+      result[i] = Arrays.copyOf(src[i], src[i].length);
+    return result;
+  }
+
+  private String serializeGrid(boolean[][] grid) {
+    StringBuilder sb = new StringBuilder();
+    for (int y = 0; y < height; y++) {
+      sb.append(" ");
+      for (int x = 0; x < width; x++)
+        sb.append(grid[x][y] ? "1" : "0");
+      if (y < height - 1)
+        sb.append("\n");
+    }
+    return sb.toString();
   }
 }
