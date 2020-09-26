@@ -53,6 +53,14 @@ public class ADFGVXDecryptor extends Decryptor {
 
   @Override
   public String decrypt(String data) {
+    int length = data.length() / 2;
+
+    String[] params = data.split(" ");
+    if (params.length > 1) {
+      length = Integer.parseInt(params[0]);
+      data = params[1];
+    }
+
     if (data.length() % keyword.length() > 0)
       throw new IllegalArgumentException("input data length not match keyword length");
     data = data.toUpperCase();
@@ -73,7 +81,7 @@ public class ADFGVXDecryptor extends Decryptor {
     }
 
     StringBuilder res = new StringBuilder();
-    for (int pos = 0; pos < data.length() / 2; pos += 2) {
+    for (int pos = 0; pos < length; pos += 2) {
       int x = COMPONENT.indexOf(sb.charAt(pos));
       int y = COMPONENT.indexOf(sb.charAt(pos + 1));
       res.append(table.charAt(x * 6 + y));
