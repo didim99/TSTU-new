@@ -47,7 +47,33 @@ public class RotaryGridDecryptor extends Decryptor {
 
   @Override
   public String decrypt(String data) {
-    return data;
+    int length = data.length();
+
+    String[] params = data.split(" ");
+    if (params.length > 1) {
+      length = Integer.parseInt(params[0]) * 2;
+      data = params[1];
+    }
+
+    StringBuilder sb = new StringBuilder();
+    for (int position : sequence) {
+      boolean[][] tmgGrid = rotateGrid(position);
+      sb.append(fillGrid(tmgGrid, data));
+    }
+
+    return sb.substring(0, length);
+  }
+
+  private CharSequence fillGrid(boolean[][] grid, String src) {
+    StringBuilder sb = new StringBuilder();
+
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < width; x++) {
+        if (grid[y][x]) sb.append(src.charAt(y * width + x));
+      }
+    }
+
+    return sb;
   }
 
   @Override
@@ -61,7 +87,7 @@ public class RotaryGridDecryptor extends Decryptor {
     char[] buffer = gridStr.toCharArray();
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++)
-        grid[x][y] = buffer[y * width + x] == '1';
+        grid[y][x] = buffer[y * width + x] == '1';
     }
 
     return grid;
@@ -102,21 +128,21 @@ public class RotaryGridDecryptor extends Decryptor {
     for (int y = 0; y < grid.length; y++) {
       for (int x = 0; x < width / 2; x++) {
         int swapX = width - x - 1;
-        boolean tmp = grid[x][y];
-        grid[x][y] = grid[swapX][y];
-        grid[swapX][y] = tmp;
+        boolean tmp = grid[y][x];
+        grid[y][x] = grid[y][swapX];
+        grid[y][swapX] = tmp;
       }
     }
   }
 
   private void flipVertical(boolean[][] grid) {
     int height = grid.length;
-    for (int x = 0; x < grid[0].length; x++) {
-      for (int y = 0; y < height / 2; y++) {
+    for (int y = 0; y < height / 2; y++) {
+      for (int x = 0; x < grid[0].length; x++) {
         int swapY = height - y - 1;
-        boolean tmp = grid[x][y];
-        grid[x][y] = grid[x][swapY];
-        grid[x][swapY] = tmp;
+        boolean tmp = grid[y][x];
+        grid[y][x] = grid[swapY][x];
+        grid[swapY][x] = tmp;
       }
     }
   }
@@ -135,7 +161,7 @@ public class RotaryGridDecryptor extends Decryptor {
     for (int y = 0; y < height; y++) {
       sb.append(" ");
       for (int x = 0; x < width; x++)
-        sb.append(grid[x][y] ? "1" : "0");
+        sb.append(grid[y][x] ? "1" : "0");
       if (y < height - 1)
         sb.append("\n");
     }
