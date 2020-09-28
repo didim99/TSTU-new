@@ -31,6 +31,7 @@ public class CryptoManager implements TCPServer.MessageListener {
   private static final String CMD_SET_MODE = "setmode";
   private static final String CMD_SET_CIPHER = "setcipher";
   private static final String CMD_CONFIGURE = "configure";
+  private static final String CMD_SAMPLE_CFG = "getcfgstr";
   // Possible mode constants
   private static final int MODE_CIPHER = 1;
   private static final int MODE_HIDING = 2;
@@ -82,7 +83,8 @@ public class CryptoManager implements TCPServer.MessageListener {
         String[] args = command.length == 1 ? null :
           Arrays.copyOfRange(command, 1, command.length);
         String cmd = command[0];
-        processCommand(cmd, args);
+        String reply = processCommand(cmd, args);
+        if (reply != null) return reply;
       } else {
         if (decryptor == null)
           throw new IllegalStateException("Decryptor not initialized");
@@ -99,7 +101,7 @@ public class CryptoManager implements TCPServer.MessageListener {
     }
   }
 
-  private void processCommand(String cmd, String[] args) {
+  private String processCommand(String cmd, String[] args) {
     switch (cmd) {
       case CMD_DISCONNECT:
         server.disconnect();
@@ -118,9 +120,14 @@ public class CryptoManager implements TCPServer.MessageListener {
         if (listener != null)
           listener.onCipherConfigChanged(decryptor);
         break;
+      case CMD_SAMPLE_CFG:
+        if (decryptor != null)
+          return decryptor.getSampleConfig();
       default:
         throw new IllegalArgumentException("Unknown command: " + cmd);
     }
+
+    return null;
   }
 
   private void applyMode(int modeId) {

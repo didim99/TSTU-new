@@ -10,6 +10,7 @@ import ru.didim99.tstu.utils.Utils;
  */
 
 public class RotaryGridDecryptor extends Decryptor {
+  private static final String DELIMITER = ":";
 
   private int width, height;
   private boolean[][] grid;
@@ -32,6 +33,11 @@ public class RotaryGridDecryptor extends Decryptor {
   }
 
   @Override
+  public String getSampleConfig() {
+    return "<width:int> <height:int> <grid:str> <positions:str>";
+  }
+
+  @Override
   public String getDescription(Context context) {
     if (!isConfigured()) return null;
     StringBuilder sb = new StringBuilder();
@@ -49,9 +55,9 @@ public class RotaryGridDecryptor extends Decryptor {
   public String decrypt(String data) {
     int length = data.length();
 
-    String[] params = data.split(" ");
+    String[] params = data.split(DELIMITER);
     if (params.length > 1) {
-      length = Integer.parseInt(params[0]) * 2;
+      length = Integer.parseInt(params[0]);
       data = params[1];
     }
 

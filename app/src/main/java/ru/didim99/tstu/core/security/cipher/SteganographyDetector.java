@@ -36,6 +36,11 @@ public class SteganographyDetector extends Decryptor {
   }
 
   @Override
+  public String getSampleConfig() {
+    return "<color:[#]hexstr>";
+  }
+
+  @Override
   public String getDescription(Context context) {
     if (!isConfigured()) return null;
     return context.getString(R.string.is_secret_color, secretColor);

@@ -23,6 +23,11 @@ public class VigenereDecryptor extends Decryptor {
   }
 
   @Override
+  public String getSampleConfig() {
+    return "<keyword:str>";
+  }
+
+  @Override
   public String getDescription(Context context) {
     if (!isConfigured()) return null;
     else return context.getString(R.string.is_cipher_keyword, keyword);

@@ -11,6 +11,7 @@ import ru.didim99.tstu.R;
 public class ADFGVXDecryptor extends Decryptor {
   private static final String ALPHABET = ALPHABET_ENG;
   private static final String COMPONENT = "ADFGVX";
+  private static final String DELIMITER = ":";
 
   private String table, keyword;
   private int[] swapTable;
@@ -27,6 +28,11 @@ public class ADFGVXDecryptor extends Decryptor {
     checkAlphabet(keyword, ALPHABET);
     this.keyword = keyword;
     calculateSwapTable();
+  }
+
+  @Override
+  public String getSampleConfig() {
+    return "<table:str> <keyword:str>";
   }
 
   @Override
@@ -55,7 +61,7 @@ public class ADFGVXDecryptor extends Decryptor {
   public String decrypt(String data) {
     int length = data.length();
 
-    String[] params = data.split(" ");
+    String[] params = data.split(DELIMITER);
     if (params.length > 1) {
       length = Integer.parseInt(params[0]) * 2;
       data = params[1];

@@ -53,6 +53,7 @@ public abstract class Decryptor {
   }
 
   public abstract void configure(String[] params);
+  public abstract String getSampleConfig();
   public abstract String getDescription(Context context);
   public abstract String decrypt(String data);
   public abstract boolean isConfigured();

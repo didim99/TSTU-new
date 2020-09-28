@@ -25,6 +25,11 @@ public class RSADecryptor extends Decryptor {
   }
 
   @Override
+  public String getSampleConfig() {
+    return "<n:long> <d:long>";
+  }
+
+  @Override
   public String getDescription(Context context) {
     if (!isConfigured()) return null;
     return context.getString(R.string.is_cipher_key, key);
