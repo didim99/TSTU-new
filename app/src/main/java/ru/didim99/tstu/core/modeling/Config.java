@@ -10,6 +10,7 @@ public class Config {
     public static final int LUMPED_DYNAMIC_CURVE  = 2;
     public static final int DIST_STATIC_CURVES    = 3;
     public static final int RANDOM_PROCESSING     = 4;
+    public static final int LAST = RANDOM_PROCESSING;
   }
 
   private int taskType;

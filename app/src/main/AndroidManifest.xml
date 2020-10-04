@@ -209,8 +209,11 @@
       android:label="@string/sectionOpt"/>
 
     <activity
-      android:name=".ui.ModelingActivity"
+      android:name=".ui.modeling.ModelingActivity"
       android:label="@string/sectionModeling"/>
+    <activity
+      android:name=".ui.modeling.PoxipolActivity"
+      android:label="@string/modeling_complex"/>
 
     <activity
       android:name=".ui.itheory.AlphabetActivity"

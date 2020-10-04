@@ -78,10 +78,10 @@ public class Functions {
     (in.get(DPoint.K1) * in.get(DPoint.C_OUT1) - in.get(DPoint.K2)
       * in.get(DPoint.C_OUT2)) * ROxS / in.get(DPoint.M);
 
-  public static final Function rSpeed1 = t -> rSpeed(A1, E1, t);
-  public static final Function rSpeed2 = t -> rSpeed(A2, E2, t);
+  public static final Function rSpeed1 = t -> k(A1, E1, t);
+  public static final Function rSpeed2 = t -> k(A2, E2, t);
 
-  private static double rSpeed(double a, double e, double t) {
+  public static double k(double a, double e, double t) {
     return a * Math.exp(-e / (R * t));
   }
 

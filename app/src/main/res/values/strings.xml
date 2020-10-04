@@ -696,11 +696,14 @@
   <string name="modeling_lumpedDynamicCurve">Сосредоточенные координаты: динамика</string>
   <string name="modeling_distStaticCurve">Распределенные координаты: статика</string>
   <string name="modeling_randomProcesses">Моделирование случайных процессов</string>
+  <string name="modeling_complex">Комплексное моделирование</string>
+  <string name="modeling_poxipol">Синтез эпоксидной смолы</string>
   <string-array name="modeling_taskTypes">
     <item>@string/modeling_lumpedStaticCurve</item>
     <item>@string/modeling_lumpedDynamicCurve</item>
     <item>@string/modeling_distStaticCurve</item>
     <item>@string/modeling_randomProcesses</item>
+    <item>@string/modeling_complex</item>
   </string-array>
   <string name="modeling_dependency">Зависимость</string>
   <string name="modeling_concentration">Концентрация</string>

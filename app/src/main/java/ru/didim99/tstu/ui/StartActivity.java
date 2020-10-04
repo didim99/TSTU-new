@@ -19,6 +19,7 @@ import ru.didim99.tstu.ui.itheory.AlphabetActivity;
 import ru.didim99.tstu.ui.itheory.CompressionActivity;
 import ru.didim99.tstu.ui.itheory.CryptoActivity;
 import ru.didim99.tstu.ui.itheory.RLEActivity;
+import ru.didim99.tstu.ui.modeling.ModelingActivity;
 import ru.didim99.tstu.ui.security.TransmitActivity;
 import ru.didim99.tstu.ui.math.CAActivity;
 import ru.didim99.tstu.ui.math.MathStatActivity;

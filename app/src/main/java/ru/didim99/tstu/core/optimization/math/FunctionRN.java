@@ -1,10 +1,10 @@
 package ru.didim99.tstu.core.optimization.math;
 
 /**
- * Multi-argument mathematical function
+ * Basic multi-argument mathematical function
  * Created by didim99 on 02.10.19.
  */
 @FunctionalInterface
-public interface FunctionRN {
-  double f(PointRN p);
+public interface FunctionRN extends GenericFunctionRN<PointRN> {
+  @Override double f(PointRN p);
 }

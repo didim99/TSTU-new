@@ -1,5 +1,6 @@
-package ru.didim99.tstu.ui;
+package ru.didim99.tstu.ui.modeling;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.view.View;
@@ -22,6 +23,7 @@ import ru.didim99.tstu.core.modeling.ModelingTask;
 import ru.didim99.tstu.core.modeling.Result;
 import ru.didim99.tstu.core.modeling.randproc.RandomProcessor;
 import ru.didim99.tstu.core.optimization.math.PointRN;
+import ru.didim99.tstu.ui.BaseActivity;
 import ru.didim99.tstu.ui.utils.SpinnerAdapter;
 import ru.didim99.tstu.utils.MyLog;
 
@@ -54,6 +56,7 @@ public class ModelingActivity extends BaseActivity
   protected void onCreate(Bundle savedInstanceState) {
     MyLog.d(LOG_TAG, "ModelingActivity starting...");
     type = getIntent().getIntExtra(TSTU.EXTRA_TYPE, Config.TaskType.UNDEFINED);
+    if (type > Config.TaskType.LAST) switchToPoxipol();
     super.onCreate(savedInstanceState);
     setContentView(R.layout.act_modeling);
 
@@ -228,5 +231,10 @@ public class ModelingActivity extends BaseActivity
       for (int i = 1; i < family.size(); i++)
         graphView.addSeries(family.get(i));
     }
+  }
+
+  private void switchToPoxipol() {
+    startActivity(new Intent(this, PoxipolActivity.class));
+    finish();
   }
 }
