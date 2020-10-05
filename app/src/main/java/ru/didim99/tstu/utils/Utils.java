@@ -8,7 +8,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.support.annotation.RawRes;
 import android.widget.Toast;
-
+import com.jjoe64.graphview.series.LineGraphSeries;
+import com.jjoe64.graphview.series.Series;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
@@ -21,13 +22,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Array;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
-
 import ru.didim99.tstu.R;
+import ru.didim99.tstu.core.optimization.math.PointRN;
 
 /**
  * Created by didim99 on 10.09.18.
@@ -303,5 +305,27 @@ public class Utils {
   public static int luma(int color) {
     return (int) (0.2126 * ((color >> 16) & 0xff)
       + 0.7152 * ((color >> 8) & 0xff) + 0.0722 * (color & 0xff));
+  }
+
+  /* ======== GRAPH UTILS ======== */
+
+  private static final int MAX_SERIES_VISIBLE = 500;
+
+  @SuppressWarnings("unchecked")
+  public static <E extends PointRN> Series<E> buildSeries(ArrayList<E> data, String name) {
+    LineGraphSeries<E> series = new LineGraphSeries<>();
+
+    if (data.size() <= MAX_SERIES_VISIBLE) {
+      E[] ref = (E[]) Array.newInstance(data.get(0).getClass(), 0);
+      series.resetData(data.toArray(ref));
+    } else {
+      double step = data.size() / (double) MAX_SERIES_VISIBLE;
+      for (int pos = 0; pos < MAX_SERIES_VISIBLE; pos++)
+        series.appendData(data.get((int) Math.floor(pos * step)),
+          false, MAX_SERIES_VISIBLE);
+    }
+
+    series.setTitle(name);
+    return series;
   }
 }

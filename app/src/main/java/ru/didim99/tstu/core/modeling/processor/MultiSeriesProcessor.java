@@ -3,7 +3,7 @@ package ru.didim99.tstu.core.modeling.processor;
 import com.jjoe64.graphview.series.Series;
 import java.util.ArrayList;
 import ru.didim99.tstu.core.optimization.math.PointRN;
-import ru.didim99.tstu.utils.GraphUtils;
+import ru.didim99.tstu.utils.Utils;
 
 /**
  * Created by didim99 on 08.05.20.
@@ -23,7 +23,7 @@ public abstract class MultiSeriesProcessor extends Processor {
   @Override
   public Series<PointRN> getSeries() {
     if (++seriesIndex < seriesFamily.size()) {
-      return GraphUtils.buildSeries(seriesFamily.get(seriesIndex),
+      return Utils.buildSeries(seriesFamily.get(seriesIndex),
         seriesNames.get(seriesIndex));
     } else return null;
   }

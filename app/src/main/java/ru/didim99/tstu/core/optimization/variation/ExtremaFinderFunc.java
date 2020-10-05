@@ -9,7 +9,7 @@ import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.optimization.Result;
 import ru.didim99.tstu.core.optimization.math.Function;
 import ru.didim99.tstu.core.optimization.math.PointD;
-import ru.didim99.tstu.utils.GraphUtils;
+import ru.didim99.tstu.utils.Utils;
 
 /**
  * Created by didim99 on 30.11.19.
@@ -105,17 +105,17 @@ public abstract class ExtremaFinderFunc {
   public static void drawGraph(Context ctx, Result result, GraphView view) {
     if (result.getDelta() != null) {
       BaseSeries<PointD> delta = (BaseSeries<PointD>)
-        GraphUtils.buildSeries(result.getDelta(), "delta");
+        Utils.buildSeries(result.getDelta(), "delta");
       delta.setColor(ctx.getResources().getColor(R.color.graph2));
       view.addSeries(delta);
     } else {
       BaseSeries<PointD> reference = (BaseSeries<PointD>)
-        GraphUtils.buildSeries(result.getReference(), "ref");
+        Utils.buildSeries(result.getReference(), "ref");
       reference.setColor(ctx.getResources().getColor(R.color.graph1));
       view.addSeries(reference);
 
       BaseSeries<PointD> solution = (BaseSeries<PointD>)
-        GraphUtils.buildSeries(result.getSolutionSeries(), "x(t)");
+        Utils.buildSeries(result.getSolutionSeries(), "x(t)");
       solution.setColor(ctx.getResources().getColor(R.color.colorAccent));
       view.addSeries(solution);
     }

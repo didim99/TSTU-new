@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Locale;
 import ru.didim99.tstu.core.CallbackTask;
 import ru.didim99.tstu.core.optimization.math.PointRN;
-import ru.didim99.tstu.utils.GraphUtils;
 import ru.didim99.tstu.utils.Timer;
+import ru.didim99.tstu.utils.Utils;
 
 /**
  * Created by didim99 on 05.10.20.
@@ -31,7 +31,7 @@ public class PoxipolTask extends CallbackTask<PoxipolTask.Action, Result> {
 
     timer.start();
     system.integrate(pointList::add);
-    result.setSeries(GraphUtils.buildSeries(pointList, SERIES_C3));
+    result.setSeries(Utils.buildSeries(pointList, SERIES_C3));
     result.setDescription(String.format(Locale.US,
       "Process time: %.3f s", system.getPoint().getX()));
     timer.stop();

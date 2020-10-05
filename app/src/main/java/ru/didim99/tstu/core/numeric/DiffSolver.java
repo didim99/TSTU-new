@@ -6,10 +6,10 @@ import com.jjoe64.graphview.series.BaseSeries;
 import java.util.ArrayList;
 import java.util.Locale;
 import ru.didim99.tstu.R;
-import ru.didim99.tstu.utils.GraphUtils;
 import ru.didim99.tstu.core.optimization.math.PointD;
 import ru.didim99.tstu.core.optimization.math.PointRN;
 import ru.didim99.tstu.utils.MyLog;
+import ru.didim99.tstu.utils.Utils;
 
 /**
  * Created by didim99 on 27.10.18.
@@ -175,7 +175,7 @@ public class DiffSolver {
     ArrayList<PointRN> data = result.getGraphData();
     String name = result.getConfig().isTConst() ? "delta(x)" : "y(x)";
     BaseSeries<PointRN> series = (BaseSeries<PointRN>)
-      GraphUtils.buildSeries(data, name);
+      Utils.buildSeries(data, name);
     series.setColor(ctx.getResources().getColor(R.color.colorAccent));
     view.getLegendRenderer().setVisible(true);
     view.addSeries(series);
