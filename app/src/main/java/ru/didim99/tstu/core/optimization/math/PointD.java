@@ -26,6 +26,10 @@ public class PointD implements PointRN {
     this(src.data);
   }
 
+  public PointD copy() {
+    return new PointD(this);
+  }
+
   public PointD set(PointD src) {
     return set(src, data.length);
   }
@@ -40,6 +44,10 @@ public class PointD implements PointRN {
     return data[pos];
   }
 
+  public double get(Enum<?> pos) {
+    return data[pos.ordinal()];
+  }
+
   public double getLast() {
     return data[data.length - 1];
   }
@@ -47,6 +55,10 @@ public class PointD implements PointRN {
   @Override
   public void set(int pos, double val) {
     data[pos] = val;
+  }
+
+  public void set(Enum<?> pos, double val) {
+    data[pos.ordinal()] = val;
   }
 
   public void add(int pos, double val) {

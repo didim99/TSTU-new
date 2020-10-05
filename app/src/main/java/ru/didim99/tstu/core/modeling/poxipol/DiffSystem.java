@@ -19,6 +19,10 @@ public abstract class DiffSystem<T extends PointD> {
     this.system = new ArrayList<>();
   }
 
+  public T getPoint() {
+    return point;
+  }
+
   protected abstract T getStartPoint();
   protected abstract boolean completed();
   protected abstract double getStep();
@@ -32,12 +36,12 @@ public abstract class DiffSystem<T extends PointD> {
       for (Entry<T> e : system) {
         int index = e.targetIndex;
         double val = e.function.f(prev);
-        point.set(index, e.isDelta ?
-          prev.get(index) + val * step : val);
+        if (!e.isDelta) prev.set(index, val);
+        else point.add(index, val * step);
       }
 
       if (listener != null)
-        listener.onStep(new PointD(prev));
+        listener.onStep(prev.copy());
       prev.set(point);
       point.add(0, step);
     }
@@ -48,8 +52,8 @@ public abstract class DiffSystem<T extends PointD> {
     private int targetIndex;
     private boolean isDelta;
 
-    public Entry(int targetIndex, boolean isDelta, GenericFunctionRN<T> function) {
-      this.targetIndex = targetIndex;
+    public Entry(Enum<?> targetIndex, boolean isDelta, GenericFunctionRN<T> function) {
+      this.targetIndex = targetIndex.ordinal();
       this.isDelta = isDelta;
       this.function = function;
     }

@@ -51,6 +51,7 @@
   <string name="rootUnavailable">На вашем устройстве не получен Root-доступ</string>
   <string name="copiedToClipboard">Скопировано в буфер обмена</string>
   <string name="resourcesUnpacked">Распаковка ресурсов завершена</string>
+  <string name="executionTime">Время выполнения: %.3f сек</string>
   <!-- FilePicker -->
   <string name="filePicker_emptyPath">Не указаны путь и имя файла</string>
   <string name="filePicker_fileNotExist">Такого файла не существует</string>

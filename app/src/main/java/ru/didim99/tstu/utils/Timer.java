@@ -54,4 +54,11 @@ public class Timer {
       return out;
     }
   }
+
+  @Override
+  public String toString() {
+    return "Timer{" +
+      "millis=" + getMillis() +
+      '}';
+  }
 }

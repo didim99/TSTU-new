@@ -2,6 +2,7 @@ package ru.didim99.tstu.core.modeling.processor;
 
 import com.jjoe64.graphview.series.Series;
 import ru.didim99.tstu.core.modeling.Functions;
+import ru.didim99.tstu.core.modeling.GraphUtils;
 import ru.didim99.tstu.core.modeling.Variable;
 import ru.didim99.tstu.core.optimization.math.PointRN;
 
@@ -20,6 +21,6 @@ abstract class VariableProcessor extends Processor {
 
   @Override
   public Series<PointRN> getSeries() {
-    return buildSeries(this.series, var.getName());
+    return GraphUtils.buildSeries(this.series, var.getName());
   }
 }

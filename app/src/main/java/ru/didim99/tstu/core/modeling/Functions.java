@@ -9,6 +9,7 @@ import ru.didim99.tstu.core.optimization.math.FunctionRN;
  * Created by didim99 on 24.02.20.
  */
 public class Functions {
+  private static final double CELSIUS_OFFSET = 273.15; // deg
   // Static constants (Lumped)
   private static final double kT    = 5000;   // W/m^2
   private static final double tR    = 90;     // degC
@@ -83,6 +84,14 @@ public class Functions {
 
   public static double k(double a, double e, double t) {
     return a * Math.exp(-e / (R * t));
+  }
+
+  public static double c2k(double degC) {
+    return degC + CELSIUS_OFFSET;
+  }
+
+  public static double k2c(double degK) {
+    return degK - CELSIUS_OFFSET;
   }
 
   // Values definition: alpha, s, sigma

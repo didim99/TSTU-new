@@ -4,6 +4,7 @@ import org.junit.Test;
 import ru.didim99.tstu.core.modeling.randproc.DiscreteMath;
 import ru.didim99.tstu.core.modeling.randproc.Random;
 import ru.didim99.tstu.utils.CyclicBuffer;
+
 import static org.junit.Assert.*;
 
 /**
