@@ -2,9 +2,9 @@ package ru.didim99.tstu.core.modeling.processor;
 
 import com.jjoe64.graphview.series.Series;
 import ru.didim99.tstu.core.modeling.Functions;
-import ru.didim99.tstu.core.modeling.GraphUtils;
 import ru.didim99.tstu.core.modeling.Variable;
 import ru.didim99.tstu.core.optimization.math.PointRN;
+import ru.didim99.tstu.utils.GraphUtils;
 
 /**
  * Created by didim99 on 24.02.20.

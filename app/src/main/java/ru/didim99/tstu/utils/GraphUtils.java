@@ -1,7 +1,8 @@
-package ru.didim99.tstu.core.modeling;
+package ru.didim99.tstu.utils;
 
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.jjoe64.graphview.series.Series;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import ru.didim99.tstu.core.optimization.math.PointRN;
 
@@ -12,12 +13,14 @@ import ru.didim99.tstu.core.optimization.math.PointRN;
 public class GraphUtils {
   private static final int MAX_SERIES_VISIBLE = 500;
 
-  public static Series<PointRN> buildSeries(ArrayList<PointRN> data, String name) {
-    LineGraphSeries<PointRN> series = new LineGraphSeries<>();
+  @SuppressWarnings("unchecked")
+  public static <E extends PointRN> Series<E> buildSeries(ArrayList<E> data, String name) {
+    LineGraphSeries<E> series = new LineGraphSeries<>();
 
-    if (data.size() <= MAX_SERIES_VISIBLE)
-      series.resetData(data.toArray(new PointRN[0]));
-    else {
+    if (data.size() <= MAX_SERIES_VISIBLE) {
+      E[] ref = (E[]) Array.newInstance(data.get(0).getClass(), 0);
+      series.resetData(data.toArray(ref));
+    } else {
       double step = data.size() / (double) MAX_SERIES_VISIBLE;
       for (int pos = 0; pos < MAX_SERIES_VISIBLE; pos++)
         series.appendData(data.get((int) Math.floor(pos * step)),

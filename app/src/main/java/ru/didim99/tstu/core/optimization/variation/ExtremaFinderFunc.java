@@ -2,13 +2,14 @@ package ru.didim99.tstu.core.optimization.variation;
 
 import android.content.Context;
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.series.LineGraphSeries;
+import com.jjoe64.graphview.series.BaseSeries;
 import java.util.ArrayList;
 import java.util.Locale;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.optimization.Result;
 import ru.didim99.tstu.core.optimization.math.Function;
 import ru.didim99.tstu.core.optimization.math.PointD;
+import ru.didim99.tstu.utils.GraphUtils;
 
 /**
  * Created by didim99 on 30.11.19.
@@ -103,39 +104,23 @@ public abstract class ExtremaFinderFunc {
 
   public static void drawGraph(Context ctx, Result result, GraphView view) {
     if (result.getDelta() != null) {
-      LineGraphSeries<PointD> delta = makeSeries(result.getDelta());
+      BaseSeries<PointD> delta = (BaseSeries<PointD>)
+        GraphUtils.buildSeries(result.getDelta(), "delta");
       delta.setColor(ctx.getResources().getColor(R.color.graph2));
-      delta.setTitle("delta");
       view.addSeries(delta);
     } else {
-      LineGraphSeries<PointD> reference = makeSeries(result.getReference());
+      BaseSeries<PointD> reference = (BaseSeries<PointD>)
+        GraphUtils.buildSeries(result.getReference(), "ref");
       reference.setColor(ctx.getResources().getColor(R.color.graph1));
-      reference.setTitle("ref");
       view.addSeries(reference);
 
-      LineGraphSeries<PointD> solution = makeSeries(result.getSolutionSeries());
+      BaseSeries<PointD> solution = (BaseSeries<PointD>)
+        GraphUtils.buildSeries(result.getSolutionSeries(), "x(t)");
       solution.setColor(ctx.getResources().getColor(R.color.colorAccent));
-      solution.setTitle("x(t)");
       view.addSeries(solution);
     }
 
     view.getLegendRenderer().setVisible(true);
     view.getViewport().setScalable(true);
-  }
-
-  private static LineGraphSeries<PointD> makeSeries(ArrayList<PointD> data) {
-    LineGraphSeries<PointD> series = new LineGraphSeries<>();
-
-    if (data.size() <= 500) {
-      series.resetData(data.toArray(new PointD[0]));
-    } else {
-      int step = Math.round(data.size() / 500f);
-      for (int pos = 0; pos < data.size(); pos += step) {
-        series.appendData(data.get(pos),
-          false, 500);
-      }
-    }
-
-    return series;
   }
 }

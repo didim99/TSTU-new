@@ -2,6 +2,7 @@ package ru.didim99.tstu.core.numeric;
 
 import com.jjoe64.graphview.series.DataPoint;
 import java.util.ArrayList;
+import ru.didim99.tstu.core.optimization.math.PointRN;
 
 /**
  * Created by didim99 on 16.09.18.
@@ -10,7 +11,7 @@ public class Result {
   private Config config;
   private double solution;
   private ArrayList<Double> solutionSeries;
-  private ArrayList<DataPoint> graphData;
+  private ArrayList<PointRN> graphData;
   private long solveTime;
 
   Result(Config config) {
@@ -33,7 +34,7 @@ public class Result {
     return solveTime;
   }
 
-  public ArrayList<DataPoint> getGraphData() {
+  public ArrayList<PointRN> getGraphData() {
     return graphData;
   }
 
@@ -49,7 +50,7 @@ public class Result {
     this.solveTime = millis;
   }
 
-  void setGraphData(ArrayList<DataPoint> graphData) {
+  void setGraphData(ArrayList<PointRN> graphData) {
     this.graphData = graphData;
   }
 

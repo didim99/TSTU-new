@@ -4,8 +4,8 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.Locale;
 import ru.didim99.tstu.core.CallbackTask;
-import ru.didim99.tstu.core.modeling.GraphUtils;
 import ru.didim99.tstu.core.optimization.math.PointRN;
+import ru.didim99.tstu.utils.GraphUtils;
 import ru.didim99.tstu.utils.Timer;
 
 /**

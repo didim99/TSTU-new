@@ -2,7 +2,6 @@ package ru.didim99.tstu.core.optimization;
 
 import android.graphics.Bitmap;
 import java.util.ArrayList;
-
 import ru.didim99.tstu.core.optimization.math.PointD;
 
 /**
