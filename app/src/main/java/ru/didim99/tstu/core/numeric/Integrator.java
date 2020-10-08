@@ -2,11 +2,12 @@ package ru.didim99.tstu.core.numeric;
 
 import android.content.Context;
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import java.util.ArrayList;
 import java.util.Locale;
 import ru.didim99.tstu.R;
+import ru.didim99.tstu.core.optimization.math.PointD;
+import ru.didim99.tstu.core.optimization.math.PointRN;
 import ru.didim99.tstu.utils.MyLog;
 
 /**
@@ -100,14 +101,14 @@ public class Integrator {
     return sb.toString();
   }
 
-  private static ArrayList<DataPoint> getGraph(Function f, double start, double end) {
+  private static ArrayList<PointRN> getGraph(Function f, double start, double end) {
     int count = N / 10;
-    ArrayList<DataPoint> points = new ArrayList<>(count);
+    ArrayList<PointRN> points = new ArrayList<>(count);
     double h = (end - start) / count, x = start;
     MyLog.d(LOG_TAG, "Calculating graph: h = " + h);
 
     for (int i = 0; i <= count; i++) {
-      points.add(new DataPoint(x, f.compute(x)));
+      points.add(new PointD(x, f.compute(x)));
       x += h;
     }
 
@@ -115,9 +116,9 @@ public class Integrator {
   }
 
   public static void drawGraph(Context ctx, Result result, GraphView view) {
-    ArrayList<DataPoint> data = result.getGraphData();
-    LineGraphSeries<DataPoint> series = new LineGraphSeries<>(
-      data.toArray(new DataPoint[0]));
+    ArrayList<PointRN> data = result.getGraphData();
+    LineGraphSeries<PointRN> series = new LineGraphSeries<>(
+      data.toArray(new PointRN[0]));
     series.setBackgroundColor(ctx.getResources()
       .getColor(R.color.colorAccentBg));
     series.setColor(ctx.getResources()

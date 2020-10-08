@@ -713,6 +713,7 @@
     <item>Ацетилен</item>
   </string-array>
   <string name="modeling_optimize">Вкл. оптимизацию</string>
+  <string name="modeling_yAxis">Отображать по Y:</string>
   <!-- Information Security -->
   <string name="startIS">Защита информации</string>
   <string name="is_dataTransmission">Передача информации</string>

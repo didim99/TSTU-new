@@ -5,6 +5,7 @@ import ru.didim99.tstu.core.modeling.Functions;
 import ru.didim99.tstu.core.optimization.math.PointD;
 
 import static ru.didim99.tstu.core.modeling.Functions.c2k;
+import static ru.didim99.tstu.core.modeling.Functions.k2c;
 import static ru.didim99.tstu.core.modeling.poxipol.PoxipolPointMapper.*;
 
 /**
@@ -96,7 +97,8 @@ public class PoxipolSystem extends DiffSystem<PoxipolSystem.Point> {
     return DTAU;
   }
   
-  static class Point extends PointD {
+  public static class Point extends PointD {
+    private static PoxipolPointMapper yMapper = C3;
 
     public Point() {
       super(PoxipolPointMapper.values().length);
@@ -118,7 +120,13 @@ public class PoxipolSystem extends DiffSystem<PoxipolSystem.Point> {
 
     @Override
     public double getY() {
-      return get(C3);
+      if (yMapper == T)
+        return k2c(get(yMapper));
+      else return get(yMapper);
+    }
+
+    public static void setYMapper(int index) {
+      yMapper = PoxipolPointMapper.getByOrdinal(index);
     }
   }
 }

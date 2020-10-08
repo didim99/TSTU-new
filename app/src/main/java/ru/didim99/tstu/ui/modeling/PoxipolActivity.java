@@ -3,17 +3,22 @@ package ru.didim99.tstu.ui.modeling;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.BaseSeries;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.CallbackTask;
+import ru.didim99.tstu.core.modeling.poxipol.PoxipolPointMapper;
+import ru.didim99.tstu.core.modeling.poxipol.PoxipolSystem;
 import ru.didim99.tstu.core.modeling.poxipol.PoxipolTask;
 import ru.didim99.tstu.core.modeling.poxipol.Result;
 import ru.didim99.tstu.core.optimization.math.PointRN;
 import ru.didim99.tstu.ui.BaseActivity;
+import ru.didim99.tstu.ui.utils.SpinnerAdapter;
 import ru.didim99.tstu.utils.MyLog;
 
 /**
@@ -26,6 +31,7 @@ public class PoxipolActivity extends BaseActivity
 
   // view-elements
   private Button btnStart;
+  private View yAxisLayout;
   private TextView tvOut;
   private TextView tvExecTime;
   private GraphView graphView;
@@ -41,12 +47,22 @@ public class PoxipolActivity extends BaseActivity
     setContentView(R.layout.act_poxipol);
 
     MyLog.d(LOG_TAG, "View components init...");
+    Spinner spYAxis = findViewById(R.id.spYAxis);
     btnStart = findViewById(R.id.btnStart);
+    yAxisLayout = findViewById(R.id.yAxisLayout);
     tvOut = findViewById(R.id.tvOut);
     tvExecTime = findViewById(R.id.tvExecTime);
     graphView = findViewById(R.id.graphView);
     pbMain = findViewById(R.id.pbMain);
+
     btnStart.setOnClickListener(v -> startTask());
+    yAxisLayout.setVisibility(View.GONE);
+
+    spYAxis.setAdapter(new ArrayAdapter<>(
+      this, android.R.layout.simple_list_item_1,
+      PoxipolPointMapper.names()));
+    spYAxis.setOnItemSelectedListener(
+      new SpinnerAdapter(this::onYAxisTypeChanged));
 
     LegendRenderer legend = graphView.getLegendRenderer();
     legend.setAlign(LegendRenderer.LegendAlign.TOP);
@@ -64,6 +80,16 @@ public class PoxipolActivity extends BaseActivity
     }
 
     MyLog.d(LOG_TAG, "PoxipolActivity created");
+  }
+
+  private void onYAxisTypeChanged(int index) {
+    if (taskResult != null) {
+      MyLog.d(LOG_TAG, "Selected y type: " + index);
+      PoxipolSystem.Point.setYMapper(index);
+      ((BaseSeries<PointRN>) taskResult.getSeries())
+        .setTitle(PoxipolPointMapper.getByOrdinal(index).name());
+      graphView.invalidate();
+    }
   }
 
   @Override
@@ -108,6 +134,9 @@ public class PoxipolActivity extends BaseActivity
 
     if (state) {
       MyLog.d(LOG_TAG, "Clearing UI...");
+      tvExecTime.setText(null);
+      if (yAxisLayout != null)
+        yAxisLayout.setVisibility(View.GONE);
       if (tvOut != null)
         tvOut.setText(null);
       if (graphView != null) {
@@ -119,6 +148,8 @@ public class PoxipolActivity extends BaseActivity
       pbMain.setVisibility(View.VISIBLE);
       MyLog.d(LOG_TAG, "UI locked");
     } else {
+      if (yAxisLayout != null)
+        yAxisLayout.setVisibility(taskResult == null ? View.GONE : View.VISIBLE);
       if (graphView != null)
         graphView.setVisibility(View.VISIBLE);
       pbMain.setVisibility(View.INVISIBLE);
