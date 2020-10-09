@@ -22,11 +22,11 @@ public class PoxipolSystem extends DiffSystem<PoxipolSystem.Point> {
   private static final double E2    = 7.7E4;    // J/Mol
   private static final double E3    = 5.2E4;    // J/Mol
   private static final double E4    = 3.75E4;   // J/Mol
-  private static final double Q1    = 6254E4;   // J/Mol
+  private static final double Q1    = 62540000;    // J/Mol
   private static final double Q2    = 1E9;      // J/Mol
   private static final double Q4    = 1.08E9;   // J/Mol
   // Physical constants
-  private static final double DTAU  = 0.05;     // sec
+  private static final double DTAU  = 0.01;     // sec
   private static final double V     = 3;        // m^3
   private static final double KT    = 700;      // W/m^2*deg
   private static final double RHO   = 1180;     // kg/m^3
@@ -39,12 +39,12 @@ public class PoxipolSystem extends DiffSystem<PoxipolSystem.Point> {
   private static final double IN_C5 = 0.10;     // mol/m^3
   private static final double TARGET_C3 = 0.3;  // mol/m^3
   // Limitations
-  private static final double F_MIN = 6.5;      // m^3
-  private static final double F_MAX = 10.5;     // m^3
+  private static final double F_MIN = 0.5;      // m^3
+  private static final double F_MAX = 5.5;     // m^3
   private static final double T_MAX = 60;       // degC
 
 
-  private double f = (F_MIN + F_MAX) / 2;
+  private double f = 1;
 
   public PoxipolSystem() {
     system.addAll(Arrays.asList(
@@ -73,7 +73,7 @@ public class PoxipolSystem extends DiffSystem<PoxipolSystem.Point> {
         p -> (Q1 * p.get(K1) * p.get(C1) * p.get(C2)
           + Q2 * p.get(K2) * p.get(C1) * p.get(C2)
           + Q4 * p.get(K4) * p.get(C3) * p.get(C6)
-          - KT * f * (p.get(T) - TT)) / (CT * V * RHO * p.get(T)))
+          - KT * f * (p.get(T) - TT)) / (CT * V * RHO))
     ));
   }
 
@@ -96,7 +96,7 @@ public class PoxipolSystem extends DiffSystem<PoxipolSystem.Point> {
   protected double getStep() {
     return DTAU;
   }
-  
+
   public static class Point extends PointD {
     private static PoxipolPointMapper yMapper = C3;
 

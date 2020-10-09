@@ -61,6 +61,7 @@ public class PoxipolActivity extends BaseActivity
     spYAxis.setAdapter(new ArrayAdapter<>(
       this, android.R.layout.simple_list_item_1,
       PoxipolPointMapper.names()));
+    spYAxis.setSelection(PoxipolPointMapper.C3.ordinal());
     spYAxis.setOnItemSelectedListener(
       new SpinnerAdapter(this::onYAxisTypeChanged));
 
@@ -88,6 +89,7 @@ public class PoxipolActivity extends BaseActivity
       PoxipolSystem.Point.setYMapper(index);
       ((BaseSeries<PointRN>) taskResult.getSeries())
         .setTitle(PoxipolPointMapper.getByOrdinal(index).name());
+      graphView.getViewport().calcCompleteRange();
       graphView.invalidate();
     }
   }
