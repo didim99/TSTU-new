@@ -48,9 +48,9 @@ public abstract class DiffSystem<T extends PointD> {
   }
 
   public static class Entry<T extends PointD> {
-    private GenericFunctionRN<T> function;
-    private int targetIndex;
-    private boolean isDelta;
+    private final GenericFunctionRN<T> function;
+    private final int targetIndex;
+    private final boolean isDelta;
 
     public Entry(Enum<?> targetIndex, boolean isDelta, GenericFunctionRN<T> function) {
       this.targetIndex = targetIndex.ordinal();

@@ -6,7 +6,7 @@ import java.util.Arrays;
  * Created by didim99 on 06.09.19.
  */
 public class PointD implements PointRN {
-  private double[] data;
+  private final double[] data;
 
   public PointD(int size) {
     this(size, 0);
@@ -31,7 +31,7 @@ public class PointD implements PointRN {
   }
 
   public PointD set(PointD src) {
-    return set(src, data.length);
+    return set(src, Math.min(data.length, src.data.length));
   }
 
   public PointD set(PointD src, int r) {

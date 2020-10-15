@@ -3,7 +3,11 @@ package ru.didim99.tstu;
 import org.junit.Test;
 import ru.didim99.tstu.core.modeling.randproc.DiscreteMath;
 import ru.didim99.tstu.core.modeling.randproc.Random;
+import ru.didim99.tstu.core.optimization.math.FunctionRN;
+import ru.didim99.tstu.core.optimization.math.PointD;
+import ru.didim99.tstu.core.optimization.multidim.UniformSearchMethod;
 import ru.didim99.tstu.utils.CyclicBuffer;
+import ru.didim99.tstu.utils.Timer;
 
 import static org.junit.Assert.*;
 
@@ -31,6 +35,22 @@ public class ExampleUnitTest {
       assertEquals(mean, 0, 5E-2);
       assertEquals(prev, next, prev / 10);
     }
+  }
+
+  @Test
+  public void uniformSearchMethodTest() {
+    UniformSearchMethod finder = new UniformSearchMethod();
+    FunctionRN f = p -> Math.pow(p.get(0), 2) + Math.pow(p.get(1), 2);
+    PointD min = new PointD(-1d, -1d);
+    PointD max = new PointD(1d, 1d);
+    Timer timer = new Timer();
+
+    timer.start();
+    finder.setBoundaries(min, max);
+    PointD res = finder.find(f);
+    timer.stop();
+    System.out.println("res = " + res);
+    System.out.println("time = " + timer.getMicros());
   }
 
   @Test
