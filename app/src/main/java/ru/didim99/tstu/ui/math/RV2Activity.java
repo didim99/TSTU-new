@@ -13,8 +13,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import ru.didim99.tstu.R;
-import ru.didim99.tstu.core.math.ProcessException;
-import ru.didim99.tstu.core.math.RVProcessor;
+import ru.didim99.tstu.core.math.analysis.ProcessException;
+import ru.didim99.tstu.core.math.analysis.RVProcessor;
 import ru.didim99.tstu.ui.BaseActivity;
 import ru.didim99.tstu.utils.MyLog;
 

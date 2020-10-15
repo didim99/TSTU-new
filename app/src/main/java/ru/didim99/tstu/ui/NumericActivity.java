@@ -17,20 +17,20 @@ import java.util.ArrayList;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.TSTU;
 import ru.didim99.tstu.core.CallbackTask;
-import ru.didim99.tstu.core.numeric.Config;
-import ru.didim99.tstu.core.numeric.DiffSolver;
-import ru.didim99.tstu.core.numeric.Integrator;
-import ru.didim99.tstu.core.numeric.Interpolator;
-import ru.didim99.tstu.core.numeric.LinearSystemSolver;
-import ru.didim99.tstu.core.numeric.Matrix;
-import ru.didim99.tstu.core.numeric.Result;
-import ru.didim99.tstu.core.numeric.NumericTask;
-import ru.didim99.tstu.core.numeric.TranscendentSolver;
+import ru.didim99.tstu.core.math.numeric.Config;
+import ru.didim99.tstu.core.math.numeric.DiffSolver;
+import ru.didim99.tstu.core.math.numeric.Integrator;
+import ru.didim99.tstu.core.math.numeric.Interpolator;
+import ru.didim99.tstu.core.math.numeric.LinearSystemSolver;
+import ru.didim99.tstu.core.math.numeric.Matrix;
+import ru.didim99.tstu.core.math.numeric.Result;
+import ru.didim99.tstu.core.math.numeric.NumericTask;
+import ru.didim99.tstu.core.math.numeric.TranscendentSolver;
 import ru.didim99.tstu.ui.utils.TextListAdapter;
 import ru.didim99.tstu.utils.MyLog;
 import ru.didim99.tstu.utils.Utils;
 
-import static ru.didim99.tstu.core.numeric.Config.TaskType;
+import static ru.didim99.tstu.core.math.numeric.Config.TaskType;
 
 public class NumericActivity extends BaseActivity
   implements CallbackTask.EventListener<ArrayList<Result>> {

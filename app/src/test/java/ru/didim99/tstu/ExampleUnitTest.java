@@ -1,15 +1,15 @@
 package ru.didim99.tstu;
 
 import org.junit.Test;
-import ru.didim99.tstu.core.modeling.randproc.DiscreteMath;
-import ru.didim99.tstu.core.modeling.randproc.Random;
-import ru.didim99.tstu.core.optimization.math.FunctionRN;
-import ru.didim99.tstu.core.optimization.math.PointD;
-import ru.didim99.tstu.core.optimization.multidim.UniformSearchMethod;
+import ru.didim99.tstu.core.math.common.FunctionRN;
+import ru.didim99.tstu.core.math.common.PointD;
+import ru.didim99.tstu.core.math.modeling.randproc.DiscreteMath;
+import ru.didim99.tstu.core.math.modeling.randproc.Random;
+import ru.didim99.tstu.core.math.optimization.multidim.UniformSearchMethod;
 import ru.didim99.tstu.utils.CyclicBuffer;
 import ru.didim99.tstu.utils.Timer;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Example local unit test, which will execute on the development machine (host).

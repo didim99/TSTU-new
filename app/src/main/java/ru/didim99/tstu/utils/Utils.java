@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 import ru.didim99.tstu.R;
-import ru.didim99.tstu.core.optimization.math.PointRN;
+import ru.didim99.tstu.core.math.common.PointRN;
 
 /**
  * Created by didim99 on 10.09.18.
