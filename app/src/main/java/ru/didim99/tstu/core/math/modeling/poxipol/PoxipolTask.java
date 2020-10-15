@@ -4,6 +4,8 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.Locale;
 import ru.didim99.tstu.core.CallbackTask;
+import ru.didim99.tstu.core.math.common.FunctionTabulator;
+import ru.didim99.tstu.core.math.common.PointD;
 import ru.didim99.tstu.core.math.common.PointRN;
 import ru.didim99.tstu.core.math.optimization.multidim.UniformSearchMethod;
 import ru.didim99.tstu.utils.Timer;
@@ -15,8 +17,9 @@ import ru.didim99.tstu.utils.Utils;
 
 public class PoxipolTask extends CallbackTask<PoxipolTask.Action, Result> {
   private static final String SERIES_C3 = "C3";
+  private static final String SERIES_TAU = "Tau";
 
-  public enum Action { INTEGRATE, OPTIMIZE }
+  public enum Action { INTEGRATE, OPTIMIZE, MODEL }
 
   public PoxipolTask(Context context) {
     super(context);
@@ -41,9 +44,15 @@ public class PoxipolTask extends CallbackTask<PoxipolTask.Action, Result> {
       case OPTIMIZE:
         UniformSearchMethod optimizer = new UniformSearchMethod();
         optimizer.setBoundaries(system.getMinBound(), system.getMaxBound());
-        optimizer.find(system);
+        PointD res = optimizer.find(system);
         result.setDescription(String.format(Locale.US,
-          "Optimal area: %.3f m^2", system.getPoint().getX()));
+          "Optimal area: %.3f m^2", res.getX()));
+        FunctionTabulator tabulator = new FunctionTabulator(system);
+        result.setSeries(Utils.buildSeries(tabulator.tabulate(
+          PoxipolSystem.F_MIN, PoxipolSystem.F_MAX), SERIES_TAU));
+        break;
+      case MODEL:
+        
         break;
     }
 

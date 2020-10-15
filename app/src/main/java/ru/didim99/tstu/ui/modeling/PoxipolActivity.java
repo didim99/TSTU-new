@@ -7,7 +7,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.BaseSeries;
@@ -31,6 +30,7 @@ public class PoxipolActivity extends BaseActivity
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_PXAct";
 
   // view-elements
+  private Spinner spMode;
   private Button btnStart;
   private View yAxisLayout;
   private TextView tvOut;
@@ -38,6 +38,7 @@ public class PoxipolActivity extends BaseActivity
   private GraphView graphView;
   private View pbMain;
   // main workflow
+  private PoxipolTask.Action action;
   private PoxipolTask task;
   private Result taskResult;
 
@@ -49,6 +50,7 @@ public class PoxipolActivity extends BaseActivity
 
     MyLog.d(LOG_TAG, "View components init...");
     Spinner spYAxis = findViewById(R.id.spYAxis);
+    spMode = findViewById(R.id.spMode);
     btnStart = findViewById(R.id.btnStart);
     yAxisLayout = findViewById(R.id.yAxisLayout);
     tvOut = findViewById(R.id.tvOut);
@@ -59,6 +61,8 @@ public class PoxipolActivity extends BaseActivity
     btnStart.setOnClickListener(v -> startTask());
     yAxisLayout.setVisibility(View.GONE);
 
+    spMode.setOnItemSelectedListener(
+      new SpinnerAdapter(this::onModeChanged));
     spYAxis.setAdapter(new ArrayAdapter<>(
       this, android.R.layout.simple_list_item_1,
       PoxipolPointMapper.names()));
@@ -75,6 +79,7 @@ public class PoxipolActivity extends BaseActivity
     task = (PoxipolTask) getLastCustomNonConfigurationInstance();
     if (task == null) {
       MyLog.d(LOG_TAG, "No existing background task found");
+      action = PoxipolTask.Action.INTEGRATE;
     } else {
       task.registerEventListener(this);
       MyLog.d(LOG_TAG, "Connecting to background task completed "
@@ -82,6 +87,11 @@ public class PoxipolActivity extends BaseActivity
     }
 
     MyLog.d(LOG_TAG, "PoxipolActivity created");
+  }
+
+  private void onModeChanged(int index) {
+    action = PoxipolTask.Action.values()[index];
+    updateYLayoutState();
   }
 
   private void onYAxisTypeChanged(int index) {
@@ -125,7 +135,7 @@ public class PoxipolActivity extends BaseActivity
   private void startTask() {
     task = new PoxipolTask(getApplicationContext());
     task.registerEventListener(this);
-    task.execute(PoxipolTask.Action.INTEGRATE);
+    task.execute(action);
   }
 
   private void uiLock(boolean state) {
@@ -133,28 +143,23 @@ public class PoxipolActivity extends BaseActivity
     else MyLog.d(LOG_TAG, "Unlocking UI...");
 
     uiLocked = state;
+    spMode.setEnabled(!state);
     btnStart.setEnabled(!state);
 
     if (state) {
       MyLog.d(LOG_TAG, "Clearing UI...");
       tvExecTime.setText(null);
-      if (yAxisLayout != null)
-        yAxisLayout.setVisibility(View.GONE);
-      if (tvOut != null)
-        tvOut.setText(null);
-      if (graphView != null) {
-        graphView.removeAllSeries();
-        graphView.setVisibility(View.INVISIBLE);
-      }
+      yAxisLayout.setVisibility(View.GONE);
+      tvOut.setText(null);
+      graphView.removeAllSeries();
+      graphView.setVisibility(View.INVISIBLE);
 
       MyLog.d(LOG_TAG, "UI cleared");
       pbMain.setVisibility(View.VISIBLE);
       MyLog.d(LOG_TAG, "UI locked");
     } else {
-      if (yAxisLayout != null)
-        yAxisLayout.setVisibility(taskResult == null ? View.GONE : View.VISIBLE);
-      if (graphView != null)
-        graphView.setVisibility(View.VISIBLE);
+      updateYLayoutState();
+      graphView.setVisibility(View.VISIBLE);
       pbMain.setVisibility(View.INVISIBLE);
       MyLog.d(LOG_TAG, "UI unlocked");
       uiSet();
@@ -176,5 +181,12 @@ public class PoxipolActivity extends BaseActivity
     graphView.getLegendRenderer().setVisible(true);
     graphView.getViewport().setScalable(true);
     MyLog.d(LOG_TAG, "UI setup completed");
+  }
+
+  private void updateYLayoutState() {
+    if (action != PoxipolTask.Action.INTEGRATE)
+      yAxisLayout.setVisibility(View.GONE);
+    else yAxisLayout.setVisibility(taskResult == null
+      ? View.GONE : View.VISIBLE);
   }
 }

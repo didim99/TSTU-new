@@ -1,6 +1,7 @@
 package ru.didim99.tstu.core.math.modeling.poxipol;
 
 import java.util.Arrays;
+import ru.didim99.tstu.core.math.common.Function;
 import ru.didim99.tstu.core.math.common.FunctionRN;
 import ru.didim99.tstu.core.math.common.PointD;
 import ru.didim99.tstu.core.math.common.PointRN;
@@ -15,7 +16,7 @@ import static ru.didim99.tstu.core.math.modeling.poxipol.PoxipolPointMapper.*;
  */
 
 public class PoxipolSystem extends DiffSystem<PoxipolSystem.Point>
-  implements FunctionRN {
+  implements Function, FunctionRN {
   // Chemical constants
   private static final double A1    = 2553;
   private static final double A2    = 2.1E9;
@@ -43,8 +44,8 @@ public class PoxipolSystem extends DiffSystem<PoxipolSystem.Point>
   private static final double TARGET_C3 = 0.3;  // mol/m^3
   // Limitations
   private static final double T_MAX = 60;       // degC
-  private static final double F_MIN = 0.5;      // m^3
-  private static final double F_MAX = 5.5;      // m^3
+  public static final double F_MIN = 0.5;       // m^3
+  public static final double F_MAX = 5.5;       // m^3
 
   private double f = (F_MIN + F_MAX) / 2;
 
@@ -108,10 +109,15 @@ public class PoxipolSystem extends DiffSystem<PoxipolSystem.Point>
   }
 
   @Override
-  public double f(PointRN p) {
-    this.f = p.get(0);
+  public double f(double x) {
+    this.f = x;
     integrate(null);
     return point.get(TAU);
+  }
+
+  @Override
+  public double f(PointRN p) {
+    return f(p.get(0));
   }
 
   public static class Point extends PointD {

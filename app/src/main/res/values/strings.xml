@@ -713,6 +713,12 @@
     <item>Ацетилен</item>
   </string-array>
   <string name="modeling_optimize">Вкл. оптимизацию</string>
+  <string name="modeling_mode">Режим:</string>
+  <string-array name="modeling_modes">
+    <item>Интегрирование</item>
+    <item>Оптимизация</item>
+    <item>Моделирование</item>
+  </string-array>
   <string name="modeling_yAxis">Отображать по Y:</string>
   <!-- Information Security -->
   <string name="startIS">Защита информации</string>

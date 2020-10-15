@@ -312,7 +312,7 @@ public class Utils {
   private static final int MAX_SERIES_VISIBLE = 500;
 
   @SuppressWarnings("unchecked")
-  public static <E extends PointRN> Series<E> buildSeries(ArrayList<E> data, String name) {
+  public static <E extends PointRN> Series<E> buildSeries(List<E> data, String name) {
     LineGraphSeries<E> series = new LineGraphSeries<>();
 
     if (data.size() <= MAX_SERIES_VISIBLE) {
