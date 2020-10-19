@@ -53,11 +53,14 @@ public class PoxipolTask extends CallbackTask<PoxipolTask.Action, Result> {
           PoxipolSystem.F_MIN, PoxipolSystem.F_MAX), SERIES_TAU));
         break;
       case MODEL:
+        system.setF(PoxipolSystem.F_MIN);
         RandomProcessor processor = new RandomProcessor(true);
-        processor.configure(PoxipolSystem.RANDOM_PARAMS);
+        PointD randomParams = processor.configure(PoxipolSystem.RANDOM_PARAMS);
         system.setTTSource(processor.getProcess()::next);
         system.integrate(pointList::add);
         result.setSeries(Utils.buildSeries(pointList, SERIES_C3));
+        processor.computeDelta(randomParams);
+        result.setDescription(processor.getParamsDescription());
         break;
     }
 

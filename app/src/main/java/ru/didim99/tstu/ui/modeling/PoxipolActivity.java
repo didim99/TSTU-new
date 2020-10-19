@@ -184,7 +184,7 @@ public class PoxipolActivity extends BaseActivity
   }
 
   private void updateYLayoutState() {
-    if (action != PoxipolTask.Action.INTEGRATE)
+    if (action == PoxipolTask.Action.OPTIMIZE)
       yAxisLayout.setVisibility(View.GONE);
     else yAxisLayout.setVisibility(taskResult == null
       ? View.GONE : View.VISIBLE);

@@ -32,6 +32,7 @@ public class RandomProcessor extends MultiSeriesProcessor implements FunctionRN 
   private static final long RNG_SEED = 1;
   // Process target parameters: M0, Sigma0, Alpha0
   private static final PointD REFERENCE = new PointD(8.0, 4.5, 0.17);
+  private static final PointD REF_WEIGHT = new PointD(1.0, 1.0, 5.0);
   // Process default parameters
   private static final double A1 = 1.0;
   private static final double A2 = 1.0;
@@ -68,14 +69,7 @@ public class RandomProcessor extends MultiSeriesProcessor implements FunctionRN 
   public void process() {
     PointD params = configure(REFERENCE);
     computeDelta(params);
-    result.set(IA1, params.get(OA1));
-    result.set(IA2, params.get(OA2));
-    Function k = s -> Functions.approx.f(
-      new PointD(result.get(IA), s, result.get(IS)));
-    seriesFamily.add(buildSeriesInteger(processData, 1));
-    FunctionTabulator tabulator = new FunctionTabulator(k);
-    seriesFamily.add(tabulator.tabulate(cTable));
-    seriesFamily.add(cTable);
+    buildSeriesFamily();
   }
 
   public PointD configure(PointD reference) {
@@ -112,6 +106,17 @@ public class RandomProcessor extends MultiSeriesProcessor implements FunctionRN 
     Approximator approximator = new Approximator(cTable);
     start = approximator.approximate(Functions.approx, start, 1);
     result.set(IA, start.get(0));
+    result.set(IA1, params.get(OA1));
+    result.set(IA2, params.get(OA2));
+  }
+
+  private void buildSeriesFamily() {
+    Function k = s -> Functions.approx.f(
+      new PointD(result.get(IA), s, result.get(IS)));
+    seriesFamily.add(buildSeriesInteger(processData, 1));
+    FunctionTabulator tabulator = new FunctionTabulator(k);
+    seriesFamily.add(tabulator.tabulate(cTable));
+    seriesFamily.add(cTable);
   }
 
   @Override
@@ -119,23 +124,27 @@ public class RandomProcessor extends MultiSeriesProcessor implements FunctionRN 
     computeDelta(p);
     double res = 0;
     for (int i = 0; i < reference.size(); i++)
-      res += Math.pow(reference.get(i) - result.get(i), 2);
+      res += Math.pow((reference.get(i) - result.get(i))
+        * REF_WEIGHT.get(i), 2);
     return res;
   }
 
   @Override
   public String getDescription() {
-    return
-      String.format(Locale.US, "Mz = %.4f (err: %.1f%%)\n",
-        result.get(IM), Utils.calcError(result.get(IM), reference.get(IM))) +
+    return getParamsDescription() +
+      "\nRandom process range:\n" +
+      super.getDescription();
+  }
+
+  public String getParamsDescription() {
+    return String.format(Locale.US, "Mz = %.4f (err: %.1f%%)\n",
+      result.get(IM), Utils.calcError(result.get(IM), reference.get(IM))) +
       String.format(Locale.US, "Sz = %.4f (err: %.1f%%)\n",
         result.get(IS), Utils.calcError(result.get(IS), reference.get(IS))) +
       String.format(Locale.US, "ɑz = %.4f (err: %.1f%%)\n",
         result.get(IA), Utils.calcError(result.get(IA), reference.get(IA))) +
       String.format(Locale.US, "A1 = %.4f\n", result.get(IA1)) +
-      String.format(Locale.US, "A2 = %.4f\n", result.get(IA2)) +
-      "\nRandom process range:\n" +
-      super.getDescription();
+      String.format(Locale.US, "A2 = %.4f\n", result.get(IA2));
   }
 
   private static List<PointRN> buildSeriesInteger(Double[] src, int from) {

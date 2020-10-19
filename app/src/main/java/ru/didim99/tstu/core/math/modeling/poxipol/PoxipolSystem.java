@@ -49,12 +49,13 @@ public class PoxipolSystem extends DiffSystem<PoxipolSystem.Point>
   public static final double F_MAX = 10.5;      // m^3
   // Modeling parameters
   public static final PointD RANDOM_PARAMS = new PointD(8, 4, 0.085);
+  private static final int TT_INTERVAL = 10;
 
   private double f = (F_MIN + F_MAX) / 2;
-  private double tt = TT;
 
   private Supplier<Double> ttSource;
-  private int stepCounter = 0;
+  private double ttBuffer;
+  private int stepCounter;
 
   public PoxipolSystem() {
     system.addAll(Arrays.asList(
@@ -83,8 +84,29 @@ public class PoxipolSystem extends DiffSystem<PoxipolSystem.Point>
         p -> (Q1 * p.get(K1) * p.get(C1) * p.get(C2)
           + Q2 * p.get(K2) * p.get(C1) * p.get(C2)
           + Q4 * p.get(K4) * p.get(C3) * p.get(C6)
-          - KT * f * (p.get(T) - tt)) / (CT * V * RHO))
+          - KT * f * (p.get(T) - tt())) / (CT * V * RHO))
     ));
+  }
+
+  @Override
+  public void integrate(StepListener listener) {
+    if (this.ttSource != null) {
+      this.ttBuffer = ttSource.nextElement();
+      this.stepCounter = 0;
+    }
+
+    super.integrate(listener);
+  }
+
+  private double tt() {
+    if (ttSource != null) {
+      if (++stepCounter == TT_INTERVAL) {
+        ttBuffer = ttSource.nextElement();
+        stepCounter = 0;
+      }
+
+      return c2k(ttBuffer);
+    } else return TT;
   }
 
   public PointD getMinBound() {
@@ -129,6 +151,10 @@ public class PoxipolSystem extends DiffSystem<PoxipolSystem.Point>
 
   public void setTTSource(Supplier<Double> source) {
     this.ttSource = source;
+  }
+
+  public void setF(double f) {
+    this.f = f;
   }
 
   public static class Point extends PointD {
