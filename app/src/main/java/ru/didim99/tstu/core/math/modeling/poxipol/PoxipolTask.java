@@ -7,6 +7,7 @@ import ru.didim99.tstu.core.CallbackTask;
 import ru.didim99.tstu.core.math.common.FunctionTabulator;
 import ru.didim99.tstu.core.math.common.PointD;
 import ru.didim99.tstu.core.math.common.PointRN;
+import ru.didim99.tstu.core.math.modeling.randproc.RandomProcessor;
 import ru.didim99.tstu.core.math.optimization.multidim.UniformSearchMethod;
 import ru.didim99.tstu.utils.Timer;
 import ru.didim99.tstu.utils.Utils;
@@ -52,7 +53,11 @@ public class PoxipolTask extends CallbackTask<PoxipolTask.Action, Result> {
           PoxipolSystem.F_MIN, PoxipolSystem.F_MAX), SERIES_TAU));
         break;
       case MODEL:
-        
+        RandomProcessor processor = new RandomProcessor(true);
+        processor.configure(PoxipolSystem.RANDOM_PARAMS);
+        system.setTTSource(processor.getProcess()::next);
+        system.integrate(pointList::add);
+        result.setSeries(Utils.buildSeries(pointList, SERIES_C3));
         break;
     }
 

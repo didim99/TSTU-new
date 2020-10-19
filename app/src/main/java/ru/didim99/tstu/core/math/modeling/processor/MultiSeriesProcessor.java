@@ -2,6 +2,7 @@ package ru.didim99.tstu.core.math.modeling.processor;
 
 import com.jjoe64.graphview.series.Series;
 import java.util.ArrayList;
+import java.util.List;
 import ru.didim99.tstu.core.math.common.PointRN;
 import ru.didim99.tstu.utils.Utils;
 
@@ -10,8 +11,8 @@ import ru.didim99.tstu.utils.Utils;
  */
 public abstract class MultiSeriesProcessor extends Processor {
 
-  protected ArrayList<ArrayList<PointRN>> seriesFamily;
-  protected ArrayList<String> seriesNames;
+  protected List<List<PointRN>> seriesFamily;
+  protected List<String> seriesNames;
   private int seriesIndex;
 
   protected MultiSeriesProcessor() {

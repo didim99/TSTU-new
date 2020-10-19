@@ -2,9 +2,11 @@ package ru.didim99.tstu.core.math.modeling.randproc;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 import ru.didim99.tstu.core.math.common.Function;
 import ru.didim99.tstu.core.math.common.FunctionRN;
+import ru.didim99.tstu.core.math.common.FunctionTabulator;
 import ru.didim99.tstu.core.math.common.PointD;
 import ru.didim99.tstu.core.math.common.PointRN;
 import ru.didim99.tstu.core.math.modeling.Functions;
@@ -43,8 +45,9 @@ public class RandomProcessor extends MultiSeriesProcessor implements FunctionRN 
   private static final int OA1 =  0;
   private static final int OA2 =  1;
 
-  private boolean useOptimization;
-  private Random random;
+  private final boolean useOptimization;
+  private final Random random;
+  private PointD reference;
   private RandomProcess process;
   private PointRN result;
   private Double[] processData;
@@ -57,31 +60,44 @@ public class RandomProcessor extends MultiSeriesProcessor implements FunctionRN 
     seriesNames.addAll(Arrays.asList(SERIES_NAMES));
   }
 
+  public RandomProcess getProcess() {
+    return process;
+  }
+
   @Override
   public void process() {
-    CyclicBuffer<Double> buffer = new CyclicBuffer<>(BUFF_SIZE, 0.0);
-    buffer.fill(random::nextDoubleCentered);
-    double sx = DiscreteMath.spread(buffer.getAll());
-    process = new RandomProcess(random, INTERVAL);
-    process.init(sx, REFERENCE.get(IM),
-      REFERENCE.get(IS), REFERENCE.get(IA));
-    PointD params = new PointD(A1, A2, 0);
-
-    if (useOptimization) {
-      ExtremaFinderRN finder = new DownhillMethod();
-      params = finder.find(this, params);
-    } else compute(params);
-
+    PointD params = configure(REFERENCE);
+    computeDelta(params);
     result.set(IA1, params.get(OA1));
     result.set(IA2, params.get(OA2));
     Function k = s -> Functions.approx.f(
       new PointD(result.get(IA), s, result.get(IS)));
     seriesFamily.add(buildSeriesInteger(processData, 1));
-    seriesFamily.add(tabulateFunction(k, cTable));
+    FunctionTabulator tabulator = new FunctionTabulator(k);
+    seriesFamily.add(tabulator.tabulate(cTable));
     seriesFamily.add(cTable);
   }
 
-  public void compute(PointRN params) {
+  public PointD configure(PointD reference) {
+    this.reference = reference;
+    CyclicBuffer<Double> buffer = new CyclicBuffer<>(BUFF_SIZE, 0.0);
+    buffer.fill(random::nextDoubleCentered);
+    double sx = DiscreteMath.spread(buffer.getAll());
+    process = new RandomProcess(random, INTERVAL);
+    process.init(sx, reference.get(IM),
+      reference.get(IS), reference.get(IA));
+
+    PointD params = new PointD(A1, A2, 0);
+    if (useOptimization) {
+      ExtremaFinderRN finder = new DownhillMethod();
+      params = finder.find(this, params);
+    }
+
+    process.setup(params.get(OA1), params.get(OA2));
+    return params;
+  }
+
+  public void computeDelta(PointRN params) {
     process.setup(params.get(OA1), params.get(OA2));
     CyclicBuffer<Double> buffer = new CyclicBuffer<>(Z_SIZE, 0.0);
     buffer.fill(process::next);
@@ -100,10 +116,10 @@ public class RandomProcessor extends MultiSeriesProcessor implements FunctionRN 
 
   @Override
   public double f(PointRN p) {
-    compute(p);
+    computeDelta(p);
     double res = 0;
-    for (int i = 0; i < REFERENCE.size(); i++)
-      res += Math.pow(REFERENCE.get(i) - result.get(i), 2);
+    for (int i = 0; i < reference.size(); i++)
+      res += Math.pow(reference.get(i) - result.get(i), 2);
     return res;
   }
 
@@ -111,28 +127,21 @@ public class RandomProcessor extends MultiSeriesProcessor implements FunctionRN 
   public String getDescription() {
     return
       String.format(Locale.US, "Mz = %.4f (err: %.1f%%)\n",
-        result.get(IM), Utils.calcError(result.get(IM), REFERENCE.get(IM))) +
+        result.get(IM), Utils.calcError(result.get(IM), reference.get(IM))) +
       String.format(Locale.US, "Sz = %.4f (err: %.1f%%)\n",
-        result.get(IS), Utils.calcError(result.get(IS), REFERENCE.get(IS))) +
+        result.get(IS), Utils.calcError(result.get(IS), reference.get(IS))) +
       String.format(Locale.US, "ɑz = %.4f (err: %.1f%%)\n",
-        result.get(IA), Utils.calcError(result.get(IA), REFERENCE.get(IA))) +
+        result.get(IA), Utils.calcError(result.get(IA), reference.get(IA))) +
       String.format(Locale.US, "A1 = %.4f\n", result.get(IA1)) +
       String.format(Locale.US, "A2 = %.4f\n", result.get(IA2)) +
       "\nRandom process range:\n" +
       super.getDescription();
   }
 
-  private static ArrayList<PointRN> buildSeriesInteger(Double[] src, int from) {
-    ArrayList<PointRN> series = new ArrayList<>(src.length);
+  private static List<PointRN> buildSeriesInteger(Double[] src, int from) {
+    List<PointRN> series = new ArrayList<>(src.length);
     for (double v : src)
       series.add(new PointD((double) from++, v));
-    return series;
-  }
-
-  private static ArrayList<PointRN> tabulateFunction(Function fun, ArrayList<PointRN> ref) {
-    ArrayList<PointRN> series = new ArrayList<>(ref.size());
-    for (PointRN point : ref)
-      series.add(new PointD(point.get(0), fun.f(point.get(0))));
     return series;
   }
 

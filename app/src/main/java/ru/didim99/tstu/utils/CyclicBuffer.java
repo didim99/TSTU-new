@@ -44,9 +44,4 @@ public class CyclicBuffer<T> {
   private void checkPointer() {
     if (pointer == size) pointer = 0;
   }
-
-  @FunctionalInterface
-  public interface Supplier<T> {
-    T nextElement();
-  }
 }

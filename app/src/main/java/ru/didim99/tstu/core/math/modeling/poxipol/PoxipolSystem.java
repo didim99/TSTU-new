@@ -6,6 +6,7 @@ import ru.didim99.tstu.core.math.common.FunctionRN;
 import ru.didim99.tstu.core.math.common.PointD;
 import ru.didim99.tstu.core.math.common.PointRN;
 import ru.didim99.tstu.core.math.modeling.Functions;
+import ru.didim99.tstu.utils.Supplier;
 
 import static ru.didim99.tstu.core.math.modeling.Functions.c2k;
 import static ru.didim99.tstu.core.math.modeling.Functions.k2c;
@@ -44,10 +45,16 @@ public class PoxipolSystem extends DiffSystem<PoxipolSystem.Point>
   private static final double TARGET_C3 = 0.3;  // mol/m^3
   // Limitations
   private static final double T_MAX = 60;       // degC
-  public static final double F_MIN = 0.5;       // m^3
-  public static final double F_MAX = 5.5;       // m^3
+  public static final double F_MIN = 6.5;       // m^3
+  public static final double F_MAX = 10.5;      // m^3
+  // Modeling parameters
+  public static final PointD RANDOM_PARAMS = new PointD(8, 4, 0.085);
 
   private double f = (F_MIN + F_MAX) / 2;
+  private double tt = TT;
+
+  private Supplier<Double> ttSource;
+  private int stepCounter = 0;
 
   public PoxipolSystem() {
     system.addAll(Arrays.asList(
@@ -76,7 +83,7 @@ public class PoxipolSystem extends DiffSystem<PoxipolSystem.Point>
         p -> (Q1 * p.get(K1) * p.get(C1) * p.get(C2)
           + Q2 * p.get(K2) * p.get(C1) * p.get(C2)
           + Q4 * p.get(K4) * p.get(C3) * p.get(C6)
-          - KT * f * (p.get(T) - TT)) / (CT * V * RHO))
+          - KT * f * (p.get(T) - tt)) / (CT * V * RHO))
     ));
   }
 
@@ -118,6 +125,10 @@ public class PoxipolSystem extends DiffSystem<PoxipolSystem.Point>
   @Override
   public double f(PointRN p) {
     return f(p.get(0));
+  }
+
+  public void setTTSource(Supplier<Double> source) {
+    this.ttSource = source;
   }
 
   public static class Point extends PointD {
