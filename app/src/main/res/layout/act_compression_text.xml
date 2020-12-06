@@ -31,7 +31,7 @@
     android:layout_marginBottom="@dimen/layoutPadding"
     android:text="@string/iTheory_sectionSettings"
     android:textSize="@dimen/textSize_large"
-    android:textColor="@color/dirPicker_textActive"
+    android:textColor="?attr/colorActive"
     android:gravity="center"/>
 
   <RelativeLayout
@@ -80,7 +80,7 @@
           android:id="@+id/ivClearInput"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          app:srcCompat="@drawable/ic_cross_24dp"
+          app:srcCompat="@drawable/ic_cross_white_24dp"
           android:background="?attr/selectableItemBackground"
           android:contentDescription="@string/buttonClear"
           android:focusable="true"
@@ -146,7 +146,7 @@
     android:layout_marginBottom="@dimen/layoutPadding"
     android:text="@string/iTheory_sectionInfo"
     android:textSize="@dimen/textSize_large"
-    android:textColor="@color/dirPicker_textActive"
+    android:textColor="?attr/colorActive"
     android:gravity="center"/>
 
   <ScrollView
@@ -179,7 +179,7 @@
     android:layout_marginBottom="@dimen/layoutPadding"
     android:text="@string/iTheory_sectionInMsg"
     android:textSize="@dimen/textSize_large"
-    android:textColor="@color/dirPicker_textActive"
+    android:textColor="?attr/colorActive"
     android:gravity="center"/>
 
   <ScrollView
@@ -212,7 +212,7 @@
     android:layout_marginBottom="@dimen/layoutPadding"
     android:text="@string/iTheory_sectionOutMsg"
     android:textSize="@dimen/textSize_large"
-    android:textColor="@color/dirPicker_textActive"
+    android:textColor="?attr/colorActive"
     android:gravity="center"/>
 
   <ScrollView

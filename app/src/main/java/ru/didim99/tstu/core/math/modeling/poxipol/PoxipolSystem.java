@@ -36,7 +36,7 @@ public class PoxipolSystem extends DiffSystem<PoxipolSystem.Point>
   private static final double KT    = 700;      // W/m^2*deg
   private static final double RHO   = 1180;     // kg/m^3
   private static final double CT    = 1200;     // J/kg*deg
-  private static final double TT    = c2k(8);   // degC
+  private static final double TT0   = c2k(8);   // degC
   // Input & output constants
   private static final double IN_T  = c2k(40);  // degK
   private static final double IN_C1 = 0.55;     // mol/m^3
@@ -84,7 +84,7 @@ public class PoxipolSystem extends DiffSystem<PoxipolSystem.Point>
         p -> (Q1 * p.get(K1) * p.get(C1) * p.get(C2)
           + Q2 * p.get(K2) * p.get(C1) * p.get(C2)
           + Q4 * p.get(K4) * p.get(C3) * p.get(C6)
-          - KT * f * (p.get(T) - tt())) / (CT * V * RHO))
+          - KT * f * (p.get(T) - tt(p))) / (CT * V * RHO))
     ));
   }
 
@@ -98,15 +98,17 @@ public class PoxipolSystem extends DiffSystem<PoxipolSystem.Point>
     super.integrate(listener);
   }
 
-  private double tt() {
+  private double tt(Point p) {
     if (ttSource != null) {
       if (++stepCounter == TT_INTERVAL) {
         ttBuffer = ttSource.nextElement();
         stepCounter = 0;
       }
 
-      return c2k(ttBuffer);
-    } else return TT;
+      double tt = c2k(ttBuffer);
+      p.set(TT, tt);
+      return tt;
+    } else return TT0;
   }
 
   public PointD getMinBound() {
@@ -180,7 +182,7 @@ public class PoxipolSystem extends DiffSystem<PoxipolSystem.Point>
 
     @Override
     public double getY() {
-      if (yMapper == T)
+      if (yMapper == T || yMapper == TT)
         return k2c(get(yMapper));
       else return get(yMapper);
     }

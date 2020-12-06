@@ -31,7 +31,7 @@
     android:layout_marginBottom="@dimen/layoutPadding"
     android:text="@string/is_dt_coding"
     android:textSize="@dimen/textSize_large"
-    android:textColor="@color/dirPicker_textActive"
+    android:textColor="?attr/colorActive"
     android:gravity="center"/>
 
   <LinearLayout
@@ -89,7 +89,7 @@
     android:layout_marginBottom="@dimen/layoutPadding"
     android:text="@string/is_dt_channel"
     android:textSize="@dimen/textSize_large"
-    android:textColor="@color/dirPicker_textActive"
+    android:textColor="?attr/colorActive"
     android:gravity="center"/>
 
   <ru.didim99.tstu.ui.view.RangeBar
@@ -175,7 +175,7 @@
     android:layout_marginBottom="@dimen/layoutPadding"
     android:text="@string/is_dt_transmitter"
     android:textSize="@dimen/textSize_large"
-    android:textColor="@color/dirPicker_textActive"
+    android:textColor="?attr/colorActive"
     android:gravity="center"/>
 
   <TextView
@@ -190,7 +190,7 @@
     android:layout_marginBottom="@dimen/layoutPadding"
     android:text="@string/is_dt_receiver"
     android:textSize="@dimen/textSize_large"
-    android:textColor="@color/dirPicker_textActive"
+    android:textColor="?attr/colorActive"
     android:gravity="center"/>
 
   <ScrollView

@@ -32,6 +32,7 @@ public abstract class BaseActivity extends AppCompatActivity {
   @Override
   @CallSuper
   protected void onCreate(@Nullable Bundle savedInstanceState) {
+    UIManager.getInstance().applyTheme(getTheme());
     super.onCreate(savedInstanceState);
     setupActionBar();
   }

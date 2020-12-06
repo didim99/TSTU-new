@@ -140,7 +140,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginStart="5dp"
         android:textSize="@dimen/textSize_main"
-        android:textColor="@color/dirPicker_textActive"/>
+        android:textColor="?attr/colorActive"/>
     </LinearLayout>
 
     <ImageView

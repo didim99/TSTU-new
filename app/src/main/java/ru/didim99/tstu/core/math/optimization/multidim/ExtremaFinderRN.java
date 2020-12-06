@@ -26,7 +26,7 @@ public abstract class ExtremaFinderRN {
   private static final double START_MIN = -10.0;
   private static final double START_MAX = 10.0;
 
-  private Random random;
+  private final Random random;
   private ArrayList<PointD> globalSeries;
   private int globalSolutionSteps;
 
@@ -165,10 +165,12 @@ public abstract class ExtremaFinderRN {
     if (globalSolutionSteps > 0)
       sb.append(" ").append(context.getString(
         R.string.opt_globalIterationsR2, globalSolutionSteps));
-    sb.append("\n\n").append(context.getString(
-      R.string.numeric_solutionSteps));
-    sb.append("\n");
-    describeSteps(sb);
+    if (series.size() > 0) {
+      sb.append("\n\n").append(context.getString(
+        R.string.numeric_solutionSteps));
+      sb.append("\n");
+      describeSteps(sb);
+    }
 
     return sb.toString();
   }

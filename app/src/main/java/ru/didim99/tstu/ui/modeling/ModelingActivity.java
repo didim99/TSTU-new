@@ -24,6 +24,7 @@ import ru.didim99.tstu.core.math.modeling.ModelingTask;
 import ru.didim99.tstu.core.math.modeling.Result;
 import ru.didim99.tstu.core.math.modeling.randproc.RandomProcessor;
 import ru.didim99.tstu.ui.BaseActivity;
+import ru.didim99.tstu.ui.UIManager;
 import ru.didim99.tstu.ui.utils.SpinnerAdapter;
 import ru.didim99.tstu.utils.MyLog;
 
@@ -35,9 +36,11 @@ public class ModelingActivity extends BaseActivity
   private static final String LOG_TAG = MyLog.LOG_TAG_BASE + "_ModelingAct";
 
   private static final int[] COLORS = {
-    R.color.graph0, R.color.graph1,
-    R.color.graph2, R.color.graph3,
-    R.color.graph4
+    UIManager.getInstance().resolveAttr(R.attr.clr_blue),
+    UIManager.getInstance().resolveAttr(R.attr.clr_green),
+    UIManager.getInstance().resolveAttr(R.attr.clr_yellow),
+    UIManager.getInstance().resolveAttr(R.attr.clr_orange),
+    UIManager.getInstance().resolveAttr(R.attr.clr_red)
   };
 
   //view-elements

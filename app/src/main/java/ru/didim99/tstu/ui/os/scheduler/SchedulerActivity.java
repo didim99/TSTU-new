@@ -28,6 +28,7 @@ import ru.didim99.tstu.core.os.scheduler.Process;
 import ru.didim99.tstu.core.os.scheduler.Processor;
 import ru.didim99.tstu.core.os.scheduler.Scheduler;
 import ru.didim99.tstu.ui.BaseActivity;
+import ru.didim99.tstu.ui.UIManager;
 import ru.didim99.tstu.ui.view.ValueBar;
 import ru.didim99.tstu.utils.InputValidator;
 import ru.didim99.tstu.utils.MyLog;
@@ -73,16 +74,21 @@ public class SchedulerActivity extends BaseActivity
     MyLog.d(LOG_TAG, "SchedulerActivity creating...");
     super.onCreate(savedInstanceState);
     setContentView(R.layout.act_scheduler);
+    UIManager uiManager = UIManager.getInstance();
 
     readyAdapter = new ProcessAdapter(this);
     waitingAdapter = new ProcessAdapter(this);
-    waitingAdapter.setProcessColor(R.color.os_yellow);
+    waitingAdapter.setProcessColor(uiManager
+      .resolveAttr(R.attr.clr_yellow));
 
     MyLog.d(LOG_TAG, "View components init...");
     Resources res = getResources();
-    colorPRegular = res.getColor(R.color.colorAccent);
-    colorPResident = res.getColor(R.color.os_green);
-    colorPInterrupt = res.getColor(R.color.os_red);
+    colorPRegular = res.getColor(uiManager
+      .resolveAttr(R.attr.clr_blue));
+    colorPResident = res.getColor(uiManager
+      .resolveAttr(R.attr.clr_green));
+    colorPInterrupt = res.getColor(uiManager
+      .resolveAttr(R.attr.clr_red));
     RecyclerView rvReady = findViewById(R.id.rvReady);
     RecyclerView rvWaiting = findViewById(R.id.rvWaiting);
     GraphView graphCPU = findViewById(R.id.graphCPU);
@@ -117,12 +123,14 @@ public class SchedulerActivity extends BaseActivity
     graphCPU.getGridLabelRenderer().setHorizontalLabelsVisible(false);
     graphCPU.getViewport().setScalable(false);
     cpuUsage = new GraphLogWrapper(graphCPU, CPU_LOG_SIZE);
-    cpuUsage.setColors(R.color.colorAccent, R.color.colorAccentBg);
+    cpuUsage.setColors(
+      uiManager.resolveAttr(R.attr.clr_valueBarBg),
+      uiManager.resolveAttr(R.attr.clr_valueBarFg));
     cpuUsage.setBoundsY(Processor.MIN_USAGE, Processor.MAX_USAGE);
     pbPState.setMax(Process.MAX_VIEW_TICKS);
     pbIOState.setMax(IOManager.MAX_PROGRESS);
-    pbIOState.getProgressDrawable().setColorFilter(
-      res.getColor(R.color.os_yellow), PorterDuff.Mode.SRC_IN);
+    pbIOState.getProgressDrawable().setColorFilter(res.getColor(
+      uiManager.resolveAttr(R.attr.clr_yellow)), PorterDuff.Mode.SRC_IN);
     tvLog.setMovementMethod(new ScrollingMovementMethod());
     clkStart.setOnClickListener(v -> scheduler.onStartStop());
     clkPause.setOnClickListener(v -> scheduler.togglePause());

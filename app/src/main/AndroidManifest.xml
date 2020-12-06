@@ -19,7 +19,7 @@
     android:icon="@mipmap/ic_launcher"
     android:label="@string/app_name"
     android:supportsRtl="true"
-    android:theme="@style/AppTheme"
+    android:theme="@style/AppThemeDark"
     tools:ignore="GoogleAppIndexingWarning">
 
     <activity
@@ -57,27 +57,27 @@
     <activity
       android:name=".ui.graphics.LinesActivity"
       android:label="@string/graphics_bresenham"
-      android:theme="@style/AppThemePrint"/>
+      android:theme="@style/AppThemeLight"/>
     <activity
       android:name=".ui.graphics.HorizonActivity"
       android:label="@string/graphics_horizon"
-      android:theme="@style/AppThemePrint"/>
+      android:theme="@style/AppThemeLight"/>
     <activity
       android:name=".ui.graphics.TransformActivity"
       android:label="@string/graphics_transform"
-      android:theme="@style/AppThemePrint"/>
+      android:theme="@style/AppThemeLight"/>
     <activity
       android:name=".ui.graphics.TexturesActivity"
       android:label="@string/graphics_textures"
-      android:theme="@style/AppThemePrint"/>
+      android:theme="@style/AppThemeLight"/>
     <activity
       android:name=".ui.graphics.ShadingActivity"
       android:label="@string/graphics_shading"
-      android:theme="@style/AppThemePrint"/>
+      android:theme="@style/AppThemeLight"/>
     <activity
       android:name=".ui.graphics.FractalActivity"
       android:label="@string/graphics_fractals"
-      android:theme="@style/AppThemePrint"/>
+      android:theme="@style/AppThemeLight"/>
     <activity
       android:name=".ui.graphics.CurvesActivity"
       android:label="@string/geometry_functionalCurves"/>
@@ -88,39 +88,39 @@
     <activity
       android:name=".ui.mp.lab1.ActTask1"
       android:label="@string/mp_uiBasics"
-      android:theme="@style/AppThemePrint"/>
+      android:theme="@style/AppThemeLight"/>
     <activity
       android:name=".ui.mp.lab1.ActTask2"
       android:label="@string/mp_uiBasics"
-      android:theme="@style/AppThemePrint"/>
+      android:theme="@style/AppThemeLight"/>
     <activity
       android:name=".ui.mp.lab1.ActTask3"
       android:label="@string/mp_uiBasics"
-      android:theme="@style/AppThemePrint"/>
+      android:theme="@style/AppThemeLight"/>
     <activity
       android:name=".ui.mp.lab1.ActTask41"
       android:label="@string/mp_uiBasics"
-      android:theme="@style/AppThemePrint"/>
+      android:theme="@style/AppThemeLight"/>
     <activity
       android:name=".ui.mp.lab1.ActTask42"
       android:label="@string/mp_uiBasics"
-      android:theme="@style/AppThemePrint"/>
+      android:theme="@style/AppThemeLight"/>
     <activity
       android:name=".ui.mp.lab1.ActTask51"
       android:label="@string/mp_uiBasics"
-      android:theme="@style/AppThemePrint"/>
+      android:theme="@style/AppThemeLight"/>
     <activity
       android:name=".ui.mp.lab1.ActTask52"
       android:label="@string/mp_uiBasics"
-      android:theme="@style/AppThemePrint"/>
+      android:theme="@style/AppThemeLight"/>
     <activity
       android:name=".ui.mp.lab1.ActTask53"
       android:label="@string/mp_uiBasics"
-      android:theme="@style/AppThemePrint"/>
+      android:theme="@style/AppThemeLight"/>
     <activity
       android:name=".ui.mp.lab1.ActTask54"
       android:label="@string/mp_uiBasics"
-      android:theme="@style/AppThemePrint"/>
+      android:theme="@style/AppThemeLight"/>
 
     <activity
       android:name=".ui.mp.lab2.L2ActMain"
@@ -128,27 +128,27 @@
     <activity
       android:name=".ui.mp.lab2.ActTask11"
       android:label="@string/mp_ioBasics"
-      android:theme="@style/AppThemePrint"/>
+      android:theme="@style/AppThemeLight"/>
     <activity
       android:name=".ui.mp.lab2.ActTask12"
       android:label="@string/mp_ioBasics"
-      android:theme="@style/AppThemePrint"/>
+      android:theme="@style/AppThemeLight"/>
     <activity
       android:name=".ui.mp.lab2.ActTask2"
       android:label="@string/mp_ioBasics"
-      android:theme="@style/AppThemePrint"/>
+      android:theme="@style/AppThemeLight"/>
     <activity
       android:name=".ui.mp.lab2.ActTask31"
       android:label="@string/mp_ioBasics"
-      android:theme="@style/AppThemePrint"/>
+      android:theme="@style/AppThemeLight"/>
     <activity
       android:name=".ui.mp.lab2.ActTask32"
       android:label="@string/mp_ioBasics"
-      android:theme="@style/AppThemePrint"/>
+      android:theme="@style/AppThemeLight"/>
     <activity
       android:name=".ui.mp.lab2.ActTask33"
       android:label="@string/mp_ioBasics"
-      android:theme="@style/AppThemePrint"/>
+      android:theme="@style/AppThemeLight"/>
 
     <activity
       android:name=".ui.mp.lab3.L3ActMain"
@@ -156,23 +156,23 @@
     <activity
       android:name=".ui.mp.lab3.ActTask1"
       android:label="@string/mp_netBasics"
-      android:theme="@style/AppThemePrint"/>
+      android:theme="@style/AppThemeLight"/>
     <activity
       android:name=".ui.mp.lab3.ActTask2"
       android:label="@string/mp_netBasics"
-      android:theme="@style/AppThemePrint"/>
+      android:theme="@style/AppThemeLight"/>
     <activity
       android:name=".ui.mp.lab3.ActTask31"
       android:label="@string/mp_netBasics"
-      android:theme="@style/AppThemePrint"/>
+      android:theme="@style/AppThemeLight"/>
     <activity
       android:name=".ui.mp.lab3.ActTask32"
       android:label="@string/mp_netBasics"
-      android:theme="@style/AppThemePrint"/>
+      android:theme="@style/AppThemeLight"/>
     <activity
       android:name=".ui.mp.lab3.ActTask33"
       android:label="@string/mp_netBasics"
-      android:theme="@style/AppThemePrint"/>
+      android:theme="@style/AppThemeLight"/>
 
     <activity
       android:name=".ui.security.TransmitActivity"

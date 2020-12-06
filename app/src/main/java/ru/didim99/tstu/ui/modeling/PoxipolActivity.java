@@ -18,6 +18,7 @@ import ru.didim99.tstu.core.math.modeling.poxipol.PoxipolSystem;
 import ru.didim99.tstu.core.math.modeling.poxipol.PoxipolTask;
 import ru.didim99.tstu.core.math.modeling.poxipol.Result;
 import ru.didim99.tstu.ui.BaseActivity;
+import ru.didim99.tstu.ui.UIManager;
 import ru.didim99.tstu.ui.utils.SpinnerAdapter;
 import ru.didim99.tstu.utils.MyLog;
 
@@ -175,7 +176,8 @@ public class PoxipolActivity extends BaseActivity
     tvOut.setText(taskResult.getDescription());
 
     BaseSeries<PointRN> series = (BaseSeries<PointRN>) taskResult.getSeries();
-    series.setColor(getResources().getColor(R.color.graph0));
+    series.setColor(getResources().getColor(UIManager
+      .getInstance().resolveAttr(R.attr.clr_blue)));
     graphView.addSeries(series);
 
     graphView.getLegendRenderer().setVisible(true);

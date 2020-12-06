@@ -162,7 +162,7 @@
     android:layout_toRightOf="@id/hCenter"
     android:layout_toEndOf="@id/hCenter"
     android:text="@string/oop_srcMatrix"
-    android:textColor="@color/dirPicker_textActive"
+    android:textColor="?attr/colorActive"
     android:textSize="16sp" />
 
   <ScrollView
@@ -192,7 +192,7 @@
     android:layout_toRightOf="@id/hCenter"
     android:layout_toEndOf="@id/hCenter"
     android:text="@string/oop_outMatrix"
-    android:textColor="@color/dirPicker_textActive"
+    android:textColor="?attr/colorActive"
     android:textSize="16sp" />
 
   <TextView

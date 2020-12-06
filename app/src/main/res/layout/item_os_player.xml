@@ -27,7 +27,7 @@
       android:layout_width="24dp"
       android:layout_height="24dp"
       android:layout_margin="@dimen/dirPicker_itemTextPadding"
-      app:srcCompat="@color/colorAccent"
+      app:srcCompat="?attr/clr_blue"
       tools:ignore="ContentDescription"/>
 
     <TextView
@@ -48,7 +48,7 @@
       android:layout_weight="1"
       android:padding="@dimen/dirPicker_itemTextPadding"
       android:textSize="@dimen/dirPicker_itemTextSize"
-      android:textColor="@color/dirPicker_textActive"
+      android:textColor="?attr/colorActive"
       android:gravity="end"/>
   </LinearLayout>
 

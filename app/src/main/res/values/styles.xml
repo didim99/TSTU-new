@@ -1,30 +1,57 @@
 <resources>
 
-  <style name="AppTheme" parent="Theme.AppCompat">
-    <item name="colorPrimary">@color/colorPrimary</item>
-    <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-    <item name="colorAccent">@color/colorAccent</item>
-    <item name="android:textColorHighlight">@color/textSelectionBg</item>
+  <style name="AppThemeDark" parent="Theme.AppCompat">
+    <item name="colorPrimary">@color/mainBlue</item>
+    <item name="colorPrimaryDark">@color/darkBlue</item>
+    <item name="colorAccent">@color/lightBlue</item>
+    <item name="android:textColorHighlight">@color/lightBlueTransparent</item>
 
-    <item name="actionModeBackground">@color/colorPrimary</item>
-    <item name="android:actionModeCloseDrawable">@drawable/ic_cross_24dp</item>
+    <item name="actionModeBackground">@color/mainBlue</item>
+    <item name="android:actionModeCloseDrawable">@drawable/ic_cross_white_24dp</item>
 
+    <!-- Theme-dependent colors -->
     <item name="colorActive">@color/dirPicker_textActive</item>
+    <item name="colorTextNormal">@color/textNormalLight</item>
+    <item name="clr_valueBarBg">@color/lightBlueTransparent</item>
+    <item name="clr_valueBarFg">@color/lightBlue</item>
+    <item name="clr_blue">@color/lightBlue</item>
+    <item name="clr_green">@color/green_light</item>
+    <item name="clr_yellow">@color/yellow_light</item>
+    <item name="clr_orange">@color/orange_light</item>
+    <item name="clr_red">@color/red_light</item>
+    <item name="clr_blueTransparent">@color/lightBlueTransparent</item>
+    <item name="clr_yellowTransparent">@color/yellowTransparent_light</item>
+    <item name="clr_greenTransparent">@color/greenTransparent_light</item>
   </style>
 
-  <style name="AppThemePrint" parent="Theme.AppCompat.Light">
-    <item name="colorPrimary">@color/colorAccent</item>
-    <item name="colorPrimaryDark">@color/colorAccentDark</item>
-    <item name="colorAccent">@color/colorPrimaryDark</item>
-    <item name="android:textColorHighlight">@color/textSelectionBg</item>
+  <style name="AppThemeLight" parent="Theme.AppCompat.Light">
+    <item name="colorPrimary">@color/lightBlue</item>
+    <item name="colorPrimaryDark">@color/lightBlue2</item>
+    <item name="colorAccent">@color/darkBlue</item>
+    <item name="android:textColorHighlight">@color/darkBlueTransparent</item>
 
+    <item name="actionModeBackground">@color/lightBlue</item>
+    <item name="android:actionModeCloseDrawable">@drawable/ic_cross_black_24dp</item>
+
+    <!-- Theme-dependent colors -->
     <item name="colorActive">@color/dirPicker_textActiveLight</item>
+    <item name="colorTextNormal">@color/textNormalDark</item>
+    <item name="clr_valueBarBg">@color/darkBlueTransparent</item>
+    <item name="clr_valueBarFg">@color/darkBlue</item>
+    <item name="clr_blue">@color/darkBlue</item>
+    <item name="clr_green">@color/green_dark</item>
+    <item name="clr_yellow">@color/yellow_dark</item>
+    <item name="clr_orange">@color/orange_dark</item>
+    <item name="clr_red">@color/red_dark</item>
+    <item name="clr_blueTransparent">@color/darkBlueTransparent</item>
+    <item name="clr_yellowTransparent">@color/yellowTransparent_dark</item>
+    <item name="clr_greenTransparent">@color/greenTransparent_dark</item>
   </style>
 
   <style name="AppThemeDialog" parent="Theme.AppCompat.Dialog">
-    <item name="colorPrimary">@color/colorPrimary</item>
-    <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-    <item name="colorAccent">@color/colorAccent</item>
+    <item name="colorPrimary">@color/mainBlue</item>
+    <item name="colorPrimaryDark">@color/darkBlue</item>
+    <item name="colorAccent">@color/lightBlue</item>
   </style>
 
 </resources>

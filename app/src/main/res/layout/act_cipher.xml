@@ -29,7 +29,7 @@
     android:layout_marginBottom="@dimen/layoutPadding"
     android:text="@string/is_networkSettings"
     android:textSize="@dimen/textSize_large"
-    android:textColor="@color/dirPicker_textActive"
+    android:textColor="?attr/colorActive"
     android:gravity="center"/>
 
   <LinearLayout
@@ -63,7 +63,7 @@
         android:layout_weight="2"
         android:layout_marginLeft="5dp"
         android:layout_marginStart="5dp"
-        android:textColor="@color/dirPicker_textActive"
+        android:textColor="?attr/colorActive"
         android:textSize="@dimen/textSize_main"/>
 
       <ImageView
@@ -124,7 +124,7 @@
         android:layout_weight="3"
         android:layout_marginLeft="5dp"
         android:layout_marginStart="5dp"
-        android:textColor="@color/dirPicker_textActive"
+        android:textColor="?attr/colorActive"
         android:textSize="@dimen/textSize_main"/>
     </LinearLayout>
 
@@ -142,7 +142,7 @@
     android:layout_marginBottom="@dimen/layoutPadding"
     android:text="@string/is_cipherSettings"
     android:textSize="@dimen/textSize_large"
-    android:textColor="@color/dirPicker_textActive"
+    android:textColor="?attr/colorActive"
     android:gravity="center"/>
 
   <LinearLayout
@@ -173,7 +173,7 @@
       android:layout_weight="3"
       android:layout_marginLeft="5dp"
       android:layout_marginStart="5dp"
-      android:textColor="@color/dirPicker_textActive"
+      android:textColor="?attr/colorActive"
       android:textSize="@dimen/textSize_main"/>
   </LinearLayout>
 
@@ -208,7 +208,7 @@
     android:layout_marginBottom="@dimen/layoutPadding"
     android:text="@string/iTheory_sectionInMsg"
     android:textSize="@dimen/textSize_large"
-    android:textColor="@color/dirPicker_textActive"
+    android:textColor="?attr/colorActive"
     android:gravity="center"/>
 
   <ScrollView
@@ -252,7 +252,7 @@
     android:layout_marginBottom="@dimen/layoutPadding"
     android:text="@string/is_decryptedMessage"
     android:textSize="@dimen/textSize_large"
-    android:textColor="@color/dirPicker_textActive"
+    android:textColor="?attr/colorActive"
     android:gravity="center"/>
 
   <ScrollView

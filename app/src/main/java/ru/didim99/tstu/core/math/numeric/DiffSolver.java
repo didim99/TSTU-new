@@ -8,6 +8,7 @@ import java.util.Locale;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.math.common.PointD;
 import ru.didim99.tstu.core.math.common.PointRN;
+import ru.didim99.tstu.ui.UIManager;
 import ru.didim99.tstu.utils.MyLog;
 import ru.didim99.tstu.utils.Utils;
 
@@ -176,7 +177,8 @@ public class DiffSolver {
     String name = result.getConfig().isTConst() ? "delta(x)" : "y(x)";
     BaseSeries<PointRN> series = (BaseSeries<PointRN>)
       Utils.buildSeries(data, name);
-    series.setColor(ctx.getResources().getColor(R.color.colorAccent));
+    series.setColor(ctx.getResources().getColor(
+      UIManager.getInstance().resolveAttr(R.attr.clr_blue)));
     view.getLegendRenderer().setVisible(true);
     view.addSeries(series);
   }

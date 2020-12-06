@@ -17,6 +17,7 @@ import ru.didim99.tstu.core.graphics.FractalRenderer;
 import ru.didim99.tstu.core.graphics.ModelRenderer;
 import ru.didim99.tstu.core.graphics.model.Model;
 import ru.didim99.tstu.core.graphics.task.ModelSaver;
+import ru.didim99.tstu.ui.UIManager;
 import ru.didim99.tstu.ui.view.DrawerView;
 import ru.didim99.tstu.ui.view.RangeBar;
 import ru.didim99.tstu.utils.InputValidator;
@@ -166,8 +167,11 @@ public class FractalActivity extends AnimationActivity {
   private void setControlType(int type) {
     MyLog.d(LOG_TAG, "Switching to control type: " + type);
     boolean builder = type == ControlType.BUILD;
-    int colorActive = getResources().getColor(R.color.colorPrimaryDark);
-    int colorInactive = getResources().getColor(R.color.dirPicker_textActiveLight);
+    UIManager uiManager = UIManager.getInstance();
+    int colorActive = getResources().getColor(
+      uiManager.resolveAttr(R.attr.colorAccent));
+    int colorInactive = getResources().getColor(
+      uiManager.resolveAttr(R.attr.colorActive));
     buildLayout.setVisibility(builder ? View.VISIBLE : View.GONE);
     sceneLayout.setVisibility(builder ? View.GONE : View.VISIBLE);
     btnBuild.setTextColor(builder ? colorActive : colorInactive);

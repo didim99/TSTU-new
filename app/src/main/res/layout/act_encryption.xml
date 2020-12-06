@@ -30,7 +30,7 @@
     android:layout_marginBottom="@dimen/layoutPadding"
     android:text="@string/iTheory_sectionInMsg"
     android:textSize="@dimen/textSize_large"
-    android:textColor="@color/dirPicker_textActive"
+    android:textColor="?attr/colorActive"
     android:gravity="center"/>
 
   <RelativeLayout
@@ -100,7 +100,7 @@
     android:layout_marginBottom="@dimen/layoutPadding"
     android:text="@string/iTheory_sectionKeys"
     android:textSize="@dimen/textSize_large"
-    android:textColor="@color/dirPicker_textActive"
+    android:textColor="?attr/colorActive"
     android:gravity="center"/>
 
   <LinearLayout
@@ -258,7 +258,7 @@
     android:layout_marginBottom="@dimen/layoutPadding"
     android:text="@string/iTheory_sectionEncrypted"
     android:textSize="@dimen/textSize_large"
-    android:textColor="@color/dirPicker_textActive"
+    android:textColor="?attr/colorActive"
     android:gravity="center"/>
 
   <ScrollView
@@ -291,7 +291,7 @@
     android:layout_marginBottom="@dimen/layoutPadding"
     android:text="@string/iTheory_sectionDecrypted"
     android:textSize="@dimen/textSize_large"
-    android:textColor="@color/dirPicker_textActive"
+    android:textColor="?attr/colorActive"
     android:gravity="center"/>
 
   <ScrollView

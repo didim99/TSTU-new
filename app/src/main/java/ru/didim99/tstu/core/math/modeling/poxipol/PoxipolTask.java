@@ -46,8 +46,9 @@ public class PoxipolTask extends CallbackTask<PoxipolTask.Action, Result> {
         UniformSearchMethod optimizer = new UniformSearchMethod();
         optimizer.setBoundaries(system.getMinBound(), system.getMaxBound());
         PointD res = optimizer.find(system);
-        result.setDescription(String.format(Locale.US,
-          "Optimal area: %.3f m^2", res.getX()));
+        result.setDescription(
+          String.format(Locale.US, "Process time: %.3f s\n", res.getY())
+          + String.format(Locale.US, "Optimal area: %.3f m^2", res.getX()));
         FunctionTabulator tabulator = new FunctionTabulator(system);
         result.setSeries(Utils.buildSeries(tabulator.tabulate(
           PoxipolSystem.F_MIN, PoxipolSystem.F_MAX), SERIES_TAU));

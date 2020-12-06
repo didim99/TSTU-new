@@ -1,11 +1,13 @@
 package ru.didim99.tstu;
 
 import android.app.Application;
+import android.content.Context;
 import android.widget.Toast;
 import java.io.File;
 import java.util.Objects;
 import ru.didim99.tstu.core.CallbackTask;
 import ru.didim99.tstu.core.ResourceTask;
+import ru.didim99.tstu.ui.UIManager;
 import ru.didim99.tstu.ui.dirpicker.DirPickerActivity;
 import ru.didim99.tstu.utils.InputValidator;
 import ru.didim99.tstu.utils.MyLog;
@@ -22,7 +24,9 @@ public class TSTU extends Application {
   @Override
   public void onCreate() {
     super.onCreate();
-    InputValidator.getInstance().init(this);
+    Context appContext = getApplicationContext();
+    InputValidator.getInstance().init(appContext);
+    UIManager.getInstance().init(appContext);
 
     try {
       String cache = Objects.requireNonNull(

@@ -9,6 +9,7 @@ import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.math.common.Function;
 import ru.didim99.tstu.core.math.common.PointD;
 import ru.didim99.tstu.core.math.optimization.Result;
+import ru.didim99.tstu.ui.UIManager;
 import ru.didim99.tstu.utils.Utils;
 
 /**
@@ -103,20 +104,24 @@ public abstract class ExtremaFinderFunc {
   }
 
   public static void drawGraph(Context ctx, Result result, GraphView view) {
+    UIManager uiManager = UIManager.getInstance();
     if (result.getDelta() != null) {
       BaseSeries<PointD> delta = (BaseSeries<PointD>)
         Utils.buildSeries(result.getDelta(), "delta");
-      delta.setColor(ctx.getResources().getColor(R.color.graph2));
+      delta.setColor(ctx.getResources().getColor(
+        uiManager.resolveAttr(R.attr.clr_yellow)));
       view.addSeries(delta);
     } else {
       BaseSeries<PointD> reference = (BaseSeries<PointD>)
         Utils.buildSeries(result.getReference(), "ref");
-      reference.setColor(ctx.getResources().getColor(R.color.graph1));
+      reference.setColor(ctx.getResources().getColor(
+        uiManager.resolveAttr(R.attr.clr_green)));
       view.addSeries(reference);
 
       BaseSeries<PointD> solution = (BaseSeries<PointD>)
         Utils.buildSeries(result.getSolutionSeries(), "x(t)");
-      solution.setColor(ctx.getResources().getColor(R.color.colorAccent));
+      solution.setColor(ctx.getResources().getColor(
+        uiManager.resolveAttr(R.attr.clr_blue)));
       view.addSeries(solution);
     }
 

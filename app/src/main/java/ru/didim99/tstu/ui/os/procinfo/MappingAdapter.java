@@ -1,6 +1,7 @@
 package ru.didim99.tstu.ui.os.procinfo;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.os.procinfo.MappingInfo;
 import ru.didim99.tstu.core.os.procinfo.ProcessList;
+import ru.didim99.tstu.ui.UIManager;
 
 /**
  * Created by didim99 on 25.03.19.
@@ -23,9 +25,11 @@ public class MappingAdapter extends RecyclerView.Adapter<MappingAdapter.ViewHold
   private int colorNormal, colorGreen, colorYellow;
 
   MappingAdapter(Context context) {
-    colorNormal = context.getResources().getColor(R.color.os_normal);
-    colorGreen = context.getResources().getColor(R.color.os_green);
-    colorYellow = context.getResources().getColor(R.color.os_yellow);
+    Resources res = context.getResources();
+    UIManager uiManager = UIManager.getInstance();
+    colorNormal = res.getColor(uiManager.resolveAttr(R.attr.colorTextNormal));
+    colorGreen = res.getColor(uiManager.resolveAttr(R.attr.clr_green));
+    colorYellow = res.getColor(uiManager.resolveAttr(R.attr.clr_yellow));
     this.inflater = LayoutInflater.from(context);
   }
 

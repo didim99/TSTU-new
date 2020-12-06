@@ -46,7 +46,7 @@
       android:layout_toStartOf="@id/hCenter1"
       android:text="@string/os_scheduler_ready"
       android:textSize="@dimen/textSize_main"
-      android:textColor="@color/colorAccent"
+      android:textColor="?attr/colorAccent"
       android:gravity="center"/>
 
     <android.support.v7.widget.RecyclerView
@@ -70,7 +70,7 @@
       android:layout_toEndOf="@id/hCenter1"
       android:text="@string/os_scheduler_waiting"
       android:textSize="@dimen/textSize_main"
-      android:textColor="@color/colorAccent"
+      android:textColor="?attr/colorAccent"
       android:gravity="center"/>
 
     <android.support.v7.widget.RecyclerView
@@ -95,8 +95,8 @@
     android:layout_marginLeft="5dp"
     android:layout_marginStart="5dp"
     app:iconID="@drawable/ic_memory_ram_24dp"
-    app:colorForeground="@color/colorRAMFg"
-    app:colorBackground="@color/colorRAMBg"
+    app:colorForeground="?attr/clr_green"
+    app:colorBackground="?attr/clr_greenTransparent"
     app:units="@string/os_scheduler_RAMUnits"/>
 
   <ru.didim99.tstu.ui.view.ValueBar
@@ -110,8 +110,8 @@
     android:layout_marginLeft="5dp"
     android:layout_marginStart="5dp"
     app:iconID="@drawable/ic_storage_24dp"
-    app:colorForeground="@color/colorHDDFg"
-    app:colorBackground="@color/colorHDDBg"
+    app:colorForeground="?attr/clr_yellow"
+    app:colorBackground="?attr/clr_yellowTransparent"
     app:units="@string/os_scheduler_HDDUnits"/>
 
   <TextView
@@ -151,7 +151,7 @@
     android:layout_alignStart="@id/tvCPURegNames"
     android:text="@string/os_scheduler_cpuContext"
     android:textSize="@dimen/textSize_main"
-    android:textColor="@color/colorAccent"
+    android:textColor="?attr/colorAccent"
     android:gravity="center"/>
 
   <TextView
@@ -162,7 +162,7 @@
     android:layout_toLeftOf="@id/tvCPURegValues"
     android:layout_toStartOf="@id/tvCPURegValues"
     android:text="@string/os_scheduler_cpuRegNames"
-    android:textColor="@color/dirPicker_textActive"
+    android:textColor="?attr/colorActive"
     android:textSize="@dimen/textSize_main"
     android:typeface="monospace"
     android:gravity="end"/>
@@ -200,7 +200,7 @@
       android:layout_height="wrap_content"
       android:text="@string/os_scheduler_currentProcess"
       android:textSize="@dimen/textSize_main"
-      android:textColor="@color/colorAccent"
+      android:textColor="?attr/colorAccent"
       android:gravity="center"/>
 
     <TableRow>
@@ -208,7 +208,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/os_scheduler_processID"
-        android:textColor="@color/dirPicker_textActive"
+        android:textColor="?attr/colorActive"
         android:textSize="@dimen/textSize_main"
         android:gravity="end"/>
 
@@ -227,7 +227,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/os_scheduler_processName"
-        android:textColor="@color/dirPicker_textActive"
+        android:textColor="?attr/colorActive"
         android:textSize="@dimen/textSize_main"
         android:gravity="end"/>
 
@@ -245,7 +245,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/os_scheduler_processTime"
-        android:textColor="@color/dirPicker_textActive"
+        android:textColor="?attr/colorActive"
         android:textSize="@dimen/textSize_main"
         android:gravity="end"/>
 
@@ -264,7 +264,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/os_scheduler_processRAM"
-        android:textColor="@color/dirPicker_textActive"
+        android:textColor="?attr/colorActive"
         android:textSize="@dimen/textSize_main"
         android:gravity="end"/>
 
@@ -298,7 +298,7 @@
       android:layout_marginTop="@dimen/layoutPadding"
       android:text="@string/os_scheduler_IOController"
       android:textSize="@dimen/textSize_main"
-      android:textColor="@color/colorAccent"
+      android:textColor="?attr/colorAccent"
       android:gravity="center"/>
 
     <TableRow>
@@ -306,7 +306,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/os_scheduler_IOQueue"
-        android:textColor="@color/dirPicker_textActive"
+        android:textColor="?attr/colorActive"
         android:textSize="@dimen/textSize_main"
         android:gravity="end"/>
 
@@ -325,7 +325,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/os_scheduler_IOSector"
-        android:textColor="@color/dirPicker_textActive"
+        android:textColor="?attr/colorActive"
         android:textSize="@dimen/textSize_main"
         android:gravity="end"/>
 
@@ -344,7 +344,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/os_scheduler_IOBytes"
-        android:textColor="@color/dirPicker_textActive"
+        android:textColor="?attr/colorActive"
         android:textSize="@dimen/textSize_main"
         android:gravity="end"/>
 
@@ -384,7 +384,7 @@
     android:layout_alignEnd="@id/processDetails"
     android:text="@string/os_scheduler_syslog"
     android:textSize="@dimen/textSize_main"
-    android:textColor="@color/colorAccent"
+    android:textColor="?attr/colorAccent"
     android:gravity="center"/>
 
   <ScrollView
@@ -419,7 +419,7 @@
     android:layout_alignParentEnd="true"
     android:text="@string/os_scheduler_interrupts"
     android:textSize="@dimen/textSize_main"
-    android:textColor="@color/colorAccent"
+    android:textColor="?attr/colorAccent"
     android:gravity="center"/>
 
   <CheckBox
@@ -468,7 +468,7 @@
     android:layout_above="@id/clkControlWrapper"
     android:text="@string/os_scheduler_clock"
     android:textSize="@dimen/textSize_main"
-    android:textColor="@color/colorAccent"
+    android:textColor="?attr/colorAccent"
     android:gravity="center"/>
 
   <LinearLayout

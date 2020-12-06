@@ -98,7 +98,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:textSize="@dimen/textSize_main"
-      android:textColor="@color/dirPicker_textActive"
+      android:textColor="?attr/colorActive"
       android:gravity="center"/>
 
     <ProgressBar

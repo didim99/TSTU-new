@@ -8,6 +8,7 @@ import java.util.Locale;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.math.common.PointD;
 import ru.didim99.tstu.core.math.common.PointRN;
+import ru.didim99.tstu.ui.UIManager;
 import ru.didim99.tstu.utils.MyLog;
 
 /**
@@ -119,10 +120,11 @@ public class Integrator {
     ArrayList<PointRN> data = result.getGraphData();
     LineGraphSeries<PointRN> series = new LineGraphSeries<>(
       data.toArray(new PointRN[0]));
+    UIManager uiManager = UIManager.getInstance();
     series.setBackgroundColor(ctx.getResources()
-      .getColor(R.color.colorAccentBg));
+      .getColor(uiManager.resolveAttr(R.attr.clr_valueBarBg)));
     series.setColor(ctx.getResources()
-      .getColor(R.color.colorAccent));
+      .getColor(uiManager.resolveAttr(R.attr.clr_valueBarFg)));
     series.setDrawBackground(true);
     series.setTitle("f(x)");
     view.addSeries(series);

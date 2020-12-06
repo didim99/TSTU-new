@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.os.scheduler.Process;
+import ru.didim99.tstu.ui.UIManager;
 import ru.didim99.tstu.utils.Utils;
 
 /**
@@ -29,7 +30,8 @@ public class ProcessAdapter extends RecyclerView.Adapter<ProcessAdapter.ViewHold
   ProcessAdapter(Context context) {
     this.res = context.getResources();
     this.inflater = LayoutInflater.from(context);
-    setProcessColor(R.color.colorAccent);
+    setProcessColor(UIManager.getInstance()
+      .resolveAttr(R.attr.clr_blue));
   }
 
   @NonNull

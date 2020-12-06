@@ -1,6 +1,7 @@
 package ru.didim99.tstu.ui.os.procinfo;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.os.procinfo.ProcessInfo;
+import ru.didim99.tstu.ui.UIManager;
 import ru.didim99.tstu.utils.Utils;
 
 /**
@@ -30,10 +32,12 @@ public class ProcessAdapter extends RecyclerView.Adapter<ProcessAdapter.ViewHold
   private int colorNormal, colorGreen, colorYellow, colorRed;
 
   ProcessAdapter(Context context, OnItemClickListener listener, int mode) {
-    colorNormal = context.getResources().getColor(R.color.os_normal);
-    colorGreen = context.getResources().getColor(R.color.os_green);
-    colorYellow = context.getResources().getColor(R.color.os_yellow);
-    colorRed = context.getResources().getColor(R.color.os_red);
+    Resources res = context.getResources();
+    UIManager uiManager = UIManager.getInstance();
+    colorNormal = res.getColor(uiManager.resolveAttr(R.attr.colorTextNormal));
+    colorGreen = res.getColor(uiManager.resolveAttr(R.attr.clr_green));
+    colorYellow = res.getColor(uiManager.resolveAttr(R.attr.clr_yellow));
+    colorRed = res.getColor(uiManager.resolveAttr(R.attr.clr_red));
     this.inflater = LayoutInflater.from(context);
     this.listener = listener;
     this.mode = mode;

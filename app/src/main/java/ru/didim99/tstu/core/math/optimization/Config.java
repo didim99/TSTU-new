@@ -12,10 +12,11 @@ public class Config {
   }
 
   public static final class Method {
-    public static final int PAUL      = 0;
-    public static final int SIMPLEX   = 1;
-    public static final int FDESCENT  = 2;
-    public static final int GRADIENT  = 3;
+    public static final int UNIFORM   = 0;
+    public static final int PAUL      = 1;
+    public static final int SIMPLEX   = 2;
+    public static final int FDESCENT  = 3;
+    public static final int GRADIENT  = 4;
   }
 
   public static final class FunctionType {

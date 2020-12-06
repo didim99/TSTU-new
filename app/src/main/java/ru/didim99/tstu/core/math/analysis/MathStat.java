@@ -17,6 +17,7 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 import ru.didim99.tstu.R;
+import ru.didim99.tstu.ui.UIManager;
 import ru.didim99.tstu.utils.MyLog;
 
 /**
@@ -44,10 +45,13 @@ public class MathStat {
   // view-specific
   private static final float RADIUS = 10f;
   private static final double GRAPH_OFFSET = 0.1;
-  private static final int BG = R.color.graph0;
+  private static final int BG = UIManager.getInstance()
+    .resolveAttr(R.attr.clr_blue);
   private static final int[] COLORS = {
-    R.color.graph1, R.color.graph2,
-    R.color.graph3, R.color.graph4
+    UIManager.getInstance().resolveAttr(R.attr.clr_green),
+    UIManager.getInstance().resolveAttr(R.attr.clr_yellow),
+    UIManager.getInstance().resolveAttr(R.attr.clr_orange),
+    UIManager.getInstance().resolveAttr(R.attr.clr_red)
   };
 
   public static final class ErrorCode {
@@ -72,11 +76,11 @@ public class MathStat {
   private int errorCode;
   private int brokenGroup, brokenValue;
   // functions data
-  private FunctionTable laplas;
-  private FunctionTableR2 student;
-  private FunctionTableR2 chiSq;
+  private final FunctionTable laplas;
+  private final FunctionTableR2 student;
+  private final FunctionTableR2 chiSq;
   // input data
-  private Config config;
+  private final Config config;
   private ArrayList<Group> groups;
   private boolean useGroups, useIntervals;
   private int groupCount, n;
@@ -570,7 +574,7 @@ public class MathStat {
   }
 
   private static class Group {
-    private ArrayList<Value> xList;
+    private final ArrayList<Value> xList;
     private double xAvg, delta, sigma, vf;
     private int n;
 

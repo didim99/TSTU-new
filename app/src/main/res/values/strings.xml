@@ -663,6 +663,7 @@
     <item>Резенброка</item>
   </string-array>
   <string-array name="opt_methods">
+    <item>Равномерного поиска</item>
     <item>Пауэлла</item>
     <item>Симплекс-метод</item>
     <item>Наискорейшего спуска</item>

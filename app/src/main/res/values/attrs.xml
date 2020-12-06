@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <!-- Generic -->
-  <attr name="colorActive" format="color"/>
   <!-- Custom view styling -->
   <declare-styleable name="RangeBar">
     <attr name="title" format="string"/>
@@ -21,4 +19,17 @@
   <declare-styleable name="GameFieldView">
     <attr name="gridColor" format="color"/>
   </declare-styleable>
+  <!-- Theme-dependent colors -->
+  <attr name="colorActive" format="color"/>
+  <attr name="colorTextNormal" format="color"/>
+  <attr name="clr_valueBarBg" format="color"/>
+  <attr name="clr_valueBarFg" format="color"/>
+  <attr name="clr_blue" format="color"/>
+  <attr name="clr_green" format="color"/>
+  <attr name="clr_yellow" format="color"/>
+  <attr name="clr_orange" format="color"/>
+  <attr name="clr_red" format="color"/>
+  <attr name="clr_blueTransparent" format="color"/>
+  <attr name="clr_greenTransparent" format="color"/>
+  <attr name="clr_yellowTransparent" format="color"/>
 </resources>

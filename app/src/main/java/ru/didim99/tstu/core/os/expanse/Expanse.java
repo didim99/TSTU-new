@@ -27,7 +27,7 @@ public class Expanse implements Player.OnStepListener {
   private static final int DPC = 2;
   private static final int DFW = 15;
   private static final int DFH = 10;
-  private static int[] COLORS = {
+  private static final int[] COLORS = {
     R.color.player0, R.color.player1,
     R.color.player2, R.color.player3,
     R.color.player4, R.color.player5 };

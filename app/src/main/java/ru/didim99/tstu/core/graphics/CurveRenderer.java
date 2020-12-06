@@ -11,6 +11,7 @@ import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.graphics.curve.Curve;
 import ru.didim99.tstu.core.graphics.curve.Point;
 import ru.didim99.tstu.core.graphics.curve.builder.BaseBuilder;
+import ru.didim99.tstu.ui.UIManager;
 import ru.didim99.tstu.ui.view.DrawerView;
 import ru.didim99.tstu.utils.MyLog;
 
@@ -23,26 +24,32 @@ public class CurveRenderer extends AsyncRenderer implements Scene {
   private static final int DEFAULT_HEIGHT = 500;
   private static final long EVENT_WAIT = 1000;
   // Drawer settings
-  private static final PaintConfig PAINT_CURVE =
-    new PaintConfig(R.color.graph0, 5, Paint.Cap.ROUND);
   private static final PaintConfig PAINT_FRAME =
     new PaintConfig(R.color.curveFrame, 3, Paint.Cap.ROUND);
+  private static final PaintConfig PAINT_CURVE =
+    new PaintConfig(UIManager.getInstance().resolveAttr(
+      R.attr.clr_blue), 5, Paint.Cap.ROUND);
   private static final PaintConfig PAINT_ARM =
-    new PaintConfig(R.color.valueBarBg, 3, Paint.Cap.ROUND);
+    new PaintConfig(UIManager.getInstance().resolveAttr(
+      R.attr.clr_valueBarBg), 3, Paint.Cap.ROUND);
   private static final PaintConfig PAINT_POINT_DEFAULT =
-    new PaintConfig(R.color.graph2, 15, Paint.Cap.ROUND);
+    new PaintConfig(UIManager.getInstance().resolveAttr(
+      R.attr.clr_yellow), 15, Paint.Cap.ROUND);
   private static final PaintConfig PAINT_POINT_CONTROL =
-    new PaintConfig(R.color.graph1, 15, Paint.Cap.ROUND);
+    new PaintConfig(UIManager.getInstance().resolveAttr(
+      R.attr.clr_green), 15, Paint.Cap.ROUND);
   private static final PaintConfig PAINT_POINT_ACTIVE =
-    new PaintConfig(R.color.graph4, 50, Paint.Cap.ROUND);
+    new PaintConfig(UIManager.getInstance().resolveAttr(
+      R.attr.clr_red), 50, Paint.Cap.ROUND);
+
 
   private boolean configured;
   private BlockingQueue<TouchEvent> eventQueue;
   private StateChangeListener listener;
   // Drawing
-  private Paint paintInactive, paintActive;
-  private Paint paintCurve, paintFrame;
-  private Paint paintControl, paintArm;
+  private final Paint paintInactive, paintActive;
+  private final Paint paintCurve, paintFrame;
+  private final Paint paintControl, paintArm;
 
   public CurveRenderer(DrawerView target, Config config, Resources res) {
     super(target, Config.Type.SCENE, config,
@@ -207,9 +214,9 @@ public class CurveRenderer extends AsyncRenderer implements Scene {
   }
 
   private static class PaintConfig {
-    private int color;
-    private float width;
-    private Paint.Cap cap;
+    private final int color;
+    private final float width;
+    private final Paint.Cap cap;
 
     private PaintConfig(int color, float width, Paint.Cap cap) {
       this.color = color;

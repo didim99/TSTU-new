@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import java.util.Locale;
 import ru.didim99.tstu.R;
+import ru.didim99.tstu.ui.UIManager;
 
 /**
  * Custom ProgressBar class with percentage and value displaying.
@@ -40,12 +41,13 @@ public class ValueBar extends LinearLayout {
 
   public ValueBar(Context context, AttributeSet attrs, int defStyleAttr) {
     super(context, attrs, defStyleAttr);
+    UIManager uiManager = UIManager.getInstance();
     TypedArray array = context.obtainStyledAttributes(
       attrs, R.styleable.ValueBar, defStyleAttr, 0);
     colorBg = array.getColor(R.styleable.ValueBar_colorBackground,
-      getResources().getColor(R.color.valueBarBg));
+      getResources().getColor(uiManager.resolveAttr(R.attr.clr_valueBarBg)));
     colorFg = array.getColor(R.styleable.ValueBar_colorForeground,
-      getResources().getColor(R.color.valueBarFg));
+      getResources().getColor(uiManager.resolveAttr(R.attr.clr_valueBarFg)));
     units = array.getString(R.styleable.ValueBar_units);
     int iconID = array.getResourceId(R.styleable.ValueBar_iconID, 0);
     array.recycle();

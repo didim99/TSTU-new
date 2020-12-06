@@ -83,7 +83,7 @@ public class NoticeManager
     Context ctx = appContext.get();
 
     Notification n = new NotificationCompat.Builder(ctx)
-      .setColor(ctx.getResources().getColor(R.color.colorPrimaryDark))
+      .setColor(ctx.getResources().getColor(R.color.darkBlue))
       .setPriority(NotificationCompat.PRIORITY_HIGH)
       .setDefaults(Notification.DEFAULT_ALL)
       .setSmallIcon(R.drawable.ic_info_24dp)

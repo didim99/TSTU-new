@@ -5,7 +5,7 @@ package ru.didim99.tstu.core.math.modeling.poxipol;
  */
 
 public enum PoxipolPointMapper {
-  TAU, T, K1, K2, K3, K4, C1, C2, C3, C4, C5, C6;
+  TAU, T, K1, K2, K3, K4, C1, C2, C3, C4, C5, C6, TT;
 
   public static final PoxipolPointMapper[] values = PoxipolPointMapper.values();
 

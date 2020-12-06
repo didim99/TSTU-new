@@ -17,6 +17,7 @@ import ru.didim99.tstu.R;
 import ru.didim99.tstu.core.os.expanse.Expanse;
 import ru.didim99.tstu.core.os.expanse.GameField;
 import ru.didim99.tstu.ui.BaseActivity;
+import ru.didim99.tstu.ui.UIManager;
 import ru.didim99.tstu.ui.view.RangeBar;
 import ru.didim99.tstu.utils.InputValidator;
 import ru.didim99.tstu.utils.MyLog;
@@ -74,10 +75,11 @@ public class ExpanseActivity extends BaseActivity
     btnStart.setOnClickListener(v -> onStartClicked());
     new ValueWatcher(etW, this::onFieldSizeChanged);
     new ValueWatcher(etH, this::onFieldSizeChanged);
+    UIManager uiManager = UIManager.getInstance();
     Resources res = getResources();
-    colorNormal = res.getColor(R.color.colorAccent);
-    colorGreen = res.getColor(R.color.os_green);
-    colorRed = res.getColor(R.color.os_red);
+    colorNormal = res.getColor(uiManager.resolveAttr(R.attr.clr_blue));
+    colorGreen = res.getColor(uiManager.resolveAttr(R.attr.clr_green));
+    colorRed = res.getColor(uiManager.resolveAttr(R.attr.clr_red));
     MyLog.d(LOG_TAG, "View components init completed");
 
     adapter = new PlayerAdapter(this);

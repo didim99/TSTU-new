@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
 import ru.didim99.tstu.R;
+import ru.didim99.tstu.ui.UIManager;
 import ru.didim99.tstu.utils.MyLog;
 import ru.didim99.tstu.utils.Utils;
 
@@ -22,8 +23,8 @@ public class Interpolator {
   private static final double GRAPH_OFFSET = 2.0;
   private static final int GRAPH_STEPS = 500;
 
-  private Config config;
-  private Result result;
+  private final Config config;
+  private final Result result;
   private double[] xSrc, ySrc, xRes, yRes;
   private Matrix delta;
   private int dSize;
@@ -176,23 +177,27 @@ public class Interpolator {
   }
 
   public static void drawGraph(Context ctx, Result result, GraphView view) {
+    UIManager uiManager = UIManager.getInstance();
     ArrayList<ArrayList<DataPoint>> graphs = result.getGraphDataSeries();
     LineGraphSeries<DataPoint> linSeries = new LineGraphSeries<>();
     linSeries.resetData(graphs.get(2).toArray(new DataPoint[0]));
-    linSeries.setColor(ctx.getResources().getColor(R.color.colorAccent));
+    linSeries.setColor(ctx.getResources().getColor(
+      uiManager.resolveAttr(R.attr.clr_blue)));
     linSeries.setTitle("f(x)");
     view.addSeries(linSeries);
 
     PointsGraphSeries<DataPoint> series = new PointsGraphSeries<>();
     series.resetData(graphs.get(0).toArray(new DataPoint[0]));
-    series.setColor(ctx.getResources().getColor(R.color.graph1));
+    series.setColor(ctx.getResources().getColor(
+      uiManager.resolveAttr(R.attr.clr_green)));
     series.setSize(10f);
     series.setTitle("f(x_i)");
     view.addSeries(series);
 
     series = new PointsGraphSeries<>();
     series.resetData(graphs.get(1).toArray(new DataPoint[0]));
-    series.setColor(ctx.getResources().getColor(R.color.graph2));
+    series.setColor(ctx.getResources().getColor(
+      uiManager.resolveAttr(R.attr.clr_yellow)));
     series.setSize(10f);
     series.setTitle("P(x_j)");
     view.addSeries(series);
