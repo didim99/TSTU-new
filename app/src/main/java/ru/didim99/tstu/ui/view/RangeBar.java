@@ -2,6 +2,7 @@ package ru.didim99.tstu.ui.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +25,7 @@ public class RangeBar extends LinearLayout
   private final TextView tvTitle;
   private OnValueChangedListener listener;
   private OnScaledValueChangedListener sListener;
-  private boolean isScaled;
+  private final boolean isScaled;
   private double factor = 1.0;
   private int minValue, maxValue;
   private String title;
@@ -65,6 +66,11 @@ public class RangeBar extends LinearLayout
 
   public double getValue() {
     return (minValue + seekBar.getProgress()) * factor;
+  }
+
+  public void setTitle(@NonNull String title) {
+    this.title = title;
+    setValue(getValue());
   }
 
   public void setMinimum(int min) {

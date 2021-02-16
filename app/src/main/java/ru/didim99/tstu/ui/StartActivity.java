@@ -19,6 +19,7 @@ import ru.didim99.tstu.ui.itheory.AlphabetActivity;
 import ru.didim99.tstu.ui.itheory.CompressionActivity;
 import ru.didim99.tstu.ui.itheory.CryptoActivity;
 import ru.didim99.tstu.ui.itheory.RLEActivity;
+import ru.didim99.tstu.ui.knowledge.NeuralNetActivity;
 import ru.didim99.tstu.ui.modeling.ModelingActivity;
 import ru.didim99.tstu.ui.security.TransmitActivity;
 import ru.didim99.tstu.ui.math.CAActivity;
@@ -59,6 +60,8 @@ public class StartActivity extends AppCompatActivity {
       CompressionActivity.class, CryptoActivity.class };
   private static final Class<?>[] IS_TARGET =
     { TransmitActivity.class, CipherActivity.class };
+  private static final Class<?>[] KNOWLEDGE_TARGET =
+    { NeuralNetActivity.class };
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +91,8 @@ public class StartActivity extends AppCompatActivity {
       R.string.sectionITheory, R.array.iTheory_taskTypes, ITHEORY_TARGET));
     findViewById(R.id.startIS).setOnClickListener(v -> activityTypeDialog(
       R.string.startIS, R.array.is_taskTypes, IS_TARGET));
+    findViewById(R.id.startKnowledge).setOnClickListener(v -> activityTypeDialog(
+      R.string.startKnowledge, R.array.knowledge_taskTypes, KNOWLEDGE_TARGET));
 
     MyLog.d(LOG_TAG, "StartActivity created");
   }

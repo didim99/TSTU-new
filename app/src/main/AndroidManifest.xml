@@ -231,6 +231,10 @@
       android:windowSoftInputMode="adjustNothing|stateAlwaysHidden"/>
 
     <activity
+      android:name=".ui.knowledge.NeuralNetActivity"
+      android:label="@string/knowledge_neuralNet"/>
+
+    <activity
       android:name=".ui.dirpicker.DirPickerActivity"
       android:label="@string/actLabel_dirPicker"
       android:launchMode="singleTop"

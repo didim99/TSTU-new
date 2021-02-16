@@ -96,9 +96,15 @@
         android:id="@+id/startIS"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_span="2"
         android:padding="@dimen/actStart_btnPadding"
         android:text="@string/startIS"/>
+
+      <Button
+        android:id="@+id/startKnowledge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/actStart_btnPadding"
+        android:text="@string/startKnowledge"/>
     </TableRow>
   </TableLayout>
 

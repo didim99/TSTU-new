@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:orientation="horizontal"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:padding="@dimen/layoutPadding"
+  android:baselineAligned="false">
+
+  <LinearLayout
+    android:orientation="vertical"
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="3">
+
+    <Button
+      android:id="@+id/btnLoad"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/buttonLoad"/>
+
+    <ImageView
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/dirPicker_divHeight"
+      android:layout_marginLeft="@dimen/dirPicker_divHMargin"
+      android:layout_marginRight="@dimen/dirPicker_divHMargin"
+      android:layout_marginTop="@dimen/layoutPadding"
+      android:layout_marginBottom="@dimen/layoutPadding"
+      app:srcCompat="@color/dirPicker_divider"
+      tools:ignore="ContentDescription"/>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal">
+
+      <Button
+        android:id="@+id/btnLearnMode"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/knowledge_learnMode"
+        style="?android:attr/buttonBarButtonStyle"/>
+
+      <Button
+        android:id="@+id/btnPredictMode"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/knowledge_predictMode"
+        style="?android:attr/buttonBarButtonStyle"/>
+    </LinearLayout>
+
+    <ImageView
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/dirPicker_divHeight"
+      android:layout_marginLeft="@dimen/dirPicker_divHMargin"
+      android:layout_marginRight="@dimen/dirPicker_divHMargin"
+      android:layout_marginTop="@dimen/layoutPadding"
+      android:layout_marginBottom="@dimen/layoutPadding"
+      app:srcCompat="@color/dirPicker_divider"
+      tools:ignore="ContentDescription"/>
+
+    <LinearLayout
+      android:id="@+id/learnLayout"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical">
+
+
+    </LinearLayout>
+
+    <LinearLayout
+      android:id="@+id/predictLayout"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="vertical"
+      android:visibility="visible">
+
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/knowledge_inputValues"
+        android:textSize="@dimen/textSize_main"
+        android:gravity="center"/>
+
+      <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvInputState"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="@dimen/layoutPadding"/>
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/layoutPadding"
+        android:orientation="horizontal">
+
+        <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="2"
+          android:layout_marginRight="10dp"
+          android:layout_marginEnd="10dp"
+          android:text="@string/knowledge_outputValues"
+          android:textSize="@dimen/textSize_main"
+          android:gravity="end"/>
+
+        <TextView
+          android:id="@+id/tvOutValues"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:textSize="@dimen/textSize_main"
+          android:textColor="?attr/colorActive"
+          android:gravity="start"/>
+      </LinearLayout>
+    </LinearLayout>
+  </LinearLayout>
+
+  <ru.didim99.tstu.ui.view.NumberedTextView
+    android:id="@+id/netView"
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="7"
+    android:layout_marginLeft="5dp"
+    android:layout_marginStart="5dp" />
+</LinearLayout>

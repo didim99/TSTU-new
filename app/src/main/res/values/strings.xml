@@ -9,7 +9,7 @@
   <string name="startRV2">Двумерные случайные величины</string>
   <string name="startCA">Корреляционный анализ</string>
   <string name="startGraphics">Графика</string>
-  <string name="copyright">Created by didim99, 2018 &#8211; 2020</string>
+  <string name="copyright">Created by didim99, 2018 &#8211; 2021</string>
   <!-- Custom views -->
   <string name="valueBar_ratio" translatable="false">%.2f</string>
   <string name="valueBar_percentage" translatable="false">%d%%</string>
@@ -854,6 +854,17 @@
   <string name="iTheory_keyN">N:</string>
   <string name="iTheory_keyE">E:</string>
   <string name="iTheory_keyD">D:</string>
+  <!-- Knowledge base -->
+  <string name="startKnowledge">Базы знаний</string>
+  <string name="knowledge_neuralNet">Неиронные сети</string>
+  <string-array name="knowledge_taskTypes">
+    <item>@string/knowledge_neuralNet</item>
+  </string-array>
+  <string name="knowledge_learnMode">Обучение</string>
+  <string name="knowledge_predictMode">Прогноз</string>
+  <string name="knowledge_inputValues">Значения входов</string>
+  <string name="knowledge_outputValues">Значения выходов</string>
+  <string name="knowledge_inputValueTpl">Значения входа %s: %%.1f</string>
   <!-- Содержимое текстовых полей и подписей кнопок (Layout: act_dir_picker) -->
   <string name="actLabel_filePicker">Выбор файла</string>
   <string name="actLabel_dirPicker">Выбор каталога</string>
