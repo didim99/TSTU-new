@@ -23,10 +23,9 @@
     android:orientation="horizontal">
 
     <ru.didim99.tstu.ui.view.RangeBar
-      android:id="@+id/rvInputValue"
+      android:id="@+id/rbInputValue"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      app:title="@string/knowledge_inputValueTpl"
       app:scaled="true"/>
   </LinearLayout>
 

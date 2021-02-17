@@ -864,7 +864,10 @@
   <string name="knowledge_predictMode">Прогноз</string>
   <string name="knowledge_inputValues">Значения входов</string>
   <string name="knowledge_outputValues">Значения выходов</string>
+  <string name="knowledge_inputNameTpl">X%d</string>
   <string name="knowledge_inputValueTpl">Значения входа %s: %%.1f</string>
+  <string name="knowledge_learnSpeed">Скорость обучения: %.1f</string>
+  <string name="knowledge_learn">Обучить</string>
   <!-- Содержимое текстовых полей и подписей кнопок (Layout: act_dir_picker) -->
   <string name="actLabel_filePicker">Выбор файла</string>
   <string name="actLabel_dirPicker">Выбор каталога</string>

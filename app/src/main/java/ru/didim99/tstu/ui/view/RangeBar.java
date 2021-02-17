@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import java.util.Locale;
 import ru.didim99.tstu.R;
 
 /**
@@ -20,6 +21,8 @@ public class RangeBar extends LinearLayout
   private static final int DEFAULT_MAX = 100;
   private static final int DEFAULT_VALUE = 0;
   private static final double DEFAULT_SCALED = 0.0;
+  private static final String FMT_INT = "%d";
+  private static final String FMT_FP = "%.3f";
 
   private final SeekBar seekBar;
   private final TextView tvTitle;
@@ -70,7 +73,7 @@ public class RangeBar extends LinearLayout
 
   public void setTitle(@NonNull String title) {
     this.title = title;
-    setValue(getValue());
+    setValue(isScaled ? getValue() : (int) getValue());
   }
 
   public void setMinimum(int min) {
@@ -91,12 +94,16 @@ public class RangeBar extends LinearLayout
 
   public void setValue(int value) {
     seekBar.setProgress(value - minValue);
-    tvTitle.setText(String.format(title, value));
+    if (title != null)
+      tvTitle.setText(String.format(title, value));
+    else tvTitle.setText(String.format(Locale.US, FMT_INT, value));
   }
 
   public void setValue(double value) {
     seekBar.setProgress((int) (value / factor - minValue));
-    tvTitle.setText(String.format(title, value));
+    if (title != null)
+      tvTitle.setText(String.format(title, value));
+    else tvTitle.setText(String.format(Locale.US, FMT_FP, value));
   }
 
   public void setFactor(double factor) {
