@@ -2,6 +2,7 @@ package ru.didim99.tstu.core.math.numeric;
 
 import java.util.Locale;
 import java.util.Random;
+import ru.didim99.tstu.utils.Utils;
 
 /**
  * Created by didim99 on 08.10.18.
@@ -9,7 +10,7 @@ import java.util.Random;
 public class Matrix {
   private static final double EPSILON = 10E-5;
 
-  private double[][] data;
+  private final double[][] data;
   private String name;
 
   public Matrix(String name, int rows, int columns) {
@@ -33,7 +34,7 @@ public class Matrix {
     }
   }
 
-  protected double get(int row, int column) {
+  public double get(int row, int column) {
     return data[row][column];
   }
 
@@ -256,6 +257,16 @@ public class Matrix {
     return sb.toString();
   }
 
+  public void randomize(Random random) {
+    if (random == null) random = new Random();
+
+    for (int i = 0; i < getRowCount(); i++) {
+      for (int j = 0; j < getColumnCount(); j++) {
+        set(i, j, random.nextDouble());
+      }
+    }
+  }
+
   public static Matrix createRandom(String name, int rows, int columns,
                                     int minValue, int maxValue) {
     Matrix matrix = new Matrix(name, rows, columns);
@@ -263,14 +274,10 @@ public class Matrix {
 
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < columns; j++) {
-        matrix.set(i, j, randInRange(random, minValue, maxValue));
+        matrix.set(i, j, Utils.randInRange(random, minValue, maxValue));
       }
     }
 
     return matrix;
-  }
-
-  private static int randInRange(Random random, int minValue, int maxValue) {
-    return maxValue - random.nextInt(maxValue - minValue + 1);
   }
 }

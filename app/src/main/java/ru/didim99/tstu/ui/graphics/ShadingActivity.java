@@ -114,10 +114,10 @@ public class ShadingActivity extends AnimationActivity {
           if (path != null && path.endsWith(Model.FILE_MASK)) {
             MyLog.d(LOG_TAG, "Loading model: " + path);
             ModelLoader loader = new ModelLoader(this);
-            loader.registerEventListener(this::onModelLoadEevent);
+            loader.registerEventListener(this::onModelLoadEvent);
             loader.execute(path);
           } else {
-            Toast.makeText(this, R.string.errGraphics_incorrectType,
+            Toast.makeText(this, R.string.errGeneric_incorrectType,
               Toast.LENGTH_LONG).show();
           }
         }
@@ -128,11 +128,10 @@ public class ShadingActivity extends AnimationActivity {
     }
   }
 
-  private void onModelLoadEevent(CallbackTask.Event event, Model model) {
+  private void onModelLoadEvent(CallbackTask.Event event, Model model) {
     ((ModelRenderer) renderer).onModelLoaded(model);
     boolean lock = event == CallbackTask.Event.START;
-    btnLoad.setText(lock ? R.string.graphics_loading
-      : R.string.graphics_loadModel);
+    btnLoad.setText(lock ? R.string.loading : R.string.graphics_loadModel);
     cbVNormals.setEnabled(!lock);
     cbUseLamp.setEnabled(!lock);
     btnLoad.setEnabled(!lock);

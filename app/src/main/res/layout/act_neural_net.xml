@@ -69,6 +69,12 @@
       android:layout_height="wrap_content"
       android:orientation="vertical">
 
+      <Button
+        android:id="@+id/btnInit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/buttonInit"/>
+
       <ru.didim99.tstu.ui.view.RangeBar
         android:id="@+id/rbLearnSpeed"
         android:layout_width="match_parent"
@@ -81,6 +87,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/knowledge_learn"/>
+
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        android:text="@string/knowledge_LearningBase"
+        android:textSize="@dimen/textSize_main"
+        android:textColor="?attr/colorActive"
+        android:gravity="center"/>
+
+      <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <TextView
+          android:id="@+id/tvLearningBase"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:textSize="@dimen/textSize_main"
+          android:typeface="monospace"/>
+      </ScrollView>
     </LinearLayout>
 
     <LinearLayout
@@ -132,11 +161,37 @@
     </LinearLayout>
   </LinearLayout>
 
-  <ru.didim99.tstu.ui.view.NumberedTextView
-    android:id="@+id/netView"
+  <LinearLayout
     android:layout_width="0dp"
     android:layout_height="match_parent"
     android:layout_weight="7"
     android:layout_marginLeft="5dp"
-    android:layout_marginStart="5dp" />
+    android:layout_marginStart="5dp">
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="vertical">
+
+      <ru.didim99.tstu.ui.knowledge.NetView
+        android:id="@+id/netView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="7"
+        app:textColor="?attr/colorActive"
+        app:defaultGridColor="?attr/colorBgActive"
+        app:dotColor="?attr/clr_blue"
+        app:inputColor="?attr/clr_yellow"
+        app:outputColor="?attr/clr_green"
+        app:biasColor="?attr/clr_red"/>
+
+      <com.jjoe64.graphview.GraphView
+        android:id="@+id/graphView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:visibility="gone"/>
+    </LinearLayout>
+
+  </LinearLayout>
 </LinearLayout>

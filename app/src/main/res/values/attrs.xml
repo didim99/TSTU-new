@@ -19,8 +19,18 @@
   <declare-styleable name="GameFieldView">
     <attr name="gridColor" format="color"/>
   </declare-styleable>
+  <declare-styleable name="NetView">
+    <attr name="defaultGridColor" format="color"/>
+    <attr name="activeGridColor" format="color"/>
+    <attr name="dotColor" format="color"/>
+    <attr name="inputColor" format="color"/>
+    <attr name="outputColor" format="color"/>
+    <attr name="biasColor" format="color"/>
+    <attr name="textColor" format="color"/>
+  </declare-styleable>
   <!-- Theme-dependent colors -->
   <attr name="colorActive" format="color"/>
+  <attr name="colorBgActive" format="color"/>
   <attr name="colorTextNormal" format="color"/>
   <attr name="clr_valueBarBg" format="color"/>
   <attr name="clr_valueBarFg" format="color"/>

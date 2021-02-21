@@ -85,7 +85,7 @@
       android:id="@+id/btnInit"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:text="@string/os_expanse_init"/>
+      android:text="@string/buttonInit"/>
 
     <Button
       android:id="@+id/btnStart"

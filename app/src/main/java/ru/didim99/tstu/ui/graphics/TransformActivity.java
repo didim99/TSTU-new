@@ -254,7 +254,7 @@ public class TransformActivity extends AnimationActivity {
               ((ModelRenderer) renderer).onModelLoaded(model));
             loader.execute(path);
           } else {
-            Toast.makeText(this, R.string.errGraphics_incorrectType,
+            Toast.makeText(this, R.string.errGeneric_incorrectType,
               Toast.LENGTH_LONG).show();
           }
         }

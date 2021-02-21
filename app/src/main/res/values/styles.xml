@@ -11,6 +11,7 @@
 
     <!-- Theme-dependent colors -->
     <item name="colorActive">@color/dirPicker_textActive</item>
+    <item name="colorBgActive">@color/dirPicker_textActiveLight</item>
     <item name="colorTextNormal">@color/textNormalLight</item>
     <item name="clr_valueBarBg">@color/lightBlueTransparent</item>
     <item name="clr_valueBarFg">@color/lightBlue</item>
@@ -35,6 +36,7 @@
 
     <!-- Theme-dependent colors -->
     <item name="colorActive">@color/dirPicker_textActiveLight</item>
+    <item name="colorBgActive">@color/dirPicker_textActive</item>
     <item name="colorTextNormal">@color/textNormalDark</item>
     <item name="clr_valueBarBg">@color/darkBlueTransparent</item>
     <item name="clr_valueBarFg">@color/darkBlue</item>

@@ -20,6 +20,7 @@
   <!-- Generic -->
   <string name="help">Справка</string>
   <string name="config">Настройки</string>
+  <string name="loading">Загрузка…</string>
   <string name="switchType">Сменить тип задачи</string>
   <string name="dialogButtonOk">OK</string>
   <string name="dialogButtonSave">Сохранить</string>
@@ -38,6 +39,7 @@
   <string name="buttonGenerate">Сгенерировать</string>
   <string name="buttonSet">Установить</string>
   <string name="buttonClear">Очистить</string>
+  <string name="buttonInit">Инициализировать</string>
   <string name="fieldSizeW">Ширина</string>
   <string name="fieldSizeH">Высота</string>
   <string name="fieldSizeCross">x</string>
@@ -106,6 +108,7 @@
   <string name="errGeneric_cantRead">Не удалось прочитать файл:\n%s</string>
   <string name="errGeneric_cantWrite">Не удалось записать файл:\n%s</string>
   <string name="errGeneric_unsupportedScheme">Не удалось загрузить файл.\nПопробуйте использовать другой файловый менеджер</string>
+  <string name="errGeneric_incorrectType">Некорректный формат файла</string>
   <string name="errGeneric_inputFormat">Исходный файл имеет неверный формат</string>
   <string name="errGeneric_inputFileNotReadable">Невозможно прочитать исходный файл</string>
   <string name="errGeneric_cacheUnavailable">Каталог для внешнего кэша недоступен</string>
@@ -163,7 +166,6 @@
   <string name="errJournal_incorrectId">Некорректно указан ID журнала</string>
   <string name="errNotice_emptyHeader">Не указан заголовок уведомления</string>
   <string name="errNotice_emptyText">Не указан текст уведомления</string>
-  <string name="errGraphics_incorrectType">Некорректный формат файла</string>
   <string name="errGraphics_unableLoadInternal">Невозможно Загрузить ресурс: %s</string>
   <string name="errGraphics_invalidFormat">Некорректный формат данных</string>
   <string name="errGraphics_ioError">Ошибка ввода-вывода</string>
@@ -311,7 +313,6 @@
   </string-array>
   <string name="graphics_modelSaved">Модель успешно сохранена в: %s</string>
   <string name="graphics_modelName">Название модели</string>
-  <string name="graphics_loading">Загрузка…</string>
   <string name="graphics_loadModel">Загрузить модель</string>
   <string name="graphics_loadTexture">Загрузить текстуру</string>
   <string name="graphics_animate">Анимировать</string>
@@ -578,7 +579,6 @@
   <string name="os_expanse_initial">Не инициализирован</string>
   <string name="os_expanse_ready">Готов</string>
   <string name="os_expanse_starting">Запуск…</string>
-  <string name="os_expanse_init">Инициализировать</string>
   <string name="os_expanse_start">Начать</string>
   <string name="os_expanse_stop">Остановить</string>
   <string name="os_expanse_playersInfo">Игроки</string>
@@ -862,10 +862,11 @@
   </string-array>
   <string name="knowledge_learnMode">Обучение</string>
   <string name="knowledge_predictMode">Прогноз</string>
+  <string name="knowledge_LearningBase">Обучающие примеры</string>
   <string name="knowledge_inputValues">Значения входов</string>
   <string name="knowledge_outputValues">Значения выходов</string>
   <string name="knowledge_inputNameTpl">X%d</string>
-  <string name="knowledge_inputValueTpl">Значения входа %s: %%.1f</string>
+  <string name="knowledge_inputValueTpl">Значения входа %s: %%.2f</string>
   <string name="knowledge_learnSpeed">Скорость обучения: %.1f</string>
   <string name="knowledge_learn">Обучить</string>
   <!-- Содержимое текстовых полей и подписей кнопок (Layout: act_dir_picker) -->

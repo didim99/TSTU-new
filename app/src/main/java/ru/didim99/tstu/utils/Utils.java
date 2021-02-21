@@ -107,7 +107,7 @@ public class Utils {
   }
 
   public static int randInRange(Random random, int min, int max) {
-    return min + random.nextInt(max - min);
+    return min + random.nextInt(max - min + 1);
   }
 
   public static double randInRangeD(Random random, double min, double max) {
@@ -177,6 +177,16 @@ public class Utils {
     String[] result = new String[args.length];
     for (int i = 0; i < args.length; i++)
       result[i] = String.valueOf(args[i]);
+    return result;
+  }
+
+  public static String[] doubleArrayToStringArray(double[] args, int precision) {
+    if (args == null || args.length == 0)
+      return null;
+    String format = String.format(Locale.US, "%%.%df", precision);
+    String[] result = new String[args.length];
+    for (int i = 0; i < args.length; i++)
+      result[i] = String.format(Locale.US, format, args[i]);
     return result;
   }
 
