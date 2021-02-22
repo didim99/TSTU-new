@@ -79,7 +79,7 @@ class IsolinePlotter {
     for (int xi = 0; xi < width; xi++) {
       for (int yi = 0; yi < height; yi++) {
         double factor = Utils.norm(buffer[xi][yi], fMin, fMax);
-        int color = Utils.lerp(CLR_MIN, CLR_MAX, 1 - factor);
+        int color = Utils.lerp(CLR_MAX, CLR_MIN, factor);
         bmpBase.setPixel(xi, height - (yi + 1), color);
       }
     }

@@ -176,7 +176,7 @@ public class SimplexMethod extends ExtremaFinderRN {
   }
 
   private PointD flip(PointD p, PointD base, double factor) {
-    PointD r = p.add(base.sub(p).mult(1.0 + factor));
+    PointD r = p.add(base.sub(p).mul(1.0 + factor));
     calcF(fun, r);
     return r;
   }

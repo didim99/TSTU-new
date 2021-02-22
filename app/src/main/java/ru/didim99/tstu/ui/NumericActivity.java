@@ -22,7 +22,7 @@ import ru.didim99.tstu.core.math.numeric.DiffSolver;
 import ru.didim99.tstu.core.math.numeric.Integrator;
 import ru.didim99.tstu.core.math.numeric.Interpolator;
 import ru.didim99.tstu.core.math.numeric.LinearSystemSolver;
-import ru.didim99.tstu.core.math.numeric.Matrix;
+import ru.didim99.tstu.core.math.common.Matrix;
 import ru.didim99.tstu.core.math.numeric.Result;
 import ru.didim99.tstu.core.math.numeric.NumericTask;
 import ru.didim99.tstu.core.math.numeric.TranscendentSolver;

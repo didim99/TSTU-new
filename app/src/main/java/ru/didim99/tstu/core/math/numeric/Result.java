@@ -2,6 +2,7 @@ package ru.didim99.tstu.core.math.numeric;
 
 import com.jjoe64.graphview.series.DataPoint;
 import java.util.ArrayList;
+import ru.didim99.tstu.core.math.common.Matrix;
 import ru.didim99.tstu.core.math.common.PointRN;
 
 /**

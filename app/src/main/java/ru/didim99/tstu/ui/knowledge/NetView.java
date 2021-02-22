@@ -32,7 +32,8 @@ public class NetView extends View {
   private final Paint gridPaint;
   private final Paint dotPaint;
   private final int gridColor;
-  private final int gridActiveColor;
+  private final int gridPosColor;
+  private final int gridNegColor;
   private final int dotColor;
   private final int inputColor;
   private final int outputColor;
@@ -54,8 +55,9 @@ public class NetView extends View {
     super(context, attrs, defStyleAttr);
     TypedArray array = context.obtainStyledAttributes(
       attrs, R.styleable.NetView, defStyleAttr, 0);
-    gridColor = array.getColor(R.styleable.NetView_defaultGridColor, Color.BLACK);
-    gridActiveColor = array.getColor(R.styleable.NetView_activeGridColor, Color.WHITE);
+    gridColor = array.getColor(R.styleable.NetView_gridDefaultColor, Color.BLACK);
+    gridPosColor = array.getColor(R.styleable.NetView_gridPositiveColor, Color.GREEN);
+    gridNegColor = array.getColor(R.styleable.NetView_gridNegativeColor, Color.RED);
     dotColor = array.getColor(R.styleable.NetView_dotColor, Color.BLUE);
     inputColor = array.getColor(R.styleable.NetView_inputColor, Color.YELLOW);
     outputColor = array.getColor(R.styleable.NetView_outputColor, Color.GREEN);
@@ -84,9 +86,11 @@ public class NetView extends View {
 
   private void onConfigurationChanged() {
     if (width == 0 || height == 0) return;
-    if (net == null) return;
-    computeGeometry();
-    arrangePoints();
+    if (net != null) {
+      computeGeometry();
+      arrangePoints();
+    }
+
     invalidate();
   }
 
@@ -127,8 +131,11 @@ public class NetView extends View {
   protected void onDraw(Canvas canvas) {
     if (net == null) return;
 
-    int currentDotColor;
+    double minW = net.getMinWeight();
+    double maxW = net.getMaxWeight();
     int lastLayer = points.size() - 1;
+
+    int currentDotColor, edgeColor;
     for (int index = 0; index <= lastLayer; index++) {
       if (index == 0) currentDotColor = inputColor;
       else if (index == lastLayer) currentDotColor = outputColor;
@@ -147,9 +154,12 @@ public class NetView extends View {
             continue;
 
           ci = 0;
+          double weight;
           for (PointF source : layer) {
-            gridPaint.setColor(Utils.lerp(gridActiveColor, gridColor,
-              net.getWeight(index + 1, ni, ci)));
+            weight = net.getWeight(index + 1, ni, ci);
+            edgeColor = weight > 0 ? gridPosColor : gridNegColor;
+            weight = Utils.norm(weight, 0, weight > 0 ? maxW : minW);
+            gridPaint.setColor(Utils.lerp(edgeColor, gridColor, weight));
             canvas.drawLine(source.x, source.y,
               target.x, target.y, gridPaint);
             ci++;

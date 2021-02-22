@@ -27,7 +27,7 @@ public class GradientMethod extends ExtremaFinderRN {
       sNext = gNext.negative();
       if (sPrev != null) {
         beta = gNext.length2(r) / gPrev.length2(r);
-        sNext = sNext.add(sPrev.mult(beta));
+        sNext = sNext.add(sPrev.mul(beta));
       }
 
       double delta = gNext.length(r);

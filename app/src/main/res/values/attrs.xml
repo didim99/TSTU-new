@@ -20,8 +20,9 @@
     <attr name="gridColor" format="color"/>
   </declare-styleable>
   <declare-styleable name="NetView">
-    <attr name="defaultGridColor" format="color"/>
-    <attr name="activeGridColor" format="color"/>
+    <attr name="gridDefaultColor" format="color"/>
+    <attr name="gridPositiveColor" format="color"/>
+    <attr name="gridNegativeColor" format="color"/>
     <attr name="dotColor" format="color"/>
     <attr name="inputColor" format="color"/>
     <attr name="outputColor" format="color"/>

@@ -386,7 +386,7 @@ public class ModelRenderer extends AsyncRenderer implements Scene {
             if (xCurr > w) break;
             if (xCurr >= 0) {
               if (zBuffer[offset] < z) {
-                color = lerp(DEFAULT_DARK, DEFAULT_LIGHT, 1 - cc);
+                color = lerp(DEFAULT_LIGHT, DEFAULT_DARK, cc);
                 bitmap.setPixel(xCurr, yCurr, color);
                 zBuffer[offset] = z;
               }

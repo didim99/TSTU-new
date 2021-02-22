@@ -1,6 +1,6 @@
 package ru.didim99.tstu.core.oop;
 
-import ru.didim99.tstu.core.math.numeric.Matrix;
+import ru.didim99.tstu.core.math.common.Matrix;
 
 /**
  * Created by didim99 on 07.03.19.

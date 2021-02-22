@@ -52,6 +52,10 @@ public class PointD implements PointRN {
     return data[data.length - 1];
   }
 
+  public void set(double val) {
+    Arrays.fill(data, val);
+  }
+
   @Override
   public void set(int pos, double val) {
     data[pos] = val;
@@ -63,6 +67,10 @@ public class PointD implements PointRN {
 
   public void add(int pos, double val) {
     data[pos] += val;
+  }
+
+  public void mul(int pos, double val) {
+    data[pos] *= val;
   }
 
   public PointD add(PointD v) {
@@ -79,10 +87,17 @@ public class PointD implements PointRN {
     return newPoint;
   }
 
-  public PointD mult(double v) {
+  public PointD mul(double v) {
     PointD newPoint = new PointD(data);
     for (int i = 0; i < data.length; i++)
       newPoint.data[i] *= v;
+    return newPoint;
+  }
+
+  public PointD mul(PointD v) {
+    PointD newPoint = new PointD(data);
+    for (int i = 0; i < data.length; i++)
+      newPoint.data[i] *= v.data[i];
     return newPoint;
   }
 

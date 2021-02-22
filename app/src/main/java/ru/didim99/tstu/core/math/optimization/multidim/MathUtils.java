@@ -42,7 +42,7 @@ class MathUtils {
     boolean done = false, reversed = false;
     int steps = 0, totalSteps = 0;
     while (!done) {
-      PointD next = prev.add(dir.mult(factor));
+      PointD next = prev.add(dir.mul(factor));
       calcF(function, next);
       df = next.get(r) - prev.get(r);
       done = next.sub(prev).length(r) < EPSILON * EPSILON;

@@ -9,7 +9,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import ru.didim99.tstu.R;
-import ru.didim99.tstu.core.math.numeric.Matrix;
+import ru.didim99.tstu.core.math.common.Matrix;
 import ru.didim99.tstu.core.oop.SquareMatrix;
 import ru.didim99.tstu.ui.BaseActivity;
 import ru.didim99.tstu.utils.InputValidator;

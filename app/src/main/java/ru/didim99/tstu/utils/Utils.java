@@ -303,11 +303,11 @@ public class Utils {
 
   /* ======== COLOR UTILS ======== */
 
-  public static int lerp(int bg, int fg, double alpha) {
+  public static int lerp(int fg, int bg, double alpha) {
     double gamma = 1 - alpha;
-    int res = (int) ((bg & 0xff) * alpha + (fg & 0xff) * gamma);
-    res |= (int) (((bg >> 8) & 0xff) * alpha + ((fg >> 8) & 0xff) * gamma) << 8;
-    res |= (int) (((bg >> 16) & 0xff) * alpha + ((fg >> 16) & 0xff) * gamma) << 16;
+    int res = (int) ((fg & 0xff) * alpha + (bg & 0xff) * gamma);
+    res |= (int) (((fg >> 8) & 0xff) * alpha + ((bg >> 8) & 0xff) * gamma) << 8;
+    res |= (int) (((fg >> 16) & 0xff) * alpha + ((bg >> 16) & 0xff) * gamma) << 16;
     res |= 0xff000000;
     return res;
   }
