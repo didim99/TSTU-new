@@ -856,8 +856,10 @@
   <string name="iTheory_keyD">D:</string>
   <!-- Knowledge base -->
   <string name="startKnowledge">Базы знаний</string>
+  <string name="knowledge_ruleBase">Факты и правила</string>
   <string name="knowledge_neuralNet">Неиронные сети</string>
   <string-array name="knowledge_taskTypes">
+    <item>@string/knowledge_ruleBase</item>
     <item>@string/knowledge_neuralNet</item>
   </string-array>
   <string name="knowledge_learnMode">Обучение</string>

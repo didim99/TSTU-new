@@ -20,6 +20,7 @@ import ru.didim99.tstu.ui.itheory.CompressionActivity;
 import ru.didim99.tstu.ui.itheory.CryptoActivity;
 import ru.didim99.tstu.ui.itheory.RLEActivity;
 import ru.didim99.tstu.ui.knowledge.NeuralNetActivity;
+import ru.didim99.tstu.ui.knowledge.RuleBaseActivity;
 import ru.didim99.tstu.ui.modeling.ModelingActivity;
 import ru.didim99.tstu.ui.security.TransmitActivity;
 import ru.didim99.tstu.ui.math.CAActivity;
@@ -61,7 +62,7 @@ public class StartActivity extends AppCompatActivity {
   private static final Class<?>[] IS_TARGET =
     { TransmitActivity.class, CipherActivity.class };
   private static final Class<?>[] KNOWLEDGE_TARGET =
-    { NeuralNetActivity.class };
+    {RuleBaseActivity.class, NeuralNetActivity.class };
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

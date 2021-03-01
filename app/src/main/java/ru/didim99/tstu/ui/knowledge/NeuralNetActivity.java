@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.series.BaseSeries;
 import com.jjoe64.graphview.series.Series;
 import java.util.ArrayList;
@@ -101,7 +100,7 @@ public class NeuralNetActivity extends BaseActivity {
       MyLog.d(LOG_TAG, "No existing instance found");
     }
 
-    MyLog.d(LOG_TAG, "TranslatorActivity started");
+    MyLog.d(LOG_TAG, "NeuralNetActivity started");
   }
 
   @Override

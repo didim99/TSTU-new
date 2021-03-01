@@ -147,7 +147,7 @@ public class Matrix {
   public Matrix multiply(Matrix other) {
     if (getColumnCount() != other.getRowCount()) {
       throw new IllegalArgumentException(
-        "Impossible operation");
+        "Impossible operation (" + getColumnCount() + " != " + other.getRowCount() + ")");
     }
     
     Matrix res = new Matrix(String.format("%sx%s", name, other.name),
