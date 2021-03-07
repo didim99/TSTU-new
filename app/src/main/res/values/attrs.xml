@@ -33,6 +33,9 @@
   <attr name="colorActive" format="color"/>
   <attr name="colorBgActive" format="color"/>
   <attr name="colorTextNormal" format="color"/>
+  <attr name="colorTextRed" format="color"/>
+  <attr name="colorTextYellow" format="color"/>
+  <attr name="colorTextGreen" format="color"/>
   <attr name="clr_valueBarBg" format="color"/>
   <attr name="clr_valueBarFg" format="color"/>
   <attr name="clr_blue" format="color"/>

@@ -25,19 +25,19 @@ public class ProcessAdapter extends RecyclerView.Adapter<ProcessAdapter.ViewHold
     static final int THREAD = 2;
   }
 
-  private int mode;
+  private final int mode;
+  private final int colorNormal, colorGreen, colorYellow, colorRed;
   private final LayoutInflater inflater;
+  private final OnItemClickListener listener;
   private ArrayList<ProcessInfo> items;
-  private OnItemClickListener listener;
-  private int colorNormal, colorGreen, colorYellow, colorRed;
 
   ProcessAdapter(Context context, OnItemClickListener listener, int mode) {
     Resources res = context.getResources();
     UIManager uiManager = UIManager.getInstance();
     colorNormal = res.getColor(uiManager.resolveAttr(R.attr.colorTextNormal));
-    colorGreen = res.getColor(uiManager.resolveAttr(R.attr.clr_green));
-    colorYellow = res.getColor(uiManager.resolveAttr(R.attr.clr_yellow));
-    colorRed = res.getColor(uiManager.resolveAttr(R.attr.clr_red));
+    colorGreen = res.getColor(uiManager.resolveAttr(R.attr.colorTextGreen));
+    colorYellow = res.getColor(uiManager.resolveAttr(R.attr.colorTextYellow));
+    colorRed = res.getColor(uiManager.resolveAttr(R.attr.colorTextRed));
     this.inflater = LayoutInflater.from(context);
     this.listener = listener;
     this.mode = mode;
@@ -58,7 +58,7 @@ public class ProcessAdapter extends RecyclerView.Adapter<ProcessAdapter.ViewHold
     if (position == 0) {
       holder.itemView.setOnClickListener(null);
       holder.topDivider.setVisibility(ImageView.VISIBLE);
-      holder.pos.setText(R.string.os_position);
+      holder.pos.setText(R.string.position);
       holder.pid.setText(isThread ? R.string.os_tid : R.string.os_pid);
       holder.name.setText(isThread ? R.string.os_name : R.string.os_cmd);
       holder.ppid.setText(R.string.os_ppid);

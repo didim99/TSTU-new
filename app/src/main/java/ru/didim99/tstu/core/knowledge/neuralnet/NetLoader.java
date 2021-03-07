@@ -23,7 +23,7 @@ public class NetLoader extends CallbackTask<String, Net> {
       Gson gson = new Gson();
       String data = Utils.joinStr("\n", Utils.readFile(path));
       NetConfig config = gson.fromJson(data, NetConfig.class);
-      if (config == null)
+      if (config == null || config.isEmpty())
         throw new IOException("Incorrect config format");
       return new Net(config);
     } catch (IOException e) {

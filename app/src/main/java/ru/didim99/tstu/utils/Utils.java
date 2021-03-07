@@ -51,7 +51,7 @@ public class Utils {
     return builder.toString();
   }
 
-  public static String joinStr(String delimiter, ArrayList<String> args) {
+  public static String joinStr(String delimiter, List<String> args) {
     if (args == null || args.isEmpty())
       return null;
     StringBuilder builder = new StringBuilder();
@@ -91,6 +91,10 @@ public class Utils {
     }
 
     return str.substring(0, startIndex) + "…" + str.substring(endIndex);
+  }
+
+  public static String capitalizeFirst(String str) {
+    return str.substring(0, 1).toUpperCase().concat(str.substring(1));
   }
 
   public static String formatBytes(int bytes) {
@@ -231,7 +235,7 @@ public class Utils {
     return buff;
   }
 
-  public static void writeFile(String fileName, ArrayList<String> data)
+  public static void writeFile(String fileName, List<String> data)
     throws IOException {
     MyLog.d(LOG_TAG, "Writing: " + fileName);
     File file = new File(fileName);

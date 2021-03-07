@@ -20,6 +20,9 @@
     <item name="clr_yellow">@color/yellow_light</item>
     <item name="clr_orange">@color/orange_light</item>
     <item name="clr_red">@color/red_light</item>
+    <item name="colorTextGreen">@color/text_greenLight</item>
+    <item name="colorTextYellow">@color/text_yellowLight</item>
+    <item name="colorTextRed">@color/text_redLight</item>
     <item name="clr_blueTransparent">@color/lightBlueTransparent</item>
     <item name="clr_yellowTransparent">@color/yellowTransparent_light</item>
     <item name="clr_greenTransparent">@color/greenTransparent_light</item>
@@ -45,6 +48,9 @@
     <item name="clr_yellow">@color/yellow_dark</item>
     <item name="clr_orange">@color/orange_dark</item>
     <item name="clr_red">@color/red_dark</item>
+    <item name="colorTextGreen">@color/green_dark</item>
+    <item name="colorTextYellow">@color/yellow_dark</item>
+    <item name="colorTextRed">@color/red_dark</item>
     <item name="clr_blueTransparent">@color/darkBlueTransparent</item>
     <item name="clr_yellowTransparent">@color/yellowTransparent_dark</item>
     <item name="clr_greenTransparent">@color/greenTransparent_dark</item>

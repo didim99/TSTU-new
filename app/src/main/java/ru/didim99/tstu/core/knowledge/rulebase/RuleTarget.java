@@ -11,4 +11,17 @@ public class RuleTarget {
   private String variable;
   @SerializedName("value")
   private String value;
+
+  public String getVariable() {
+    return variable;
+  }
+
+  public String getValue() {
+    return value;
+  }
+
+  @Override
+  public String toString() {
+    return "'" + variable + "' = " + value;
+  }
 }

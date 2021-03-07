@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:orientation="vertical">
+
+  <ImageView
+    android:id="@+id/ivTopDivider"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dirPicker_divHeight"
+    android:layout_marginLeft="@dimen/dirPicker_divHMargin"
+    android:layout_marginRight="@dimen/dirPicker_divHMargin"
+    android:visibility="invisible"
+    app:srcCompat="@color/dirPicker_divider"
+    tools:ignore="ContentDescription"/>
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="@dimen/itemVPadding"
+    android:paddingBottom="@dimen/itemVPadding">
+
+    <TextView
+      android:id="@+id/tvPos"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:layout_marginLeft="@dimen/dirPicker_itemTextPadding"
+      android:layout_marginRight="@dimen/dirPicker_itemTextPadding"
+      android:textSize="@dimen/dirPicker_itemTextSize"
+      android:gravity="end"/>
+
+    <TextView
+      android:id="@+id/tvVariable"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="10"
+      android:layout_marginRight="@dimen/dirPicker_itemTextPadding"
+      android:layout_marginEnd="@dimen/dirPicker_itemTextPadding"
+      android:textSize="@dimen/dirPicker_itemTextSize"/>
+
+    <TextView
+      android:id="@+id/tvValue"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="10"
+      android:layout_marginRight="@dimen/dirPicker_itemTextPadding"
+      android:layout_marginEnd="@dimen/dirPicker_itemTextPadding"
+      android:textSize="@dimen/dirPicker_itemTextSize"/>
+  </LinearLayout>
+
+  <ImageView
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dirPicker_divHeight"
+    android:layout_marginLeft="@dimen/dirPicker_divHMargin"
+    android:layout_marginRight="@dimen/dirPicker_divHMargin"
+    app:srcCompat="@color/dirPicker_divider"
+    tools:ignore="ContentDescription"/>
+
+</LinearLayout>

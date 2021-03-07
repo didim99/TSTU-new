@@ -20,16 +20,16 @@ import ru.didim99.tstu.ui.UIManager;
  */
 public class MappingAdapter extends RecyclerView.Adapter<MappingAdapter.ViewHolder> {
 
+  private final int colorNormal, colorGreen, colorYellow;
   private final LayoutInflater inflater;
   private ArrayList<MappingInfo> items;
-  private int colorNormal, colorGreen, colorYellow;
 
   MappingAdapter(Context context) {
     Resources res = context.getResources();
     UIManager uiManager = UIManager.getInstance();
     colorNormal = res.getColor(uiManager.resolveAttr(R.attr.colorTextNormal));
-    colorGreen = res.getColor(uiManager.resolveAttr(R.attr.clr_green));
-    colorYellow = res.getColor(uiManager.resolveAttr(R.attr.clr_yellow));
+    colorGreen = res.getColor(uiManager.resolveAttr(R.attr.colorTextGreen));
+    colorYellow = res.getColor(uiManager.resolveAttr(R.attr.colorTextYellow));
     this.inflater = LayoutInflater.from(context);
   }
 

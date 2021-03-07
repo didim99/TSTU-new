@@ -70,6 +70,10 @@ public class NetConfig {
     return allLayers;
   }
 
+  public boolean isEmpty() {
+    return layers == null && learningBase == null;
+  }
+
   @Override
   public String toString() {
     return "NetConfig{" +

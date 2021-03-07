@@ -23,7 +23,7 @@ public class RuleBaseLoader extends CallbackTask<String, RuleBase> {
       Gson gson = new Gson();
       String data = Utils.joinStr("\n", Utils.readFile(path));
       RuleBaseConfig config = gson.fromJson(data, RuleBaseConfig.class);
-      if (config == null)
+      if (config == null || config.isEmpty())
         throw new IOException("Incorrect config format");
       return new RuleBase(config);
     } catch (IOException e) {

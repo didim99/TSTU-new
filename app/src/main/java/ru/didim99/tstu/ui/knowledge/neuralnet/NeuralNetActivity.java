@@ -1,4 +1,4 @@
-package ru.didim99.tstu.ui.knowledge;
+package ru.didim99.tstu.ui.knowledge.neuralnet;
 
 import android.content.Intent;
 import android.net.Uri;

@@ -10,6 +10,9 @@
   <color name="textNormalLight">#CECECE</color>
   <color name="textNormalDark">#222222</color>
   <!-- Additional colors -->
+  <color name="text_greenLight">#88e36b</color>
+  <color name="text_yellowLight">#E3CF6B</color>
+  <color name="text_redLight">#E36B6B</color>
   <color name="green_light">#3dff57</color>
   <color name="yellow_light">#ffdf3d</color>
   <color name="orange_light">#ff943d</color>

@@ -23,6 +23,8 @@
   <string name="loading">Загрузка…</string>
   <string name="switchType">Сменить тип задачи</string>
   <string name="dialogButtonOk">OK</string>
+  <string name="dialogButtonYes">Да</string>
+  <string name="dialogButtonNo">Нет</string>
   <string name="dialogButtonSave">Сохранить</string>
   <string name="dialogButtonCancel">Отмена</string>
   <string name="dialogButtonDelete">Удалить</string>
@@ -40,6 +42,7 @@
   <string name="buttonSet">Установить</string>
   <string name="buttonClear">Очистить</string>
   <string name="buttonInit">Инициализировать</string>
+  <string name="position">#</string>
   <string name="fieldSizeW">Ширина</string>
   <string name="fieldSizeH">Высота</string>
   <string name="fieldSizeCross">x</string>
@@ -113,6 +116,8 @@
   <string name="errGeneric_inputFileNotReadable">Невозможно прочитать исходный файл</string>
   <string name="errGeneric_cacheUnavailable">Каталог для внешнего кэша недоступен</string>
   <string name="errGeneric_resUnpackFailed">Не удалось распаковать ресурсы</string>
+  <string name="errGeneric_emptyValue">Значение не может быть пустым</string>
+  <string name="errGeneric_incorrectValue">Некорректное значение</string>
   <string name="errNumeric_nothingToSave">Сохранять нечего</string>
   <string name="errLexical_invalidStatement">Ошибка лексического анализа в строке %d.\n%s</string>
   <string name="errSyntax">Ошибка синтаксического анализа в строке %d.\n%s</string>
@@ -560,7 +565,6 @@
     <item>@string/os_scheduler</item>
   </string-array>
   <string name="os_proc_subtitle">Всего процессов: %d, потоков: %d, выполняется: %d</string>
-  <string name="os_position">#</string>
   <string name="os_pid">PID</string>
   <string name="os_tid">TID</string>
   <string name="os_ppid">PPID</string>
@@ -862,6 +866,19 @@
     <item>@string/knowledge_ruleBase</item>
     <item>@string/knowledge_neuralNet</item>
   </string-array>
+  <string name="knowledge_target">Цель</string>
+  <string name="knowledge_chainBackward">Обратная цепочка</string>
+  <string name="knowledge_reviewCount">Просмотров базы</string>
+  <string name="knowledge_rulesList">Список правил</string>
+  <string name="knowledge_factsList">Список фактов</string>
+  <string name="knowledge_if">Если</string>
+  <string name="knowledge_then">То</string>
+  <string name="knowledge_variable">Переменная</string>
+  <string name="knowledge_value">Значение</string>
+  <string name="knowledge_question">Ответьте на вопрос</string>
+  <string name="knowledge_selectValue">Выберите значение для: %s</string>
+  <string name="knowledge_enterValue">Укажите числовое значение для: %s</string>
+  <string name="knowledge_questionTpl">%s?</string>
   <string name="knowledge_learnMode">Обучение</string>
   <string name="knowledge_predictMode">Прогноз</string>
   <string name="knowledge_LearningBase">Обучающие примеры</string>

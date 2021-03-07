@@ -15,6 +15,8 @@ public class RuleBaseConfig {
   private Map<String, List<String>> enumValues;
   @SerializedName("rules")
   private List<Rule> rules;
+  @SerializedName("defaultTarget")
+  private String defaultTarget;
 
   public List<Variable> getVariables() {
     return variables;
@@ -24,7 +26,15 @@ public class RuleBaseConfig {
     return rules;
   }
 
+  public String getDefaultTarget() {
+    return defaultTarget;
+  }
+
   public List<String> getEnumValues(String varName) {
     return enumValues.get(varName);
+  }
+
+  public boolean isEmpty() {
+    return variables == null && enumValues == null && rules == null;
   }
 }

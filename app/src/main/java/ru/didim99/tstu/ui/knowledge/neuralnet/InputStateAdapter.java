@@ -1,4 +1,4 @@
-package ru.didim99.tstu.ui.knowledge;
+package ru.didim99.tstu.ui.knowledge.neuralnet;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

@@ -173,7 +173,7 @@
       android:layout_height="match_parent"
       android:orientation="vertical">
 
-      <ru.didim99.tstu.ui.knowledge.NetView
+      <ru.didim99.tstu.ui.knowledge.neuralnet.NetView
         android:id="@+id/netView"
         android:layout_width="match_parent"
         android:layout_height="0dp"

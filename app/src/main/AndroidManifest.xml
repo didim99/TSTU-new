@@ -231,10 +231,10 @@
       android:windowSoftInputMode="adjustNothing|stateAlwaysHidden"/>
 
     <activity
-      android:name=".ui.knowledge.RuleBaseActivity"
+      android:name=".ui.knowledge.rulebase.RuleBaseActivity"
       android:label="@string/knowledge_ruleBase"/>
     <activity
-      android:name=".ui.knowledge.NeuralNetActivity"
+      android:name=".ui.knowledge.neuralnet.NeuralNetActivity"
       android:label="@string/knowledge_neuralNet"/>
 
     <activity
