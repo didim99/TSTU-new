@@ -7,7 +7,7 @@ import java.util.List;
  * Created by didim99 on 02.03.21.
  */
 
-public class Condition {
+public class Condition implements ValueHolder {
   public enum Status { TRUE, FALSE, UNKNOWN }
 
   @SerializedName("type")
@@ -30,8 +30,20 @@ public class Condition {
     GT
   }
 
+  public Condition(ValueHolder source) {
+    this.variable = source.getVariable();
+    this.value = source.getValue();
+    this.type = Type.EQ;
+  }
+
+  @Override
   public String getVariable() {
     return variable;
+  }
+
+  @Override
+  public String getValue() {
+    return value;
   }
 
   public Status check(List<Variable> facts) {

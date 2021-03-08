@@ -32,8 +32,8 @@ public class RuleBase {
 
   private Finder finder;
   private EventListener listener;
-  private Queue<Variable> questionQueue;
   private CountDownLatch userLock;
+  private Queue<Variable> questionQueue;
 
   public RuleBase(RuleBaseConfig config) {
     this.facts = new ArrayList<>();
@@ -156,14 +156,87 @@ public class RuleBase {
         }
       }
 
-      if (!questionQueue.isEmpty()) {
-        MyLog.d(LOG_TAG, "Waiting for user answers: " + questionQueue.size());
-        userLock = new CountDownLatch(1);
-        finder.publishEvent(SearchEvent.QUESTION);
-        userLock.await();
-      }
-
+      awaitUserAnswers();
       finder.publishEvent(SearchEvent.STEP);
+    }
+  }
+
+  private void findBackward() throws InterruptedException {
+    boolean done = false;
+
+    for (Rule rule : rules) {
+      if (done) break;
+      for (RuleTarget rt : rule.getTarget()) {
+        if (rt.getVariable().equals(targetVariable.getName())) {
+          Condition assumption = new Condition(rt);
+          boolean confirmed = checkAssumption(assumption);
+          MyLog.d(LOG_TAG, "Checked: " + assumption + " , status=" + confirmed);
+          finder.publishEvent(SearchEvent.STEP);
+
+          if (confirmed) {
+            done = true;
+            break;
+          }
+
+          List<Variable> udf = new ArrayList<>();
+          for (Variable fact : facts) {
+            if (fact.isUserDefined()) udf.add(fact);
+          }
+
+          facts.clear();
+          facts.addAll(udf);
+          finder.publishEvent(SearchEvent.STEP);
+          break;
+        }
+      }
+    }
+  }
+
+  private boolean checkAssumption(Condition assumption) throws InterruptedException {
+    MyLog.d(LOG_TAG, "Checking: " + assumption);
+    switch (assumption.check(facts)) {
+      case FALSE: return false;
+      case TRUE: return true;
+    }
+
+    reviewCount++;
+    boolean rejected = false;
+    for (Rule rule : rules) {
+      if (rule.containsTarget(assumption)) {
+        rejected = false;
+        for (Condition c : rule.getConditions()) {
+          if (!checkAssumption(c)) {
+            rule.setStatus(Rule.Status.FALSE);
+            rejected = true;
+            break;
+          }
+
+          finder.publishEvent(SearchEvent.STEP);
+        }
+
+        if (rejected) continue;
+        rule.setStatus(Rule.Status.TRUE);
+        for (RuleTarget rt : rule.getTarget())
+          if (rt.equals(assumption)) facts.add(new Variable(rt));
+        return true;
+      }
+    }
+
+    if (rejected) return false;
+
+    questionQueue.add(new Variable(
+      varsIndex.get(assumption.getVariable())));
+    awaitUserAnswers();
+
+    return checkAssumption(assumption);
+  }
+
+  private void awaitUserAnswers() throws InterruptedException {
+    if (!questionQueue.isEmpty()) {
+      MyLog.d(LOG_TAG, "Waiting for user answers: " + questionQueue.size());
+      userLock = new CountDownLatch(1);
+      finder.publishEvent(SearchEvent.QUESTION);
+      userLock.await();
     }
   }
 
@@ -184,12 +257,17 @@ public class RuleBase {
 
     @Override
     protected Void doInBackground(Void... voids) {
-
       try {
         MyLog.d(LOG_TAG, "Search started: " +
           (base.direction == Direction.FORWARD ? "forward" : "backward"));
-        if (base.direction == Direction.FORWARD)
-          base.findForward();
+        switch (base.direction) {
+          case FORWARD:
+            base.findForward();
+            break;
+          case BACKWARD:
+            base.findBackward();
+            break;
+        }
       } catch (InterruptedException e) {
         e.printStackTrace();
       }

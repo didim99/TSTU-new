@@ -43,6 +43,12 @@ public class Rule {
     return status == Status.FALSE || status == Status.TRUE;
   }
 
+  public boolean containsTarget(ValueHolder target) {
+    for (RuleTarget rt : this.target)
+      if (target.equals(rt)) return true;
+    return false;
+  }
+
   public Status check(List<Variable> facts) {
     boolean allUnknown = true;
     boolean allKnown = true;
@@ -66,12 +72,12 @@ public class Rule {
     }
 
     if (allUnknown)
-      return setStatus(Status.UNKNOWN);
+      return applyStatus(Status.UNKNOWN);
     if (!allTrue)
-      return setStatus(Status.FALSE);
+      return applyStatus(Status.FALSE);
     if (!allKnown)
-      return setStatus(Status.PARTIALLY);
-    else return setStatus(Status.TRUE);
+      return applyStatus(Status.PARTIALLY);
+    else return applyStatus(Status.TRUE);
   }
 
   public void reset() {
@@ -79,8 +85,12 @@ public class Rule {
     status = null;
   }
 
-  private Status setStatus(Status status) {
+  public void setStatus(Status status) {
     this.status = status;
+  }
+
+  private Status applyStatus(Status status) {
+    setStatus(status);
     return status;
   }
 

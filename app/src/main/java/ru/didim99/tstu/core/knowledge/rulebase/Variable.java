@@ -27,9 +27,9 @@ public class Variable {
   @SerializedName("type")
   private Type type;
 
+  private String value;
   private List<String> values;
   private boolean userDefined;
-  private String value;
 
   public Variable() {
     this.userDefined = false;
@@ -45,6 +45,12 @@ public class Variable {
       this.values = new ArrayList<>();
       this.values.addAll(src.values);
     }
+  }
+
+  public Variable(ValueHolder source) {
+    this.userDefined = false;
+    this.name = source.getVariable();
+    this.value = source.getValue();
   }
 
   public String getName() {
@@ -89,13 +95,17 @@ public class Variable {
     this.value = values.get(index);
   }
 
+  public boolean equals(RuleTarget target) {
+    return target.getVariable().equals(name)
+      && target.getValue().equals(value);
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Variable variable = (Variable) o;
-    return name.equals(variable.name) &&
-      type == variable.type;
+    return name.equals(variable.name);
   }
 
   @Override
